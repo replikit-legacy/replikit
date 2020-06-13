@@ -1,0 +1,147 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CommandStorage should handle a command returning MessageBuilder 1`] = `"Hello"`;
+
+exports[`CommandStorage should handle a command returning OutMessage 1`] = `"Hello"`;
+
+exports[`CommandStorage should handle a command with multiline parameter and reply an error 1`] = `
+"[multiline: Empty multiline parameter]
+Usage: /test"
+`;
+
+exports[`CommandStorage should handle a command with required and optional parameters: /test "abc abc" 1`] = `
+Object {
+  "p1": "abc abc",
+  "p2": undefined,
+}
+`;
+
+exports[`CommandStorage should handle a command with required and optional parameters: /test "abc abc" 123 1`] = `
+Object {
+  "p1": "abc abc",
+  "p2": 123,
+}
+`;
+
+exports[`CommandStorage should handle a command with required and optional parameters: /test 1`] = `
+"Argument count mismatch.
+1 expected, got 0.
+Usage: /test {p1} [p2]"
+`;
+
+exports[`CommandStorage should handle a command with required and optional parameters: /test abc "123" 1`] = `
+Object {
+  "p1": "abc",
+  "p2": 123,
+}
+`;
+
+exports[`CommandStorage should handle a command with required and optional parameters: /test abc 1`] = `
+Object {
+  "p1": "abc",
+  "p2": undefined,
+}
+`;
+
+exports[`CommandStorage should handle a command with required and optional parameters: /test abc 123 1`] = `
+Object {
+  "p1": "abc",
+  "p2": 123,
+}
+`;
+
+exports[`CommandStorage should handle a command with required and optional parameters: /test abc abc 1`] = `
+"[p2: Number required]
+Usage: /test {p1} [p2]"
+`;
+
+exports[`CommandStorage should handle a command with rest parameter count restriction: /test 1`] = `
+"[numbers: The number of additional parameters should be no less than 1]
+Usage: /test ...numbers"
+`;
+
+exports[`CommandStorage should handle a command with rest parameter count restriction: /test 1 2 1`] = `
+Array [
+  1,
+  2,
+]
+`;
+
+exports[`CommandStorage should handle a command with rest parameter count restriction: /test 1 2 3 1`] = `
+"[numbers: The number of additional parameters should be no more than 2]
+Usage: /test ...numbers"
+`;
+
+exports[`CommandStorage should handle a command with rest parameters and resolver 1`] = `
+Array [
+  123,
+  456,
+]
+`;
+
+exports[`CommandStorage should handle a command with rest parameters and resolver and reply an error 1`] = `
+"[numbers: Invalid parameter]
+Usage: /test ...numbers"
+`;
+
+exports[`CommandStorage should handle a command with rest parameters: /test 1`] = `Array []`;
+
+exports[`CommandStorage should handle a command with rest parameters: /test 12 12 1`] = `
+Array [
+  12,
+  12,
+]
+`;
+
+exports[`CommandStorage should handle a command with rest parameters: /test 123 1`] = `
+Array [
+  123,
+]
+`;
+
+exports[`CommandStorage should handle a command with rest parameters: /test abc 1`] = `
+"[numbers: Number required]
+Usage: /test ...numbers"
+`;
+
+exports[`CommandStorage should handle a command with string rest parameters 1`] = `
+Array [
+  "abc",
+  "123",
+]
+`;
+
+exports[`CommandStorage should handle a command with subcommands and default handler: /test 1`] = `
+"Argument count mismatch.
+1 expected, got 0.
+Usage: /test abc {p1}"
+`;
+
+exports[`CommandStorage should handle a command with subcommands and default handler: /test 123 1`] = `"123"`;
+
+exports[`CommandStorage should handle a command with subcommands and default handler: /test abc 1`] = `
+"Argument count mismatch.
+1 expected, got 0.
+Usage: /test abc {p1}"
+`;
+
+exports[`CommandStorage should handle a command with subcommands and default handler: /test abc abc 1`] = `"abc"`;
+
+exports[`CommandStorage should handle a command with subcommands: /calc diff 10 12 1`] = `-2`;
+
+exports[`CommandStorage should handle a command with subcommands: /calc multiply 1`] = `
+"Command not found
+Usage: /calc {sum|diff}"
+`;
+
+exports[`CommandStorage should handle a command with subcommands: /calc sum 20 22 1`] = `42`;
+
+exports[`CommandStorage should reply an error if resolver returns a string 1`] = `
+"[p1: Invalid parameter]
+Usage: /test {p1}"
+`;
+
+exports[`CommandStorage should reply an error if validator returns a string 1`] = `
+"[p1: Invalid parameter]
+Usage: /test {p1}"
+`;

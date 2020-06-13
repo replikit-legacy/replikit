@@ -1,0 +1,25 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es2019",
+        "lib": ["es2019", "es2020"],
+
+        "declaration": true,
+        "noEmitOnError": true,
+
+        "strict": true,
+        "strictPropertyInitialization": false,
+
+        "baseUrl": "packages",
+        "esModuleInterop": true,
+        "moduleResolution": "node",
+
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "incremental": true,
+
+        "types": ["@types/node", "@types/jest"],
+
+        "plugins": [{ "transform": "typescript-transform-paths" }]
+    }
+}

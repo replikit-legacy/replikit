@@ -1,0 +1,105 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`textTokenizer should tokenize a text with mentions and props 1`] = `
+Array [
+  Object {
+    "id": 88005553535,
+    "kind": 1,
+    "props": Array [],
+  },
+  Object {
+    "kind": 0,
+    "props": Array [],
+    "text": " ",
+  },
+  Object {
+    "kind": 0,
+    "props": Array [
+      3,
+      1,
+      2,
+    ],
+    "text": "test",
+  },
+  Object {
+    "kind": 0,
+    "props": Array [
+      3,
+    ],
+    "text": " ",
+  },
+  Object {
+    "kind": 0,
+    "props": Array [
+      3,
+      4,
+    ],
+    "text": "test",
+  },
+  Object {
+    "kind": 0,
+    "props": Array [],
+    "text": " ",
+  },
+  Object {
+    "id": 999,
+    "kind": 1,
+    "props": Array [],
+  },
+]
+`;
+
+exports[`textTokenizer should tokenize a text with multiline code 1`] = `
+Array [
+  Object {
+    "kind": 0,
+    "props": Array [],
+    "text": "test ",
+  },
+  Object {
+    "kind": 0,
+    "props": Array [
+      5,
+    ],
+    "text": "
+test
+",
+  },
+]
+`;
+
+exports[`textTokenizer should tokenize a text with props 1`] = `
+Array [
+  Object {
+    "kind": 0,
+    "props": Array [
+      1,
+    ],
+    "text": "test",
+  },
+  Object {
+    "kind": 0,
+    "props": Array [],
+    "text": " ",
+  },
+  Object {
+    "kind": 0,
+    "props": Array [
+      3,
+    ],
+    "text": "test",
+  },
+  Object {
+    "kind": 0,
+    "props": Array [],
+    "text": " ",
+  },
+  Object {
+    "kind": 0,
+    "props": Array [
+      2,
+    ],
+    "text": "test",
+  },
+]
+`;

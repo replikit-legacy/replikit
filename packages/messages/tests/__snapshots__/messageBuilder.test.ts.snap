@@ -1,0 +1,82 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MessageBuilder should create a message with an array of attachments 1`] = `
+Object {
+  "attachments": Array [
+    Object {
+      "id": "test",
+      "type": 0,
+    },
+  ],
+  "forwarded": Array [],
+  "tokens": Array [],
+}
+`;
+
+exports[`MessageBuilder should create a message with an attachment 1`] = `
+Object {
+  "attachments": Array [
+    Object {
+      "id": "test",
+      "type": 0,
+    },
+  ],
+  "forwarded": Array [],
+  "tokens": Array [],
+}
+`;
+
+exports[`MessageBuilder should create a message with an attachment by url 1`] = `
+Object {
+  "attachments": Array [
+    Object {
+      "id": "c103c4603fe632d0f4119b0362b5b1a48d2db6d5",
+      "type": 0,
+      "url": "https://path/to/attachment.png",
+    },
+  ],
+  "forwarded": Array [],
+  "tokens": Array [],
+}
+`;
+
+exports[`MessageBuilder should create a message with code 1`] = `
+Object {
+  "attachments": Array [],
+  "forwarded": Array [],
+  "tokens": Array [
+    Object {
+      "kind": 0,
+      "props": Array [
+        5,
+      ],
+      "text": "code",
+    },
+  ],
+}
+`;
+
+exports[`MessageBuilder should create a message with text 1`] = `
+Object {
+  "attachments": Array [],
+  "forwarded": Array [],
+  "tokens": Array [
+    Object {
+      "kind": 0,
+      "props": Array [],
+      "text": "firstLine - ",
+    },
+    Object {
+      "kind": 0,
+      "props": Array [],
+      "text": "firstLine
+",
+    },
+    Object {
+      "kind": 0,
+      "props": Array [],
+      "text": "secondLine",
+    },
+  ],
+}
+`;

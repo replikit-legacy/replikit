@@ -1,0 +1,26 @@
+import { Configuration } from "@replikit/core/typings";
+
+import "@example/random";
+import "@example/banking";
+import "@example/darts";
+import "@replikit/attachments";
+import "@replikit/telegram";
+import "@replikit/vk";
+
+const config: Configuration = {
+    telegram: {
+        token: process.env.TELEGRAM_TOKEN!
+    },
+    vk: {
+        token: process.env.VK_TOKEN!,
+        pollingGroup: +process.env.VK_GROUP!
+    },
+    storage: {
+        connection: "mongodb://localhost:27017/replikit"
+    },
+    i18n: {
+        defaultLocale: process.env.DEFAULT_LOCALE
+    }
+};
+
+export default config;

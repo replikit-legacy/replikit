@@ -1,0 +1,13 @@
+{
+    "extends": "../tsconfig.build.json",
+    "compilerOptions": {
+        "baseUrl": "modules",
+        "paths": {
+            "@replikit/*": ["../../packages/*/src"],
+            "@replikit/*/typings": ["../../packages/*/typings"],
+            "@example/*/typings": ["*/typings"],
+            "@example/*": ["*/src"]
+        }
+    },
+    "include": ["modules/**/*.ts", "../packages/**/*.ts", "replikit.config.ts"]
+}

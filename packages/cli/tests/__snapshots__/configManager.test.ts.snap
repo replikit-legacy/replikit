@@ -1,0 +1,71 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TSConfigManager should add an import declaration to file with one import 1`] = `
+"import { Configuration } from \\"@replikit/core\\";
+
+import \\"@replikit/another\\";
+import \\"@replikit/test\\";
+
+const config: Configuration = {};
+
+export default config;
+"
+`;
+
+exports[`TSConfigManager should add an import declaration to file without imports 1`] = `
+"import { Configuration } from \\"@replikit/core\\";
+
+import \\"@replikit/test\\";
+
+const config: Configuration = {};
+
+export default config;
+"
+`;
+
+exports[`TSConfigManager should compile to an empty importless js configuration 1`] = `
+"\\"use strict\\";
+Object.defineProperty(exports, \\"__esModule\\", { value: true });
+var config = {};
+exports.default = config;
+exports.modules = [];"
+`;
+
+exports[`TSConfigManager should compile to an importless js configuration with modules 1`] = `
+"\\"use strict\\";
+Object.defineProperty(exports, \\"__esModule\\", { value: true });
+var config = {
+    test: { test: \\"test\\" }
+};
+exports.default = config;
+exports.modules = [\\"@replikit/test\\"];"
+`;
+
+exports[`TSConfigManager should init new configuration 1`] = `
+"import { Configuration } from \\"@replikit/core/typings\\";
+
+const config: Configuration = {};
+
+export default config;
+"
+`;
+
+exports[`TSConfigManager should remove the import declaration from file with one import 1`] = `
+"import { Configuration } from \\"@replikit/core\\";
+
+const config: Configuration = {};
+
+export default config;
+"
+`;
+
+exports[`TSConfigManager should remove the import declaration from typescript file with multiple imports 1`] = `
+"import { Configuration } from \\"@replikit/core\\";
+
+import \\"@replikit/another\\";
+
+const config: Configuration = {};
+
+export default config;
+"
+`;

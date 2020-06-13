@@ -1,0 +1,316 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ProjectManager should add a module to the project with logger: /modules/test-module/package.json 1`] = `
+"{
+    \\"name\\": \\"@test-project/test-module\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"license\\": \\"MIT\\",
+    \\"dependencies\\": {
+        \\"@replikit/test\\": \\"0.0.0\\"
+    }
+}
+"
+`;
+
+exports[`ProjectManager should add a module to the project with logger: /modules/test-module/src/index.ts 1`] = `
+"export * from \\"./startup\\";
+"
+`;
+
+exports[`ProjectManager should add a module to the project with logger: /modules/test-module/src/startup.ts 1`] = `
+"import { createScope } from \\"@replikit/core\\";
+
+/** @internal */
+export const logger = createScope(\\"test-module\\");
+"
+`;
+
+exports[`ProjectManager should add a module to the project with logger: /package.json 1`] = `
+"{
+    \\"name\\": \\"test-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"license\\": \\"MIT\\",
+    \\"private\\": true,
+    \\"dependencies\\": {
+        \\"@replikit/static\\": \\"0.0.0\\"
+    }
+}
+"
+`;
+
+exports[`ProjectManager should add a module to the project with logger: /replikit.config.ts 1`] = `
+"import { Configuration } from \\"@replikit/core/typings\\";
+
+import \\"@replikit/static\\";
+import \\"@test-project/test-module\\";
+
+const config: Configuration = {};
+
+export default config;
+"
+`;
+
+exports[`ProjectManager should add a module to the project with logger: /tsconfig.json 1`] = `
+"{
+    \\"compilerOptions\\": {
+        \\"target\\": \\"esnext\\",
+        \\"module\\": \\"commonjs\\",
+        \\"moduleResolution\\": \\"node\\",
+        \\"baseUrl\\": \\"modules\\",
+        \\"strict\\": true,
+        \\"paths\\": {
+            \\"@test-project/*\\": [
+                \\"*/src\\"
+            ],
+            \\"@test-project/typings/*\\": [
+                \\"*/typings\\"
+            ]
+        }
+    },
+    \\"include\\": [
+        \\"replikit.config.ts\\",
+        \\"modules/**/*.ts\\"
+    ]
+}
+"
+`;
+
+exports[`ProjectManager should add a module to the project without logger: /modules/test-module/package.json 1`] = `
+"{
+    \\"name\\": \\"@test-project/test-module\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"license\\": \\"MIT\\",
+    \\"dependencies\\": {
+        \\"@replikit/test\\": \\"0.0.0\\"
+    }
+}
+"
+`;
+
+exports[`ProjectManager should add a module to the project without logger: /modules/test-module/src/index.ts 1`] = `""`;
+
+exports[`ProjectManager should add a module to the project without logger: /package.json 1`] = `
+"{
+    \\"name\\": \\"test-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"license\\": \\"MIT\\",
+    \\"private\\": true,
+    \\"dependencies\\": {
+        \\"@replikit/static\\": \\"0.0.0\\"
+    }
+}
+"
+`;
+
+exports[`ProjectManager should add a module to the project without logger: /replikit.config.ts 1`] = `
+"import { Configuration } from \\"@replikit/core/typings\\";
+
+import \\"@replikit/static\\";
+import \\"@test-project/test-module\\";
+
+const config: Configuration = {};
+
+export default config;
+"
+`;
+
+exports[`ProjectManager should add a module to the project without logger: /tsconfig.json 1`] = `
+"{
+    \\"compilerOptions\\": {
+        \\"target\\": \\"esnext\\",
+        \\"module\\": \\"commonjs\\",
+        \\"moduleResolution\\": \\"node\\",
+        \\"baseUrl\\": \\"modules\\",
+        \\"strict\\": true,
+        \\"paths\\": {
+            \\"@test-project/*\\": [
+                \\"*/src\\"
+            ],
+            \\"@test-project/typings/*\\": [
+                \\"*/typings\\"
+            ]
+        }
+    },
+    \\"include\\": [
+        \\"replikit.config.ts\\",
+        \\"modules/**/*.ts\\"
+    ]
+}
+"
+`;
+
+exports[`ProjectManager should generate npm project: /lerna.json 1`] = `
+"{
+    \\"version\\": \\"0.0.0\\",
+    \\"npmClient\\": \\"npm\\"
+}
+"
+`;
+
+exports[`ProjectManager should generate npm project: /package.json 1`] = `
+"{
+    \\"name\\": \\"test-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"license\\": \\"MIT\\",
+    \\"private\\": true,
+    \\"dependencies\\": {
+        \\"@replikit/static\\": \\"0.0.0\\"
+    },
+    \\"devDependencies\\": {
+        \\"lerna\\": \\"0.0.0\\"
+    }
+}
+"
+`;
+
+exports[`ProjectManager should generate npm project: /replikit.config.ts 1`] = `
+"import { Configuration } from \\"@replikit/core/typings\\";
+
+import \\"@replikit/static\\";
+
+const config: Configuration = {};
+
+export default config;
+"
+`;
+
+exports[`ProjectManager should generate npm project: /tsconfig.json 1`] = `
+"{
+    \\"compilerOptions\\": {
+        \\"target\\": \\"esnext\\",
+        \\"module\\": \\"commonjs\\",
+        \\"moduleResolution\\": \\"node\\",
+        \\"baseUrl\\": \\"modules\\",
+        \\"strict\\": true,
+        \\"paths\\": {
+            \\"@test-project/*\\": [
+                \\"*/src\\"
+            ],
+            \\"@test-project/typings/*\\": [
+                \\"*/typings\\"
+            ]
+        }
+    },
+    \\"include\\": [
+        \\"replikit.config.ts\\",
+        \\"modules/**/*.ts\\"
+    ]
+}
+"
+`;
+
+exports[`ProjectManager should generate yarn project: /package.json 1`] = `
+"{
+    \\"name\\": \\"test-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"license\\": \\"MIT\\",
+    \\"private\\": true,
+    \\"workspaces\\": [
+        \\"modules\\"
+    ],
+    \\"dependencies\\": {
+        \\"@replikit/static\\": \\"0.0.0\\"
+    }
+}
+"
+`;
+
+exports[`ProjectManager should generate yarn project: /replikit.config.ts 1`] = `
+"import { Configuration } from \\"@replikit/core/typings\\";
+
+import \\"@replikit/static\\";
+
+const config: Configuration = {};
+
+export default config;
+"
+`;
+
+exports[`ProjectManager should generate yarn project: /tsconfig.json 1`] = `
+"{
+    \\"compilerOptions\\": {
+        \\"target\\": \\"esnext\\",
+        \\"module\\": \\"commonjs\\",
+        \\"moduleResolution\\": \\"node\\",
+        \\"baseUrl\\": \\"modules\\",
+        \\"strict\\": true,
+        \\"paths\\": {
+            \\"@test-project/*\\": [
+                \\"*/src\\"
+            ],
+            \\"@test-project/typings/*\\": [
+                \\"*/typings\\"
+            ]
+        }
+    },
+    \\"include\\": [
+        \\"replikit.config.ts\\",
+        \\"modules/**/*.ts\\"
+    ]
+}
+"
+`;
+
+exports[`ProjectManager should generate yarn-lerna project: /lerna.json 1`] = `
+"{
+    \\"version\\": \\"0.0.0\\",
+    \\"npmClient\\": \\"yarn\\",
+    \\"useWorkspaces\\": true
+}
+"
+`;
+
+exports[`ProjectManager should generate yarn-lerna project: /package.json 1`] = `
+"{
+    \\"name\\": \\"test-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"license\\": \\"MIT\\",
+    \\"private\\": true,
+    \\"workspaces\\": [
+        \\"modules\\"
+    ],
+    \\"dependencies\\": {
+        \\"@replikit/static\\": \\"0.0.0\\"
+    },
+    \\"devDependencies\\": {
+        \\"lerna\\": \\"0.0.0\\"
+    }
+}
+"
+`;
+
+exports[`ProjectManager should generate yarn-lerna project: /replikit.config.ts 1`] = `
+"import { Configuration } from \\"@replikit/core/typings\\";
+
+import \\"@replikit/static\\";
+
+const config: Configuration = {};
+
+export default config;
+"
+`;
+
+exports[`ProjectManager should generate yarn-lerna project: /tsconfig.json 1`] = `
+"{
+    \\"compilerOptions\\": {
+        \\"target\\": \\"esnext\\",
+        \\"module\\": \\"commonjs\\",
+        \\"moduleResolution\\": \\"node\\",
+        \\"baseUrl\\": \\"modules\\",
+        \\"strict\\": true,
+        \\"paths\\": {
+            \\"@test-project/*\\": [
+                \\"*/src\\"
+            ],
+            \\"@test-project/typings/*\\": [
+                \\"*/typings\\"
+            ]
+        }
+    },
+    \\"include\\": [
+        \\"replikit.config.ts\\",
+        \\"modules/**/*.ts\\"
+    ]
+}
+"
+`;

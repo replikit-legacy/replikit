@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ConverterBuilder should build a converter 1`] = `
+Object {
+  "resolver": [Function],
+  "validator": [Function],
+}
+`;
+
+exports[`ConverterBuilder should register a constructed converter in a ConverterStorage 1`] = `
+ConverterStorage {
+  "converterMap": Map {
+    [Function] => Object {},
+  },
+}
+`;

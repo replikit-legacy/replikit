@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TextFormatter should convert array of tokens to text 1`] = `"**bold** [id1|text]<u>[id2|username]</u>"`;

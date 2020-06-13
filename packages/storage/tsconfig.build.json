@@ -1,0 +1,10 @@
+{
+    "extends": "../../tsconfig.build.json",
+    "compilerOptions": {
+        "outDir": "dist",
+        "paths": {
+            "@replikit/storage": ["storage/src"]
+        }
+    },
+    "include": ["src"]
+}

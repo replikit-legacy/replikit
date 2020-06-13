@@ -1,0 +1,100 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CommandBuilder should build a complex command 1`] = `
+Object {
+  "aliases": Array [
+    "t",
+  ],
+  "commands": Array [
+    Object {
+      "aliases": Array [],
+      "commands": Array [],
+      "name": "subcommand",
+      "params": Array [],
+      "parent": [Circular],
+      "requiredCount": 0,
+    },
+  ],
+  "middlewareRouter": MiddlewareRouter {
+    "chainMap": Map {
+      2 => HandlerChain {
+        "firstHandler": HandlerWrapper {
+          "handler": [Function],
+        },
+        "lastHandler": HandlerWrapper {
+          "handler": [Function],
+        },
+      },
+      1 => HandlerChain {
+        "firstHandler": HandlerWrapper {
+          "handler": [Function],
+        },
+        "lastHandler": HandlerWrapper {
+          "handler": [Function],
+        },
+      },
+    },
+  },
+  "multiline": Object {
+    "name": "p5",
+    "skipValidation": true,
+    "splitLines": true,
+  },
+  "name": "test",
+  "params": Array [
+    Object {
+      "isString": true,
+      "name": "p1",
+      "options": Object {},
+    },
+    Object {
+      "converter": Object {
+        "validator": [Function],
+      },
+      "isString": false,
+      "name": "p2",
+      "optional": true,
+      "options": Object {},
+      "type": [Function],
+    },
+    Object {
+      "converter": Object {
+        "validator": [Function],
+      },
+      "isString": false,
+      "name": "p3",
+      "optional": true,
+      "options": Object {
+        "default": true,
+      },
+      "type": [Function],
+    },
+  ],
+  "requiredCount": 1,
+  "rest": Object {
+    "converter": Object {
+      "validator": [Function],
+    },
+    "isString": false,
+    "name": "p4",
+    "options": Object {},
+    "type": [Function],
+  },
+}
+`;
+
+exports[`CommandBuilder should register a constructed command in a CommandStorage 1`] = `
+CommandStorage {
+  "commands": Array [
+    Object {
+      "aliases": Array [],
+      "commands": Array [],
+      "name": "test",
+      "params": Array [],
+      "requiredCount": 0,
+      "usage": "/test {}",
+    },
+  ],
+  "prefix": "/",
+}
+`;
