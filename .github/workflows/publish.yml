@@ -5,7 +5,7 @@ on:
     types: [published]
 
 jobs:
-  build:
+  docs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -15,9 +15,6 @@ jobs:
 
       - name: Resolve dependencies
         run: yarn
-
-      - name: Build packages
-        run: yarn build
 
       - name: Build docs
         run: yarn docs:build
@@ -29,7 +26,3 @@ jobs:
           BRANCH: gh-pages
           FOLDER: docs/.vuepress/dist
 
-      # - name: Publish packages
-      #   run: yarn publish
-      #   env:
-      #     NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
