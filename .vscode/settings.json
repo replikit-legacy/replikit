@@ -1,0 +1,17 @@
+{
+    "typescript.preferences.importModuleSpecifier": "non-relative",
+    "prettier.trailingComma": "none",
+    "prettier.arrowParens": "avoid",
+    "prettier.tabWidth": 4,
+    "prettier.disableLanguages": ["yaml"],
+    "markdownlint.config": {
+        "MD040": false
+    },
+    "vsicons.associations.files": [
+        {
+            "icon": "jest",
+            "extensions": ["jest-mongodb-config.js"],
+            "filename": true
+        }
+    ]
+}

@@ -1,0 +1,10 @@
+{
+    "extends": "../../tsconfig.build.json",
+    "compilerOptions": {
+        "outDir": "dist",
+        "paths": {
+            "@replikit/i18n": ["i18n/src"]
+        }
+    },
+    "include": ["src"]
+}

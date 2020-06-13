@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`shortcuts should create a message with code 1`] = `
+Object {
+  "attachments": Array [],
+  "forwarded": Array [],
+  "tokens": Array [
+    Object {
+      "kind": 0,
+      "props": Array [
+        5,
+      ],
+      "text": "test",
+    },
+  ],
+}
+`;
+
+exports[`shortcuts should create a message with text 1`] = `
+Object {
+  "attachments": Array [],
+  "forwarded": Array [],
+  "tokens": Array [
+    Object {
+      "kind": 0,
+      "props": Array [],
+      "text": "test",
+    },
+  ],
+}
+`;

@@ -1,0 +1,13 @@
+{
+    "extends": "./tsconfig.build.json",
+    "compilerOptions": {
+        "sourceMap": true,
+        "baseUrl": "packages",
+        "paths": {
+            "@replikit/*/typings": ["*/typings"],
+            "@replikit/*": ["*/src"],
+            "chalk": ["../node_modules/chalk"]
+        }
+    },
+    "include": ["packages/**/*.ts", "example/**/*.ts"]
+}

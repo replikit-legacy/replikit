@@ -1,0 +1,11 @@
+{
+    "extends": "../../tsconfig.build.json",
+    "compilerOptions": {
+        "outDir": "dist",
+        "paths": {
+            "chalk": ["../node_modules/chalk"],
+            "@replikit/chalk": ["chalk/src"]
+        }
+    },
+    "include": ["src"]
+}

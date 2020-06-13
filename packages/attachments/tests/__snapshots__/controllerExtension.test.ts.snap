@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ControllerExtension should append the source to existing attachment 1`] = `
+Object {
+  "_id": Object {
+    "controller": "another",
+    "localId": "123",
+  },
+  "sources": Array [
+    Object {
+      "controller": "anotherTest",
+      "localId": "1",
+      "uploadId": "uploadId",
+    },
+    Object {
+      "controller": "test",
+      "localId": "1",
+      "uploadId": "uploadId",
+    },
+  ],
+}
+`;
+
+exports[`ControllerExtension should save attachment returned from controller 1`] = `
+Object {
+  "_id": Object {
+    "controller": "another",
+    "localId": "123",
+  },
+  "sources": Array [
+    Object {
+      "controller": "test",
+      "localId": "1",
+      "uploadId": "uploadId",
+    },
+  ],
+}
+`;

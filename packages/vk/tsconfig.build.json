@@ -1,0 +1,11 @@
+{
+    "extends": "../../tsconfig.build.json",
+    "compilerOptions": {
+        "outDir": "dist",
+        "skipLibCheck": true,
+        "paths": {
+            "@replikit/vk": ["vk/src"]
+        }
+    },
+    "include": ["src"]
+}

@@ -1,0 +1,10 @@
+{
+    "name": "replikit",
+    "description": "A powerful framework for building universal strongly typed bots",
+    "author": "Exeteres",
+    "version": "0.1.0",
+    "license": "MIT",
+    "dependencies": {
+        "@replikit/cli": "^0.1.0"
+    }
+}

@@ -1,0 +1,11 @@
+{
+    "name": "@replikit/attachments",
+    "version": "0.1.0",
+    "license": "MIT",
+    "scripts": {
+        "build": "ttsc -p tsconfig.build.json"
+    },
+    "dependencies": {
+        "@replikit/storage": "^0.1.0"
+    }
+}
