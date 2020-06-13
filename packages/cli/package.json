@@ -4,6 +4,10 @@
     "license": "MIT",
     "main": "dist/index.js",
     "typings": "dist/index.d.ts",
+    "files": [
+        "dist",
+        "typings"
+    ],
     "scripts": {
         "build": "ttsc -p tsconfig.build.json",
         "dev": "ts-node -r tsconfig-paths/register src/main.ts"
