@@ -3,8 +3,8 @@
     "compilerOptions": {
         "outDir": "dist",
         "paths": {
-            "chalk": ["../node_modules/chalk"],
-            "@replikit/chalk": ["chalk/src"]
+            "@replikit/chalk": ["chalk/src"],
+            "chalk": ["chalk"]
         }
     },
     "include": ["src"]
