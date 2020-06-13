@@ -4,6 +4,9 @@
     "author": "Exeteres",
     "version": "0.1.0",
     "license": "MIT",
+    "bin": {
+        "replikit": "@replikit/cli/dist/main.js"
+    },
     "dependencies": {
         "@replikit/cli": "^0.1.0"
     }
