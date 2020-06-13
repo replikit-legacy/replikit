@@ -6,7 +6,7 @@ export class YarnController extends PMController {
     init(name: string, isRoot?: boolean): void {
         super.init(name, isRoot);
         if (isRoot) {
-            this.config.workspaces = ["modules"];
+            this.config.workspaces = ["modules/*"];
         }
     }
 
