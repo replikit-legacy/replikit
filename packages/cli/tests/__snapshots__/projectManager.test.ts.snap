@@ -206,7 +206,7 @@ exports[`ProjectManager should generate yarn project: /package.json 1`] = `
     \\"license\\": \\"MIT\\",
     \\"private\\": true,
     \\"workspaces\\": [
-        \\"modules\\"
+        \\"modules/*\\"
     ],
     \\"dependencies\\": {
         \\"@replikit/static\\": \\"0.0.0\\"
@@ -267,7 +267,7 @@ exports[`ProjectManager should generate yarn-lerna project: /package.json 1`] = 
     \\"license\\": \\"MIT\\",
     \\"private\\": true,
     \\"workspaces\\": [
-        \\"modules\\"
+        \\"modules/*\\"
     ],
     \\"dependencies\\": {
         \\"@replikit/static\\": \\"0.0.0\\"
