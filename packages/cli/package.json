@@ -1,6 +1,6 @@
 {
     "name": "@replikit/cli",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "license": "MIT",
     "main": "dist/index.js",
     "typings": "dist/index.d.ts",
@@ -16,8 +16,8 @@
         "replikit": "./dist/main.js"
     },
     "dependencies": {
-        "@replikit/chalk": "^0.1.0",
-        "@replikit/core": "^0.1.0",
+        "@replikit/chalk": "^0.2.0",
+        "@replikit/core": "^0.2.0",
         "commander": "^5.1.0",
         "dotenv": "^8.2.0",
         "execa": "^4.0.0",
@@ -25,11 +25,11 @@
         "inquirer": "^7.1.0",
         "require-from-string": "^2.0.2",
         "ts-morph": "^7.0.3",
+        "ts-node": "^8.0.2",
         "ts-node-dev": "^1.0.0-pre.44",
         "tsconfig-paths": "^3.9.0",
         "ttypescript": "^1.5.10",
-        "typescript": "^3.8.3",
-        "ts-node": "^8.0.2"
+        "typescript": "^3.8.3"
     },
     "devDependencies": {
         "@types/fs-extra": "^8.1.0",
