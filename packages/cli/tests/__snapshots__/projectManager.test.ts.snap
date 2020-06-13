@@ -5,6 +5,9 @@ exports[`ProjectManager should add a module to the project with logger: /modules
     \\"name\\": \\"@test-project/test-module\\",
     \\"version\\": \\"0.0.0\\",
     \\"license\\": \\"MIT\\",
+    \\"scripts\\": {
+        \\"dev\\": \\"replikit dev\\"
+    },
     \\"dependencies\\": {
         \\"@replikit/test\\": \\"0.0.0\\"
     }
@@ -30,9 +33,15 @@ exports[`ProjectManager should add a module to the project with logger: /package
     \\"name\\": \\"test-project\\",
     \\"version\\": \\"0.0.0\\",
     \\"license\\": \\"MIT\\",
+    \\"scripts\\": {
+        \\"dev\\": \\"replikit dev\\"
+    },
     \\"private\\": true,
     \\"dependencies\\": {
         \\"@replikit/static\\": \\"0.0.0\\"
+    },
+    \\"devDependencies\\": {
+        \\"replikit\\": \\"0.0.0\\"
     }
 }
 "
@@ -80,6 +89,9 @@ exports[`ProjectManager should add a module to the project without logger: /modu
     \\"name\\": \\"@test-project/test-module\\",
     \\"version\\": \\"0.0.0\\",
     \\"license\\": \\"MIT\\",
+    \\"scripts\\": {
+        \\"dev\\": \\"replikit dev\\"
+    },
     \\"dependencies\\": {
         \\"@replikit/test\\": \\"0.0.0\\"
     }
@@ -94,9 +106,15 @@ exports[`ProjectManager should add a module to the project without logger: /pack
     \\"name\\": \\"test-project\\",
     \\"version\\": \\"0.0.0\\",
     \\"license\\": \\"MIT\\",
+    \\"scripts\\": {
+        \\"dev\\": \\"replikit dev\\"
+    },
     \\"private\\": true,
     \\"dependencies\\": {
         \\"@replikit/static\\": \\"0.0.0\\"
+    },
+    \\"devDependencies\\": {
+        \\"replikit\\": \\"0.0.0\\"
     }
 }
 "
@@ -152,11 +170,15 @@ exports[`ProjectManager should generate npm project: /package.json 1`] = `
     \\"name\\": \\"test-project\\",
     \\"version\\": \\"0.0.0\\",
     \\"license\\": \\"MIT\\",
+    \\"scripts\\": {
+        \\"dev\\": \\"replikit dev\\"
+    },
     \\"private\\": true,
     \\"dependencies\\": {
         \\"@replikit/static\\": \\"0.0.0\\"
     },
     \\"devDependencies\\": {
+        \\"replikit\\": \\"0.0.0\\",
         \\"lerna\\": \\"0.0.0\\"
     }
 }
@@ -204,12 +226,18 @@ exports[`ProjectManager should generate yarn project: /package.json 1`] = `
     \\"name\\": \\"test-project\\",
     \\"version\\": \\"0.0.0\\",
     \\"license\\": \\"MIT\\",
+    \\"scripts\\": {
+        \\"dev\\": \\"replikit dev\\"
+    },
     \\"private\\": true,
     \\"workspaces\\": [
         \\"modules/*\\"
     ],
     \\"dependencies\\": {
         \\"@replikit/static\\": \\"0.0.0\\"
+    },
+    \\"devDependencies\\": {
+        \\"replikit\\": \\"0.0.0\\"
     }
 }
 "
@@ -265,6 +293,9 @@ exports[`ProjectManager should generate yarn-lerna project: /package.json 1`] = 
     \\"name\\": \\"test-project\\",
     \\"version\\": \\"0.0.0\\",
     \\"license\\": \\"MIT\\",
+    \\"scripts\\": {
+        \\"dev\\": \\"replikit dev\\"
+    },
     \\"private\\": true,
     \\"workspaces\\": [
         \\"modules/*\\"
@@ -273,6 +304,7 @@ exports[`ProjectManager should generate yarn-lerna project: /package.json 1`] = 
         \\"@replikit/static\\": \\"0.0.0\\"
     },
     \\"devDependencies\\": {
+        \\"replikit\\": \\"0.0.0\\",
         \\"lerna\\": \\"0.0.0\\"
     }
 }
