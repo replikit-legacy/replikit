@@ -123,6 +123,13 @@ export class ProjectManager {
      */
     async install(modules: string[], dev?: boolean): Promise<void> {
         await this.pm.install(modules, dev);
+    }
+
+    /**
+     * Adds modules to the project and updates config.
+     */
+    async addModules(modules: string[], dev?: boolean): Promise<void> {
+        await this.install(modules, dev);
         for (const module of modules) {
             this.configManager.addModule(module);
         }
