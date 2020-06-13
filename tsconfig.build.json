@@ -16,7 +16,6 @@
 
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
-        "incremental": true,
 
         "types": ["@types/node", "@types/jest"],
 
