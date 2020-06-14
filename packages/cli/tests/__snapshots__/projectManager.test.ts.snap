@@ -41,6 +41,7 @@ exports[`ProjectManager should add a module to the project with logger: /package
         \\"@replikit/static\\": \\"0.0.0\\"
     },
     \\"devDependencies\\": {
+        \\"@types/node\\": \\"0.0.0\\",
         \\"replikit\\": \\"0.0.0\\"
     }
 }
@@ -114,6 +115,7 @@ exports[`ProjectManager should add a module to the project without logger: /pack
         \\"@replikit/static\\": \\"0.0.0\\"
     },
     \\"devDependencies\\": {
+        \\"@types/node\\": \\"0.0.0\\",
         \\"replikit\\": \\"0.0.0\\"
     }
 }
@@ -178,6 +180,7 @@ exports[`ProjectManager should generate npm project: /package.json 1`] = `
         \\"@replikit/static\\": \\"0.0.0\\"
     },
     \\"devDependencies\\": {
+        \\"@types/node\\": \\"0.0.0\\",
         \\"replikit\\": \\"0.0.0\\",
         \\"lerna\\": \\"0.0.0\\"
     }
@@ -237,6 +240,7 @@ exports[`ProjectManager should generate yarn project: /package.json 1`] = `
         \\"@replikit/static\\": \\"0.0.0\\"
     },
     \\"devDependencies\\": {
+        \\"@types/node\\": \\"0.0.0\\",
         \\"replikit\\": \\"0.0.0\\"
     }
 }
@@ -304,6 +308,7 @@ exports[`ProjectManager should generate yarn-lerna project: /package.json 1`] = 
         \\"@replikit/static\\": \\"0.0.0\\"
     },
     \\"devDependencies\\": {
+        \\"@types/node\\": \\"0.0.0\\",
         \\"replikit\\": \\"0.0.0\\",
         \\"lerna\\": \\"0.0.0\\"
     }

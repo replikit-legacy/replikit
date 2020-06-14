@@ -11,7 +11,7 @@ export async function initProject(
     projectManager.setPackageManager(type);
     await projectManager.init();
     await projectManager.addModules(staticModules);
-    await projectManager.install(["replikit"], true);
+    await projectManager.install(["@types/node", "replikit"], true);
     if (useLerna) {
         await projectManager.addLerna();
     }
