@@ -8,12 +8,14 @@ import {
 } from "@replikit/cli";
 import { program } from "commander";
 import { prompt } from "inquirer";
+import { updateConfig } from "@replikit/core";
 
 const command = program
     .command("create-module")
     .description("Create a new module");
 command.action(async options => {
-    await loadConfiguration(options.config);
+    const config = await loadConfiguration(options.config);
+    updateConfig(config);
     const result = await prompt([
         {
             type: "input",
