@@ -17,13 +17,15 @@ jobs:
           node-version: "12.x"
 
       - uses: actions/cache@master
+        id: cache
         with:
           path: |
             node_modules
             */*/node_modules
           key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
 
-      - name: Resolve dependencies
+      - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
         run: yarn
 
   lint:
