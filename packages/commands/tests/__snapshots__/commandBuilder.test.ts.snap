@@ -35,11 +35,6 @@ Object {
       },
     },
   },
-  "multiline": Object {
-    "name": "p5",
-    "skipValidation": true,
-    "splitLines": true,
-  },
   "name": "test",
   "params": Array [
     Object {
@@ -79,6 +74,11 @@ Object {
     "name": "p4",
     "options": Object {},
     "type": [Function],
+  },
+  "text": Object {
+    "name": "p5",
+    "skipValidation": true,
+    "splitLines": true,
   },
 }
 `;

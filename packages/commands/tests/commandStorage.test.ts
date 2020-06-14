@@ -211,22 +211,29 @@ describe("CommandStorage", () => {
         expect.assertions(2);
     });
 
-    it("should handle a command with multiline parameter", async () => {
-        const { testManager, command } = createTestManager();
-        command("test")
-            .multiline()
-            .handler(context => {
-                expect(context.params.multiline).toBe("test\ntest");
-            })
-            .register();
-        await testManager.processCommand("/test\ntest\ntest");
-        expect.assertions(1);
-    });
+    it.each([
+        ["/test\ntest\ntest", "test\ntest"],
+        ["/test test\ntest", "test\ntest"],
+        ["/test test", "test"]
+    ])(
+        "should handle a command with text parameter: %s",
+        async (text, result) => {
+            const { testManager, command } = createTestManager();
+            command("test")
+                .text(false, true)
+                .handler(context => {
+                    expect(context.params.text).toBe(result);
+                })
+                .register();
+            await testManager.processCommand(text);
+            expect.assertions(1);
+        }
+    );
 
-    it("should handle a command with multiline parameter with custom name", async () => {
+    it("should handle a command with text parameter with custom name", async () => {
         const { testManager, command } = createTestManager();
         command("test")
-            .multiline("test")
+            .text("test")
             .handler(context => {
                 expect(context.params.test).toBe("test\ntest");
             })
@@ -235,12 +242,12 @@ describe("CommandStorage", () => {
         expect.assertions(1);
     });
 
-    it("should handle a command with multiline parameter splitted into lines", async () => {
+    it("should handle a command with text parameter splitted into lines", async () => {
         const { testManager, command } = createTestManager();
         command("test")
-            .multiline(true)
+            .text(true)
             .handler(context => {
-                const param = context.params.multiline;
+                const param = context.params.text;
                 expect(param).toStrictEqual(["test", "test"]);
             })
             .register();
@@ -248,26 +255,40 @@ describe("CommandStorage", () => {
         expect.assertions(1);
     });
 
-    it("should handle a command with multiline parameter and skip validation", async () => {
+    it("should handle a command with text parameter and skip validation", async () => {
         const { testManager, command } = createTestManager();
         command("test")
-            .multiline(false, true)
+            .text(false, true)
             .handler(context => {
-                expect(context.params.multiline).toBe("");
+                expect(context.params.text).toBe("");
             })
             .register();
         await testManager.processCommand("/test");
         expect.assertions(1);
     });
 
-    it("should handle a command with multiline parameter and reply an error", async () => {
+    it("should handle a command with text parameter and reply an error", async () => {
         const { testManager, command } = createTestManager();
         command("test")
-            .multiline()
+            .text()
             .handler(() => void 0)
             .register();
         await testManager.processCommand("/test");
         expect.assertions(1);
+    });
+
+    it("should handle a command with rest and text parameters", async () => {
+        const { testManager, command } = createTestManager();
+        command("test")
+            .rest("strings", String)
+            .text()
+            .handler(context => {
+                expect(context.params.strings).toMatchSnapshot();
+                expect(context.params.text).toMatchSnapshot();
+            })
+            .register();
+        await testManager.processCommand("/test abc 123\nfirst\nsecond");
+        expect.assertions(2);
     });
 
     it.each(["/test 123", "/test 12 12", "/test", "/test abc"])(

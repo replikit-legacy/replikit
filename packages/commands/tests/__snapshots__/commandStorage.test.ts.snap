@@ -4,11 +4,6 @@ exports[`CommandStorage should handle a command returning MessageBuilder 1`] = `
 
 exports[`CommandStorage should handle a command returning OutMessage 1`] = `"Hello"`;
 
-exports[`CommandStorage should handle a command with multiline parameter and reply an error 1`] = `
-"[multiline: Empty multiline parameter]
-Usage: /test"
-`;
-
 exports[`CommandStorage should handle a command with required and optional parameters: /test "abc abc" 1`] = `
 Object {
   "p1": "abc abc",
@@ -53,6 +48,18 @@ Object {
 exports[`CommandStorage should handle a command with required and optional parameters: /test abc abc 1`] = `
 "[p2: Number required]
 Usage: /test {p1} [p2]"
+`;
+
+exports[`CommandStorage should handle a command with rest and text parameters 1`] = `
+Array [
+  "abc",
+  "123",
+]
+`;
+
+exports[`CommandStorage should handle a command with rest and text parameters 2`] = `
+"first
+second"
 `;
 
 exports[`CommandStorage should handle a command with rest parameter count restriction: /test 1`] = `
@@ -135,6 +142,11 @@ Usage: /calc {sum|diff}"
 `;
 
 exports[`CommandStorage should handle a command with subcommands: /calc sum 20 22 1`] = `42`;
+
+exports[`CommandStorage should handle a command with text parameter and reply an error 1`] = `
+"[text: Empty text parameter]
+Usage: /test"
+`;
 
 exports[`CommandStorage should reply an error if resolver returns a string 1`] = `
 "[p1: Invalid parameter]
