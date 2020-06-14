@@ -1,8 +1,9 @@
-import { config, updateConfig } from "@replikit/core";
+import { config } from "@replikit/core";
 import { resolve } from "path";
 import { logger, ProjectManager, ConfigManager } from "@replikit/cli";
 import { readdir, pathExists, readFile } from "fs-extra";
 import requireFromString from "require-from-string";
+import { Configuration } from "@replikit/core/typings";
 
 const configFiles = ["replikit.config.ts", "replikit.config.js"];
 
@@ -34,7 +35,7 @@ export function getConfigPath(): string {
     return configPath;
 }
 
-export async function loadConfiguration(file?: string): Promise<void> {
+export async function loadConfiguration(file?: string): Promise<Configuration> {
     configPath = await resolveConfigPath(file);
     configManager = new ConfigManager();
     try {
@@ -43,15 +44,16 @@ export async function loadConfiguration(file?: string): Promise<void> {
         const compiled = configManager.compile();
         const module = requireFromString(compiled);
         if (module.default) {
-            updateConfig(module.default);
             if (module.modules) {
                 config.cli.modules.push(...module.modules);
             }
-            return;
+            return module.default;
         }
-        logger.fatal("Configuration file does not provide default export");
+        return logger.fatal(
+            "Configuration file does not provide default export"
+        );
     } catch (e) {
-        logger.fatal("Cannot load the configuration", e);
+        return logger.fatal("Cannot load the configuration", e);
     }
 }
 

@@ -2,10 +2,10 @@ require("dotenv/config");
 require("tsconfig-paths/register");
 
 import { loadConfiguration, logger } from "@replikit/cli";
-import { bootstrap, config } from "@replikit/core";
+import { bootstrap, config, updateConfig } from "@replikit/core";
 
 async function main(): Promise<void> {
-    await loadConfiguration(process.argv[2]);
+    const newConfig = await loadConfiguration(process.argv[2]);
     logger.info("Starting in dev mode ...");
 
     for (const module of config.cli.modules) {
@@ -17,6 +17,7 @@ async function main(): Promise<void> {
         }
     }
 
+    updateConfig(newConfig);
     await bootstrap();
 }
 
