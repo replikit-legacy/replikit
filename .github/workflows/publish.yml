@@ -5,17 +5,45 @@ on:
     types: [published]
 
 jobs:
-  docs:
+  prepare:
     runs-on: ubuntu-latest
+    name: Prepare
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
           node-version: "12.x"
 
-      - name: Resolve dependencies
+      - uses: actions/cache@master
+        id: cache
+        with:
+          path: |
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
         run: yarn
 
+  packages:
+    runs-on: ubuntu-latest
+    name: Publish packages
+    needs: prepare
+    steps:
+      - name: Build packages
+        run: yarn build
+
+      - name: Publish to NPM
+        run: yarn publish-packages
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  docs:
+    runs-on: ubuntu-latest
+    name: Publish documentation
+    needs: prepare
+    steps:
       - name: Build docs
         run: yarn docs:build
 
