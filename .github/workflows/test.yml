@@ -7,8 +7,9 @@ on:
     branches: [master]
 
 jobs:
-  test:
+  prepare:
     runs-on: ubuntu-latest
+    name: Prepare
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
@@ -25,8 +26,42 @@ jobs:
       - name: Resolve dependencies
         run: yarn
 
+  lint:
+    runs-on: ubuntu-latest
+    name: Lint
+    needs: prepare
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
+
+      - uses: actions/cache@master
+        with:
+          path: |
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+
       - name: Lint
         run: yarn lint
+
+  test:
+    runs-on: ubuntu-latest
+    name: Test
+    needs: prepare
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
+
+      - uses: actions/cache@master
+        with:
+          path: |
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
 
       - name: Test
         run: yarn test:coverage
