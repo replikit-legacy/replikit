@@ -1,7 +1,7 @@
 import {
     CommandParameter,
     CommandHandler,
-    MultilineCommandParameter,
+    TextCommandParameter,
     RestCommandParameter
 } from "@replikit/commands/typings";
 import { MiddlewareRouter } from "@replikit/commands";
@@ -15,7 +15,7 @@ export interface Command {
     middlewareRouter?: MiddlewareRouter;
     rest?: RestCommandParameter;
     handler?: CommandHandler;
-    multiline?: MultilineCommandParameter;
+    text?: TextCommandParameter;
     default?: string;
     usage?: string;
     parent?: Command;

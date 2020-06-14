@@ -30,10 +30,10 @@ function isTextToken(item: Record<string, unknown>): boolean {
 }
 
 command("format")
-    .multiline()
+    .text()
     .handler(context => {
         try {
-            const tokens = JSON.parse(context.params.multiline);
+            const tokens = JSON.parse(context.params.text);
             if (!Array.isArray(tokens)) {
                 return fromCode("Array expected");
             }

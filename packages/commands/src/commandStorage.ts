@@ -75,7 +75,7 @@ export class CommandStorage {
         context: MessageContext,
         command: Command,
         args: string[],
-        multiline: string
+        text: string
     ): Promise<void> {
         async function replyError(error: string): Promise<void> {
             const usage = context.t.commands.usage + " " + command.usage!;
@@ -94,7 +94,7 @@ export class CommandStorage {
             if (!subcommand) {
                 return replyError(context.t.commands.commandNotFound);
             }
-            return this.processCommand(context, subcommand, newArgs, multiline);
+            return this.processCommand(context, subcommand, newArgs, text);
         }
 
         if (args.length < command.requiredCount) {
@@ -105,20 +105,6 @@ export class CommandStorage {
 
         const commandContext = context as CommandContext;
         commandContext.params = {};
-
-        // Parse multiline parameter
-        if (command.multiline) {
-            const multilineName = command.multiline.name ?? "multiline";
-            if (!command.multiline.skipValidation && !multiline) {
-                return replyParameterError(
-                    context.t.commands.emptyMultilineParameter,
-                    multilineName
-                );
-            }
-            commandContext.params[multilineName] = command.multiline.splitLines
-                ? multiline.split("\n")
-                : multiline;
-        }
 
         // Invoke prevalidation middleware
         if (command.middlewareRouter) {
@@ -194,6 +180,32 @@ export class CommandStorage {
                 }
             }
             commandContext.params[command.rest.name] = result;
+        }
+
+        // Parse text parameter
+        if (command.text) {
+            const textName = command.text.name ?? "text";
+            if (!command.text.skipValidation && !text) {
+                return replyParameterError(
+                    context.t.commands.emptyTextParameter,
+                    textName
+                );
+            }
+            if (command.rest) {
+                commandContext.params[textName] = command.text.splitLines
+                    ? text.split("\n")
+                    : text;
+            } else {
+                const firstLine = args.slice(command.params.length).join(" ");
+                const textValue = firstLine
+                    ? text
+                        ? firstLine + "\n" + text
+                        : firstLine
+                    : text;
+                commandContext.params[textName] = command.text.splitLines
+                    ? textValue.split("\n")
+                    : textValue;
+            }
         }
 
         // Invoke preresolution middleware
@@ -278,7 +290,7 @@ export class CommandStorage {
         if (!context.message.text.startsWith(this.prefix)) {
             return next();
         }
-        const [firstLine, multiline] = splitText(context.message.text);
+        const [firstLine, text] = splitText(context.message.text);
         const partIterator = firstLine
             .replace(this.prefix, "")
             .matchAll(/\s?"(.*?)"|\s?(\S+)\s?/g);
@@ -289,7 +301,7 @@ export class CommandStorage {
         if (!overload) {
             return;
         }
-        return this.processCommand(context, overload, commandArgs, multiline);
+        return this.processCommand(context, overload, commandArgs, text);
     }
 }
 

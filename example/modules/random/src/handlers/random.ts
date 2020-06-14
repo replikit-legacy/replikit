@@ -11,7 +11,7 @@ router.of("message:received").use((context, next) => {
         return context.reply("от слова тварь");
     }
 
-    if (/(ги-?ги(-?ги)*)$/i.test(context.message.text)) {
+    if (/(ги)(\1+и*)$/i.test(context.message.text)) {
         const message = new MessageBuilder()
             .addText("За шаги!")
             .addAttachmentByUrl(

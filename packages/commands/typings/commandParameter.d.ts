@@ -29,7 +29,7 @@ export type RestCommandParameter<T = unknown> =
     | StringCommandParameter<RestParameterOptions<T>>
     | TypedCommandParameter<T, RestParameterOptions<T>>;
 
-export interface MultilineCommandParameter {
+export interface TextCommandParameter {
     name?: string;
     skipValidation?: boolean;
     splitLines?: boolean;

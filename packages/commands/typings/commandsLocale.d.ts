@@ -1,5 +1,5 @@
 export interface CommandsLocale {
-    emptyMultilineParameter: string;
+    emptyTextParameter: string;
     mismatch(expected: number, actual: number): string;
     numberRequired: string;
     integerRequired: string;

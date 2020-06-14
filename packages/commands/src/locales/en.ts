@@ -8,7 +8,7 @@ locales.add("en", "commands", {
     positiveNumberRequired: "Positive number required",
     commandNotFound: "Command not found",
     usage: "Usage:",
-    emptyMultilineParameter: "Empty multiline parameter",
+    emptyTextParameter: "Empty text parameter",
     shouldBeNoMoreParametersThan: value =>
         `The number of additional parameters should be no more than ${value}`,
     shouldBeNoLessParametersThan: value =>

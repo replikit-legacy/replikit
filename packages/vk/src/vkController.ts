@@ -289,13 +289,14 @@ export class VKController extends Controller {
                 API.messages.edit({
                     peer_id: ${channelId},
                     message_id: messageId,
-                    message: "${message.text}",
+                    message: ${JSON.stringify(message.text)},
                     attachment: "${message.attachments
                         .map(x => x.source)
                         .join(", ")}"
                 });
             `
         });
+
         return {
             attachments: [],
             id: messageId,

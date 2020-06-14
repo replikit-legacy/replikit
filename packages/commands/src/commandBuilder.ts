@@ -177,38 +177,38 @@ export class CommandBuilder<C = {}, P extends Parameters = {}> {
         return this;
     }
 
-    multiline<N extends string>(
+    text<N extends string>(
         name: N,
         splitLines: true,
         skipValidation?: true
     ): AddRequired<C, P, N, string[]>;
 
-    multiline<N extends string>(
+    text<N extends string>(
         name: N,
         splitLines: false,
         skipValidation: true
     ): AddRequired<C, P, N, string>;
 
-    multiline<N extends string>(name: N): AddRequired<C, P, N, string>;
+    text<N extends string>(name: N): AddRequired<C, P, N, string>;
 
-    multiline(): AddRequired<C, P, "multiline", string>;
+    text(): AddRequired<C, P, "text", string>;
 
-    multiline(
+    text(
         splitLines: false,
         skipValidation: true
-    ): AddRequired<C, P, "multiline", string>;
+    ): AddRequired<C, P, "text", string>;
 
-    multiline(
+    text(
         splitLines: true,
         skipValidation?: true
-    ): AddRequired<C, P, "multiline", string[]>;
+    ): AddRequired<C, P, "text", string[]>;
 
-    multiline(
+    text(
         name?: string | boolean,
         splitLines?: boolean,
         skipValidation?: true
     ): unknown {
-        this.command.multiline =
+        this.command.text =
             typeof name === "string"
                 ? { name, splitLines, skipValidation }
                 : { splitLines: name, skipValidation: splitLines };

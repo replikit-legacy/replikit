@@ -10,7 +10,7 @@ locales.add("ru", "commands", {
     positiveNumberRequired: "Требуется положительное число",
     commandNotFound: "Команда не найдена",
     usage: "Использование:",
-    emptyMultilineParameter: "Пустой многострочный параметр",
+    emptyTextParameter: "Пустой текстовый параметр",
     shouldBeNoMoreParametersThan: value =>
         `Количество дополнительных параметров должно быть не больше ${value}`,
     shouldBeNoLessParametersThan: value =>
