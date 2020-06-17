@@ -1,15 +1,18 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Constructor, HasFields } from "@replikit/core/typings";
 
-function isObject(item: any): boolean {
+function isObject(item: unknown): boolean {
     return item !== null && typeof item === "object";
 }
 
-function isMergebleObject(item: any): boolean {
+function isMergebleObject(item: unknown): boolean {
     return isObject(item) && !Array.isArray(item);
 }
 
 // https://stackoverflow.com/a/46973278/10502674
-export function deepmerge<T extends any = any>(target: T, ...sources: T[]): T {
+export function deepmerge<T extends HasFields = HasFields>(
+    target: T,
+    ...sources: T[]
+): T {
     if (!sources.length) {
         return target;
     }
@@ -22,11 +25,11 @@ export function deepmerge<T extends any = any>(target: T, ...sources: T[]): T {
         Object.keys(source).forEach(key => {
             if (isMergebleObject(source[key])) {
                 if (!target[key]) {
-                    target[key] = {};
+                    target[key as keyof T] = {} as T[keyof T];
                 }
-                deepmerge(target[key], source[key]);
+                deepmerge(target[key] as HasFields, source[key] as HasFields);
             } else {
-                target[key] = source[key];
+                target[key as keyof T] = source[key] as T[keyof T];
             }
         });
     }
@@ -72,19 +75,20 @@ export function groupBy<T, K extends keyof T>(
     arr: readonly T[],
     key: K
 ): Group<T, K>[] {
-    // TODO fix
-    const temp = arr.reduce<any>((rv, x) => {
-        (rv[x[key]] = rv[x[key]] || []).push(x);
-        return rv;
-    }, {});
-    const result = [];
-    for (const key of Object.keys(temp)) {
-        result.push({ key: key as any, value: temp[key] });
+    const map = new Map<T[K], Group<T, K>>();
+    for (const item of arr) {
+        let group = map.get(item[key]);
+        if (group) {
+            group.value.push(item);
+            continue;
+        }
+        group = { key: item[key], value: [item] };
+        map.set(item[key], group);
     }
-    return result;
+    return Array.from(map.values());
 }
 
-export function applyMixins(target: Function, mixins: Function[]): void {
+export function applyMixins(target: Constructor, mixins: Constructor[]): void {
     for (const mixin of mixins) {
         const properties = Object.getOwnPropertyNames(mixin.prototype);
         for (const property of properties) {
@@ -101,6 +105,8 @@ export function applyMixins(target: Function, mixins: Function[]): void {
 }
 
 export const Extension: ClassDecorator = (target): void => {
-    const base = Object.getPrototypeOf(target.prototype).constructor;
-    applyMixins(base, [target]);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    const base = Object.getPrototypeOf(target.prototype)
+        .constructor as Constructor;
+    applyMixins(base, [(target as unknown) as Constructor]);
 };

@@ -9,7 +9,7 @@ const command = program
         "--inspect-brk <port>",
         "Enable NodeJS debugger with specified port"
     );
-command.action(options => {
+command.action(async options => {
     const tsndPath = require.resolve("ts-node-dev/bin/ts-node-dev");
     const workerPath = resolve(__dirname, "../worker/dev.js");
     const args = [
@@ -29,7 +29,7 @@ command.action(options => {
     if (options.config) {
         args.push(options.config);
     }
-    execa(tsndPath, args, {
+    await execa(tsndPath, args, {
         stdin: process.stdin,
         stdout: process.stdout,
         stderr: process.stderr

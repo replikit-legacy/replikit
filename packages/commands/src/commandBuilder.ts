@@ -18,7 +18,7 @@ import {
     CommandStorage,
     commands
 } from "@replikit/commands";
-import { Constructor } from "@replikit/core/typings";
+import { Constructor, HasFields } from "@replikit/core/typings";
 
 type NormalizeType<T> = T extends (infer U)[]
     ? NormalizeType<U>[]
@@ -49,7 +49,7 @@ interface Buildable {
 
 type CommandLike = Command | Buildable;
 
-export class CommandBuilder<C = {}, P extends Parameters = {}> {
+export class CommandBuilder<C = HasFields, P extends Parameters = HasFields> {
     protected readonly command: Command;
 
     constructor(
@@ -247,8 +247,10 @@ export class CommandBuilder<C = {}, P extends Parameters = {}> {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface CommandBuilder<C = {}, P extends Parameters = {}>
-    extends _CommandBuilder<C, P> {}
+export interface CommandBuilder<
+    C = HasFields,
+    P extends Parameters = HasFields
+> extends _CommandBuilder<C, P> {}
 
 export type CommandBuilderFactory = (
     name: string,

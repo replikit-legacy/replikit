@@ -47,7 +47,7 @@ export async function loadConfiguration(file?: string): Promise<Configuration> {
             if (module.modules) {
                 config.cli.modules.push(...module.modules);
             }
-            return module.default;
+            return module.default as Configuration;
         }
         return logger.fatal(
             "Configuration file does not provide default export"

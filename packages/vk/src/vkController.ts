@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import {
     Controller,
     config,
@@ -332,7 +331,7 @@ export class VKController extends Controller {
     }
 
     private extractAttachments(
-        attachments: (VKAttachment<{}> | ExternalAttachment<{}>)[]
+        attachments: (VKAttachment<unknown> | ExternalAttachment<unknown>)[]
     ): Attachment[] {
         const result: Attachment[] = [];
         for (const attachment of attachments) {

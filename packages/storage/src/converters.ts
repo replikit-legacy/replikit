@@ -1,9 +1,12 @@
 import { User, Channel } from "@replikit/storage";
 import { ConverterBuilderFactory } from "@replikit/commands/typings";
 
-function getCommands(): typeof import("@replikit/commands") | undefined {
+type CommandsModule = typeof import("@replikit/commands");
+
+function getCommands(): CommandsModule | undefined {
     try {
-        return require("@replikit/commands");
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        return require("@replikit/commands") as CommandsModule;
     } catch {
         return undefined;
     }

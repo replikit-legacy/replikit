@@ -1,6 +1,6 @@
 export type RecursivePartial<T> = {
     [P in keyof T]?: T[P] extends (infer U)[]
-        ? RecursivePartial<U>[]
+        ? RecursivePartial<U>[] // eslint-disable-next-line @typescript-eslint/ban-types
         : T[P] extends object
         ? RecursivePartial<T[P]>
         : T[P];
@@ -8,14 +8,14 @@ export type RecursivePartial<T> = {
 
 export type RecursiveRequired<T> = {
     [P in keyof T]-?: T[P] extends (infer U)[]
-        ? RecursiveRequired<U>[]
+        ? RecursiveRequired<U>[] // eslint-disable-next-line @typescript-eslint/ban-types
         : T[P] extends object | undefined
         ? RecursiveRequired<T[P]>
         : T[P];
 };
 
 export interface Constructor<T = unknown> {
-    new (): T;
+    new (...args: unknown[]): T;
 }
 
 export type Filter<Base, Condition> = {
@@ -40,3 +40,7 @@ export type DiscriminateUnion<
     K extends keyof T,
     V extends T[K]
 > = T extends Record<K, V> ? T : never;
+
+export type HasFields = Record<string, unknown>;
+
+export type SafeFunction = (...args: unknown[]) => unknown;

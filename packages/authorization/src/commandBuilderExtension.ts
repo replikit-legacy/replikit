@@ -33,7 +33,7 @@ export class CommandBuilderExtension extends CommandBuilder {
                 );
                 if (!channel) {
                     // TODO Expose replyParameterError from commandStorage handler and use here
-                    context.reply(context.t.storage.channelNotFound);
+                    await context.reply(context.t.storage.channelNotFound);
                     return;
                 }
                 context.params[resolvedName] = channel;
