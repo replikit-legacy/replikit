@@ -4,6 +4,7 @@ import {
     MissingFallbackLocaleError,
     UnableToResolveLocaleError
 } from "@replikit/i18n";
+import { HasFields } from "@replikit/core/typings";
 
 export class LocaleStorage {
     private readonly locales = new Map<string, Locale>();
@@ -26,11 +27,12 @@ export class LocaleStorage {
                 if (!fallbackNamespace) {
                     throw new MissingFallbackLocaleError(namespaceName);
                 }
+                // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
                 resolvedLocale[namespaceName as keyof Locale] = deepmerge(
-                    {} as unknown,
+                    {} as HasFields,
                     fallbackNamespace,
                     namespace
-                ) as never;
+                ) as Locale[keyof Locale];
             }
             this.resolvedLocales.set(lang, resolvedLocale);
         }

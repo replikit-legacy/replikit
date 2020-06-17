@@ -1,7 +1,8 @@
 import { dir, file } from "tmp-promise";
 import { write, close } from "fs-extra";
+import { SafeFunction } from "@replikit/core/typings";
 
-let disposers: Function[] = [];
+let disposers: SafeFunction[] = [];
 
 export async function createTempDirectory(): Promise<string> {
     const result = await dir({ unsafeCleanup: true });
@@ -25,7 +26,7 @@ export async function writeTempFile(data: string | Buffer): Promise<string> {
 }
 
 async function disposeAll(): Promise<void> {
-    await Promise.all(disposers.map(x => x()));
+    await Promise.all(disposers.map(x => x() as Promise<unknown>));
     disposers = [];
 }
 

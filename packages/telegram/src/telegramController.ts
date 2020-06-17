@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import {
     ChannelInfo,
     AccountInfo,
@@ -461,7 +460,7 @@ export class TelegramController extends Controller {
             (chat as Chat).title ??
             chat.username ??
             (chat.last_name
-                ? chat.first_name + " " + chat.last_name
+                ? `${chat.first_name} ${chat.last_name}`
                 : chat.first_name!)
         );
     }

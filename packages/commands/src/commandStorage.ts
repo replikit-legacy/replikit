@@ -2,6 +2,7 @@ import { Command, CommandContext } from "@replikit/commands/typings";
 import { MessageContext } from "@replikit/router";
 import { MessageBuilder, fromCode } from "@replikit/messages";
 import { MiddlewareStage, renderUsage } from "@replikit/commands";
+import { NextHandler } from "@replikit/router/typings";
 
 function chooseOverload(
     commands: Command[],
@@ -283,7 +284,7 @@ export class CommandStorage {
         return this.commands.filter(byName(cmd));
     }
 
-    async process(context: MessageContext, next: Function): Promise<void> {
+    async process(context: MessageContext, next: NextHandler): Promise<void> {
         if (!context.message.text) {
             return next();
         }

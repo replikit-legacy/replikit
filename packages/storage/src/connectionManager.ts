@@ -51,7 +51,7 @@ export class ConnectionManager {
             collection = this.db.collection(name);
             this.rawCollectionMap.set(name, collection);
         }
-        return collection;
+        return collection as Collection<T>;
     }
 
     getCollection<T extends Entity>(

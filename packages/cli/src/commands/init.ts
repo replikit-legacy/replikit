@@ -13,12 +13,23 @@ import { pathExists } from "fs-extra";
 import { resolve } from "path";
 import { program } from "commander";
 
+interface PromptResult {
+    projectName: string;
+    useYarn: boolean;
+    useLerna: boolean;
+    staticModules: string[];
+    createModule: boolean;
+    moduleName: string;
+    addLogger: boolean;
+    modules: string[];
+}
+
 const command = program.command("init").description("Create a new project");
 command.action(async () => {
     const yarnExists = await detectYarn();
     const cwd = process.cwd();
     const isEmpty = await checkFolderIsEmpty(cwd);
-    const result = await prompt([
+    const result = await prompt<PromptResult>([
         {
             type: "input",
             message: "Project name",
