@@ -186,12 +186,6 @@ export class CommandStorage {
         // Parse text parameter
         if (command.text) {
             const textName = command.text.name ?? "text";
-            if (!command.text.skipValidation && !text) {
-                return replyParameterError(
-                    context.t.commands.emptyTextParameter,
-                    textName
-                );
-            }
             if (command.rest) {
                 commandContext.params[textName] = command.text.splitLines
                     ? text.split("\n")
@@ -206,6 +200,15 @@ export class CommandStorage {
                 commandContext.params[textName] = command.text.splitLines
                     ? textValue.split("\n")
                     : textValue;
+            }
+            if (
+                !command.text.skipValidation &&
+                !commandContext.params[textName]
+            ) {
+                return replyParameterError(
+                    context.t.commands.emptyTextParameter,
+                    textName
+                );
             }
         }
 
