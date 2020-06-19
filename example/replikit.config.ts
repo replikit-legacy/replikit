@@ -3,7 +3,6 @@ import { Configuration } from "@replikit/core/typings";
 import "@example/random";
 import "@example/banking";
 import "@example/darts";
-import "@replikit/attachments";
 import "@replikit/telegram";
 import "@replikit/vk";
 
@@ -20,6 +19,9 @@ const config: Configuration = {
     },
     i18n: {
         defaultLocale: process.env.DEFAULT_LOCALE
+    },
+    cli: {
+        tsconfig: "tsconfig.build.json"
     }
 };
 

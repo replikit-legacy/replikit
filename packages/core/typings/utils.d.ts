@@ -44,3 +44,5 @@ export type DiscriminateUnion<
 export type HasFields = Record<string, unknown>;
 
 export type SafeFunction = (...args: unknown[]) => unknown;
+
+export type Require<T, K extends keyof T> = T & Pick<Required<T>, K>;

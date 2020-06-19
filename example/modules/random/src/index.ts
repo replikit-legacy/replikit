@@ -1,3 +1,5 @@
+import "@replikit/attachments";
+
 import "./locales/en";
 import "./locales/ru";
 
