@@ -214,13 +214,14 @@ describe("CommandStorage", () => {
     it.each([
         ["/test\ntest\ntest", "test\ntest"],
         ["/test test\ntest", "test\ntest"],
-        ["/test test", "test"]
+        ["/test test", "test"],
+        ["/test", ""]
     ])(
         "should handle a command with text parameter: %s",
         async (text, result) => {
             const { testManager, command } = createTestManager();
             command("test")
-                .text(false, true)
+                .text()
                 .handler(context => {
                     expect(context.params.text).toBe(result);
                 })

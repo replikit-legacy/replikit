@@ -148,6 +148,11 @@ exports[`CommandStorage should handle a command with text parameter and reply an
 Usage: /test"
 `;
 
+exports[`CommandStorage should handle a command with text parameter: /test 1`] = `
+"[text: Empty text parameter]
+Usage: /test"
+`;
+
 exports[`CommandStorage should reply an error if resolver returns a string 1`] = `
 "[p1: Invalid parameter]
 Usage: /test {p1}"
