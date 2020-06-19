@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "target": "es2019",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "baseUrl": "modules",
+        "esModuleInterop": true,
+        "strict": true,
+        "paths": {
+            "@example/*": ["*/src"],
+            "@example/*/typings": ["*/typings"]
+        }
+    },
+    "include": ["replikit.config.ts", "modules/**/*.ts"]
+}

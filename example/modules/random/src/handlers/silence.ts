@@ -10,7 +10,7 @@ router.of("message:received").use(async (context, next) => {
     const text = context.message.text?.toLowerCase();
     if (text === context.t.random.deactivateSilentMode) {
         silentMode = false;
-        return context.reply(context.t.random.silentModeDeactivated);
+        await context.reply(context.t.random.silentModeDeactivated);
     }
 
     if (context.channel.permissions.deleteOtherMessages) {
@@ -21,11 +21,11 @@ router.of("message:received").use(async (context, next) => {
     }
 });
 
-router.of("message:received").use((context, next) => {
+router.of("message:received").use(async (context, next) => {
     const text = context.message.text?.toLowerCase();
     if (text === context.t.random.keepSilence) {
         silentMode = true;
-        return context.reply(context.t.random.silentModeActivated);
+        await context.reply(context.t.random.silentModeActivated);
     }
 
     return next();

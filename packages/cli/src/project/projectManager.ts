@@ -27,6 +27,10 @@ export class ProjectManager {
         await writeFile(this.configPath, this.configManager.serialize());
     }
 
+    getConfigManager(): ConfigManager {
+        return this.configManager;
+    }
+
     /**
      * Sets the package manager type to use.
      */

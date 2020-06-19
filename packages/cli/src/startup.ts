@@ -7,4 +7,4 @@ logManager.setPrimaryProvider(logProvider);
 /** @internal */
 export const logger = createScope("cli");
 
-updateConfig({ cli: { modules: [] } });
+updateConfig({ cli: { modules: [], outDir: "./dist" } });

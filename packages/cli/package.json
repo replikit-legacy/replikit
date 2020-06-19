@@ -23,18 +23,25 @@
         "execa": "^4.0.0",
         "fs-extra": "^9.0.0",
         "inquirer": "^7.1.0",
+        "native-addon-loader": "^2.0.1",
         "require-from-string": "^2.0.2",
+        "ts-loader": "^7.0.5",
         "ts-morph": "^7.0.3",
         "ts-node": "^8.0.2",
         "ts-node-dev": "^1.0.0-pre.44",
         "tsconfig-paths": "^3.9.0",
         "ttypescript": "^1.5.10",
-        "typescript": "^3.8.3"
+        "typescript": "^3.8.3",
+        "webpack": "^4.43.0",
+        "webpack-virtual-modules": "^0.2.2",
+        "webpackbar": "^4.0.0"
     },
     "devDependencies": {
         "@types/fs-extra": "^8.1.0",
         "@types/inquirer": "^6.5.0",
         "@types/require-from-string": "^1.2.0",
-        "typescript-transform-paths": "^1.1.14"
+        "@types/webpack": "^4.41.17",
+        "@types/webpack-virtual-modules": "^0.1.0",
+        "@types/webpackbar": "^4.0.0"
     }
 }

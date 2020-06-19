@@ -2,6 +2,7 @@
     "extends": "../tsconfig.build.json",
     "compilerOptions": {
         "baseUrl": "modules",
+        "resolveJsonModule": true,
         "paths": {
             "@replikit/*": ["../../packages/*/src"],
             "@replikit/*/typings": ["../../packages/*/typings"],
