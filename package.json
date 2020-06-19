@@ -11,7 +11,7 @@
         "test:watch": "jest --watch",
         "clean": "lerna exec -- rimraf dist",
         "build": "lerna run build",
-        "publish-packages": "lerna publish from-git",
+        "publish-packages": "lerna publish from-git -y",
         "release": "lerna version --conventional-commits --create-release github",
         "docs:dev": "vuepress dev docs",
         "docs:build": "vuepress build docs"
