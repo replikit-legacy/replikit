@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DescriptionStorage should add a locale with description messages 1`] = `
+DescriptionStorage {
+  "descriptionMap": Map {
+    "en" => Object {
+      "help": "Show help",
+      "test": "Test",
+    },
+  },
+}
+`;
+
+exports[`DescriptionStorage should render a help message with multiple commands 1`] = `
+"# Test
+/test
+
+# Sum two numbers
+/calc sum {a} {b}
+# Diff two numbers
+/calc diff {a} {b}"
+`;

@@ -60,6 +60,10 @@ export class CommandStorage {
     private readonly commands: Command[] = [];
     prefix = "/";
 
+    getCommands(): Command[] {
+        return this.commands;
+    }
+
     private renderUsage(command: Command): void {
         command.usage = renderUsage(this.prefix, command);
         for (const subcommand of command.commands) {
