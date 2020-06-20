@@ -1,6 +1,6 @@
 {
     "name": "@replikit/telegram",
-    "version": "0.5.0",
+    "version": "0.5.2",
     "license": "MIT",
     "main": "dist/index.js",
     "typings": "dist/index.d.ts",
@@ -12,7 +12,7 @@
         "build": "ttsc -p tsconfig.build.json"
     },
     "dependencies": {
-        "@replikit/core": "^0.5.0",
+        "@replikit/core": "^0.5.2",
         "telegraf": "^3.38.0"
     }
 }
