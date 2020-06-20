@@ -1,6 +1,6 @@
 {
     "name": "@replikit/storage",
-    "version": "0.5.2",
+    "version": "0.5.3",
     "license": "MIT",
     "main": "dist/index.js",
     "typings": "dist/index.d.ts",
@@ -13,14 +13,14 @@
     },
     "dependencies": {
         "@abraham/reflection": "^0.7.0",
-        "@replikit/core": "^0.5.2",
-        "@replikit/i18n": "^0.5.2",
-        "@replikit/router": "^0.5.2",
+        "@replikit/core": "^0.5.3",
+        "@replikit/i18n": "^0.5.3",
+        "@replikit/router": "^0.5.3",
         "class-transformer": "^0.2.3",
         "mongodb": "^3.5.6"
     },
     "optionalDependencies": {
-        "@replikit/commands": "^0.5.2"
+        "@replikit/commands": "^0.5.3"
     },
     "devDependencies": {
         "@types/mongodb": "^3.5.14"

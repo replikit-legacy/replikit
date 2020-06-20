@@ -1,6 +1,6 @@
 {
     "name": "@replikit/attachments",
-    "version": "0.5.2",
+    "version": "0.5.3",
     "license": "MIT",
     "main": "dist/index.js",
     "typings": "dist/index.d.ts",
@@ -12,6 +12,6 @@
         "build": "ttsc -p tsconfig.build.json"
     },
     "dependencies": {
-        "@replikit/storage": "^0.5.2"
+        "@replikit/storage": "^0.5.3"
     }
 }
