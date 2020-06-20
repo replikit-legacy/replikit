@@ -15,7 +15,7 @@ locales.add("ru", "random", {
     silentModeDeactivated: "Режим молчания деактивирован"
 });
 
-descriptions.add("en", {
+descriptions.add("ru", {
     edit: "Редактирует сообщение",
     delete: "Удаляет сообщение",
     calc: {
