@@ -18,27 +18,30 @@ export class DescriptionStorage {
         this.descriptionMap.set(locale, descriptions);
     }
 
-    private renderCommand(descriptions: HelpMessage, command: Command): string {
+    private renderCommand(
+        descriptions: HelpMessage,
+        command: Command
+    ): string | undefined {
         const description = descriptions[command.name];
 
         if (!description) {
-            return "";
+            return undefined;
         }
 
         if (command.handler) {
             if (typeof description !== "string") {
                 throw new InvalidCommandDescriptionError();
             }
-            return `# ${description}\n${command.usage!}`;
+            return `# ${description}\n${command.usage!}\n`;
         }
 
         if (typeof description === "string") {
             throw new InvalidCommandDescriptionError();
         }
 
-        return `\n${command.commands
+        return command.commands
             .map(this.renderCommand.bind(this, description))
-            .join("\n")}`;
+            .join("\n");
     }
 
     render(commands: Command[], locale?: string): string {
@@ -52,6 +55,7 @@ export class DescriptionStorage {
 
         return commands
             .map(this.renderCommand.bind(this, description))
+            .filter(x => x)
             .join("\n");
     }
 }

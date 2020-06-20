@@ -1,4 +1,5 @@
 import { locales } from "@replikit/i18n";
+import { descriptions } from "@replikit/help";
 
 locales.add("ru", "random", {
     channelPhotoDeleted: "Фото канала удалено",
@@ -12,4 +13,16 @@ locales.add("ru", "random", {
     deactivateSilentMode: "отмена режима молчания",
     silentModeActivated: "Активирован режим молчания",
     silentModeDeactivated: "Режим молчания деактивирован"
+});
+
+descriptions.add("en", {
+    edit: "Редактирует сообщение",
+    delete: "Удаляет сообщение",
+    calc: {
+        sum: "Складывает два числа",
+        mul: "Умножает два числа"
+    },
+    test: "Отображает информацию о сообщении",
+    tokenize: "Разбивает текст сообщения на токены",
+    format: "Создает текстовое сообщение из массива токенов"
 });

@@ -9,7 +9,7 @@ class HandlerWrapper<T extends ContextBase> {
 
     constructor(public readonly handler: Handler<T>) {}
 
-    process(context: T): void | Promise<void> {
+    process(context: T): unknown | Promise<unknown> {
         const next = this.next
             ? this.next.process.bind(this.next, context)
             : HandlerWrapper.finalHandler.bind(undefined, context);
@@ -35,10 +35,11 @@ export class HandlerChain<T extends ContextBase> {
         return this;
     }
 
-    process(context: T): void | Promise<void> {
+    async process(context: T): Promise<void> {
         if (!this.firstHandler) {
             return;
         }
-        return this.firstHandler.process(context);
+        await this.firstHandler.process(context);
+        return;
     }
 }

@@ -17,6 +17,8 @@ exports[`DescriptionStorage should render a help message with multiple commands 
 
 # Sum two numbers
 /calc sum {a} {b}
+
 # Diff two numbers
-/calc diff {a} {b}"
+/calc diff {a} {b}
+"
 `;

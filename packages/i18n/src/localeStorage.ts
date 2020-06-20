@@ -28,11 +28,12 @@ export class LocaleStorage {
                     throw new MissingFallbackLocaleError(namespaceName);
                 }
                 // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-                resolvedLocale[namespaceName as keyof Locale] = (deepmerge(
+                resolvedLocale[namespaceName as keyof Locale] = deepmerge(
                     {} as HasFields,
-                    fallbackNamespace,
-                    namespace
-                ) as unknown) as Locale[keyof Locale];
+                    fallbackNamespace as HasFields,
+                    namespace as HasFields
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                ) as any;
             }
             this.resolvedLocales.set(lang, resolvedLocale);
         }

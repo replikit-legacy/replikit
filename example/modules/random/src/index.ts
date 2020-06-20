@@ -3,6 +3,7 @@ import "@replikit/attachments";
 import "./locales/en";
 import "./locales/ru";
 
+import "./commands/calc";
 import "./commands/delete";
 import "./commands/test";
 import "./commands/edit";

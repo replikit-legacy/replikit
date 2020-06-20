@@ -291,7 +291,10 @@ export class CommandStorage {
         return this.commands.filter(byName(cmd));
     }
 
-    async process(context: MessageContext, next: NextHandler): Promise<void> {
+    async process(
+        context: MessageContext,
+        next: NextHandler
+    ): Promise<unknown> {
         if (!context.message.text) {
             return next();
         }
