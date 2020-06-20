@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 0.5.0 (2020-06-20)
+
+
+### Bug Fixes
+
+* **cli:** Add @types/node to generated package.json ([4787912](https://github.com/Exeteres/Replikit/commit/4787912620fd2e332728a687ae92f5563fd6f350))
+* **cli:** Add missing dependencies ([a5ba2c1](https://github.com/Exeteres/Replikit/commit/a5ba2c1f9ba83692b118655b519d58b14d85f76f))
+* **cli:** Fix "workspaces" section in generated package.json ([3dc4214](https://github.com/Exeteres/Replikit/commit/3dc4214a8f929afca7015d9cd3942276ec779c41))
+* **cli:** Fix configuration override ([1866a8a](https://github.com/Exeteres/Replikit/commit/1866a8a005055d4a375104964c3d01508ac56cef))
+
+
+### Features
+
+* **cli:** Add build command ([5c9dc57](https://github.com/Exeteres/Replikit/commit/5c9dc57b9ac2428f4970096dcfc6ae75b2e4dd27))
+* **cli:** Add scripts section and replikit as dev dependency to generated package.json ([2f5dd6f](https://github.com/Exeteres/Replikit/commit/2f5dd6f35f47f5fa50109b7155f56109b1ba3efc))
+
+
+
+
+
+
 # [0.4.0](https://github.com/Exeteres/Replikit/compare/v0.3.0...v0.4.0) (2020-06-19)
 
 

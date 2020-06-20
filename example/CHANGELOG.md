@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 0.5.0 (2020-06-20)
+
+
+### Features
+
+* **cli:** Add build command ([5c9dc57](https://github.com/Exeteres/Replikit/commit/5c9dc57b9ac2428f4970096dcfc6ae75b2e4dd27))
+* **commands:** Rename multiline parameter to text parameter and make it possible to work with a rest parameter or instead of it ([6b2338d](https://github.com/Exeteres/Replikit/commit/6b2338d88b2b5452eacf39b690b797d30a6bf81f))
+
+
+
+
+
+
 # [0.4.0](https://github.com/Exeteres/Replikit/compare/v0.3.0...v0.4.0) (2020-06-19)
 
 

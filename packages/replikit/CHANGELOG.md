@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 0.5.0 (2020-06-20)
+
+
+### Bug Fixes
+
+* **replikit:** Add bin section to package.json ([666ce78](https://github.com/Exeteres/Replikit/commit/666ce7866c37fb680f737663f04b358bf2b6ce3f))
+
+
+
+
+
+
 # [0.4.0](https://github.com/Exeteres/Replikit/compare/v0.3.0...v0.4.0) (2020-06-19)
 
 **Note:** Version bump only for package replikit

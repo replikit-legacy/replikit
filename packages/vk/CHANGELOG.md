@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 0.5.0 (2020-06-20)
+
+
+### Features
+
+* **commands:** Rename multiline parameter to text parameter and make it possible to work with a rest parameter or instead of it ([6b2338d](https://github.com/Exeteres/Replikit/commit/6b2338d88b2b5452eacf39b690b797d30a6bf81f))
+
+
+
+
+
+
 # [0.4.0](https://github.com/Exeteres/Replikit/compare/v0.3.0...v0.4.0) (2020-06-19)
 
 **Note:** Version bump only for package @replikit/vk

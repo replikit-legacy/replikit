@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 0.5.0 (2020-06-20)
+
+
+### Bug Fixes
+
+* **i18n:** Fix invalid ru pluralization ([1ee3de9](https://github.com/Exeteres/Replikit/commit/1ee3de99923b1321ceb87af0eb8c1a3cb7884df5))
+
+
+### Features
+
+* **cli:** Add build command ([5c9dc57](https://github.com/Exeteres/Replikit/commit/5c9dc57b9ac2428f4970096dcfc6ae75b2e4dd27))
+
+
+
+
+
+
 # [0.4.0](https://github.com/Exeteres/Replikit/compare/v0.3.0...v0.4.0) (2020-06-19)
 
 
