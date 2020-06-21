@@ -22,6 +22,9 @@ const config: Configuration = {
     },
     cli: {
         tsconfig: "tsconfig.build.json"
+    },
+    help: {
+        defaultLocale: process.env.DEFAULT_LOCALE!
     }
 };
 
