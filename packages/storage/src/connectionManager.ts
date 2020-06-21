@@ -73,7 +73,10 @@ export class ConnectionManager {
             constructor,
             options
         );
-        this.repositoryMap.set(constructor, repository);
+        this.repositoryMap.set(
+            constructor,
+            (repository as unknown) as Repository<Entity>
+        );
         return repository;
     }
 

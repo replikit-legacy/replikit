@@ -31,14 +31,14 @@ export class Repository<T extends Entity = Entity> {
     }
 
     async delete(entity: T): Promise<void> {
-        await this.collection.deleteOne({
+        await this.collection.deleteOne(({
             _id: entity._id
-        } as PlainObject<T>);
+        } as unknown) as PlainObject<T>);
     }
 
     async save(entity: T): Promise<void> {
         type Value = OptionalId<PlainObject<T>>;
-        const value = classToPlain(entity) as PlainObject<T>;
+        const value = classToPlain(entity) as Entity;
         if (!entity._id) {
             if (this.options.autoIncrement) {
                 const name = this.collection.collectionName;
@@ -51,7 +51,7 @@ export class Repository<T extends Entity = Entity> {
 
         await this.collection.replaceOne(
             ({ _id: entity._id } as unknown) as PlainObject<T>,
-            value
+            (value as unknown) as PlainObject<T>
         );
     }
 
