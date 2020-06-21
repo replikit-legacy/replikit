@@ -1,5 +1,3 @@
-import { SafeFunction } from "@replikit/core/typings";
-
 // https://stackoverflow.com/a/60864781/10502674
 type _IfEquals<X, Y, T> = (<T>() => T extends X ? 1 : 2) extends <
     T
@@ -9,7 +7,8 @@ type _IfEquals<X, Y, T> = (<T>() => T extends X ? 1 : 2) extends <
 
 type _PlainObjectKeys<T> = {
     [P in keyof T]: _IfEquals<
-        { [Q in P]: T[P] extends SafeFunction ? never : T[P] },
+        // eslint-disable-next-line @typescript-eslint/ban-types
+        { [Q in P]: T[P] extends Function ? never : T[P] },
         { -readonly [Q in P]: T[P] },
         P
     >;

@@ -6,6 +6,7 @@
 
         "declaration": true,
         "noEmitOnError": true,
+        "stripInternal": true,
 
         "strict": true,
         "strictPropertyInitialization": false,

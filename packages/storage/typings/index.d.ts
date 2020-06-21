@@ -9,6 +9,7 @@ export * from "./entities/channel";
 export * from "./channelParameterOptions";
 export * from "./repositoryOptions";
 export * from "./plainObject";
+export * from "./safeCursor";
 export * from "./storageConfiguration";
 export * from "./collectionMap";
 export * from "./storageLocale";

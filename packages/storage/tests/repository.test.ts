@@ -25,4 +25,15 @@ describe("Repository", () => {
         const entity = repository.create();
         expect(entity.username).toBe("test");
     });
+
+    it("should get entities by QueryBuilder", async () => {
+        const repository = testManager.connection.getRepository(User);
+        await repository.collection.insertOne({ username: "test" } as User);
+
+        const result = await repository.query(q => {
+            return q.filter({ username: "test" });
+        });
+        expect(result).toHaveLength(1);
+        expect(result[0].username).toBe("test");
+    });
 });

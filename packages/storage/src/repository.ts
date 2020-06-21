@@ -1,8 +1,16 @@
-import { Collection, OptionalId, FilterQuery } from "mongodb";
+import { Collection, OptionalId, FilterQuery, Cursor } from "mongodb";
 import { Constructor } from "@replikit/core/typings";
 import { plainToClass, classToPlain } from "class-transformer";
 import { Entity, ConnectionManager } from "@replikit/storage";
-import { PlainObject, RepositoryOptions } from "@replikit/storage/typings";
+import {
+    PlainObject,
+    RepositoryOptions,
+    SafeCursor
+} from "@replikit/storage/typings";
+
+export type QueryBuilder<T> = (
+    q: SafeCursor<PlainObject<T>>
+) => SafeCursor<PlainObject<T>>;
 
 export class Repository<T extends Entity = Entity> {
     private readonly defaults: Partial<T> = {};
@@ -25,9 +33,19 @@ export class Repository<T extends Entity = Entity> {
         return document ? this.createEntity(document) : undefined;
     }
 
-    async find(filter?: FilterQuery<PlainObject<T>>): Promise<T[]> {
+    async findMany(filter?: FilterQuery<PlainObject<T>>): Promise<T[]> {
         const documents = await this.collection.find(filter).toArray();
         return this.createEntities(documents);
+    }
+
+    async fetchEntities(cursor: Cursor<PlainObject<T>>): Promise<T[]> {
+        const documents = await cursor.toArray();
+        return this.createEntities(documents);
+    }
+
+    async query(builder: QueryBuilder<T>): Promise<T[]> {
+        const cursor = this.collection.find();
+        return this.fetchEntities(builder(cursor));
     }
 
     async delete(entity: T): Promise<void> {
@@ -51,11 +69,12 @@ export class Repository<T extends Entity = Entity> {
 
         await this.collection.replaceOne(
             ({ _id: entity._id } as unknown) as PlainObject<T>,
-            (value as unknown) as PlainObject<T>
+            (value as unknown) as PlainObject<T>,
+            { upsert: true }
         );
     }
 
-    protected createEntities(documents: PlainObject<T>[]): T[] {
+    createEntities(documents: PlainObject<T>[]): T[] {
         // eslint-disable-next-line @typescript-eslint/unbound-method
         return documents.map(this.createEntity);
     }

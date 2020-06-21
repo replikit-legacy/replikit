@@ -37,7 +37,7 @@ describe("storage", () => {
         const user = repository.create({ username: "test" });
         await user.save();
 
-        const users = await repository.find();
+        const users = await repository.findMany();
         expect(users).toHaveLength(1);
         expect(users[0].username).toBe("test");
     });

@@ -9,6 +9,7 @@ export class HasPermissions<T extends TypeName = TypeName> {
     roles: RoleName<T>[];
     permissions: PermissionName<T>[];
 
+    /** @internal */
     permissionStorage?: PermissionStorage;
 
     hasRole(role: RoleName<T>): boolean {
