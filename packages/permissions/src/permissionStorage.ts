@@ -43,6 +43,16 @@ export class PermissionStorage {
     private readonly roles: RoleInfo[] = [];
     private readonly permissionMap = new Map<TypeName, unknown[]>();
 
+    getPermissionNames(type: TypeName): string[] {
+        return (this.permissionMap.get(type) as string[]) ?? [];
+    }
+
+    getRoleNames(type: TypeName): string[] {
+        return this.roles
+            .filter(x => x.type === type)
+            .map(x => x.name as string);
+    }
+
     addPermissions<T extends TypeName>(
         type: T,
         permissions: PermissionName<T>[]

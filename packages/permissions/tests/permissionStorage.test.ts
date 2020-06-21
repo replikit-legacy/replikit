@@ -62,4 +62,20 @@ describe("PermissionStorage", () => {
 
         expect(storage).toMatchSnapshot();
     });
+
+    it("should get the list of permission names by type", () => {
+        const storage = new PermissionStorage();
+        storage.addPermissions("user", ["test"]);
+
+        const result = storage.getPermissionNames("user");
+        expect(result).toStrictEqual(["test"]);
+    });
+
+    it("should get the list of role names by type", () => {
+        const storage = new PermissionStorage();
+        storage.updateRole("user", "Admin");
+
+        const result = storage.getRoleNames("user");
+        expect(result).toStrictEqual(["Admin"]);
+    });
 });
