@@ -2,13 +2,13 @@ import { Router, MessageContext, contextFactories } from "@replikit/router";
 import { InMessage } from "@replikit/core/typings";
 
 describe("router", () => {
-    it("should ignore event without handlers", () => {
+    it("should ignore event without handlers", async () => {
         const router = new Router(contextFactories);
 
-        router.process({ type: "message:received", payload: undefined! });
+        await router.process({ type: "message:received", payload: undefined! });
     });
 
-    it("should process event with multiple handlers", () => {
+    it("should process event with multiple handlers", async () => {
         const router = new Router(contextFactories);
 
         router.of("message:received").use((context, next) => {
@@ -21,7 +21,7 @@ describe("router", () => {
             expect(context.message.text).toBe("Test1");
         });
 
-        router.process({
+        await router.process({
             type: "message:received",
             payload: {
                 message: { text: "Test" } as InMessage

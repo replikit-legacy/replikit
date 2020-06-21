@@ -5,7 +5,7 @@
     "license": "MIT",
     "private": true,
     "scripts": {
-        "lint": "eslint \"{packages,example/modules}/*/{src,typings}/**/*.ts\" --max-warnings=0",
+        "lint": "eslint \"{packages,example/modules}/*/{src,tests,typings}/**/*.ts\" --max-warnings=0",
         "test": "jest",
         "test:coverage": "jest --coverage",
         "test:watch": "jest --watch",

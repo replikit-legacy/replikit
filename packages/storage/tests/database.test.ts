@@ -60,7 +60,7 @@ describe("storage", () => {
         expect(user.username).toBe("test");
 
         user.username = "another";
-        user.save();
+        await user.save();
 
         const anotherUser = (await repository.findOne({ _id: 1 }))!;
         expect(anotherUser.username).toBe("another");
