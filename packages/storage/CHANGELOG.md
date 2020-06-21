@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.6.0](https://github.com/Exeteres/Replikit/compare/v0.5.3...v0.6.0) (2020-06-21)
+
+
+### Bug Fixes
+
+* **storage:** Fix PlainObject type ([a526999](https://github.com/Exeteres/Replikit/commit/a526999ed51c20beb848fc3ef0cc77f472af13ea))
+* Fix typings ([315e2b1](https://github.com/Exeteres/Replikit/commit/315e2b1fedab922dd3e63851f33de64856a8d863))
+
+
+### Features
+
+* **storage:** Add more useful methods ([63e5125](https://github.com/Exeteres/Replikit/commit/63e512520c0d1092ac175af3c9be14b05a4051ae))
+
+
+
+
+
 ## [0.5.3](https://github.com/Exeteres/Replikit/compare/v0.5.2...v0.5.3) (2020-06-20)
 
 **Note:** Version bump only for package @replikit/storage
