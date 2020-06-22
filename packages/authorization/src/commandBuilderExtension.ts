@@ -6,6 +6,7 @@ import {
 } from "@replikit/permissions/typings";
 import { FallbackStrategy, Channel } from "@replikit/storage";
 import { ChannelParameterOptions } from "@replikit/storage/typings";
+import { fromCode } from "@replikit/messages";
 
 @Extension
 export class CommandBuilderExtension extends CommandBuilder {
@@ -15,7 +16,9 @@ export class CommandBuilderExtension extends CommandBuilder {
             async (context, next) => {
                 const user = await context.getUser(FallbackStrategy.Undefined);
                 if (!user || !user.hasPermission(permission)) {
-                    await context.reply(context.t.authorization.accessDenied);
+                    await context.reply(
+                        fromCode(context.t.authorization.accessDenied)
+                    );
                     return;
                 }
                 return next();
@@ -23,7 +26,7 @@ export class CommandBuilderExtension extends CommandBuilder {
         );
     }
 
-    channel(name?: string): this {
+    channel(name?: string): never {
         const resolvedName = name ?? "channel";
         this.optional(resolvedName, Channel, { currentAsDefault: true });
         this.use(MiddlewareStage.AfterResolution, async (context, next) => {
@@ -33,14 +36,16 @@ export class CommandBuilderExtension extends CommandBuilder {
                 );
                 if (!channel) {
                     // TODO Expose replyParameterError from commandStorage handler and use here
-                    await context.reply(context.t.storage.channelNotFound);
+                    await context.reply(
+                        fromCode(context.t.storage.channelNotFound)
+                    );
                     return;
                 }
                 context.params[resolvedName] = channel;
             }
             return next();
         });
-        return this;
+        return this as never;
     }
 
     authorizeMember(permission: MemberPermissionName): this {
@@ -60,7 +65,7 @@ export class CommandBuilderExtension extends CommandBuilder {
                     );
                     if (!member || !member.hasPermission(permission)) {
                         await context.reply(
-                            context.t.authorization.accessDenied
+                            fromCode(context.t.authorization.accessDenied)
                         );
                         return;
                     }
@@ -74,7 +79,9 @@ export class CommandBuilderExtension extends CommandBuilder {
             if (channel.controller === context.controller.name) {
                 const member = await context.getChannelMember(channel.localId);
                 if (!member || !member.hasPermission(permission)) {
-                    await context.reply(context.t.authorization.accessDenied);
+                    await context.reply(
+                        fromCode(context.t.authorization.accessDenied)
+                    );
                     return;
                 }
                 return next();
@@ -86,7 +93,9 @@ export class CommandBuilderExtension extends CommandBuilder {
                 channel.localId
             );
             if (!member || !member.hasPermission(permission)) {
-                await context.reply(context.t.authorization.accessDenied);
+                await context.reply(
+                    fromCode(context.t.authorization.accessDenied)
+                );
                 return;
             }
             return next();
