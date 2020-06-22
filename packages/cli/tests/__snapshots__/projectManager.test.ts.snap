@@ -5,9 +5,6 @@ exports[`ProjectManager should add a module to the project with logger: /modules
     \\"name\\": \\"@test-project/test-module\\",
     \\"version\\": \\"0.0.0\\",
     \\"license\\": \\"MIT\\",
-    \\"scripts\\": {
-        \\"dev\\": \\"replikit dev\\"
-    },
     \\"dependencies\\": {
         \\"@replikit/test\\": \\"0.0.0\\"
     }
@@ -33,10 +30,11 @@ exports[`ProjectManager should add a module to the project with logger: /package
     \\"name\\": \\"test-project\\",
     \\"version\\": \\"0.0.0\\",
     \\"license\\": \\"MIT\\",
-    \\"scripts\\": {
-        \\"dev\\": \\"replikit dev\\"
-    },
     \\"private\\": true,
+    \\"scripts\\": {
+        \\"dev\\": \\"replikit dev\\",
+        \\"build\\": \\"replikit build\\"
+    },
     \\"dependencies\\": {
         \\"@replikit/static\\": \\"0.0.0\\"
     },
@@ -63,7 +61,7 @@ export default config;
 exports[`ProjectManager should add a module to the project with logger: /tsconfig.json 1`] = `
 "{
     \\"compilerOptions\\": {
-        \\"target\\": \\"esnext\\",
+        \\"target\\": \\"es2019\\",
         \\"module\\": \\"commonjs\\",
         \\"moduleResolution\\": \\"node\\",
         \\"baseUrl\\": \\"modules\\",
@@ -72,7 +70,7 @@ exports[`ProjectManager should add a module to the project with logger: /tsconfi
             \\"@test-project/*\\": [
                 \\"*/src\\"
             ],
-            \\"@test-project/typings/*\\": [
+            \\"@test-project/*/typings\\": [
                 \\"*/typings\\"
             ]
         }
@@ -90,9 +88,6 @@ exports[`ProjectManager should add a module to the project without logger: /modu
     \\"name\\": \\"@test-project/test-module\\",
     \\"version\\": \\"0.0.0\\",
     \\"license\\": \\"MIT\\",
-    \\"scripts\\": {
-        \\"dev\\": \\"replikit dev\\"
-    },
     \\"dependencies\\": {
         \\"@replikit/test\\": \\"0.0.0\\"
     }
@@ -107,10 +102,11 @@ exports[`ProjectManager should add a module to the project without logger: /pack
     \\"name\\": \\"test-project\\",
     \\"version\\": \\"0.0.0\\",
     \\"license\\": \\"MIT\\",
-    \\"scripts\\": {
-        \\"dev\\": \\"replikit dev\\"
-    },
     \\"private\\": true,
+    \\"scripts\\": {
+        \\"dev\\": \\"replikit dev\\",
+        \\"build\\": \\"replikit build\\"
+    },
     \\"dependencies\\": {
         \\"@replikit/static\\": \\"0.0.0\\"
     },
@@ -137,7 +133,7 @@ export default config;
 exports[`ProjectManager should add a module to the project without logger: /tsconfig.json 1`] = `
 "{
     \\"compilerOptions\\": {
-        \\"target\\": \\"esnext\\",
+        \\"target\\": \\"es2019\\",
         \\"module\\": \\"commonjs\\",
         \\"moduleResolution\\": \\"node\\",
         \\"baseUrl\\": \\"modules\\",
@@ -146,7 +142,7 @@ exports[`ProjectManager should add a module to the project without logger: /tsco
             \\"@test-project/*\\": [
                 \\"*/src\\"
             ],
-            \\"@test-project/typings/*\\": [
+            \\"@test-project/*/typings\\": [
                 \\"*/typings\\"
             ]
         }
@@ -172,10 +168,11 @@ exports[`ProjectManager should generate npm project: /package.json 1`] = `
     \\"name\\": \\"test-project\\",
     \\"version\\": \\"0.0.0\\",
     \\"license\\": \\"MIT\\",
-    \\"scripts\\": {
-        \\"dev\\": \\"replikit dev\\"
-    },
     \\"private\\": true,
+    \\"scripts\\": {
+        \\"dev\\": \\"replikit dev\\",
+        \\"build\\": \\"replikit build\\"
+    },
     \\"dependencies\\": {
         \\"@replikit/static\\": \\"0.0.0\\"
     },
@@ -202,7 +199,7 @@ export default config;
 exports[`ProjectManager should generate npm project: /tsconfig.json 1`] = `
 "{
     \\"compilerOptions\\": {
-        \\"target\\": \\"esnext\\",
+        \\"target\\": \\"es2019\\",
         \\"module\\": \\"commonjs\\",
         \\"moduleResolution\\": \\"node\\",
         \\"baseUrl\\": \\"modules\\",
@@ -211,7 +208,7 @@ exports[`ProjectManager should generate npm project: /tsconfig.json 1`] = `
             \\"@test-project/*\\": [
                 \\"*/src\\"
             ],
-            \\"@test-project/typings/*\\": [
+            \\"@test-project/*/typings\\": [
                 \\"*/typings\\"
             ]
         }
@@ -229,10 +226,11 @@ exports[`ProjectManager should generate yarn project: /package.json 1`] = `
     \\"name\\": \\"test-project\\",
     \\"version\\": \\"0.0.0\\",
     \\"license\\": \\"MIT\\",
-    \\"scripts\\": {
-        \\"dev\\": \\"replikit dev\\"
-    },
     \\"private\\": true,
+    \\"scripts\\": {
+        \\"dev\\": \\"replikit dev\\",
+        \\"build\\": \\"replikit build\\"
+    },
     \\"workspaces\\": [
         \\"modules/*\\"
     ],
@@ -261,7 +259,7 @@ export default config;
 exports[`ProjectManager should generate yarn project: /tsconfig.json 1`] = `
 "{
     \\"compilerOptions\\": {
-        \\"target\\": \\"esnext\\",
+        \\"target\\": \\"es2019\\",
         \\"module\\": \\"commonjs\\",
         \\"moduleResolution\\": \\"node\\",
         \\"baseUrl\\": \\"modules\\",
@@ -270,7 +268,7 @@ exports[`ProjectManager should generate yarn project: /tsconfig.json 1`] = `
             \\"@test-project/*\\": [
                 \\"*/src\\"
             ],
-            \\"@test-project/typings/*\\": [
+            \\"@test-project/*/typings\\": [
                 \\"*/typings\\"
             ]
         }
@@ -297,10 +295,11 @@ exports[`ProjectManager should generate yarn-lerna project: /package.json 1`] = 
     \\"name\\": \\"test-project\\",
     \\"version\\": \\"0.0.0\\",
     \\"license\\": \\"MIT\\",
-    \\"scripts\\": {
-        \\"dev\\": \\"replikit dev\\"
-    },
     \\"private\\": true,
+    \\"scripts\\": {
+        \\"dev\\": \\"replikit dev\\",
+        \\"build\\": \\"replikit build\\"
+    },
     \\"workspaces\\": [
         \\"modules/*\\"
     ],
@@ -330,7 +329,7 @@ export default config;
 exports[`ProjectManager should generate yarn-lerna project: /tsconfig.json 1`] = `
 "{
     \\"compilerOptions\\": {
-        \\"target\\": \\"esnext\\",
+        \\"target\\": \\"es2019\\",
         \\"module\\": \\"commonjs\\",
         \\"moduleResolution\\": \\"node\\",
         \\"baseUrl\\": \\"modules\\",
@@ -339,7 +338,7 @@ exports[`ProjectManager should generate yarn-lerna project: /tsconfig.json 1`] =
             \\"@test-project/*\\": [
                 \\"*/src\\"
             ],
-            \\"@test-project/typings/*\\": [
+            \\"@test-project/*/typings\\": [
                 \\"*/typings\\"
             ]
         }

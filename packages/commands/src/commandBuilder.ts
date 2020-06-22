@@ -20,7 +20,7 @@ import {
 } from "@replikit/commands";
 import { Constructor, HasFields } from "@replikit/core/typings";
 
-type NormalizeType<T> = T extends (infer U)[]
+export type NormalizeType<T> = T extends (infer U)[]
     ? NormalizeType<U>[]
     : T extends Number
     ? number
@@ -30,15 +30,15 @@ type NormalizeType<T> = T extends (infer U)[]
     ? boolean
     : T;
 
-type Required<N extends string, T> = { [_ in N]: NormalizeType<T> };
-type Optional<N extends string, T> = { [_ in N]?: NormalizeType<T> };
+export type Required<N extends string, T> = { [_ in N]: NormalizeType<T> };
+export type Optional<N extends string, T> = { [_ in N]?: NormalizeType<T> };
 
-type AddRequired<C, P, N extends string, T> = CommandBuilder<
+export type AddRequired<C, P, N extends string, T> = CommandBuilder<
     C,
     P & Required<N, T>
 >;
 
-type AddOptional<C, P, N extends string, T> = CommandBuilder<
+export type AddOptional<C, P, N extends string, T> = CommandBuilder<
     C,
     P & Optional<N, T>
 >;

@@ -27,13 +27,14 @@ export abstract class PMController {
         this.config = {
             name,
             version: "0.0.0",
-            license: "MIT",
-            scripts: {
-                dev: "replikit dev"
-            }
+            license: "MIT"
         };
         if (isRoot) {
             this.config.private = true;
+            this.config.scripts = {
+                dev: "replikit dev",
+                build: "replikit build"
+            };
         }
     }
 

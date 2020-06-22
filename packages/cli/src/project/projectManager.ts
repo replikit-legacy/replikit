@@ -58,14 +58,14 @@ export class ProjectManager {
         const tsconfigPath = resolve(this.root, "tsconfig.json");
         const tsconfig = {
             compilerOptions: {
-                target: "esnext",
+                target: "es2019",
                 module: "commonjs",
                 moduleResolution: "node",
                 baseUrl: "modules",
                 strict: true,
                 paths: {
                     [`@${this.name}/*`]: ["*/src"],
-                    [`@${this.name}/typings/*`]: ["*/typings"]
+                    [`@${this.name}/*/typings`]: ["*/typings"]
                 }
             },
             include: ["replikit.config.ts", "modules/**/*.ts"]
