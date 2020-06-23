@@ -1,5 +1,5 @@
 import { HelpMessage } from "@replikit/help/typings";
-import { deepmerge, config } from "@replikit/core";
+import { deepmerge, config, groupBy } from "@replikit/core";
 import { Command } from "@replikit/commands/typings";
 import {
     InvalidCommandDescriptionError,
@@ -18,12 +18,21 @@ export class DescriptionStorage {
         this.descriptionMap.set(locale, descriptions);
     }
 
+    private renderOverloads(
+        description: string | HelpMessage,
+        overloads: Command[]
+    ) {
+        if (typeof description !== "string") {
+            throw new InvalidCommandDescriptionError();
+        }
+
+        return [`# ${description}`, ...overloads.map(x => x.usage!)].join("\n");
+    }
+
     private renderCommand(
-        descriptions: HelpMessage,
+        description: HelpMessage | string,
         command: Command
     ): string | undefined {
-        const description = descriptions[command.name];
-
         if (!description) {
             return undefined;
         }
@@ -39,8 +48,15 @@ export class DescriptionStorage {
             throw new InvalidCommandDescriptionError();
         }
 
-        return command.commands
-            .map(this.renderCommand.bind(this, description))
+        const groups = groupBy(command.commands, "name");
+
+        return groups
+            .map(group =>
+                group.value.length === 1
+                    ? this.renderCommand(description[group.key], group.value[0])
+                    : this.renderOverloads(description[group.key], group.value)
+            )
+            .filter(x => x)
             .join("\n");
     }
 
@@ -53,10 +69,7 @@ export class DescriptionStorage {
             throw new DefaultLocaleNotFoundError(config.help.defaultLocale);
         }
 
-        return commands
-            .map(this.renderCommand.bind(this, description))
-            .filter(x => x)
-            .join("\n");
+        return this.renderCommand(description, { commands } as Command) ?? "";
     }
 }
 

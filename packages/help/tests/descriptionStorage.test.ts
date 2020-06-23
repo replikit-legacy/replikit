@@ -47,6 +47,27 @@ describe("DescriptionStorage", () => {
         expect(message).toMatchSnapshot();
     });
 
+    it("should render a help message with overloaded command", () => {
+        const descriptionStorage = new DescriptionStorage();
+        descriptionStorage.add("en", { test: "Test" });
+
+        const commands = new CommandStorage();
+        commands.register(
+            command("test")
+                .handler(() => void 0)
+                .build()
+        );
+        commands.register(
+            command("test")
+                .required("test", Number)
+                .handler(() => void 0)
+                .build()
+        );
+
+        const message = descriptionStorage.render(commands.getCommands(), "en");
+        expect(message).toMatchSnapshot();
+    });
+
     it("should throw an error when render an invalid structure 1", () => {
         const descriptionStorage = new DescriptionStorage();
         descriptionStorage.add("en", {

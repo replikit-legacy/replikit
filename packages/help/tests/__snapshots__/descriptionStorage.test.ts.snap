@@ -22,3 +22,9 @@ exports[`DescriptionStorage should render a help message with multiple commands 
 /calc diff {a} {b}
 "
 `;
+
+exports[`DescriptionStorage should render a help message with overloaded command 1`] = `
+"# Test
+/test
+/test {test}"
+`;
