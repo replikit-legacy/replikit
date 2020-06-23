@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.7.0](https://github.com/Exeteres/Replikit/compare/v0.6.0...v0.7.0) (2020-06-23)
+
+
+### Bug Fixes
+
+* **authorization:** Fix extension typings and accessDenied message formatting ([fc28542](https://github.com/Exeteres/Replikit/commit/fc28542dcb84f82d20a4552ad31b6b89fb0b9ec7))
+* **cli:** Fix generated package.json and tsconfig ([83854b5](https://github.com/Exeteres/Replikit/commit/83854b53c86f691613f42218a8f321270ad22f93))
+* **permissions:** Fix missing storage defaults ([6e6ca9d](https://github.com/Exeteres/Replikit/commit/6e6ca9dd77267a198ebd66a019e601c508dabbcb))
+
+
+### Features
+
+* **help:** Add support for overloaded commands ([cc6b99b](https://github.com/Exeteres/Replikit/commit/cc6b99bd8a2c1ef12a791d5bb5c87269b292b83e))
+* **storage:** Add embedded entities ([2c6a68b](https://github.com/Exeteres/Replikit/commit/2c6a68b969da555742021defbde9487d6857175e))
+
+
+
+
+
 # [0.6.0](https://github.com/Exeteres/Replikit/compare/v0.5.3...v0.6.0) (2020-06-21)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.7.0](https://github.com/Exeteres/Replikit/compare/v0.6.0...v0.7.0) (2020-06-23)
+
+
+### Features
+
+* **help:** Add support for overloaded commands ([cc6b99b](https://github.com/Exeteres/Replikit/commit/cc6b99bd8a2c1ef12a791d5bb5c87269b292b83e))
+
+
+
+
+
 # [0.6.0](https://github.com/Exeteres/Replikit/compare/v0.5.3...v0.6.0) (2020-06-21)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.7.0](https://github.com/Exeteres/Replikit/compare/v0.6.0...v0.7.0) (2020-06-23)
+
+
+### Bug Fixes
+
+* **authorization:** Fix extension typings and accessDenied message formatting ([fc28542](https://github.com/Exeteres/Replikit/commit/fc28542dcb84f82d20a4552ad31b6b89fb0b9ec7))
+
+
+
+
+
 # [0.6.0](https://github.com/Exeteres/Replikit/compare/v0.5.3...v0.6.0) (2020-06-21)
 
 

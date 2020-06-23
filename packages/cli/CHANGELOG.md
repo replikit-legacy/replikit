@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.7.0](https://github.com/Exeteres/Replikit/compare/v0.6.0...v0.7.0) (2020-06-23)
+
+
+### Bug Fixes
+
+* **cli:** Fix generated package.json and tsconfig ([83854b5](https://github.com/Exeteres/Replikit/commit/83854b53c86f691613f42218a8f321270ad22f93))
+
+
+
+
+
 # [0.6.0](https://github.com/Exeteres/Replikit/compare/v0.5.3...v0.6.0) (2020-06-21)
 
 **Note:** Version bump only for package @replikit/cli
