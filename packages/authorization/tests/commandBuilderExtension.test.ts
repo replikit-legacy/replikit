@@ -13,6 +13,7 @@ import {
 } from "@replikit/storage";
 import { UserPermissionName } from "@replikit/permissions/typings";
 import { fromText } from "@replikit/messages";
+import { PlainObject } from "@replikit/storage/typings";
 
 let dbTestManager: DatabaseTestManager;
 
@@ -42,12 +43,12 @@ async function insertUser(
     permissions: UserPermissionName[]
 ): Promise<void> {
     const collection = dbTestManager.connection.getCollection(User);
-    await collection.insertOne({
+    await collection.insertOne(({
         username: "test",
         permissions,
         roles: [],
         accounts: [{ controller: "test", localId: id }]
-    });
+    } as unknown) as PlainObject<User>);
 }
 
 async function insertMember(
@@ -156,14 +157,16 @@ describe("CommandBuilderExtension", () => {
         const { testManager, command } = createExtensionTestManager();
 
         const users = dbTestManager.connection.getCollection(User);
-        await users.insertOne(({
+        await users.insertOne({
+            _id: 0,
+            username: "test",
             permissions: [],
             roles: [],
             accounts: [
                 { controller: "test", localId: 1 },
                 { controller: "another", localId: 2 }
             ]
-        } as unknown) as User);
+        });
 
         await insertChannel(2, "another");
         await insertMember(2, ["test1"], 2, "another");

@@ -14,12 +14,20 @@ type _PlainObjectKeys<T> = {
     >;
 }[keyof T];
 
-export type PlainObject<T> = {
-    [K in keyof Pick<T, _PlainObjectKeys<T>>]: T[K] extends unknown
-        ? unknown
-        : T[K] extends (infer U)[]
-        ? PlainObject<U>[]
+type Equals<X, Y> = (<T>() => T extends X ? 1 : 2) extends <T>() => T extends Y
+    ? 1
+    : 2
+    ? true
+    : false;
+
+export type PlainObject<T extends object> = {
+    [K in keyof Pick<T, _PlainObjectKeys<T>>]: T[K] extends (infer U)[]
+        ? U extends object
+            ? PlainObject<U>[]
+            : U[]
         : T[K] extends object
         ? PlainObject<T[K]>
         : T[K];
 };
+
+type a = PlainObject<{ test: unknown[] }>;
