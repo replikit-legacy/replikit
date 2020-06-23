@@ -15,7 +15,9 @@ type _PlainObjectKeys<T> = {
 }[keyof T];
 
 export type PlainObject<T> = {
-    [K in keyof Pick<T, _PlainObjectKeys<T>>]: T[K] extends (infer U)[]
+    [K in keyof Pick<T, _PlainObjectKeys<T>>]: T[K] extends unknown
+        ? unknown
+        : T[K] extends (infer U)[]
         ? PlainObject<U>[]
         : T[K] extends object
         ? PlainObject<T[K]>

@@ -8,7 +8,6 @@ import { MessageContext } from "@replikit/router";
 import {
     AccountContextExtension,
     User,
-    Account,
     Member,
     Channel
 } from "@replikit/storage";
@@ -43,11 +42,12 @@ async function insertUser(
     permissions: UserPermissionName[]
 ): Promise<void> {
     const collection = dbTestManager.connection.getCollection(User);
-    await collection.insertOne(({
+    await collection.insertOne({
+        username: "test",
         permissions,
         roles: [],
-        accounts: [{ controller: "test", localId: id } as Account]
-    } as unknown) as User);
+        accounts: [{ controller: "test", localId: id }]
+    });
 }
 
 async function insertMember(
