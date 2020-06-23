@@ -1,11 +1,6 @@
 import { DatabaseTestManager } from "@replikit/test-utils";
-import {
-    User,
-    UnlinkedEntityError,
-    Member,
-    Channel,
-    Account
-} from "@replikit/storage";
+import { User, UnlinkedEntityError, Member, Channel } from "@replikit/storage";
+import { PlainObject } from "@replikit/storage/typings";
 
 let testManager: DatabaseTestManager;
 
@@ -21,11 +16,11 @@ afterEach(() => {
 describe("storage", () => {
     it("should write and read a document using collection", async () => {
         const collection = testManager.connection.getCollection(User);
-        await collection.insertOne({
+        await collection.insertOne(({
             _id: 1,
             username: "test",
-            accounts: [] as Account[]
-        } as User);
+            accounts: []
+        } as unknown) as PlainObject<User>);
 
         const user = await collection.findOne({ _id: 1 });
         expect(user).toBeDefined();
@@ -50,11 +45,11 @@ describe("storage", () => {
 
     it("should update an existing document by save method", async () => {
         const repository = testManager.connection.getRepository(User);
-        await repository.collection.insertOne({
+        await repository.collection.insertOne(({
             _id: 1,
             username: "test",
-            accounts: [] as Account[]
-        } as User);
+            accounts: []
+        } as unknown) as PlainObject<User>);
 
         const user = (await repository.findOne({ _id: 1 }))!;
         expect(user.username).toBe("test");
@@ -67,11 +62,11 @@ describe("storage", () => {
     });
 
     it("should get the user using member entity", async () => {
-        await testManager.connection.getCollection(User).insertOne({
+        await testManager.connection.getCollection(User).insertOne(({
             _id: 1,
             username: "test",
-            accounts: [{ localId: 1, controller: "test" } as Account]
-        } as User);
+            accounts: [{ localId: 1, controller: "test" }]
+        } as unknown) as PlainObject<User>);
 
         const repository = testManager.connection.getRepository(Member);
         const member = repository.create({

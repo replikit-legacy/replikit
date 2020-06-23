@@ -12,12 +12,14 @@ export * from "./connectionManager";
 export * from "./entities/local";
 export * from "./entities/channel";
 export * from "./entities/member";
+export * from "./entities/embeddedEntity";
 export * from "./entities/account";
 export * from "./entities/user";
 
 export * from "./extensions/channelContextExtension";
 export * from "./extensions/accountContextExtension";
 
+export * from "./decorators";
 export * from "./converters";
 
 import "./locales/en";

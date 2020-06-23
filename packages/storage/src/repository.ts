@@ -1,5 +1,5 @@
 import { Collection, OptionalId, FilterQuery, Cursor } from "mongodb";
-import { Constructor } from "@replikit/core/typings";
+import { Constructor, HasFields } from "@replikit/core/typings";
 import { plainToClass, classToPlain } from "class-transformer";
 import { Entity, ConnectionManager } from "@replikit/storage";
 import {
@@ -51,7 +51,7 @@ export class Repository<T extends Entity = Entity> {
     async delete(entity: T): Promise<void> {
         await this.collection.deleteOne(({
             _id: entity._id
-        } as unknown) as PlainObject<T>);
+        } as unknown) as FilterQuery<PlainObject<T>>);
     }
 
     async save(entity: T): Promise<void> {
@@ -68,7 +68,7 @@ export class Repository<T extends Entity = Entity> {
         }
 
         await this.collection.replaceOne(
-            ({ _id: entity._id } as unknown) as PlainObject<T>,
+            ({ _id: entity._id } as unknown) as FilterQuery<PlainObject<T>>,
             (value as unknown) as PlainObject<T>,
             { upsert: true }
         );
@@ -85,8 +85,11 @@ export class Repository<T extends Entity = Entity> {
 
     createEntity(document: PlainObject<T>): T {
         const plain = Object.assign({}, this.defaults, document);
-        const entity = plainToClass(this.ctr, plain);
-        entity["repository"] = (this as unknown) as Repository;
+        (plain as HasFields).__repository = this;
+        const entity = plainToClass(this.ctr, plain, {
+            excludePrefixes: ["__"]
+        });
+        (entity as HasFields).repository = this;
         return entity;
     }
 
