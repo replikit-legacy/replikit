@@ -26,3 +26,6 @@ export type PermissionName<
 
 export type UserPermissionName = PermissionName<"user">;
 export type MemberPermissionName = PermissionName<"member">;
+
+export type UserRoleName = RoleName<"user">;
+export type MemberRoleName = RoleName<"member">;
