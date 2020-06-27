@@ -21,7 +21,9 @@ type Equals<X, Y> = (<T>() => T extends X ? 1 : 2) extends <T>() => T extends Y
     : false;
 
 export type PlainObject<T extends object> = {
-    [K in keyof Pick<T, _PlainObjectKeys<T>>]: T[K] extends (infer U)[]
+    [K in keyof Pick<T, _PlainObjectKeys<T>>]: T[K] extends Date
+        ? T[K]
+        : T[K] extends (infer U)[]
         ? U extends object
             ? PlainObject<U>[]
             : U[]
