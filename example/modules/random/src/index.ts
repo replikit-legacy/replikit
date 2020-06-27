@@ -9,6 +9,7 @@ import "./commands/test";
 import "./commands/edit";
 import "./commands/tokenize";
 import "./commands/format";
+import "./commands/echo";
 
 import "./handlers/silence";
 import "./handlers/debug";
