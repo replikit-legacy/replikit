@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.8.0](https://github.com/Exeteres/Replikit/compare/v0.7.2...v0.8.0) (2020-06-27)
+
+
+### Features
+
+* **messages:** Add MessageBuilder methods for working with replies ([015e3f2](https://github.com/Exeteres/Replikit/commit/015e3f23b3f166b46aecb2b98f6f447661b8576d))
+
+
+
+
+
 ## [0.7.2](https://github.com/Exeteres/Replikit/compare/v0.7.1...v0.7.2) (2020-06-23)
 
 **Note:** Version bump only for package @replikit/messages

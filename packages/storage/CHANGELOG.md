@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.8.0](https://github.com/Exeteres/Replikit/compare/v0.7.2...v0.8.0) (2020-06-27)
+
+
+### Bug Fixes
+
+* **storage:** Fix transformation of dates ([2abe05b](https://github.com/Exeteres/Replikit/commit/2abe05b91ef8c0b8d2e0c9a9ee866558a798a78c))
+
+
+
+
+
 ## [0.7.2](https://github.com/Exeteres/Replikit/compare/v0.7.1...v0.7.2) (2020-06-23)
 
 **Note:** Version bump only for package @replikit/storage

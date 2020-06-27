@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.8.0](https://github.com/Exeteres/Replikit/compare/v0.7.2...v0.8.0) (2020-06-27)
+
+
+### Features
+
+* **telegram:** Add telegram support for replies ([877cc7c](https://github.com/Exeteres/Replikit/commit/877cc7c57cbf172969718d3d2ca600ac042c622d))
+
+
+
+
+
 ## [0.7.2](https://github.com/Exeteres/Replikit/compare/v0.7.1...v0.7.2) (2020-06-23)
 
 **Note:** Version bump only for package @replikit/telegram

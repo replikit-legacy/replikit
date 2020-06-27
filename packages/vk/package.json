@@ -1,6 +1,6 @@
 {
     "name": "@replikit/vk",
-    "version": "0.7.2",
+    "version": "0.8.0",
     "license": "MIT",
     "main": "dist/index.js",
     "typings": "dist/index.d.ts",
@@ -12,7 +12,7 @@
         "build": "ttsc -p tsconfig.build.json"
     },
     "dependencies": {
-        "@replikit/core": "^0.7.2",
+        "@replikit/core": "^0.8.0",
         "vk-io": "^4.0.0-rc.30"
     }
 }

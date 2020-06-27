@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.8.0](https://github.com/Exeteres/Replikit/compare/v0.7.2...v0.8.0) (2020-06-27)
+
+
+### Bug Fixes
+
+* **permissions:** Add UserRoleName and MemberRoleName aliases ([b0c8199](https://github.com/Exeteres/Replikit/commit/b0c81999045660cd4ac976376c178d97ec6fb947))
+
+
+
+
+
 ## [0.7.2](https://github.com/Exeteres/Replikit/compare/v0.7.1...v0.7.2) (2020-06-23)
 
 **Note:** Version bump only for package @replikit/permissions

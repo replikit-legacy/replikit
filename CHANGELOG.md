@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.8.0](https://github.com/Exeteres/Replikit/compare/v0.7.2...v0.8.0) (2020-06-27)
+
+
+### Bug Fixes
+
+* **authorization:** Fix commands extension ([aa9b255](https://github.com/Exeteres/Replikit/commit/aa9b25592201318a9e97ab57f72fb9c11364d84e))
+* **commands:** Fix rest params resolution ([15e3b1b](https://github.com/Exeteres/Replikit/commit/15e3b1b1c0a6af2e2428326ded0ecd5d56472269))
+* **permissions:** Add UserRoleName and MemberRoleName aliases ([b0c8199](https://github.com/Exeteres/Replikit/commit/b0c81999045660cd4ac976376c178d97ec6fb947))
+* **storage:** Fix transformation of dates ([2abe05b](https://github.com/Exeteres/Replikit/commit/2abe05b91ef8c0b8d2e0c9a9ee866558a798a78c))
+
+
+### Features
+
+* **core:** Add core support for replies ([21f3318](https://github.com/Exeteres/Replikit/commit/21f3318f7bd031233856e7a1e1ddd29d73ef5f04))
+* **example:** Add echo command ([bd55387](https://github.com/Exeteres/Replikit/commit/bd55387721b431d9346507458ebf435b8c0dde75))
+* **messages:** Add MessageBuilder methods for working with replies ([015e3f2](https://github.com/Exeteres/Replikit/commit/015e3f23b3f166b46aecb2b98f6f447661b8576d))
+* **telegram:** Add telegram support for replies ([877cc7c](https://github.com/Exeteres/Replikit/commit/877cc7c57cbf172969718d3d2ca600ac042c622d))
+* **vk:** Add vk support for replies ([166a79c](https://github.com/Exeteres/Replikit/commit/166a79cdc2c7b638ca08e79d762ffdc34a6677ed))
+
+
+
+
+
 ## [0.7.2](https://github.com/Exeteres/Replikit/compare/v0.7.1...v0.7.2) (2020-06-23)
 
 **Note:** Version bump only for package replikit
