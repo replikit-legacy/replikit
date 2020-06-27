@@ -36,6 +36,8 @@ function createSendedAttachment(
     return { origin: attachment, id: attachment.source };
 }
 
+const getRandomId = () => `${Math.floor(Math.random() * 1e4)}${Date.now()}`;
+
 export class VKController extends Controller {
     private readonly vk: VK;
 
@@ -97,7 +99,17 @@ export class VKController extends Controller {
         await this.vk.updates.stop();
     }
 
-    private createRequest(channelId: number, id: number): string {
+    private async createRequest(
+        channelId: number,
+        id: number
+    ): Promise<string | undefined> {
+        const channel = await this.getChannelInfo(channelId);
+        if (!channel) {
+            throw new Error("Channel info inaccessible");
+        }
+        if (channel.type === ChannelType.Direct) {
+            return undefined;
+        }
         return `
             var resp = API.messages.getByConversationMessageId({ 
                 peer_id: ${channelId}, 
@@ -111,7 +123,14 @@ export class VKController extends Controller {
     }
 
     async deleteMessage(channelId: number, id: number): Promise<void> {
-        const request = this.createRequest(channelId, id);
+        const request = await this.createRequest(channelId, id);
+        if (!request) {
+            await this.vk.api.messages.delete({
+                delete_for_all: true,
+                message_ids: id
+            });
+            return;
+        }
         await this.vk.api.execute({
             code: `
                 ${request}
@@ -226,6 +245,10 @@ export class VKController extends Controller {
         };
     }
 
+    private formatAttachments(attachments: ResolvedAttachment[]): string {
+        return attachments.map(x => x.source).join(", ");
+    }
+
     protected async sendResolvedMessage(
         channelId: number,
         message: ResolvedMessage
@@ -239,22 +262,62 @@ export class VKController extends Controller {
         );
 
         if (attachments.length || message.text) {
-            const sended = await this.vk.api.messages.send({
-                peer_id: channelId,
-                message: message.text ?? "",
-                attachment: attachments.map(x => x.source).join(", ")
-            });
-            result = this.createSendedMessage(sended, attachments);
+            const serializedAttachments = this.formatAttachments(attachments);
+            const request = message.reply
+                ? await this.createRequest(channelId, message.reply)
+                : undefined;
+            if (request) {
+                const sended = await this.vk.api.execute({
+                    code: `
+                        ${request}
+                        return API.messages.send({
+                            random_id: ${getRandomId()},
+                            peer_id: ${channelId},
+                            message: ${JSON.stringify(message.text ?? "")},
+                            reply_to: messageId,
+                            attachment: "${serializedAttachments}"
+                        });
+                    `
+                });
+                result = this.createSendedMessage(sended, attachments);
+            } else {
+                const sended = await this.vk.api.messages.send({
+                    peer_id: channelId,
+                    message: message.text ?? "",
+                    reply_to: message.reply,
+                    attachment: serializedAttachments
+                });
+                result = this.createSendedMessage(sended, attachments);
+            }
         }
 
         const sticker = message.attachments.find(
             x => x.type === AttachmentType.Sticker
         );
         if (sticker && sticker.controllerName === this.name) {
-            const sended = await this.vk.api.messages.send({
-                peer_id: channelId,
-                sticker_id: parseInt(sticker.id)
-            });
+            const request = message.reply
+                ? await this.createRequest(channelId, message.reply)
+                : undefined;
+            let sended: number;
+            if (request) {
+                sended = await this.vk.api.execute({
+                    code: `
+                        ${request}
+                        return API.messages.send({
+                            random_id: ${getRandomId()},
+                            peer_id: channelId,
+                            sticker_id: ${parseInt(sticker.id)},
+                            reply_to: messageId
+                        });
+                    `
+                });
+            } else {
+                sended = await this.vk.api.messages.send({
+                    peer_id: channelId,
+                    sticker_id: parseInt(sticker.id),
+                    reply_to: message.reply
+                });
+            }
             if (!result) {
                 result = this.createSendedMessage(sended, [sticker]);
             } else {
@@ -281,7 +344,19 @@ export class VKController extends Controller {
         message: ResolvedMessage
     ): Promise<SendedMessage> {
         const messageId = message.metadata.messageIds[0];
-        const request = this.createRequest(channelId, messageId);
+        const attachments = this.formatAttachments(message.attachments);
+
+        const request = await this.createRequest(channelId, messageId);
+        if (!request) {
+            await this.vk.api.messages.edit({
+                peer_id: channelId,
+                message_id: messageId,
+                message: message.text,
+                attachment: attachments
+            });
+            return this.createSendedMessage(messageId, message.attachments);
+        }
+
         await this.vk.api.execute({
             code: `
                 ${request}
@@ -289,18 +364,11 @@ export class VKController extends Controller {
                     peer_id: ${channelId},
                     message_id: messageId,
                     message: ${JSON.stringify(message.text)},
-                    attachment: "${message.attachments
-                        .map(x => x.source)
-                        .join(", ")}"
+                    attachment: "${attachments}"
                 });
             `
         });
-
-        return {
-            attachments: [],
-            id: messageId,
-            metadata: { firstAttachment: false, messageIds: [messageId] }
-        };
+        return this.createSendedMessage(messageId, message.attachments);
     }
 
     private createChannel(channelId: number): ChannelInfo {
@@ -409,8 +477,9 @@ export class VKController extends Controller {
         context: MessageContext<Record<string, unknown>>
     ): Promise<InMessage> {
         const channel = await this.resolveChannel(context.peerId);
+        const id = context.id || context.conversationMessageId!;
         return {
-            id: context.id || context.conversationMessageId!,
+            id,
             text: context.text ?? undefined,
             attachments: this.extractAttachments(context.attachments),
             channel,
@@ -421,7 +490,7 @@ export class VKController extends Controller {
             reply: await this.createReplyMessage(channel, context.replyMessage),
             metadata: {
                 firstAttachment: false,
-                messageIds: [context.id || context.conversationMessageId!]
+                messageIds: [id]
             }
         };
     }
