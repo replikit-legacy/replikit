@@ -250,7 +250,7 @@ export class CommandStorage {
             for (const [i, restParameter] of restParameters!.entries()) {
                 const rest = commandContext.params[command.rest.name];
                 const validationResult = (rest as unknown[])[i];
-                const resolutionResult = command.rest.converter.resolver(
+                const resolutionResult = await command.rest.converter.resolver(
                     context,
                     validationResult ?? restParameter,
                     command.rest.options
