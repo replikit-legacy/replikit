@@ -56,6 +56,15 @@ Object {
 }
 `;
 
+exports[`MessageBuilder should create a message with reply 1`] = `
+Object {
+  "attachments": Array [],
+  "forwarded": Array [],
+  "reply": 123,
+  "tokens": Array [],
+}
+`;
+
 exports[`MessageBuilder should create a message with text 1`] = `
 Object {
   "attachments": Array [],
@@ -76,6 +85,20 @@ Object {
       "kind": 0,
       "props": Array [],
       "text": "secondLine",
+    },
+  ],
+}
+`;
+
+exports[`MessageBuilder should create a message with an array of tokens 1`] = `
+Object {
+  "attachments": Array [],
+  "forwarded": Array [],
+  "tokens": Array [
+    Object {
+      "kind": 0,
+      "props": Array [],
+      "text": "test",
     },
   ],
 }

@@ -1,5 +1,5 @@
 import { MessageBuilder } from "@replikit/messages";
-import { AttachmentType } from "@replikit/core";
+import { AttachmentType, TextTokenKind } from "@replikit/core";
 
 describe("MessageBuilder", () => {
     it("should create a message with text", () => {
@@ -36,6 +36,18 @@ describe("MessageBuilder", () => {
                 AttachmentType.Photo,
                 "https://path/to/attachment.png"
             )
+            .build();
+        expect(message).toMatchSnapshot();
+    });
+
+    it("should create a message with reply", () => {
+        const message = new MessageBuilder().addReply(123).build();
+        expect(message).toMatchSnapshot();
+    });
+
+    it("should create a message with an array of tokens", () => {
+        const message = new MessageBuilder()
+            .addTokens([{ kind: TextTokenKind.Text, text: "test", props: [] }])
             .build();
         expect(message).toMatchSnapshot();
     });

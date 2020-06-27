@@ -14,6 +14,11 @@ export class MessageBuilder {
         tokens: []
     };
 
+    addReply(messageId: number | undefined): this {
+        this.message.reply = messageId;
+        return this;
+    }
+
     useMetadata(metadata: MessageMetadata): this {
         this.message.metadata = metadata;
         return this;
@@ -21,6 +26,11 @@ export class MessageBuilder {
 
     addToken(token: TextToken): this {
         this.message.tokens.push(token);
+        return this;
+    }
+
+    addTokens(tokens: TextToken[]): this {
+        this.message.tokens.push(...tokens);
         return this;
     }
 
