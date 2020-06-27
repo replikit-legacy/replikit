@@ -261,6 +261,9 @@ export class TelegramController extends Controller {
         message: ResolvedMessage
     ): Promise<SendedMessage> {
         let result: SendedMessage | undefined = undefined;
+        let extra: Record<string, unknown> | undefined = {
+            reply_to_message_id: message.reply
+        };
 
         // Отправляем текст, если есть
         if (message.text) {
@@ -270,9 +273,10 @@ export class TelegramController extends Controller {
                 {
                     parse_mode: "HTML",
                     disable_web_page_preview: true,
-                    reply_to_message_id: message.reply?.id
+                    reply_to_message_id: message.reply
                 }
             );
+            extra = undefined;
             result = await this.createSendedMessage(sended);
         }
 
@@ -289,9 +293,11 @@ export class TelegramController extends Controller {
         if (media.length === 1) {
             // Отправляем один элемент
             const item = media[0];
+
             const sended = await (item.type === AttachmentType.Photo
-                ? this.bot.telegram.sendPhoto(channelId, item.source)
-                : this.bot.telegram.sendVideo(channelId, item.source));
+                ? this.bot.telegram.sendPhoto(channelId, item.source, extra)
+                : this.bot.telegram.sendVideo(channelId, item.source, extra));
+            extra = undefined;
             if (!result) {
                 result = await this.createSendedMessage(sended);
             }
@@ -305,8 +311,10 @@ export class TelegramController extends Controller {
                 }));
                 const sended = await this.bot.telegram.sendMediaGroup(
                     channelId,
-                    items
+                    items,
+                    extra
                 );
+                extra = undefined;
                 for (const [i, msg] of sended.entries()) {
                     if (i === 0 && !result) {
                         result = await this.createSendedMessage(msg);
@@ -327,8 +335,10 @@ export class TelegramController extends Controller {
         for (const [i, attachment] of otherAttachments.entries()) {
             const sended = await this.sendOtherAttachment(
                 channelId,
-                attachment
+                attachment,
+                extra
             );
+            extra = undefined;
             if (i === 0 && !result) {
                 result = await this.createSendedMessage(sended);
                 continue;
@@ -343,14 +353,10 @@ export class TelegramController extends Controller {
 
         // Отправляем пересланные сообщения
         for (const [i, forwarded] of message.forwarded.entries()) {
-            if (forwarded.controllerName !== this.name) {
-                continue;
-            }
-
             const sended = await this.bot.telegram.forwardMessage(
                 channelId,
-                forwarded.channel.id,
-                forwarded.id
+                forwarded.channelId,
+                forwarded.messageId
             );
             if (i === 0 && !result) {
                 result = await this.createSendedMessage(sended);
@@ -368,31 +374,36 @@ export class TelegramController extends Controller {
 
     private sendOtherAttachment(
         channelId: number,
-        attachment: ResolvedAttachment
+        attachment: ResolvedAttachment,
+        extra: Record<string, unknown> | undefined
     ): Promise<Message> {
         switch (attachment.type) {
             case AttachmentType.Sticker: {
                 if (attachment.controllerName === this.name) {
                     return this.bot.telegram.sendSticker(
                         channelId,
-                        attachment.source
+                        attachment.source,
+                        extra
                     );
                 }
                 return this.bot.telegram.sendPhoto(
                     channelId,
-                    attachment.source
+                    attachment.source,
+                    extra
                 );
             }
             case AttachmentType.Voice: {
                 return this.bot.telegram.sendVoice(
                     channelId,
-                    attachment.source
+                    attachment.source,
+                    extra
                 );
             }
             case AttachmentType.Document: {
                 return this.bot.telegram.sendDocument(
                     channelId,
-                    attachment.source
+                    attachment.source,
+                    extra
                 );
             }
             default: {
@@ -400,7 +411,7 @@ export class TelegramController extends Controller {
                 return this.bot.telegram.sendMessage(
                     channelId,
                     `<code>Unsupported attachment type: "${type}"</code>`,
-                    { parse_mode: "HTML" }
+                    { parse_mode: "HTML", ...extra }
                 );
             }
         }
