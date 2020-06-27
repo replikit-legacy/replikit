@@ -1,15 +1,14 @@
 import {
     Attachment,
-    InMessage,
     TextToken,
     MessageMetadata,
-    ForwardedMessage
+    ForwardedOutMessage
 } from "@replikit/core/typings";
 
 export interface OutMessage {
     tokens: TextToken[];
     attachments: Attachment[];
-    reply?: InMessage;
-    forwarded: ForwardedMessage[];
+    reply?: number;
+    forwarded: ForwardedOutMessage[];
     metadata?: MessageMetadata;
 }

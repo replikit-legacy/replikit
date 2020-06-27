@@ -208,10 +208,23 @@ export abstract class Controller {
         processEvent(type, event as EventMap[T]);
     }
 
+    private setControllerName(message: InMessage): void {
+        for (const attachment of message.attachments) {
+            attachment.controllerName = this.name;
+        }
+        for (const forwarded of message.forwarded) {
+            this.setControllerName(forwarded);
+        }
+        if (message.reply) {
+            this.setControllerName(message.reply);
+        }
+    }
+
     protected processMessageEvent(
         type: MessageEventName,
         message: InMessage
     ): void {
+        this.setControllerName(message);
         this.processEvent(type, {
             message,
             account: message.account,

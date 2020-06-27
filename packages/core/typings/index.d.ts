@@ -2,6 +2,7 @@ export * from "./models/hasId";
 export * from "./models/channelInfo";
 export * from "./models/accountInfo";
 export * from "./models/attachment";
+export * from "./models/forwardedOutMessage";
 export * from "./models/outMessage";
 export * from "./models/messageMetadata";
 export * from "./models/inMessage";
