@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.9.0](https://github.com/Exeteres/Replikit/compare/v0.8.0...v0.9.0) (2020-06-28)
+
+
+### Bug Fixes
+
+* **telegram:** Fix text tokenization ([2869e48](https://github.com/Exeteres/Replikit/commit/2869e488761a80e111afce676bed04bc28f9148a))
+
+
+### Features
+
+* Add advanced metadata processing ([54c7820](https://github.com/Exeteres/Replikit/commit/54c782021f5ebc16d784f210d273f8d7490d2af5))
+
+
+
+
+
 # [0.8.0](https://github.com/Exeteres/Replikit/compare/v0.7.2...v0.8.0) (2020-06-27)
 
 
