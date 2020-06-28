@@ -41,7 +41,9 @@ describe("MessageBuilder", () => {
     });
 
     it("should create a message with reply", () => {
-        const message = new MessageBuilder().addReply(123).build();
+        const message = new MessageBuilder()
+            .addReply({ messageIds: [123] })
+            .build();
         expect(message).toMatchSnapshot();
     });
 

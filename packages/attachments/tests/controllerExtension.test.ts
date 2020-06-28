@@ -30,7 +30,6 @@ function createExtension(options?: TestControllerOptions): ControllerExtension {
 
 function createSendedMessage(): SendedMessage {
     return {
-        id: 1,
         attachments: [
             {
                 id: "1",
@@ -43,7 +42,7 @@ function createSendedMessage(): SendedMessage {
                 }
             }
         ],
-        metadata: { firstAttachment: true, messageIds: [1] }
+        metadata: { messageIds: [1] }
     };
 }
 

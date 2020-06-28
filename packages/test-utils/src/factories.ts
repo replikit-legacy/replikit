@@ -29,13 +29,12 @@ export function createMessageEvent(): MessageEvent {
             channel,
             account,
             message: {
-                id: 1,
                 attachments: [],
                 account,
                 channel,
                 forwarded: [],
                 text: "test",
-                metadata: { firstAttachment: false, messageIds: [1] }
+                metadata: { messageIds: [1] }
             }
         }
     };

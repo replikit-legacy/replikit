@@ -53,7 +53,6 @@ export class CommandTestManager {
 
     processCommand(text: string, accountId = 0): Promise<void> {
         const message: InMessage = {
-            id: 0,
             text: text,
             account: { id: accountId },
             channel: {
@@ -63,7 +62,7 @@ export class CommandTestManager {
             },
             attachments: [],
             forwarded: [],
-            metadata: { firstAttachment: false, messageIds: [0] }
+            metadata: { messageIds: [0] }
         };
         return this.router.process({
             type: "message:received",

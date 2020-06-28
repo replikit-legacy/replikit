@@ -4,7 +4,8 @@ import {
     ResolvedMessage,
     AccountInfo,
     ChannelInfo,
-    SendedMessage
+    SendedMessage,
+    MessageMetadata
 } from "@replikit/core/typings";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -23,7 +24,7 @@ export class TestController extends Controller {
         });
     }
 
-    deleteMessage(channelId: number, id: number): Promise<void> {
+    deleteMessage(channelId: number, metadata: MessageMetadata): Promise<void> {
         throw new Error("Method not implemented.");
     }
 
@@ -54,8 +55,7 @@ export class TestController extends Controller {
     private createSendedMessage(): SendedMessage {
         return {
             attachments: [],
-            id: 0,
-            metadata: { firstAttachment: false, messageIds: [] }
+            metadata: { messageIds: [0] }
         };
     }
 
