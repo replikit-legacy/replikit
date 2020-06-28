@@ -208,12 +208,12 @@ export class TelegramController extends Controller {
     }
 
     tokenizeText(message: InMessage): TextToken[] {
-        if (!message.text || !message.telegram?.entities) {
+        if (!message.text || !message.telegram) {
             return [];
         }
         const tokenizer = new MessageTokenizer(
             message.text,
-            message.telegram?.entities
+            message.telegram?.entities ?? []
         );
         return tokenizer.tokenize();
     }
