@@ -284,7 +284,7 @@ export class VKController extends Controller {
                 const sended = await this.vk.api.messages.send({
                     peer_id: channelId,
                     message: message.text ?? "",
-                    reply_to: message.reply,
+                    reply_to: message.reply ?? 0,
                     attachment: serializedAttachments
                 });
                 result = this.createSendedMessage(sended, attachments);
@@ -315,7 +315,7 @@ export class VKController extends Controller {
                 sended = await this.vk.api.messages.send({
                     peer_id: channelId,
                     sticker_id: parseInt(sticker.id),
-                    reply_to: message.reply
+                    reply_to: message.reply ?? 0
                 });
             }
             if (!result) {
