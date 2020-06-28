@@ -21,3 +21,9 @@ declare module "@replikit/core/typings/models/inMessage" {
         };
     }
 }
+
+declare module "@replikit/core/typings/models/messageMetadata" {
+    export interface MessageMetadata {
+        hasText?: boolean;
+    }
+}

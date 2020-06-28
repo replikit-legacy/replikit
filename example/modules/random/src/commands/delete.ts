@@ -6,19 +6,19 @@ command("delete")
         if (!reply) {
             return;
         }
-        const canDeleteOthers =
-            context.message.channel.permissions.deleteOtherMessages;
-        const canDeleteOwn = context.message.channel.permissions.deleteMessages;
-        const isOwn = reply.account.id === context.controller.botId;
-        if (canDeleteOthers || (isOwn && canDeleteOwn)) {
+        const permissions = context.message.channel.permissions;
+        const canDeleteOthers = permissions.deleteOtherMessages;
+        const canDeleteOwn = permissions.deleteMessages;
+        const owns = reply.account.id === context.controller.botId;
+        if (canDeleteOthers || (owns && canDeleteOwn)) {
             await context.controller.deleteMessage(
                 context.channel.id,
-                reply.id
+                reply.metadata
             );
             if (canDeleteOthers) {
                 await context.controller.deleteMessage(
                     context.channel.id,
-                    context.message.id
+                    context.message.metadata
                 );
             }
         }

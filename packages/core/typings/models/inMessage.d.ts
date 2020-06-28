@@ -1,13 +1,12 @@
 import {
     ChannelInfo,
     AccountInfo,
-    HasId,
     Attachment,
     MessageMetadata,
     ForwardedMessage
 } from "@replikit/core/typings";
 
-export interface InMessage extends HasId {
+export interface InMessage {
     channel: ChannelInfo;
     account: AccountInfo;
     text?: string;

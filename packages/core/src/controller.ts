@@ -11,7 +11,8 @@ import {
     InMessage,
     EventName,
     EventMap,
-    MessageEventName
+    MessageEventName,
+    MessageMetadata
 } from "@replikit/core/typings";
 import { IncomingMessage, ServerResponse } from "http";
 import {
@@ -159,15 +160,6 @@ export abstract class Controller {
         return attachments;
     }
 
-    async deleteMessages(
-        channelId: number,
-        messageIds: number[]
-    ): Promise<void> {
-        for (const messageId of messageIds) {
-            await this.deleteMessage(channelId, messageId);
-        }
-    }
-
     getChannelInfo(channelId: number): Promise<ChannelInfo | undefined> {
         return this.channelInfoCache.get(channelId);
     }
@@ -185,7 +177,10 @@ export abstract class Controller {
         return Controller.defaultTextFormatter.formatText(tokens);
     }
 
-    abstract deleteMessage(channelId: number, id: number): Promise<void>;
+    abstract deleteMessage(
+        channelId: number,
+        metadata: MessageMetadata
+    ): Promise<void>;
 
     start(): Promise<void> {
         return Promise.resolve();

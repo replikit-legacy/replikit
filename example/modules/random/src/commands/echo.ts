@@ -4,9 +4,12 @@ import { MessageBuilder } from "@replikit/messages";
 command("echo")
     .handler(context => {
         const tokens = context.controller.tokenizeText(context.message);
-        return new MessageBuilder()
+        const builder = new MessageBuilder()
             .addTokens(tokens)
-            .addAttachments(context.message.attachments)
-            .addReply(context.message.reply?.id);
+            .addAttachments(context.message.attachments);
+        if (context.message.reply) {
+            builder.addReply(context.message.reply.metadata);
+        }
+        return builder;
     })
     .register();

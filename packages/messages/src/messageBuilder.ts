@@ -14,8 +14,8 @@ export class MessageBuilder {
         tokens: []
     };
 
-    addReply(messageId: number | undefined): this {
-        this.message.reply = messageId;
+    addReply(metadata: MessageMetadata): this {
+        this.message.reply = metadata;
         return this;
     }
 

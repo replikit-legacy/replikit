@@ -8,7 +8,7 @@ import {
 export interface OutMessage {
     tokens: TextToken[];
     attachments: Attachment[];
-    reply?: number;
+    reply?: MessageMetadata;
     forwarded: ForwardedOutMessage[];
     metadata?: MessageMetadata;
 }

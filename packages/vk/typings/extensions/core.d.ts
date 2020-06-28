@@ -6,3 +6,9 @@ declare module "@replikit/core/typings/configuration" {
         vk: VKConfiguration;
     }
 }
+
+declare module "@replikit/core/typings/models/messageMetadata" {
+    export interface MessageMetadata {
+        hasGlobalId?: boolean;
+    }
+}

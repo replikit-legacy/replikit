@@ -273,7 +273,7 @@ export class TelegramController extends Controller {
                 {
                     parse_mode: "HTML",
                     disable_web_page_preview: true,
-                    reply_to_message_id: message.reply
+                    reply_to_message_id: message.reply?.messageIds[0]
                 }
             );
             extra = undefined;
@@ -437,7 +437,7 @@ export class TelegramController extends Controller {
 
         // Редактируем текст
         if (message.text) {
-            if (message.metadata.firstAttachment) {
+            if (!message.metadata.hasText) {
                 throw new Error("Unable to update text");
             }
             const edited = await this.bot.telegram.editMessageText(
@@ -452,8 +452,13 @@ export class TelegramController extends Controller {
         return result;
     }
 
-    async deleteMessage(channelId: number, id: number): Promise<void> {
-        await this.bot.telegram.deleteMessage(channelId, id);
+    async deleteMessage(
+        channelId: number,
+        metadata: MessageMetadata
+    ): Promise<void> {
+        for (const messageId of metadata.messageIds) {
+            await this.bot.telegram.deleteMessage(channelId, messageId);
+        }
     }
 
     private createAccount(user: User | Chat): AccountInfo {
@@ -596,44 +601,29 @@ export class TelegramController extends Controller {
         message: Message,
         origin?: ResolvedAttachment
     ): Promise<SendedMessage> {
-        if (!origin) {
-            return {
-                id: message.message_id,
-                attachments: [],
-                metadata: {
-                    messageIds: [message.message_id],
-                    firstAttachment: !message.text
-                }
-            };
-        }
-        const attachment = await this.createSendedAttachment(message, origin);
         return {
-            id: message.message_id,
-            attachments: [attachment],
+            attachments: origin
+                ? [await this.createSendedAttachment(message, origin)]
+                : [],
             metadata: {
                 messageIds: [message.message_id],
-                firstAttachment: !message.text
+                hasText: !!message.text
             }
         };
     }
 
-    private createMetadata(id: number): MessageMetadata {
-        return {
-            firstAttachment: false,
-            messageIds: [id]
-        };
+    private createMetadata(id: number, hasText: boolean): MessageMetadata {
+        return { messageIds: [id], hasText };
     }
 
     private async createMessage(message: IncomingMessage): Promise<InMessage> {
         if (message.forward_from) {
             return {
-                id: message.message_id,
                 attachments: [],
                 account: this.createAccount(message.from!),
                 channel: await this.createChannel(message.chat),
                 forwarded: [
                     {
-                        id: message.forward_from_message_id!,
                         text: message.text || message.caption,
                         controllerName: this.name,
                         attachments: await this.extractAttachments(message),
@@ -648,23 +638,25 @@ export class TelegramController extends Controller {
                             dice: message.dice as Dice
                         },
                         metadata: this.createMetadata(
-                            message.forward_from_message_id!
+                            message.forward_from_message_id!,
+                            !!message.text
                         )
                     }
                 ],
-                metadata: this.createMetadata(message.message_id)
+                metadata: this.createMetadata(
+                    message.message_id,
+                    !!message.text
+                )
             };
         }
 
         if (message.forward_from_chat) {
             return {
-                id: message.message_id,
                 attachments: [],
                 account: this.createAccount(message.from!),
                 channel: await this.createChannel(message.chat),
                 forwarded: [
                     {
-                        id: message.forward_from_message_id!,
                         text: message.text || message.caption,
                         controllerName: this.name,
                         attachments: await this.extractAttachments(message),
@@ -679,16 +671,19 @@ export class TelegramController extends Controller {
                             dice: message.dice as Dice
                         },
                         metadata: this.createMetadata(
-                            message.forward_from_message_id!
+                            message.forward_from_message_id!,
+                            !!message.text
                         )
                     }
                 ],
-                metadata: this.createMetadata(message.message_id)
+                metadata: this.createMetadata(
+                    message.message_id,
+                    !!message.text
+                )
             };
         }
 
         return {
-            id: message.message_id,
             text: message.text || message.caption,
             telegram: {
                 entities: message.entities ?? message.caption_entities,
@@ -697,7 +692,7 @@ export class TelegramController extends Controller {
             attachments: await this.extractAttachments(message),
             account: this.createAccount(message.from!),
             channel: await this.createChannel(message.chat),
-            metadata: this.createMetadata(message.message_id),
+            metadata: this.createMetadata(message.message_id, !!message.text),
             reply: message.reply_to_message
                 ? await this.createMessage(message.reply_to_message)
                 : undefined,
