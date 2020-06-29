@@ -62,6 +62,11 @@ export class VKController extends Controller {
                 return `[id${token.id}|${token.text}]`;
             })
             .addVisitor(TextTokenKind.Link, token => {
+                const regex = /https:\/\/vk\.com\/public(\d+)/;
+                const match = regex.exec(token.url);
+                if (match) {
+                    return `[public${match[1]}|${token.text}]`;
+                }
                 return `${token.text} (${token.url})`;
             });
 
