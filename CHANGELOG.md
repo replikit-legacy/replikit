@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.10.0](https://github.com/Exeteres/Replikit/compare/v0.9.0...v0.10.0) (2020-06-29)
+
+
+### Features
+
+* **vk:** Add globalId to metadata ([9143016](https://github.com/Exeteres/Replikit/commit/9143016ff53ad6f31bf2b6c1107103d466ed1343))
+* **vk:** Add group url formatter ([3d9c50b](https://github.com/Exeteres/Replikit/commit/3d9c50bbce17393536362be40834e766b5efe1b1))
+
+
+
+
+
 # [0.9.0](https://github.com/Exeteres/Replikit/compare/v0.8.0...v0.9.0) (2020-06-28)
 
 
