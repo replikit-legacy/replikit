@@ -38,7 +38,7 @@ function createSendedAttachment(attachment: ResolvedAttachment): SendedAttachmen
 const getRandomId = () => `${Math.floor(Math.random() * 1e4)}${Date.now()}`;
 
 export class VKController extends Controller {
-    private readonly vk: VK;
+    readonly vk: VK;
 
     constructor() {
         const textTokenizer = new TextTokenizer()

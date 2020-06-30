@@ -1,4 +1,5 @@
 import { Controller, invokeHook, logger, hasHandler, config } from "@replikit/core";
+import { ControllerName, ControllerMap } from "@replikit/core/typings";
 
 const controllers: Controller[] = [];
 
@@ -11,6 +12,8 @@ export function registerController(controller: Controller): void {
     controllers.push(controller);
 }
 
+export function resolveController<N extends ControllerName>(name: N): ControllerMap[N];
+export function resolveController(name: string): Controller;
 export function resolveController(name: string): Controller {
     const controller = controllers.find(x => x.name === name);
     if (!controller) {

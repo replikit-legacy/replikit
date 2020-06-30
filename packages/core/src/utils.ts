@@ -1,4 +1,5 @@
-import { Constructor, HasFields } from "@replikit/core/typings";
+import { Constructor, HasFields, ControllerName, ControllerMap } from "@replikit/core/typings";
+import { Controller } from "@replikit/core";
 
 function isObject(item: unknown): boolean {
     return item !== null && typeof item === "object";
@@ -97,3 +98,10 @@ export const Extension: ClassDecorator = (target): void => {
     const base = Object.getPrototypeOf(target.prototype).constructor as Constructor;
     applyMixins(base, [(target as unknown) as Constructor]);
 };
+
+export function checkController<N extends ControllerName>(
+    name: N,
+    controller: Controller
+): controller is ControllerMap[N] {
+    return controller.name === name;
+}

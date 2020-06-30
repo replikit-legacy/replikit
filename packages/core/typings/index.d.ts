@@ -34,6 +34,7 @@ export * from "./logging/logProvider";
 export * from "./logging/logLevelName";
 
 export * from "./controllerConfiguration";
+export * from "./controllerMap";
 export * from "./coreConfiguration";
 export * from "./configuration";
 export * from "./utils";

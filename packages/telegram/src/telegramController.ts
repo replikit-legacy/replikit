@@ -39,7 +39,7 @@ import { logger, MessageTokenizer, escapeHtml } from "@replikit/telegram";
 import { Dice } from "@replikit/telegram/typings";
 
 export class TelegramController extends Controller {
-    private readonly bot: Telegraf<TelegrafContext>;
+    readonly bot: Telegraf<TelegrafContext>;
     private readonly startDate: number;
     private readonly permissionCache: CacheManager<number, ChannelPermissionMap>;
 
