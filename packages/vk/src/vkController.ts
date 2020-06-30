@@ -264,7 +264,7 @@ export class VKController extends Controller {
                     channelId,
                     message.reply.messageIds[0]
                 );
-                const sended = await this.vk.api.execute({
+                const data = await this.vk.api.execute({
                     code: `
                         ${request}
                         return API.messages.send({
@@ -276,6 +276,7 @@ export class VKController extends Controller {
                         });
                     `
                 });
+                const sended = data.response;
                 result = this.createSendedMessage(sended, attachments);
             } else {
                 const sended = await this.vk.api.messages.send({
@@ -298,7 +299,7 @@ export class VKController extends Controller {
                     channelId,
                     message.reply.messageIds[0]
                 );
-                sended = await this.vk.api.execute({
+                const data = await this.vk.api.execute({
                     code: `
                         ${request}
                         return API.messages.send({
@@ -309,6 +310,7 @@ export class VKController extends Controller {
                         });
                     `
                 });
+                sended = data.response;
             } else {
                 sended = await this.vk.api.messages.send({
                     peer_id: channelId,
