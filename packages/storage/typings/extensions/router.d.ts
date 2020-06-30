@@ -1,11 +1,5 @@
 import "@replikit/router/typings";
-import {
-    Channel,
-    User,
-    FallbackStrategy,
-    Member,
-    ConnectionManager
-} from "@replikit/storage";
+import { Channel, User, FallbackStrategy, Member, ConnectionManager } from "@replikit/storage";
 
 declare module "@replikit/router/typings/context/channelContext" {
     export interface ChannelContext {

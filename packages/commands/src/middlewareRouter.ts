@@ -3,10 +3,7 @@ import { HandlerChain } from "@replikit/router";
 import { MiddlewareStage } from "@replikit/commands";
 
 export class MiddlewareRouter {
-    private readonly chainMap = new Map<
-        MiddlewareStage,
-        HandlerChain<CommandContext>
-    >();
+    private readonly chainMap = new Map<MiddlewareStage, HandlerChain<CommandContext>>();
 
     add(middleware: Middleware): void {
         let chain = this.chainMap.get(middleware.stage);
@@ -17,10 +14,7 @@ export class MiddlewareRouter {
         chain.use(middleware.handler);
     }
 
-    process(
-        stage: MiddlewareStage,
-        context: CommandContext
-    ): void | Promise<void> {
+    process(stage: MiddlewareStage, context: CommandContext): void | Promise<void> {
         const chain = this.chainMap.get(stage);
         if (!chain) {
             context.skipped = true;

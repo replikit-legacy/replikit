@@ -11,12 +11,7 @@ export class ConsoleLogProvider implements LogProvider {
         [LogLevel.Verbose]: "VRB"
     };
 
-    log(
-        level: LogLevel,
-        message: string,
-        scopes: string[],
-        error?: Error | undefined
-    ): void {
+    log(level: LogLevel, message: string, scopes: string[], error?: Error): void {
         const date = renderDate(new Date());
         const type = ConsoleLogProvider.logLevelMap[level];
         const scopesText = this.renderScopes(scopes);

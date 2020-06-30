@@ -1,8 +1,4 @@
-import {
-    ParameterOptions,
-    Converter,
-    RestParameterOptions
-} from "@replikit/commands/typings";
+import { ParameterOptions, Converter, RestParameterOptions } from "@replikit/commands/typings";
 import { Constructor } from "@replikit/core/typings";
 
 interface CommandParameterBase<O> {

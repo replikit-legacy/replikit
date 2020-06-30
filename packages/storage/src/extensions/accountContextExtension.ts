@@ -41,8 +41,7 @@ export class AccountContextExtension extends AccountContext {
 
     @CacheResult
     async getUser(fallbackStrategy?: FallbackStrategy): Promise<User> {
-        fallbackStrategy =
-            fallbackStrategy ?? config.storage.userFallbackStrategy;
+        fallbackStrategy = fallbackStrategy ?? config.storage.userFallbackStrategy;
         const repo = this.connection.getRepository(User);
         const user = await repo.findOne({
             accounts: {
@@ -66,8 +65,7 @@ export class AccountContextExtension extends AccountContext {
 
     @CacheResult
     async getMember(fallbackStrategy?: FallbackStrategy): Promise<Member> {
-        fallbackStrategy =
-            fallbackStrategy ?? config.storage.memberFallbackStrategy;
+        fallbackStrategy = fallbackStrategy ?? config.storage.memberFallbackStrategy;
         const repo = this.connection.getRepository(Member);
         const _id = {
             controller: this.controller.name,

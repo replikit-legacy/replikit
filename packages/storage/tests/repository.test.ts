@@ -50,10 +50,7 @@ describe("Repository", () => {
             children: Child[];
         }
 
-        const repo = testManager.connection.registerRepository(
-            "parents",
-            Parent
-        );
+        const repo = testManager.connection.registerRepository("parents", Parent);
 
         const entity = repo.create({ children: [{}] });
         expect(entity.children[0]["repository"]).toBe(entity["repository"]);

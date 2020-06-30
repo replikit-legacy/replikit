@@ -88,9 +88,7 @@ export class ProjectManager {
         await this.pm.install(["lerna"], true);
         const lernaConfigPath = resolve(this.root, "lerna.json");
         const isYarn = this.pm.type === PMType.Yarn;
-        const props = isYarn
-            ? { npmClient: "yarn", useWorkspaces: true }
-            : { npmClient: "npm" };
+        const props = isYarn ? { npmClient: "yarn", useWorkspaces: true } : { npmClient: "npm" };
         const lernaConfig = {
             version: "0.0.0",
             ...props

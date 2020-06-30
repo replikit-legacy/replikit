@@ -1,9 +1,5 @@
 import { TestController, TestControllerOptions } from "@replikit/test-utils";
-import {
-    Router,
-    ContextFactoryStorage,
-    registerBasicContextFactories
-} from "@replikit/router";
+import { Router, ContextFactoryStorage, registerBasicContextFactories } from "@replikit/router";
 import { InMessage, ChannelPermissionMap } from "@replikit/core/typings";
 import {
     CommandStorage,
@@ -30,18 +26,13 @@ export class CommandTestManager {
     readonly converter = createConverterBuilderFactory(this.converters);
 
     readonly commands = new CommandStorage();
-    readonly command = createCommandBuilderFactory(
-        this.commands,
-        this.converters
-    );
+    readonly command = createCommandBuilderFactory(this.commands, this.converters);
 
     readonly controller: TestController;
 
     constructor(private readonly options?: CommandTestManagerOptions) {
         this.controller = new TestController(options);
-        this.router
-            .of("message:received")
-            .use(this.commands.process.bind(this.commands));
+        this.router.of("message:received").use(this.commands.process.bind(this.commands));
         if (!options?.excludeBasicConverters) {
             registerBasicConverters(this.converter);
         }
@@ -82,9 +73,7 @@ export interface TestManagerSuite {
     converter: ConverterBuilderFactory;
 }
 
-export function createTestManager(
-    options?: CommandTestManagerOptions
-): TestManagerSuite {
+export function createTestManager(options?: CommandTestManagerOptions): TestManagerSuite {
     const testManager = new CommandTestManager(options);
     return {
         testManager,

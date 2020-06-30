@@ -2,10 +2,7 @@ import { readFile } from "fs-extra";
 import { readdir, stat } from "fs-extra";
 import { join } from "path";
 
-async function expectItemToMatchSnapshot(
-    base: string,
-    path: string
-): Promise<void> {
+async function expectItemToMatchSnapshot(base: string, path: string): Promise<void> {
     const fullPath = join(base, path);
     const info = await stat(fullPath);
 
@@ -24,8 +21,6 @@ async function expectItemToMatchSnapshot(
     }
 }
 
-export async function expectDirectoryToMatchSnapshot(
-    directory: string
-): Promise<void> {
+export async function expectDirectoryToMatchSnapshot(directory: string): Promise<void> {
     await expectItemToMatchSnapshot(directory, "/");
 }

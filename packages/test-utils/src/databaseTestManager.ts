@@ -1,7 +1,4 @@
-import {
-    ConnectionManager,
-    registerBasicRepositories
-} from "@replikit/storage";
+import { ConnectionManager, registerBasicRepositories } from "@replikit/storage";
 import { MongoMemoryServer } from "mongodb-memory-server";
 
 export class DatabaseTestManager {

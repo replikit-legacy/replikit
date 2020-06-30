@@ -1,8 +1,4 @@
-import {
-    RoleName,
-    PermissionName,
-    TypeName
-} from "@replikit/permissions/typings";
+import { RoleName, PermissionName, TypeName } from "@replikit/permissions/typings";
 import { PermissionStorage, permissions } from "@replikit/permissions";
 
 export class HasPermissions<T extends TypeName = TypeName> {
@@ -19,10 +15,7 @@ export class HasPermissions<T extends TypeName = TypeName> {
 
     hasPermission(permission: PermissionName<T>): boolean {
         const storage = this.permissionStorage ?? permissions;
-        return storage.checkPermission(
-            (this as unknown) as HasPermissions,
-            permission
-        );
+        return storage.checkPermission((this as unknown) as HasPermissions, permission);
     }
 
     permit(permission: PermissionName<T>): void {

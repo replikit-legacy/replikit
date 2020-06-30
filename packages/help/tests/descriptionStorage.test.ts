@@ -81,8 +81,7 @@ describe("DescriptionStorage", () => {
                 .build()
         );
 
-        const action = () =>
-            descriptionStorage.render(commands.getCommands(), "en");
+        const action = () => descriptionStorage.render(commands.getCommands(), "en");
         expect(action).toThrow(InvalidCommandDescriptionError);
     });
 
@@ -108,8 +107,7 @@ describe("DescriptionStorage", () => {
                 .build()
         );
 
-        const action = () =>
-            descriptionStorage.render(commands.getCommands(), "en");
+        const action = () => descriptionStorage.render(commands.getCommands(), "en");
         expect(action).toThrow(InvalidCommandDescriptionError);
     });
 

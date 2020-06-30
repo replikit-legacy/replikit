@@ -6,11 +6,7 @@ import {
     RepositoryNotRegisteredError,
     NextIdDetectionError
 } from "@replikit/storage";
-import {
-    PlainObject,
-    RepositoryOptions,
-    Counter
-} from "@replikit/storage/typings";
+import { PlainObject, RepositoryOptions, Counter } from "@replikit/storage/typings";
 
 export class ConnectionManager {
     private client: MongoClient;
@@ -54,9 +50,7 @@ export class ConnectionManager {
         return collection as Collection<T>;
     }
 
-    getCollection<T extends Entity>(
-        constructor: Constructor<T>
-    ): Collection<PlainObject<T>> {
+    getCollection<T extends Entity>(constructor: Constructor<T>): Collection<PlainObject<T>> {
         const repository = this.getRepository(constructor);
         return repository.collection;
     }
@@ -67,22 +61,12 @@ export class ConnectionManager {
         options: RepositoryOptions = {}
     ): Repository<T> {
         const collection = this.db.collection(name);
-        const repository = new Repository(
-            this,
-            collection,
-            constructor,
-            options
-        );
-        this.repositoryMap.set(
-            constructor,
-            (repository as unknown) as Repository<Entity>
-        );
+        const repository = new Repository(this, collection, constructor, options);
+        this.repositoryMap.set(constructor, (repository as unknown) as Repository<Entity>);
         return repository;
     }
 
-    getRepository<T extends Entity>(
-        constructor: Constructor<T>
-    ): Repository<T> {
+    getRepository<T extends Entity>(constructor: Constructor<T>): Repository<T> {
         const repository = this.repositoryMap.get(constructor);
         if (!repository) {
             throw new RepositoryNotRegisteredError(constructor);

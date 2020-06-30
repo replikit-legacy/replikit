@@ -11,10 +11,7 @@ command("delete")
         const canDeleteOwn = permissions.deleteMessages;
         const owns = reply.account.id === context.controller.botId;
         if (canDeleteOthers || (owns && canDeleteOwn)) {
-            await context.controller.deleteMessage(
-                context.channel.id,
-                reply.metadata
-            );
+            await context.controller.deleteMessage(context.channel.id, reply.metadata);
             if (canDeleteOthers) {
                 await context.controller.deleteMessage(
                     context.channel.id,

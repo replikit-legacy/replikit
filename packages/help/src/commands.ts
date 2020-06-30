@@ -4,10 +4,7 @@ import { fromCode } from "@replikit/messages";
 
 command("help")
     .handler(context => {
-        const message = descriptions.render(
-            commands.getCommands(),
-            context.account.language
-        );
+        const message = descriptions.render(commands.getCommands(), context.account.language);
         return fromCode(message);
     })
     .register();

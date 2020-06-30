@@ -1,9 +1,6 @@
 import { CommandBuilder, MiddlewareStage } from "@replikit/commands";
 import { Extension } from "@replikit/core";
-import {
-    UserPermissionName,
-    MemberPermissionName
-} from "@replikit/permissions/typings";
+import { UserPermissionName, MemberPermissionName } from "@replikit/permissions/typings";
 import { FallbackStrategy, Channel } from "@replikit/storage";
 import { ChannelParameterOptions } from "@replikit/storage/typings";
 import { fromCode } from "@replikit/messages";
@@ -11,19 +8,14 @@ import { fromCode } from "@replikit/messages";
 @Extension
 export class CommandBuilderExtension extends CommandBuilder {
     authorizeUser(permission: UserPermissionName): this {
-        return this.use(
-            MiddlewareStage.BeforeResolution,
-            async (context, next) => {
-                const user = await context.getUser(FallbackStrategy.Undefined);
-                if (!user || !user.hasPermission(permission)) {
-                    await context.reply(
-                        fromCode(context.t.authorization.accessDenied)
-                    );
-                    return;
-                }
-                return next();
+        return this.use(MiddlewareStage.BeforeResolution, async (context, next) => {
+            const user = await context.getUser(FallbackStrategy.Undefined);
+            if (!user || !user.hasPermission(permission)) {
+                await context.reply(fromCode(context.t.authorization.accessDenied));
+                return;
             }
-        );
+            return next();
+        });
     }
 
     channel(name?: string): never {
@@ -31,14 +23,10 @@ export class CommandBuilderExtension extends CommandBuilder {
         this.optional(resolvedName, Channel, { currentAsDefault: true });
         this.use(MiddlewareStage.AfterResolution, async (context, next) => {
             if (!context.params[resolvedName]) {
-                const channel = await context.getChannel(
-                    FallbackStrategy.Undefined
-                );
+                const channel = await context.getChannel(FallbackStrategy.Undefined);
                 if (!channel) {
                     // TODO Expose replyParameterError from commandStorage handler and use here
-                    await context.reply(
-                        fromCode(context.t.storage.channelNotFound)
-                    );
+                    await context.reply(fromCode(context.t.storage.channelNotFound));
                     return;
                 }
                 context.params[resolvedName] = channel;
@@ -57,21 +45,14 @@ export class CommandBuilderExtension extends CommandBuilder {
         );
 
         if (!channelParam) {
-            return this.use(
-                MiddlewareStage.BeforeResolution,
-                async (context, next) => {
-                    const member = await context.getMember(
-                        FallbackStrategy.Undefined
-                    );
-                    if (!member || !member.hasPermission(permission)) {
-                        await context.reply(
-                            fromCode(context.t.authorization.accessDenied)
-                        );
-                        return;
-                    }
-                    return next();
+            return this.use(MiddlewareStage.BeforeResolution, async (context, next) => {
+                const member = await context.getMember(FallbackStrategy.Undefined);
+                if (!member || !member.hasPermission(permission)) {
+                    await context.reply(fromCode(context.t.authorization.accessDenied));
+                    return;
                 }
-            );
+                return next();
+            });
         }
 
         this.use(MiddlewareStage.AfterResolution, async (context, next) => {
@@ -79,23 +60,16 @@ export class CommandBuilderExtension extends CommandBuilder {
             if (channel.controller === context.controller.name) {
                 const member = await context.getChannelMember(channel.localId);
                 if (!member || !member.hasPermission(permission)) {
-                    await context.reply(
-                        fromCode(context.t.authorization.accessDenied)
-                    );
+                    await context.reply(fromCode(context.t.authorization.accessDenied));
                     return;
                 }
                 return next();
             }
 
             const user = await context.getUser();
-            const member = await user.getMember(
-                channel.controller,
-                channel.localId
-            );
+            const member = await user.getMember(channel.controller, channel.localId);
             if (!member || !member.hasPermission(permission)) {
-                await context.reply(
-                    fromCode(context.t.authorization.accessDenied)
-                );
+                await context.reply(fromCode(context.t.authorization.accessDenied));
                 return;
             }
             return next();

@@ -94,19 +94,9 @@ command.action(async () => {
     const root = isEmpty ? cwd : resolve(cwd, result.projectName);
     const useLerna = !result.useYarn || result.useLerna;
     try {
-        const manager = await initProject(
-            root,
-            useLerna,
-            result.useYarn,
-            result.staticModules
-        );
+        const manager = await initProject(root, useLerna, result.useYarn, result.staticModules);
         if (result.createModule) {
-            await createModule(
-                manager,
-                result.moduleName,
-                result.modules,
-                result.addLogger
-            );
+            await createModule(manager, result.moduleName, result.modules, result.addLogger);
         }
         logger.info("Project created successfuly");
     } catch (e) {

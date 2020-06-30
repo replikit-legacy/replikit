@@ -1,10 +1,7 @@
 import { HelpMessage } from "@replikit/help/typings";
 import { deepmerge, config, groupBy } from "@replikit/core";
 import { Command } from "@replikit/commands/typings";
-import {
-    InvalidCommandDescriptionError,
-    DefaultLocaleNotFoundError
-} from "@replikit/help";
+import { InvalidCommandDescriptionError, DefaultLocaleNotFoundError } from "@replikit/help";
 
 export class DescriptionStorage {
     private readonly descriptionMap = new Map<string, HelpMessage>();
@@ -18,10 +15,7 @@ export class DescriptionStorage {
         this.descriptionMap.set(locale, descriptions);
     }
 
-    private renderOverloads(
-        description: string | HelpMessage,
-        overloads: Command[]
-    ) {
+    private renderOverloads(description: string | HelpMessage, overloads: Command[]) {
         if (typeof description !== "string") {
             throw new InvalidCommandDescriptionError();
         }
@@ -29,10 +23,7 @@ export class DescriptionStorage {
         return [`# ${description}`, ...overloads.map(x => x.usage!)].join("\n");
     }
 
-    private renderCommand(
-        description: HelpMessage | string,
-        command: Command
-    ): string | undefined {
+    private renderCommand(description: HelpMessage | string, command: Command): string | undefined {
         if (!description) {
             return undefined;
         }
@@ -62,8 +53,7 @@ export class DescriptionStorage {
 
     render(commands: Command[], locale?: string): string {
         const description =
-            this.descriptionMap.get(locale!) ??
-            this.descriptionMap.get(config.help.defaultLocale);
+            this.descriptionMap.get(locale!) ?? this.descriptionMap.get(config.help.defaultLocale);
 
         if (!description) {
             throw new DefaultLocaleNotFoundError(config.help.defaultLocale);

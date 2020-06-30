@@ -1,8 +1,7 @@
 module.exports = {
     base: "/replikit/",
     title: "Replikit",
-    description:
-        "A powerful framework for building universal strongly typed bots",
+    description: "A powerful framework for building universal strongly typed bots",
     locales: {
         "/": {
             lang: "en-US"

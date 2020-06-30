@@ -4,10 +4,7 @@ import { MessageBuilder, fromCode } from "@replikit/messages";
 import { MiddlewareStage, renderUsage } from "@replikit/commands";
 import { NextHandler } from "@replikit/router/typings";
 
-function chooseOverload(
-    commands: Command[],
-    args: string[]
-): Command | undefined {
+function chooseOverload(commands: Command[], args: string[]): Command | undefined {
     if (!commands.length) {
         return undefined;
     }
@@ -29,13 +26,8 @@ function byDefault(command: Command): (value: Command) => boolean {
     return (x): boolean => x.name === command.default;
 }
 
-function findCommand(
-    command: Command,
-    args: string[]
-): [Command | undefined, string[]] {
-    const overloads = args.length
-        ? command.commands.filter(byName(args[0]))
-        : undefined;
+function findCommand(command: Command, args: string[]): [Command | undefined, string[]] {
+    const overloads = args.length ? command.commands.filter(byName(args[0])) : undefined;
     const cmdArgs = args.slice(1);
     const cmd = overloads ? chooseOverload(overloads, cmdArgs) : undefined;
     if (!cmd) {
@@ -87,10 +79,7 @@ export class CommandStorage {
             await context.reply(fromCode(error + "\n" + usage));
         }
 
-        async function replyParameterError(
-            error: string,
-            name: string
-        ): Promise<void> {
+        async function replyParameterError(error: string, name: string): Promise<void> {
             await replyError(`[${name}: ${error}]`);
         }
 
@@ -103,9 +92,7 @@ export class CommandStorage {
         }
 
         if (args.length < command.requiredCount) {
-            return replyError(
-                context.t.commands.mismatch(command.requiredCount, args.length)
-            );
+            return replyError(context.t.commands.mismatch(command.requiredCount, args.length));
         }
 
         const commandContext = context as CommandContext;
@@ -136,11 +123,7 @@ export class CommandStorage {
             if (!param.converter.validator) {
                 continue;
             }
-            const validationResult = param.converter.validator(
-                context,
-                arg,
-                param.options
-            );
+            const validationResult = param.converter.validator(context, arg, param.options);
             if (typeof validationResult === "string") {
                 return replyParameterError(validationResult, param.name);
             }
@@ -176,10 +159,7 @@ export class CommandStorage {
                         command.rest.options
                     );
                     if (typeof validationResult === "string") {
-                        return replyParameterError(
-                            validationResult,
-                            command.rest.name
-                        );
+                        return replyParameterError(validationResult, command.rest.name);
                     }
                     result.push(validationResult);
                 }
@@ -191,28 +171,16 @@ export class CommandStorage {
         if (command.text) {
             const textName = command.text.name ?? "text";
             if (command.rest) {
-                commandContext.params[textName] = command.text.splitLines
-                    ? text.split("\n")
-                    : text;
+                commandContext.params[textName] = command.text.splitLines ? text.split("\n") : text;
             } else {
                 const firstLine = args.slice(command.params.length).join(" ");
-                const textValue = firstLine
-                    ? text
-                        ? firstLine + "\n" + text
-                        : firstLine
-                    : text;
+                const textValue = firstLine ? (text ? firstLine + "\n" + text : firstLine) : text;
                 commandContext.params[textName] = command.text.splitLines
                     ? textValue.split("\n")
                     : textValue;
             }
-            if (
-                !command.text.skipValidation &&
-                !commandContext.params[textName]
-            ) {
-                return replyParameterError(
-                    context.t.commands.emptyTextParameter,
-                    textName
-                );
+            if (!command.text.skipValidation && !commandContext.params[textName]) {
+                return replyParameterError(context.t.commands.emptyTextParameter, textName);
             }
         }
 
@@ -256,10 +224,7 @@ export class CommandStorage {
                     command.rest.options
                 );
                 if (typeof resolutionResult === "string") {
-                    return replyParameterError(
-                        resolutionResult,
-                        command.rest.name
-                    );
+                    return replyParameterError(resolutionResult, command.rest.name);
                 }
                 result.push(resolutionResult);
             }
@@ -267,10 +232,7 @@ export class CommandStorage {
         }
 
         if (command.middlewareRouter) {
-            await command.middlewareRouter.process(
-                MiddlewareStage.AfterResolution,
-                commandContext
-            );
+            await command.middlewareRouter.process(MiddlewareStage.AfterResolution, commandContext);
             if (!commandContext.skipped) {
                 return;
             }
@@ -282,8 +244,7 @@ export class CommandStorage {
             return;
         }
 
-        const message =
-            result instanceof MessageBuilder ? result.build() : result;
+        const message = result instanceof MessageBuilder ? result.build() : result;
         await context.reply(message);
     }
 
@@ -291,10 +252,7 @@ export class CommandStorage {
         return this.commands.filter(byName(cmd));
     }
 
-    async process(
-        context: MessageContext,
-        next: NextHandler
-    ): Promise<unknown> {
+    async process(context: MessageContext, next: NextHandler): Promise<unknown> {
         if (!context.message.text) {
             return next();
         }
@@ -302,9 +260,7 @@ export class CommandStorage {
             return next();
         }
         const [firstLine, text] = splitText(context.message.text);
-        const partIterator = firstLine
-            .replace(this.prefix, "")
-            .matchAll(/\s?"(.*?)"|\s?(\S+)\s?/g);
+        const partIterator = firstLine.replace(this.prefix, "").matchAll(/\s?"(.*?)"|\s?(\S+)\s?/g);
         const args = Array.from(partIterator).map(x => x[1] ?? x[2]);
         const overloads = this.resolve(args[0]);
         const commandArgs = args.slice(1);

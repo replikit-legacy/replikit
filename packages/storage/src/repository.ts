@@ -2,11 +2,7 @@ import { Collection, OptionalId, FilterQuery, Cursor } from "mongodb";
 import { Constructor, HasFields } from "@replikit/core/typings";
 import { plainToClass, classToPlain } from "class-transformer";
 import { Entity, ConnectionManager } from "@replikit/storage";
-import {
-    PlainObject,
-    RepositoryOptions,
-    SafeCursor
-} from "@replikit/storage/typings";
+import { PlainObject, RepositoryOptions, SafeCursor } from "@replikit/storage/typings";
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type QueryBuilder<T extends object> = (

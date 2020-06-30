@@ -1,10 +1,5 @@
 import { pathExists, mkdir } from "fs-extra";
-import {
-    PMController,
-    PMType,
-    createPMController,
-    ProjectManager
-} from "@replikit/cli";
+import { PMController, PMType, createPMController, ProjectManager } from "@replikit/cli";
 import { Project } from "ts-morph";
 import { resolve } from "path";
 
@@ -13,11 +8,7 @@ export class ModuleManager {
     private readonly pm: PMController;
     private project: Project;
 
-    constructor(
-        readonly parent: ProjectManager,
-        readonly name: string,
-        type: PMType
-    ) {
+    constructor(readonly parent: ProjectManager, readonly name: string, type: PMType) {
         this.root = resolve(parent.root, "modules", name);
         this.pm = createPMController(type, this.root);
     }
@@ -71,8 +62,7 @@ export class ModuleManager {
         startupFile.addImportDeclaration({
             namedImports: ["createScope"],
             moduleSpecifier: "@replikit/core",
-            trailingTrivia: writer =>
-                writer.blankLine().writeLine(exportDeclaration)
+            trailingTrivia: writer => writer.blankLine().writeLine(exportDeclaration)
         });
 
         const indexPath = resolve(this.root, "src/index.ts");

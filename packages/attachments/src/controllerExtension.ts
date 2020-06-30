@@ -1,13 +1,6 @@
 import { Controller, Extension } from "@replikit/core";
-import {
-    AttachmentSource,
-    Attachment,
-    AttachmentId
-} from "@replikit/attachments/typings";
-import {
-    Attachment as CoreAttachment,
-    SendedMessage
-} from "@replikit/core/typings";
+import { AttachmentSource, Attachment, AttachmentId } from "@replikit/attachments/typings";
+import { Attachment as CoreAttachment, SendedMessage } from "@replikit/core/typings";
 import {
     BulkWriteUpdateOneOperation,
     BulkWriteInsertOneOperation,
@@ -27,8 +20,7 @@ interface AwaitingAttachment {
 function byAttachmentId(id: AttachmentId): (x: AwaitingAttachment) => boolean {
     return (x): boolean =>
         // eslint-disable-next-line eqeqeq
-        x.attachment._id.controller == id.controller &&
-        x.attachment._id.localId === id.localId;
+        x.attachment._id.controller == id.controller && x.attachment._id.localId === id.localId;
 }
 
 @Extension
@@ -36,9 +28,7 @@ export abstract class ControllerExtension extends Controller {
     connection?: ConnectionManager;
     private awaiting: AwaitingAttachment[];
 
-    protected async processSendedMessage(
-        message: SendedMessage
-    ): Promise<SendedMessage> {
+    protected async processSendedMessage(message: SendedMessage): Promise<SendedMessage> {
         const operations: BulkWriteOperation<Attachment>[] = [];
         for (const attachment of message.attachments) {
             const id = createGlobalId(attachment.origin);

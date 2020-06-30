@@ -35,15 +35,8 @@ export interface BaseControllerOptions {
 export abstract class Controller {
     private static defaultTextFormatter = new TextFormatter();
 
-    private readonly accountInfoCache: CacheManager<
-        number,
-        AccountInfo | undefined
-    >;
-
-    private readonly channelInfoCache: CacheManager<
-        number,
-        ChannelInfo | undefined
-    >;
+    private readonly accountInfoCache: CacheManager<number, AccountInfo | undefined>;
+    private readonly channelInfoCache: CacheManager<number, ChannelInfo | undefined>;
 
     readonly name: string;
     readonly features: FeatureMap;
@@ -70,8 +63,7 @@ export abstract class Controller {
 
         if (options.textTokenizer) {
             const tokenizer = options.textTokenizer;
-            this.tokenizeText = (message): TextToken[] =>
-                tokenizer.tokenize(message.text);
+            this.tokenizeText = (message): TextToken[] => tokenizer.tokenize(message.text);
         }
 
         if (options.textFormatter) {
@@ -86,16 +78,11 @@ export abstract class Controller {
         return this._botId;
     }
 
-    protected processSendedMessage(
-        sendedMessages: SendedMessage
-    ): Promise<SendedMessage> {
+    protected processSendedMessage(sendedMessages: SendedMessage): Promise<SendedMessage> {
         return Promise.resolve(sendedMessages);
     }
 
-    async sendMessage(
-        channelId: number,
-        message: OutMessage
-    ): Promise<SendedMessage> {
+    async sendMessage(channelId: number, message: OutMessage): Promise<SendedMessage> {
         const attachments = await this.resolveAttachments(channelId, message);
         const sendedMessage = await this.sendResolvedMessage(channelId, {
             ...message,
@@ -108,10 +95,7 @@ export abstract class Controller {
         return this.processSendedMessage(sendedMessage);
     }
 
-    async editMessage(
-        channelId: number,
-        message: OutMessage
-    ): Promise<SendedMessage> {
+    async editMessage(channelId: number, message: OutMessage): Promise<SendedMessage> {
         if (!message.metadata) {
             throw new MissingMetadataError();
         }
@@ -177,10 +161,7 @@ export abstract class Controller {
         return Controller.defaultTextFormatter.formatText(tokens);
     }
 
-    abstract deleteMessage(
-        channelId: number,
-        metadata: MessageMetadata
-    ): Promise<void>;
+    abstract deleteMessage(channelId: number, metadata: MessageMetadata): Promise<void>;
 
     start(): Promise<void> {
         return Promise.resolve();
@@ -215,10 +196,7 @@ export abstract class Controller {
         }
     }
 
-    protected processMessageEvent(
-        type: MessageEventName,
-        message: InMessage
-    ): void {
+    protected processMessageEvent(type: MessageEventName, message: InMessage): void {
         this.setControllerName(message);
         this.processEvent(type, {
             message,
@@ -232,13 +210,9 @@ export abstract class Controller {
         attachment: Attachment
     ): Promise<string | undefined>;
 
-    protected abstract fetchChannelInfo(
-        localId: number
-    ): Promise<ChannelInfo | undefined>;
+    protected abstract fetchChannelInfo(localId: number): Promise<ChannelInfo | undefined>;
 
-    protected abstract fetchAccountInfo(
-        localId: number
-    ): Promise<AccountInfo | undefined>;
+    protected abstract fetchAccountInfo(localId: number): Promise<AccountInfo | undefined>;
 
     protected abstract sendResolvedMessage(
         channelId: number,

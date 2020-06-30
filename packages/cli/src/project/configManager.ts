@@ -1,9 +1,4 @@
-import {
-    SourceFile,
-    Project,
-    ImportDeclaration,
-    VariableDeclarationKind
-} from "ts-morph";
+import { SourceFile, Project, ImportDeclaration, VariableDeclarationKind } from "ts-morph";
 import { transpileModule, ModuleKind } from "typescript";
 
 function isModuleImport(node: ImportDeclaration): boolean {
@@ -31,14 +26,9 @@ export class ConfigManager implements ConfigManager {
 
     compile(): string {
         const project = new Project();
-        const config = project.createSourceFile(
-            "config.ts",
-            this.source.getFullText()
-        );
+        const config = project.createSourceFile("config.ts", this.source.getFullText());
         const imports = config.getImportDeclarations().filter(isModuleImport);
-        const importArray = imports
-            .map(x => x.getModuleSpecifier().getText())
-            .join(", ");
+        const importArray = imports.map(x => x.getModuleSpecifier().getText()).join(", ");
         imports.forEach(x => x.remove());
         const text = transpileModule(config.getFullText(), {
             compilerOptions: { module: ModuleKind.CommonJS },
@@ -57,18 +47,13 @@ export class ConfigManager implements ConfigManager {
         });
         this.source.addVariableStatement({
             declarationKind: VariableDeclarationKind.Const,
-            declarations: [
-                { name: "config", type: "Configuration", initializer: "{}" }
-            ],
-            trailingTrivia: writer =>
-                writer.blankLine().write("export default config;")
+            declarations: [{ name: "config", type: "Configuration", initializer: "{}" }],
+            trailingTrivia: writer => writer.blankLine().write("export default config;")
         });
     }
 
     addModule(module: string): void {
-        const imports = this.source
-            .getImportDeclarations()
-            .filter(isModuleImport);
+        const imports = this.source.getImportDeclarations().filter(isModuleImport);
         const lastModuleImport = imports[imports.length - 1];
         if (!lastModuleImport) {
             this.source

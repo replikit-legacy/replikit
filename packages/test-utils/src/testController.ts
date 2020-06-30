@@ -28,15 +28,11 @@ export class TestController extends Controller {
         throw new Error("Method not implemented.");
     }
 
-    protected fetchChannelInfo(
-        localId: number
-    ): Promise<ChannelInfo | undefined> {
+    protected fetchChannelInfo(localId: number): Promise<ChannelInfo | undefined> {
         throw new Error("Method not implemented.");
     }
 
-    protected fetchAccountInfo(
-        localId: number
-    ): Promise<AccountInfo | undefined> {
+    protected fetchAccountInfo(localId: number): Promise<AccountInfo | undefined> {
         throw new Error("Method not implemented.");
     }
 
@@ -47,8 +43,7 @@ export class TestController extends Controller {
         if (message.text) {
             expect(message.text).toMatchSnapshot();
         }
-        const result =
-            this.testOptions?.sendedMessage ?? this.createSendedMessage();
+        const result = this.testOptions?.sendedMessage ?? this.createSendedMessage();
         return Promise.resolve(result);
     }
 
@@ -64,8 +59,7 @@ export class TestController extends Controller {
         message: ResolvedMessage
     ): Promise<SendedMessage> {
         expect(message.text).toMatchSnapshot();
-        const result =
-            this.testOptions?.sendedMessage ?? this.createSendedMessage();
+        const result = this.testOptions?.sendedMessage ?? this.createSendedMessage();
         return Promise.resolve(result);
     }
 }

@@ -1,10 +1,5 @@
 import execa from "execa";
-import {
-    YarnController,
-    NpmController,
-    PMController,
-    PMType
-} from "@replikit/cli";
+import { YarnController, NpmController, PMController, PMType } from "@replikit/cli";
 import { readJSON } from "fs-extra";
 import { resolve } from "path";
 import { PackageConfig } from "@replikit/cli/typings";

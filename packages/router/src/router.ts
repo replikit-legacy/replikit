@@ -1,9 +1,5 @@
 import { Event, EventName } from "@replikit/core/typings";
-import {
-    HandlerChain,
-    ContextFactoryStorage,
-    contextFactories
-} from "@replikit/router";
+import { HandlerChain, ContextFactoryStorage, contextFactories } from "@replikit/router";
 import { ContextMap } from "@replikit/router/typings";
 
 type RouterChain = HandlerChain<ContextMap[keyof ContextMap]>;

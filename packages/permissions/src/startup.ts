@@ -5,9 +5,7 @@ import { HasPermissions } from "@replikit/permissions";
 applyMixins(User, [HasPermissions]);
 applyMixins(Member, [HasPermissions]);
 
-export function registerPermissionsDefaults(
-    connection: ConnectionManager
-): void {
+export function registerPermissionsDefaults(connection: ConnectionManager): void {
     const users = connection.getRepository(User);
     users.setDefault("permissions", []);
     users.setDefault("roles", []);

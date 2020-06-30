@@ -1,9 +1,4 @@
-import {
-    OutMessage,
-    Attachment,
-    TextToken,
-    MessageMetadata
-} from "@replikit/core/typings";
+import { OutMessage, Attachment, TextToken, MessageMetadata } from "@replikit/core/typings";
 import { AttachmentType, TextTokenKind, TextTokenProp } from "@replikit/core";
 import { hashString } from "@replikit/messages";
 

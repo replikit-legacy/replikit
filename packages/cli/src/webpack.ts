@@ -19,8 +19,7 @@ export function createWebpackConfiguration(
     const tsconfig = config.tsconfig ?? "tsconfig.json";
     const fullConfigPath = resolve(projectManager.root, tsconfig);
     // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const compilerOptions = require(fullConfigPath)
-        .compilerOptions as CompilerOptions;
+    const compilerOptions = require(fullConfigPath).compilerOptions as CompilerOptions;
 
     const { paths, baseUrl } = compilerOptions;
 
@@ -54,12 +53,7 @@ export function createWebpackConfiguration(
         entry[`${moduleParts[0]}_${moduleParts[1]}`] = module;
 
         if (module.startsWith(projectName)) {
-            const path = resolve(
-                projectManager.root,
-                baseUrl,
-                moduleParts[1],
-                mapping
-            );
+            const path = resolve(projectManager.root, baseUrl, moduleParts[1], mapping);
             alias[module] = path;
         }
     }
@@ -134,9 +128,7 @@ export function createWebpackConfiguration(
         output: {
             path: outputPath,
             filename: chunkDate =>
-                chunkDate.chunk.name === "main"
-                    ? "main.js"
-                    : "modules/[name].js",
+                chunkDate.chunk.name === "main" ? "main.js" : "modules/[name].js",
             chunkFilename: "chunks/[chunkhash].js"
         }
     };

@@ -33,15 +33,9 @@ export type NormalizeType<T> = T extends (infer U)[]
 export type Required<N extends string, T> = { [_ in N]: NormalizeType<T> };
 export type Optional<N extends string, T> = { [_ in N]?: NormalizeType<T> };
 
-export type AddRequired<C, P, N extends string, T> = CommandBuilder<
-    C,
-    P & Required<N, T>
->;
+export type AddRequired<C, P, N extends string, T> = CommandBuilder<C, P & Required<N, T>>;
 
-export type AddOptional<C, P, N extends string, T> = CommandBuilder<
-    C,
-    P & Optional<N, T>
->;
+export type AddOptional<C, P, N extends string, T> = CommandBuilder<C, P & Optional<N, T>>;
 
 interface Buildable {
     build(): Command;
@@ -193,21 +187,11 @@ export class CommandBuilder<C = HasFields, P extends Parameters = HasFields> {
 
     text(): AddRequired<C, P, "text", string>;
 
-    text(
-        splitLines: false,
-        skipValidation: true
-    ): AddRequired<C, P, "text", string>;
+    text(splitLines: false, skipValidation: true): AddRequired<C, P, "text", string>;
 
-    text(
-        splitLines: true,
-        skipValidation?: true
-    ): AddRequired<C, P, "text", string[]>;
+    text(splitLines: true, skipValidation?: true): AddRequired<C, P, "text", string[]>;
 
-    text(
-        name?: string | boolean,
-        splitLines?: boolean,
-        skipValidation?: true
-    ): unknown {
+    text(name?: string | boolean, splitLines?: boolean, skipValidation?: true): unknown {
         this.command.text =
             typeof name === "string"
                 ? { name, splitLines, skipValidation }
@@ -222,17 +206,14 @@ export class CommandBuilder<C = HasFields, P extends Parameters = HasFields> {
 
     commands(...commands: CommandLike[]): Pick<this, "build" | "register"> {
         this.command.commands = commands.map(x => {
-            const command =
-                x instanceof CommandBuilder ? x.build() : (x as Command);
+            const command = x instanceof CommandBuilder ? x.build() : (x as Command);
             command.parent = this.command;
             return command;
         });
         return this;
     }
 
-    handler(
-        handler: CommandHandler<C & CommandContext<P>>
-    ): Pick<this, "build" | "register"> {
+    handler(handler: CommandHandler<C & CommandContext<P>>): Pick<this, "build" | "register"> {
         this.command.handler = handler as CommandHandler;
         return this;
     }
@@ -247,15 +228,10 @@ export class CommandBuilder<C = HasFields, P extends Parameters = HasFields> {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface CommandBuilder<
-    C = HasFields,
-    P extends Parameters = HasFields
-> extends _CommandBuilder<C, P> {}
+export interface CommandBuilder<C = HasFields, P extends Parameters = HasFields>
+    extends _CommandBuilder<C, P> {}
 
-export type CommandBuilderFactory = (
-    name: string,
-    ...aliases: string[]
-) => CommandBuilder;
+export type CommandBuilderFactory = (name: string, ...aliases: string[]) => CommandBuilder;
 
 export function createCommandBuilderFactory(
     commands: CommandStorage,

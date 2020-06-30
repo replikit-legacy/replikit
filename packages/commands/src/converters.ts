@@ -1,9 +1,7 @@
 import { converter } from "@replikit/commands";
 import { ConverterBuilderFactory } from "@replikit/commands/typings";
 
-export function registerBasicConverters(
-    converter: ConverterBuilderFactory
-): void {
+export function registerBasicConverters(converter: ConverterBuilderFactory): void {
     converter(Number)
         .validator((context, param, options) => {
             if (options.float) {

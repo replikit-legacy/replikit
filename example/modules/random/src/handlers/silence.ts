@@ -14,10 +14,7 @@ router.of("message:received").use(async (context, next) => {
     }
 
     if (context.channel.permissions.deleteOtherMessages) {
-        await context.controller.deleteMessage(
-            context.channel.id,
-            context.message.metadata
-        );
+        await context.controller.deleteMessage(context.channel.id, context.message.metadata);
     }
 });
 

@@ -1,16 +1,7 @@
 import "@replikit/authorization";
-import {
-    DatabaseTestManager,
-    TestManagerSuite,
-    createTestManager
-} from "@replikit/test-utils";
+import { DatabaseTestManager, TestManagerSuite, createTestManager } from "@replikit/test-utils";
 import { MessageContext } from "@replikit/router";
-import {
-    AccountContextExtension,
-    User,
-    Member,
-    Channel
-} from "@replikit/storage";
+import { AccountContextExtension, User, Member, Channel } from "@replikit/storage";
 import { UserPermissionName } from "@replikit/permissions/typings";
 import { fromText } from "@replikit/messages";
 import { PlainObject } from "@replikit/storage/typings";
@@ -31,17 +22,13 @@ function createExtensionTestManager(): TestManagerSuite {
     const manager = dbTestManager;
     suite.testManager.contextFactories.register("message:received", event => {
         const context = new MessageContext(event);
-        ((context as unknown) as AccountContextExtension)._connection =
-            manager.connection;
+        ((context as unknown) as AccountContextExtension)._connection = manager.connection;
         return context;
     });
     return suite;
 }
 
-async function insertUser(
-    id: number,
-    permissions: UserPermissionName[]
-): Promise<void> {
+async function insertUser(id: number, permissions: UserPermissionName[]): Promise<void> {
     const collection = dbTestManager.connection.getCollection(User);
     await collection.insertOne(({
         username: "test",
@@ -65,10 +52,7 @@ async function insertMember(
     });
 }
 
-async function insertChannel(
-    channelId: number,
-    controller = "test"
-): Promise<void> {
+async function insertChannel(channelId: number, controller = "test"): Promise<void> {
     const repository = dbTestManager.connection.getRepository(Channel);
     const channel = repository.create({ controller, localId: channelId });
     await channel.save();

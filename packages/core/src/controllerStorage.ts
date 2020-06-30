@@ -1,10 +1,4 @@
-import {
-    Controller,
-    invokeHook,
-    logger,
-    hasHandler,
-    config
-} from "@replikit/core";
+import { Controller, invokeHook, logger, hasHandler, config } from "@replikit/core";
 
 const controllers: Controller[] = [];
 

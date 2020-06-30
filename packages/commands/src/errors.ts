@@ -8,8 +8,6 @@ export class MissingConverterError extends Error {
 
 export class InvalidConverterError extends Error {
     constructor(type: Constructor) {
-        super(
-            `Converter for type ${type.name} contains neither a validator nor a resolver`
-        );
+        super(`Converter for type ${type.name} contains neither a validator nor a resolver`);
     }
 }

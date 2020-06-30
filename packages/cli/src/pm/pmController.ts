@@ -54,10 +54,7 @@ export abstract class PMController {
         }
     }
 
-    abstract install(
-        modules: string[],
-        dev?: boolean | undefined
-    ): Promise<void>;
+    abstract install(modules: string[], dev?: boolean | undefined): Promise<void>;
 
     protected async execute(file: string, args?: string[]): Promise<void> {
         await execa(file, args, {

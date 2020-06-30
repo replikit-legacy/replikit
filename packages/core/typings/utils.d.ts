@@ -28,18 +28,13 @@ export type FilterNot<Base, Condition> = {
 
 export type FilterKeys<Base, Condition> = Filter<Base, Condition>[keyof Base];
 
-export type FilterKeysNot<Base, Condition> = FilterNot<
-    Base,
-    Condition
->[keyof Base];
+export type FilterKeysNot<Base, Condition> = FilterNot<Base, Condition>[keyof Base];
 
 export type Condition<T> = (value: T, index: number, obj: T[]) => boolean;
 
-export type DiscriminateUnion<
-    T,
-    K extends keyof T,
-    V extends T[K]
-> = T extends Record<K, V> ? T : never;
+export type DiscriminateUnion<T, K extends keyof T, V extends T[K]> = T extends Record<K, V>
+    ? T
+    : never;
 
 export type HasFields = Record<string, unknown>;
 

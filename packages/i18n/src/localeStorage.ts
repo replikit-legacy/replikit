@@ -1,9 +1,6 @@
 import { Locale } from "@replikit/i18n/typings";
 import { deepmerge, config } from "@replikit/core";
-import {
-    MissingFallbackLocaleError,
-    UnableToResolveLocaleError
-} from "@replikit/i18n";
+import { MissingFallbackLocaleError, UnableToResolveLocaleError } from "@replikit/i18n";
 import { HasFields } from "@replikit/core/typings";
 
 export class LocaleStorage {
@@ -22,8 +19,7 @@ export class LocaleStorage {
             const resolvedLocale = {} as Locale;
             for (const namespaceName in locale) {
                 const namespace = locale[namespaceName as keyof Locale];
-                const fallbackNamespace =
-                    fallbackLocale[namespaceName as keyof Locale];
+                const fallbackNamespace = fallbackLocale[namespaceName as keyof Locale];
                 if (!fallbackNamespace) {
                     throw new MissingFallbackLocaleError(namespaceName);
                 }
@@ -39,11 +35,7 @@ export class LocaleStorage {
         }
     }
 
-    add<T extends keyof Locale>(
-        lang: string,
-        namespace: T,
-        translation: Partial<Locale[T]>
-    ): void {
+    add<T extends keyof Locale>(lang: string, namespace: T, translation: Partial<Locale[T]>): void {
         let locale = this.locales.get(lang);
         if (!locale) {
             locale = {} as Locale;

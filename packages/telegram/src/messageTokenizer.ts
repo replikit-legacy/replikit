@@ -23,10 +23,7 @@ export class MessageTokenizer {
             this.handleEntity();
         }
         if (this.text.length > this.lastIndex) {
-            const text = this.text.slice(
-                this.lastIndex,
-                this.lastIndex + this.text.length
-            );
+            const text = this.text.slice(this.lastIndex, this.lastIndex + this.text.length);
             this.pushText(text);
         }
         return this.tokens;

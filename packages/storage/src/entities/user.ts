@@ -9,10 +9,7 @@ export class User extends Entity {
     accounts: Account[] = [];
 
     @CacheResult
-    getMember(
-        controller: string,
-        channelId: number
-    ): Promise<Member | undefined> {
+    getMember(controller: string, channelId: number): Promise<Member | undefined> {
         const repo = this.repository.connection.getRepository(Member);
         const account = this.accounts.find(x => x.controller === controller);
         if (!account) {

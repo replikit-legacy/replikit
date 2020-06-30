@@ -14,9 +14,7 @@ function renderParameters(parameters: CommandParameter[]): string {
     if (!parameters.length) {
         return "";
     }
-    const params = parameters
-        .map(x => (x.optional ? `[${x.name}]` : `{${x.name}}`))
-        .join(" ");
+    const params = parameters.map(x => (x.optional ? `[${x.name}]` : `{${x.name}}`)).join(" ");
     return " " + params;
 }
 

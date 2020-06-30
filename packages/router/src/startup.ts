@@ -7,15 +7,9 @@ import {
     ContextFactoryStorage,
     contextFactories
 } from "@replikit/router";
-import {
-    MessageEvent,
-    AccountEvent,
-    ChannelEvent
-} from "@replikit/core/typings";
+import { MessageEvent, AccountEvent, ChannelEvent } from "@replikit/core/typings";
 
-function createChannelContext<T extends ChannelEvent>(
-    event: T
-): ChannelContext<T> {
+function createChannelContext<T extends ChannelEvent>(event: T): ChannelContext<T> {
     return new ChannelContext(event);
 }
 
@@ -27,9 +21,7 @@ function createAccountContext(event: AccountEvent): AccountContext {
     return new AccountContext(event);
 }
 
-export function registerBasicContextFactories(
-    contextFactories: ContextFactoryStorage
-): void {
+export function registerBasicContextFactories(contextFactories: ContextFactoryStorage): void {
     contextFactories.register("channel:title:edited", createChannelContext);
     contextFactories.register("channel:photo:edited", createChannelContext);
     contextFactories.register("channel:photo:deleted", createChannelContext);

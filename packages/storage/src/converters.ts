@@ -12,9 +12,7 @@ function getCommands(): CommandsModule | undefined {
     }
 }
 
-export function registerStorageConverters(
-    converter: ConverterBuilderFactory
-): void {
+export function registerStorageConverters(converter: ConverterBuilderFactory): void {
     converter(User)
         .validator((context, param) => {
             const id = +param;

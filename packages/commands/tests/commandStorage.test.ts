@@ -10,24 +10,21 @@ describe("CommandStorage", () => {
         `/test "abc abc" 123`,
         `/test abc "123"`,
         "/test"
-    ])(
-        "should handle a command with required and optional parameters: %s",
-        async text => {
-            const { testManager, command } = createTestManager();
-            command("test")
-                .required("p1", String)
-                .optional("p2", Number)
-                .handler(context => {
-                    expect({
-                        p1: context.params.p1,
-                        p2: context.params.p2
-                    }).toMatchSnapshot();
-                })
-                .register();
-            await testManager.processCommand(text);
-            expect.assertions(1);
-        }
-    );
+    ])("should handle a command with required and optional parameters: %s", async text => {
+        const { testManager, command } = createTestManager();
+        command("test")
+            .required("p1", String)
+            .optional("p2", Number)
+            .handler(context => {
+                expect({
+                    p1: context.params.p1,
+                    p2: context.params.p2
+                }).toMatchSnapshot();
+            })
+            .register();
+        await testManager.processCommand(text);
+        expect.assertions(1);
+    });
 
     it("should handle a command with alias", async () => {
         const { testManager, command } = createTestManager();
@@ -50,16 +47,14 @@ describe("CommandStorage", () => {
                         .required("p1", Number)
                         .required("p2", Number)
                         .handler(context => {
-                            const result =
-                                context.params.p1 + context.params.p2;
+                            const result = context.params.p1 + context.params.p2;
                             expect(result).toMatchSnapshot();
                         }),
                     command("diff")
                         .required("p1", Number)
                         .required("p2", Number)
                         .handler(context => {
-                            const result =
-                                context.params.p1 - context.params.p2;
+                            const result = context.params.p1 - context.params.p2;
                             expect(result).toMatchSnapshot();
                         })
                 )
@@ -216,20 +211,17 @@ describe("CommandStorage", () => {
         ["/test test\ntest", "test\ntest"],
         ["/test test", "test"],
         ["/test", ""]
-    ])(
-        "should handle a command with text parameter: %s",
-        async (text, result) => {
-            const { testManager, command } = createTestManager();
-            command("test")
-                .text()
-                .handler(context => {
-                    expect(context.params.text).toBe(result);
-                })
-                .register();
-            await testManager.processCommand(text);
-            expect.assertions(1);
-        }
-    );
+    ])("should handle a command with text parameter: %s", async (text, result) => {
+        const { testManager, command } = createTestManager();
+        command("test")
+            .text()
+            .handler(context => {
+                expect(context.params.text).toBe(result);
+            })
+            .register();
+        await testManager.processCommand(text);
+        expect.assertions(1);
+    });
 
     it("should handle a command with text parameter with custom name", async () => {
         const { testManager, command } = createTestManager();

@@ -1,10 +1,6 @@
 import { Channel as _Channel } from "@replikit/storage/typings";
 import { ChannelInfo } from "@replikit/core/typings";
-import {
-    Local,
-    InaccessibleChannelInfoError,
-    CacheResult
-} from "@replikit/storage";
+import { Local, InaccessibleChannelInfoError, CacheResult } from "@replikit/storage";
 
 export class Channel extends Local {
     @CacheResult

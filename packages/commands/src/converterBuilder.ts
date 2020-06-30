@@ -15,9 +15,7 @@ export class ConverterBuilder<T, V = string> {
         private readonly type: Constructor<T>
     ) {}
 
-    validator<V>(
-        validator: Validator<T, V>
-    ): Omit<ConverterBuilder<T, V>, "validator">;
+    validator<V>(validator: Validator<T, V>): Omit<ConverterBuilder<T, V>, "validator">;
 
     validator<NV>(validator: Validator<T, NV>): this {
         this.converter.validator = (validator as unknown) as Validator<T, V>;
@@ -38,11 +36,8 @@ export class ConverterBuilder<T, V = string> {
     }
 }
 
-export function createConverterBuilderFactory(
-    storage: ConverterStorage
-): ConverterBuilderFactory {
-    return <T>(type: Constructor<T>): ConverterBuilder<T> =>
-        new ConverterBuilder(storage, type);
+export function createConverterBuilderFactory(storage: ConverterStorage): ConverterBuilderFactory {
+    return <T>(type: Constructor<T>): ConverterBuilder<T> => new ConverterBuilder(storage, type);
 }
 
 export const converter = createConverterBuilderFactory(converters);

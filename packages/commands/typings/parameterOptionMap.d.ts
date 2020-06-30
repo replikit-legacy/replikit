@@ -13,10 +13,7 @@ export interface ParameterOptionMap {
     Boolean: [Boolean, BooleanParameterOptions];
 }
 
-type ResolveOptions<T> = ParameterOptionMap[FilterKeys<
-    ParameterOptionMap,
-    [T, unknown]
->][1];
+type ResolveOptions<T> = ParameterOptionMap[FilterKeys<ParameterOptionMap, [T, unknown]>][1];
 
 type Options<T> = ResolveOptions<T> extends never ? object : ResolveOptions<T>;
 

@@ -9,10 +9,7 @@ function isMergebleObject(item: unknown): boolean {
 }
 
 // https://stackoverflow.com/a/46973278/10502674
-export function deepmerge<T extends HasFields = HasFields>(
-    target: T,
-    ...sources: T[]
-): T {
+export function deepmerge<T extends HasFields = HasFields>(target: T, ...sources: T[]): T {
     if (!sources.length) {
         return target;
     }
@@ -60,21 +57,15 @@ export function renderDate(date: Date, omitOffset = false): string {
     const timezone = date.getTimezoneOffset();
     const timezoneHours = -Math.floor(timezone / 60);
     const timezoneHoursPadded = pad(timezoneHours);
-    const timezoneHoursText =
-        timezoneHours > 0 ? "+" + timezoneHoursPadded : timezoneHoursPadded;
+    const timezoneHoursText = timezoneHours > 0 ? "+" + timezoneHoursPadded : timezoneHoursPadded;
     const timezoneMinutes = pad(timezone % 60);
-    const timezoneText = !omitOffset
-        ? ` GMT${timezoneHoursText}:${timezoneMinutes} `
-        : " ";
+    const timezoneText = !omitOffset ? ` GMT${timezoneHoursText}:${timezoneMinutes} ` : " ";
     return `${year}-${month}-${day}${timezoneText}${hours}:${minutes}:${seconds}`;
 }
 
 type Group<T, K extends keyof T> = { key: T[K]; value: T[] };
 
-export function groupBy<T, K extends keyof T>(
-    arr: readonly T[],
-    key: K
-): Group<T, K>[] {
+export function groupBy<T, K extends keyof T>(arr: readonly T[], key: K): Group<T, K>[] {
     const map = new Map<T[K], Group<T, K>>();
     for (const item of arr) {
         let group = map.get(item[key]);
@@ -95,10 +86,7 @@ export function applyMixins(target: Constructor, mixins: Constructor[]): void {
             if (property === "constructor") {
                 continue;
             }
-            const desc = Object.getOwnPropertyDescriptor(
-                mixin.prototype,
-                property
-            )!;
+            const desc = Object.getOwnPropertyDescriptor(mixin.prototype, property)!;
             Object.defineProperty(target.prototype, property, desc);
         }
     }
@@ -106,7 +94,6 @@ export function applyMixins(target: Constructor, mixins: Constructor[]): void {
 
 export const Extension: ClassDecorator = (target): void => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    const base = Object.getPrototypeOf(target.prototype)
-        .constructor as Constructor;
+    const base = Object.getPrototypeOf(target.prototype).constructor as Constructor;
     applyMixins(base, [(target as unknown) as Constructor]);
 };

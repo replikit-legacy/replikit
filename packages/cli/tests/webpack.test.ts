@@ -16,10 +16,7 @@ describe("webpack", () => {
 
         const result = createWebpackConfiguration(project, config);
         const expectedOutputPath = resolve(project.root, "dist");
-        const expectedAliasPath = resolve(
-            project.root,
-            "modules/test/src/index.ts"
-        );
+        const expectedAliasPath = resolve(project.root, "modules/test/src/index.ts");
         expect(result).toMatchSnapshot({
             resolve: {
                 alias: { "@test-project/test": expect.any(String) }

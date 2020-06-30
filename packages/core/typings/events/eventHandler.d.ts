@@ -28,6 +28,4 @@ export type ChannelPhotoEvent = Event<ChannelPhotoEventName>;
 export type AccountEvent = Event<AccountEventName>;
 export type MessageEvent = Event<MessageEventName>;
 
-export type EventHandler<T extends EventName = EventName> = (
-    event: Event<T>
-) => void;
+export type EventHandler<T extends EventName = EventName> = (event: Event<T>) => void;

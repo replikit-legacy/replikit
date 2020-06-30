@@ -1,8 +1,4 @@
-import {
-    OutMessage,
-    ResolvedAttachment,
-    MessageMetadata
-} from "@replikit/core/typings";
+import { OutMessage, ResolvedAttachment, MessageMetadata } from "@replikit/core/typings";
 
 export interface ResolvedMessage extends OutMessage {
     text: string;

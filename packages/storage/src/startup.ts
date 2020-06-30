@@ -1,10 +1,4 @@
-import {
-    config,
-    hook,
-    invokeHook,
-    updateConfig,
-    createScope
-} from "@replikit/core";
+import { config, hook, invokeHook, updateConfig, createScope } from "@replikit/core";
 import {
     ConnectionManager,
     User,
@@ -53,10 +47,6 @@ hook("core:shutdown:init", async () => {
 
 hook("storage:database:done", async () => {
     registerBasicRepositories(connection);
-    await connection
-        .getCollection(Channel)
-        .createIndexes([{ key: { controller: 1, localId: 1 } }]);
-    await connection
-        .getCollection(User)
-        .createIndexes([{ key: { username: 1, accounts: 1 } }]);
+    await connection.getCollection(Channel).createIndexes([{ key: { controller: 1, localId: 1 } }]);
+    await connection.getCollection(User).createIndexes([{ key: { username: 1, accounts: 1 } }]);
 });

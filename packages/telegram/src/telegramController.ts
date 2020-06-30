@@ -41,10 +41,7 @@ import { Dice } from "@replikit/telegram/typings";
 export class TelegramController extends Controller {
     private readonly bot: Telegraf<TelegrafContext>;
     private readonly startDate: number;
-    private readonly permissionCache: CacheManager<
-        number,
-        ChannelPermissionMap
-    >;
+    private readonly permissionCache: CacheManager<number, ChannelPermissionMap>;
 
     constructor() {
         const textFormatter = new TextFormatter()
@@ -85,10 +82,7 @@ export class TelegramController extends Controller {
         this.bot.handleUpdates = this.handleUpdates.bind(this);
     }
 
-    private async handleMediaGroup(
-        event: MessageEventName,
-        messages: Message[]
-    ): Promise<void> {
+    private async handleMediaGroup(event: MessageEventName, messages: Message[]): Promise<void> {
         const primary = messages[0];
         const message = await this.createMessage(primary);
         for (const mediaItem of messages.slice(1)) {
@@ -139,10 +133,7 @@ export class TelegramController extends Controller {
         return false;
     }
 
-    private async handleMessages(
-        event: MessageEventName,
-        messages: Message[]
-    ): Promise<void> {
+    private async handleMessages(event: MessageEventName, messages: Message[]): Promise<void> {
         const mediaGroups = groupBy(messages, "media_group_id");
         for (const group of mediaGroups) {
             if (group.key !== "undefined") {
@@ -184,13 +175,8 @@ export class TelegramController extends Controller {
         return (undefined as unknown) as unknown[];
     }
 
-    private async fetchChannelPermissions(
-        channelId: number
-    ): Promise<ChannelPermissionMap> {
-        const botMember = await this.bot.telegram.getChatMember(
-            channelId,
-            this.botId
-        );
+    private async fetchChannelPermissions(channelId: number): Promise<ChannelPermissionMap> {
+        const botMember = await this.bot.telegram.getChatMember(channelId, this.botId);
         if (!botMember) {
             return {
                 deleteMessages: false,
@@ -211,10 +197,7 @@ export class TelegramController extends Controller {
         if (!message.text || !message.telegram) {
             return [];
         }
-        const tokenizer = new MessageTokenizer(
-            message.text,
-            message.telegram?.entities ?? []
-        );
+        const tokenizer = new MessageTokenizer(message.text, message.telegram?.entities ?? []);
         return tokenizer.tokenize();
     }
 
@@ -246,9 +229,7 @@ export class TelegramController extends Controller {
                 lastName: chat.last_name,
                 username: chat.username,
                 avatarUrl: chat.photo
-                    ? await this.bot.telegram.getFileLink(
-                          chat.photo.small_file_id
-                      )
+                    ? await this.bot.telegram.getFileLink(chat.photo.small_file_id)
                     : undefined
             };
         } catch {
@@ -256,10 +237,7 @@ export class TelegramController extends Controller {
         }
     }
 
-    async sendResolvedMessage(
-        channelId: number,
-        message: ResolvedMessage
-    ): Promise<SendedMessage> {
+    async sendResolvedMessage(channelId: number, message: ResolvedMessage): Promise<SendedMessage> {
         let result: SendedMessage | undefined = undefined;
         let extra: Record<string, unknown> | undefined = {
             reply_to_message_id: message.reply
@@ -267,15 +245,11 @@ export class TelegramController extends Controller {
 
         // Отправляем текст, если есть
         if (message.text) {
-            const sended = await this.bot.telegram.sendMessage(
-                channelId,
-                message.text,
-                {
-                    parse_mode: "HTML",
-                    disable_web_page_preview: true,
-                    reply_to_message_id: message.reply?.messageIds[0]
-                }
-            );
+            const sended = await this.bot.telegram.sendMessage(channelId, message.text, {
+                parse_mode: "HTML",
+                disable_web_page_preview: true,
+                reply_to_message_id: message.reply?.messageIds[0]
+            });
             extra = undefined;
             result = await this.createSendedMessage(sended);
         }
@@ -285,9 +259,7 @@ export class TelegramController extends Controller {
 
         // Отправляем фото и видео
         const media = attachments.filter(
-            x =>
-                x.type === AttachmentType.Photo ||
-                x.type === AttachmentType.Video
+            x => x.type === AttachmentType.Photo || x.type === AttachmentType.Video
         );
 
         if (media.length === 1) {
@@ -309,11 +281,7 @@ export class TelegramController extends Controller {
                     type: x.type === AttachmentType.Photo ? "photo" : "video",
                     media: x.source
                 }));
-                const sended = await this.bot.telegram.sendMediaGroup(
-                    channelId,
-                    items,
-                    extra
-                );
+                const sended = await this.bot.telegram.sendMediaGroup(channelId, items, extra);
                 extra = undefined;
                 for (const [i, msg] of sended.entries()) {
                     if (i === 0 && !result) {
@@ -321,10 +289,7 @@ export class TelegramController extends Controller {
                         continue;
                     }
                     result!.metadata.messageIds.push(msg.message_id);
-                    const sendedAttachment = await this.createSendedAttachment(
-                        msg,
-                        mediaGroup[i]
-                    );
+                    const sendedAttachment = await this.createSendedAttachment(msg, mediaGroup[i]);
                     result?.attachments.push(sendedAttachment);
                 }
             }
@@ -333,21 +298,14 @@ export class TelegramController extends Controller {
         // Отправляем прочие вложения
         const otherAttachments = attachments.filter(x => !media.includes(x));
         for (const [i, attachment] of otherAttachments.entries()) {
-            const sended = await this.sendOtherAttachment(
-                channelId,
-                attachment,
-                extra
-            );
+            const sended = await this.sendOtherAttachment(channelId, attachment, extra);
             extra = undefined;
             if (i === 0 && !result) {
                 result = await this.createSendedMessage(sended);
                 continue;
             }
             result!.metadata.messageIds.push(sended.message_id);
-            const sendedAttachment = await this.createSendedAttachment(
-                sended,
-                attachment
-            );
+            const sendedAttachment = await this.createSendedAttachment(sended, attachment);
             result!.attachments.push(sendedAttachment);
         }
 
@@ -380,31 +338,15 @@ export class TelegramController extends Controller {
         switch (attachment.type) {
             case AttachmentType.Sticker: {
                 if (attachment.controllerName === this.name) {
-                    return this.bot.telegram.sendSticker(
-                        channelId,
-                        attachment.source,
-                        extra
-                    );
+                    return this.bot.telegram.sendSticker(channelId, attachment.source, extra);
                 }
-                return this.bot.telegram.sendPhoto(
-                    channelId,
-                    attachment.source,
-                    extra
-                );
+                return this.bot.telegram.sendPhoto(channelId, attachment.source, extra);
             }
             case AttachmentType.Voice: {
-                return this.bot.telegram.sendVoice(
-                    channelId,
-                    attachment.source,
-                    extra
-                );
+                return this.bot.telegram.sendVoice(channelId, attachment.source, extra);
             }
             case AttachmentType.Document: {
-                return this.bot.telegram.sendDocument(
-                    channelId,
-                    attachment.source,
-                    extra
-                );
+                return this.bot.telegram.sendDocument(channelId, attachment.source, extra);
             }
             default: {
                 const type = AttachmentType[attachment.type];
@@ -428,9 +370,7 @@ export class TelegramController extends Controller {
         }
 
         const length =
-            message.attachments.length +
-            message.forwarded.length +
-            (message.text ? 1 : 0);
+            message.attachments.length + message.forwarded.length + (message.text ? 1 : 0);
         if (length !== message.metadata.messageIds.length) {
             throw new Error("Metadata messageIds length mismatch");
         }
@@ -452,10 +392,7 @@ export class TelegramController extends Controller {
         return result;
     }
 
-    async deleteMessage(
-        channelId: number,
-        metadata: MessageMetadata
-    ): Promise<void> {
+    async deleteMessage(channelId: number, metadata: MessageMetadata): Promise<void> {
         for (const messageId of metadata.messageIds) {
             await this.bot.telegram.deleteMessage(channelId, messageId);
         }
@@ -475,15 +412,11 @@ export class TelegramController extends Controller {
         return (
             (chat as Chat).title ??
             chat.username ??
-            (chat.last_name
-                ? `${chat.first_name} ${chat.last_name}`
-                : chat.first_name!)
+            (chat.last_name ? `${chat.first_name} ${chat.last_name}` : chat.first_name!)
         );
     }
 
-    private extractAttachment(
-        message: IncomingMessage
-    ): Attachment | undefined {
+    private extractAttachment(message: IncomingMessage): Attachment | undefined {
         if (message.photo) {
             return this.createPhotoAttachment(message.photo);
         }
@@ -525,9 +458,7 @@ export class TelegramController extends Controller {
         return `https://api.telegram.org/file/bot${config.telegram.token}/${path}`;
     }
 
-    private async resolveAttachment(
-        message: Message
-    ): Promise<Attachment | undefined> {
+    private async resolveAttachment(message: Message): Promise<Attachment | undefined> {
         const attachment = this.extractAttachment(message);
         if (!attachment) {
             return;
@@ -602,9 +533,7 @@ export class TelegramController extends Controller {
         origin?: ResolvedAttachment
     ): Promise<SendedMessage> {
         return {
-            attachments: origin
-                ? [await this.createSendedAttachment(message, origin)]
-                : [],
+            attachments: origin ? [await this.createSendedAttachment(message, origin)] : [],
             metadata: {
                 messageIds: [message.message_id],
                 hasText: !!message.text
@@ -633,8 +562,7 @@ export class TelegramController extends Controller {
                         ),
                         forwarded: [],
                         telegram: {
-                            entities:
-                                message.entities ?? message.caption_entities,
+                            entities: message.entities ?? message.caption_entities,
                             dice: message.dice as Dice
                         },
                         metadata: this.createMetadata(
@@ -643,10 +571,7 @@ export class TelegramController extends Controller {
                         )
                     }
                 ],
-                metadata: this.createMetadata(
-                    message.message_id,
-                    !!message.text
-                )
+                metadata: this.createMetadata(message.message_id, !!message.text)
             };
         }
 
@@ -661,13 +586,10 @@ export class TelegramController extends Controller {
                         controllerName: this.name,
                         attachments: await this.extractAttachments(message),
                         account: this.createAccount(message.forward_from_chat),
-                        channel: await this.createChannel(
-                            message.forward_from_chat
-                        ),
+                        channel: await this.createChannel(message.forward_from_chat),
                         forwarded: [],
                         telegram: {
-                            entities:
-                                message.entities ?? message.caption_entities,
+                            entities: message.entities ?? message.caption_entities,
                             dice: message.dice as Dice
                         },
                         metadata: this.createMetadata(
@@ -676,10 +598,7 @@ export class TelegramController extends Controller {
                         )
                     }
                 ],
-                metadata: this.createMetadata(
-                    message.message_id,
-                    !!message.text
-                )
+                metadata: this.createMetadata(message.message_id, !!message.text)
             };
         }
 
@@ -700,9 +619,7 @@ export class TelegramController extends Controller {
         };
     }
 
-    private sortAttachments(
-        attachments: ResolvedAttachment[]
-    ): ResolvedAttachment[] {
+    private sortAttachments(attachments: ResolvedAttachment[]): ResolvedAttachment[] {
         return attachments.sort((a, b) => a.type - b.type);
     }
 }

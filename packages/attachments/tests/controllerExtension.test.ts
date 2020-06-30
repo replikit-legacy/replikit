@@ -1,10 +1,6 @@
 import "@replikit/attachments";
 import { ControllerExtension } from "@replikit/attachments";
-import {
-    TestController,
-    DatabaseTestManager,
-    TestControllerOptions
-} from "@replikit/test-utils";
+import { TestController, DatabaseTestManager, TestControllerOptions } from "@replikit/test-utils";
 import { AttachmentType } from "@replikit/core";
 import { SendedMessage } from "@replikit/core/typings";
 import { Attachment } from "@replikit/attachments/typings";
@@ -21,9 +17,7 @@ afterEach(() => {
 });
 
 function createExtension(options?: TestControllerOptions): ControllerExtension {
-    const extension = (new TestController(
-        options
-    ) as unknown) as ControllerExtension;
+    const extension = (new TestController(options) as unknown) as ControllerExtension;
     extension.connection = testManager.connection;
     return extension;
 }

@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-types */
 // https://stackoverflow.com/a/60864781/10502674
-type _IfEquals<X, Y, T> = (<T>() => T extends X ? 1 : 2) extends <
-    T
->() => T extends Y ? 1 : 2
+type _IfEquals<X, Y, T> = (<T>() => T extends X ? 1 : 2) extends <T>() => T extends Y ? 1 : 2
     ? T
     : never;
 
@@ -14,9 +12,7 @@ type _PlainObjectKeys<T> = {
     >;
 }[keyof T];
 
-type Equals<X, Y> = (<T>() => T extends X ? 1 : 2) extends <T>() => T extends Y
-    ? 1
-    : 2
+type Equals<X, Y> = (<T>() => T extends X ? 1 : 2) extends <T>() => T extends Y ? 1 : 2
     ? true
     : false;
 

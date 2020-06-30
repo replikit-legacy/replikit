@@ -19,12 +19,7 @@ class LogManager {
         this.level = level;
     }
 
-    log(
-        level: LogLevel,
-        message: string,
-        scopes: string[],
-        error?: Error | undefined
-    ): void {
+    log(level: LogLevel, message: string, scopes: string[], error?: Error): void {
         if (level <= this.level) {
             this.primaryLogProvider.log(level, message, scopes, error);
             for (const provider of this.logProviders) {

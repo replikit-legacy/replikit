@@ -13,9 +13,7 @@ export class MissingFallbackLocaleError extends Error {
 export class UnableToResolveLocaleError extends Error {
     constructor(target?: string) {
         if (!target) {
-            super(
-                `Unable to resolve default locale ${config.i18n.defaultLocale}`
-            );
+            super(`Unable to resolve default locale ${config.i18n.defaultLocale}`);
             return;
         }
         super(

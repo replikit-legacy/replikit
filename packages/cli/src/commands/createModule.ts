@@ -10,9 +10,7 @@ import { program } from "commander";
 import { prompt } from "inquirer";
 import { updateConfig } from "@replikit/core";
 
-const command = program
-    .command("create-module")
-    .description("Create a new module");
+const command = program.command("create-module").description("Create a new module");
 command.action(async options => {
     const config = await loadConfiguration(options.config);
     updateConfig(config);
@@ -37,12 +35,7 @@ command.action(async options => {
     ]);
     const manager = await getProjectManager();
     try {
-        await createModule(
-            manager,
-            result.moduleName,
-            result.modules,
-            result.addLogger
-        );
+        await createModule(manager, result.moduleName, result.modules, result.addLogger);
         logger.info("Module created successfuly");
     } catch (e) {
         logger.fatal("Error while creating the module", e);

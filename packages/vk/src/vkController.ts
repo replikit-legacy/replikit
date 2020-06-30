@@ -31,9 +31,7 @@ import {
 import MessageForward from "vk-io/lib/structures/shared/message-forward";
 import MessageReply from "vk-io/lib/structures/shared/message-reply";
 
-function createSendedAttachment(
-    attachment: ResolvedAttachment
-): SendedAttachment {
+function createSendedAttachment(attachment: ResolvedAttachment): SendedAttachment {
     return { origin: attachment, id: attachment.source };
 }
 
@@ -115,10 +113,7 @@ export class VKController extends Controller {
         `;
     }
 
-    async deleteMessage(
-        channelId: number,
-        metadata: MessageMetadata
-    ): Promise<void> {
+    async deleteMessage(channelId: number, metadata: MessageMetadata): Promise<void> {
         if (metadata.globalId) {
             await this.vk.api.messages.delete({
                 delete_for_all: true,
@@ -138,9 +133,7 @@ export class VKController extends Controller {
         });
     }
 
-    protected async fetchChannelInfo(
-        localId: number
-    ): Promise<ChannelInfo | undefined> {
+    protected async fetchChannelInfo(localId: number): Promise<ChannelInfo | undefined> {
         const conversations = await this.vk.api.messages.getConversationsById({
             peer_ids: [localId]
         });
@@ -168,8 +161,7 @@ export class VKController extends Controller {
                 }
             };
         }
-        const canManage =
-            conversation.chat_settings?.owner_id === -config.vk.pollingGroup;
+        const canManage = conversation.chat_settings?.owner_id === -config.vk.pollingGroup;
         return {
             id: localId,
             title: conversation.chat_settings?.title,
@@ -206,9 +198,7 @@ export class VKController extends Controller {
         return undefined;
     }
 
-    protected async fetchAccountInfo(
-        localId: number
-    ): Promise<AccountInfo | undefined> {
+    protected async fetchAccountInfo(localId: number): Promise<AccountInfo | undefined> {
         if (localId > 0) {
             const users = await this.vk.api.users.get({
                 user_ids: [localId.toString()],
@@ -252,18 +242,13 @@ export class VKController extends Controller {
         let result: SendedMessage | undefined;
 
         const attachments = message.attachments.filter(
-            x =>
-                x.type !== AttachmentType.Sticker ||
-                x.controllerName !== this.name
+            x => x.type !== AttachmentType.Sticker || x.controllerName !== this.name
         );
 
         if (attachments.length || message.text) {
             const serializedAttachments = this.formatAttachments(attachments);
             if (message.reply && !message.reply.globalId) {
-                const request = this.createIdRequest(
-                    channelId,
-                    message.reply.messageIds[0]
-                );
+                const request = this.createIdRequest(channelId, message.reply.messageIds[0]);
                 const data = await this.vk.api.execute({
                     code: `
                         ${request}
@@ -289,16 +274,11 @@ export class VKController extends Controller {
             }
         }
 
-        const sticker = message.attachments.find(
-            x => x.type === AttachmentType.Sticker
-        );
+        const sticker = message.attachments.find(x => x.type === AttachmentType.Sticker);
         if (sticker && sticker.controllerName === this.name) {
             let sended: number;
             if (message.reply && !message.reply.globalId) {
-                const request = this.createIdRequest(
-                    channelId,
-                    message.reply.messageIds[0]
-                );
+                const request = this.createIdRequest(channelId, message.reply.messageIds[0]);
                 const data = await this.vk.api.execute({
                     code: `
                         ${request}
@@ -328,10 +308,7 @@ export class VKController extends Controller {
         return result;
     }
 
-    private createSendedMessage(
-        id: number,
-        attachments: ResolvedAttachment[]
-    ): SendedMessage {
+    private createSendedMessage(id: number, attachments: ResolvedAttachment[]): SendedMessage {
         return {
             attachments: attachments.map(createSendedAttachment),
             metadata: { globalId: id, messageIds: [0] }
@@ -444,9 +421,7 @@ export class VKController extends Controller {
             attachments: this.extractAttachments(message.attachments),
             channel: this.createChannel(-1),
             account: this.createAccount(message.senderId),
-            forwarded: message.forwards.map(x =>
-                this.createForwardedMessage(x)
-            ),
+            forwarded: message.forwards.map(x => this.createForwardedMessage(x)),
             metadata: { messageIds: [-1] }
         };
     }
@@ -480,9 +455,7 @@ export class VKController extends Controller {
             attachments: this.extractAttachments(context.attachments),
             channel,
             account: await this.resolveAccount(context.senderId),
-            forwarded: context.forwards.flatten.map(x =>
-                this.createForwardedMessage(x)
-            ),
+            forwarded: context.forwards.flatten.map(x => this.createForwardedMessage(x)),
             reply: await this.createReplyMessage(channel, context.replyMessage),
             metadata: {
                 globalId: context.id,

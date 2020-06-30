@@ -1,14 +1,5 @@
-import {
-    RoleInfo,
-    TypeName,
-    RoleName,
-    PermissionName
-} from "@replikit/permissions/typings";
-import {
-    HasPermissions,
-    RoleNotFoundError,
-    InvalidFallbackRoleError
-} from "@replikit/permissions";
+import { RoleInfo, TypeName, RoleName, PermissionName } from "@replikit/permissions/typings";
+import { HasPermissions, RoleNotFoundError, InvalidFallbackRoleError } from "@replikit/permissions";
 
 function checkPermission(target: RoleInfo, permission: unknown): boolean {
     if (target.permissions.includes(permission)) {
@@ -48,15 +39,10 @@ export class PermissionStorage {
     }
 
     getRoleNames(type: TypeName): string[] {
-        return this.roles
-            .filter(x => x.type === type)
-            .map(x => x.name as string);
+        return this.roles.filter(x => x.type === type).map(x => x.name as string);
     }
 
-    addPermissions<T extends TypeName>(
-        type: T,
-        permissions: PermissionName<T>[]
-    ): void {
+    addPermissions<T extends TypeName>(type: T, permissions: PermissionName<T>[]): void {
         let permissionArray = this.permissionMap.get(type);
         if (!permissionArray) {
             permissionArray = [];
@@ -79,11 +65,7 @@ export class PermissionStorage {
         });
     }
 
-    updateRole<T extends TypeName>(
-        type: T,
-        name: RoleName<T>,
-        info?: UpdateRoleInfo<T>
-    ): void {
+    updateRole<T extends TypeName>(type: T, name: RoleName<T>, info?: UpdateRoleInfo<T>): void {
         if (info?.fallbackRoles?.includes(name)) {
             throw new InvalidFallbackRoleError(name);
         }
@@ -93,9 +75,7 @@ export class PermissionStorage {
             role = {
                 type,
                 name,
-                fallbackRoles: info?.fallbackRoles
-                    ? this.resolveRoles(info.fallbackRoles)
-                    : [],
+                fallbackRoles: info?.fallbackRoles ? this.resolveRoles(info.fallbackRoles) : [],
                 permissions: info?.permissions ?? []
             };
             this.roles.push(role);
@@ -130,10 +110,7 @@ export class PermissionStorage {
         return false;
     }
 
-    checkPermission(
-        hasPermissions: HasPermissions,
-        permission: unknown
-    ): boolean {
+    checkPermission(hasPermissions: HasPermissions, permission: unknown): boolean {
         if (hasPermissions.permissions.includes(permission)) {
             return true;
         }

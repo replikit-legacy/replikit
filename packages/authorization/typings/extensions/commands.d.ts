@@ -1,8 +1,5 @@
 import "@replikit/commands/typings";
-import {
-    UserPermissionName,
-    MemberPermissionName
-} from "@replikit/permissions/typings";
+import { UserPermissionName, MemberPermissionName } from "@replikit/permissions/typings";
 import { AddRequired } from "@replikit/commands";
 import { Parameters } from "@replikit/commands/typings";
 import { Channel } from "@replikit/storage";

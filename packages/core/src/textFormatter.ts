@@ -1,13 +1,7 @@
-import {
-    TextTokenKind,
-    TextTokenProp,
-    TextTokenVisitorNotFoundError
-} from "@replikit/core";
+import { TextTokenKind, TextTokenProp, TextTokenVisitorNotFoundError } from "@replikit/core";
 import { TextToken, DiscriminateUnion } from "@replikit/core/typings";
 
-type TokenVisitorHandler<T extends TextToken = TextToken> = (
-    token: T
-) => string;
+type TokenVisitorHandler<T extends TextToken = TextToken> = (token: T) => string;
 
 interface PropFormatter {
     openingText: string;
@@ -15,28 +9,18 @@ interface PropFormatter {
 }
 
 export class TextFormatter {
-    private readonly tokenVisitorMap = new Map<
-        TextTokenKind,
-        TokenVisitorHandler
-    >();
+    private readonly tokenVisitorMap = new Map<TextTokenKind, TokenVisitorHandler>();
     private readonly propFormatterMap = new Map<TextTokenProp, PropFormatter>();
 
-    addVisitor<
-        V extends TextTokenKind,
-        T extends DiscriminateUnion<TextToken, "kind", V>
-    >(kind: V, handler: TokenVisitorHandler<T>): this {
-        this.tokenVisitorMap.set(
-            kind,
-            handler as TokenVisitorHandler<TextToken>
-        );
+    addVisitor<V extends TextTokenKind, T extends DiscriminateUnion<TextToken, "kind", V>>(
+        kind: V,
+        handler: TokenVisitorHandler<T>
+    ): this {
+        this.tokenVisitorMap.set(kind, handler as TokenVisitorHandler<TextToken>);
         return this;
     }
 
-    addPropFormatter(
-        prop: TextTokenProp,
-        openingText: string,
-        closingText?: string
-    ): this {
+    addPropFormatter(prop: TextTokenProp, openingText: string, closingText?: string): this {
         this.propFormatterMap.set(prop, { openingText, closingText });
         return this;
     }

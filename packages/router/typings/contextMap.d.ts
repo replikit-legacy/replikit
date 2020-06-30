@@ -1,8 +1,4 @@
-import {
-    MessageContext,
-    AccountContext,
-    ChannelContext
-} from "@replikit/router";
+import { MessageContext, AccountContext, ChannelContext } from "@replikit/router";
 import { ChannelPhotoEvent } from "@replikit/core/typings";
 
 export interface ContextMap {

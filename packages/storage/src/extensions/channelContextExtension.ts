@@ -19,8 +19,7 @@ export class ChannelContextExtension extends ChannelContext {
 
     @CacheResult
     async getChannel(fallbackStrategy?: FallbackStrategy): Promise<Channel> {
-        fallbackStrategy =
-            fallbackStrategy ?? config.storage.channelFallbackStrategy;
+        fallbackStrategy = fallbackStrategy ?? config.storage.channelFallbackStrategy;
         const repo = this.connection.getRepository(Channel);
         const channel = await repo.findOne({
             localId: this.channel.id,

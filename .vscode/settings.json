@@ -3,6 +3,7 @@
     "prettier.trailingComma": "none",
     "prettier.arrowParens": "avoid",
     "prettier.tabWidth": 4,
+    "prettier.printWidth": 100,
     "prettier.disableLanguages": ["yaml"],
     "markdownlint.config": {
         "MD040": false

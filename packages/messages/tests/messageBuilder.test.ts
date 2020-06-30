@@ -32,18 +32,13 @@ describe("MessageBuilder", () => {
 
     it("should create a message with an attachment by url", () => {
         const message = new MessageBuilder()
-            .addAttachmentByUrl(
-                AttachmentType.Photo,
-                "https://path/to/attachment.png"
-            )
+            .addAttachmentByUrl(AttachmentType.Photo, "https://path/to/attachment.png")
             .build();
         expect(message).toMatchSnapshot();
     });
 
     it("should create a message with reply", () => {
-        const message = new MessageBuilder()
-            .addReply({ messageIds: [123] })
-            .build();
+        const message = new MessageBuilder().addReply({ messageIds: [123] }).build();
         expect(message).toMatchSnapshot();
     });
 

@@ -1,8 +1,4 @@
-import {
-    Configuration,
-    RecursivePartial,
-    ResolvedConfiguration
-} from "@replikit/core/typings";
+import { Configuration, RecursivePartial, ResolvedConfiguration } from "@replikit/core/typings";
 import { deepmerge, invokeHook } from "@replikit/core";
 
 export const config: ResolvedConfiguration = {} as ResolvedConfiguration;

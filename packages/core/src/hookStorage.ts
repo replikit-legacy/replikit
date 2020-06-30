@@ -12,14 +12,8 @@ export async function invokeHook<T extends HookName>(
     name: T,
     ...payload: Payload<HookMap[T]>
 ): Promise<void>;
-export async function invokeHook(
-    name: string,
-    ...payload: Payload<unknown>
-): Promise<void>;
-export async function invokeHook(
-    name: string,
-    ...payload: Payload<unknown>
-): Promise<void> {
+export async function invokeHook(name: string, ...payload: Payload<unknown>): Promise<void>;
+export async function invokeHook(name: string, ...payload: Payload<unknown>): Promise<void> {
     if (!hooks[name]) {
         return;
     }
@@ -28,10 +22,7 @@ export async function invokeHook(
     }
 }
 
-export function hook<T extends HookName>(
-    name: T,
-    handler: HookHandler<T>
-): void;
+export function hook<T extends HookName>(name: T, handler: HookHandler<T>): void;
 export function hook(name: string, handler: HookHandler): void;
 export function hook(name: string, handler: HookHandler): void {
     if (!hooks[name]) {

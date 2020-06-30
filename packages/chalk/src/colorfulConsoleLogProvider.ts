@@ -20,12 +20,7 @@ export class ColorfulConsoleLogProvider extends ConsoleLogProvider {
         [LogLevel.Verbose]: white
     };
 
-    log(
-        level: LogLevel,
-        message: string,
-        scopes: string[],
-        error?: Error | undefined
-    ): void {
+    log(level: LogLevel, message: string, scopes: string[], error?: Error | undefined): void {
         const date = renderDate(new Date());
         const scopesText = this.renderScopes(scopes);
         const typeColor = ColorfulConsoleLogProvider.logLevelColorMap[level];
