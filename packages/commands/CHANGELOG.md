@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.10.1](https://github.com/Exeteres/Replikit/compare/v0.10.0...v0.10.1) (2020-06-30)
+
+**Note:** Version bump only for package @replikit/commands
+
+
+
+
+
+
 # [0.10.0](https://github.com/Exeteres/Replikit/compare/v0.9.0...v0.10.0) (2020-06-29)
 
 **Note:** Version bump only for package @replikit/commands
