@@ -32,6 +32,11 @@ export interface BaseControllerOptions {
     features?: Partial<FeatureMap>;
 }
 
+export interface ControllerBotInfo {
+    id: number;
+    username: string;
+}
+
 export abstract class Controller {
     private static defaultTextFormatter = new TextFormatter();
 
@@ -72,10 +77,10 @@ export abstract class Controller {
         }
     }
 
-    protected _botId: number;
+    protected _botInfo: ControllerBotInfo;
 
-    get botId(): number {
-        return this._botId;
+    get botInfo(): ControllerBotInfo {
+        return this._botInfo;
     }
 
     protected processSendedMessage(sendedMessages: SendedMessage): Promise<SendedMessage> {

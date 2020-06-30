@@ -95,7 +95,8 @@ export class VKController extends Controller {
     }
 
     async start(): Promise<void> {
-        this._botId = config.vk.pollingGroup;
+        const resp = await this.vk.api.groups.getById({ group_id: `-${config.vk.pollingGroup}` });
+        this._botInfo = { id: config.vk.pollingGroup, username: resp[0].screen_name! };
         await this.vk.updates.start();
     }
 

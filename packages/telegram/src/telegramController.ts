@@ -176,7 +176,7 @@ export class TelegramController extends Controller {
     }
 
     private async fetchChannelPermissions(channelId: number): Promise<ChannelPermissionMap> {
-        const botMember = await this.bot.telegram.getChatMember(channelId, this.botId);
+        const botMember = await this.bot.telegram.getChatMember(channelId, this.botInfo.id);
         if (!botMember) {
             return {
                 deleteMessages: false,
@@ -203,7 +203,7 @@ export class TelegramController extends Controller {
 
     async start(): Promise<void> {
         const me = await this.bot.telegram.getMe();
-        this._botId = me.id;
+        this._botInfo = { id: me.id, username: me.username! };
         await this.bot.launch();
     }
 

@@ -22,6 +22,7 @@ export class TestController extends Controller {
                 implicitUpload: true
             }
         });
+        this._botInfo = { id: 0, username: "test" };
     }
 
     deleteMessage(channelId: number, metadata: MessageMetadata): Promise<void> {

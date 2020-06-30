@@ -261,14 +261,22 @@ export class CommandStorage {
         }
         const [firstLine, text] = splitText(context.message.text);
         const partIterator = firstLine.replace(this.prefix, "").matchAll(/\s?"(.*?)"|\s?(\S+)\s?/g);
-        const args = Array.from(partIterator).map(x => x[1] ?? x[2]);
-        const overloads = this.resolve(args[0]);
-        const commandArgs = args.slice(1);
-        const overload = chooseOverload(overloads, commandArgs);
+        const parts = Array.from(partIterator).map(x => x[1] ?? x[2]);
+        // TODO somehow extract into the telegram module
+        let commandName = parts[0];
+        if (context.controller.name === "tg") {
+            const items = commandName.split("@");
+            if (items[1] === context.controller.botInfo.username) {
+                commandName = items[0];
+            }
+        }
+        const overloads = this.resolve(commandName);
+        const args = parts.slice(1);
+        const overload = chooseOverload(overloads, args);
         if (!overload) {
             return;
         }
-        return this.processCommand(context, overload, commandArgs, text);
+        return this.processCommand(context, overload, args, text);
     }
 }
 
