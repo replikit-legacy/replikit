@@ -20,7 +20,7 @@ command("throws")
             .limit(10)
             .toArray();
         return new MessageBuilder()
-            .addCode(context.t.darts.last10Throws)
+            .addCodeLine(context.t.darts.last10Throws)
             .addCodeLines(throws.map(renderThrow));
     })
     .register();
