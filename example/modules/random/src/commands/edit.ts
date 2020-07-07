@@ -2,7 +2,7 @@ import { command } from "@replikit/commands";
 import { MessageBuilder } from "@replikit/messages";
 
 command("edit")
-    .text(false, true)
+    .text({ skipValidation: true })
     .handler(async context => {
         if (!context.message.reply) {
             return;

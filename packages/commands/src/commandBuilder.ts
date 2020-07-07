@@ -43,6 +43,11 @@ interface Buildable {
 
 type CommandLike = Command | Buildable;
 
+export interface TextParameterOptions {
+    splitLines?: boolean;
+    skipValidation?: boolean;
+}
+
 export class CommandBuilder<C = HasFields, P extends Parameters = HasFields> {
     protected readonly command: Command;
 
@@ -171,31 +176,17 @@ export class CommandBuilder<C = HasFields, P extends Parameters = HasFields> {
         return this;
     }
 
-    text<N extends string>(
-        name: N,
-        splitLines: true,
-        skipValidation?: true
-    ): AddRequired<C, P, N, string[]>;
-
-    text<N extends string>(
-        name: N,
-        splitLines: false,
-        skipValidation: true
-    ): AddRequired<C, P, N, string>;
-
-    text<N extends string>(name: N): AddRequired<C, P, N, string>;
-
     text(): AddRequired<C, P, "text", string>;
+    text<N extends string>(
+        name: N,
+        options: TextParameterOptions & { splitLines: true }
+    ): AddRequired<C, P, N, string[]>;
+    text(options: TextParameterOptions & { splitLines: true }): AddRequired<C, P, "text", string[]>;
+    text(options: TextParameterOptions): AddRequired<C, P, "text", string>;
+    text<N extends string>(name: N, options?: TextParameterOptions): AddRequired<C, P, N, string>;
 
-    text(splitLines: false, skipValidation: true): AddRequired<C, P, "text", string>;
-
-    text(splitLines: true, skipValidation?: true): AddRequired<C, P, "text", string[]>;
-
-    text(name?: string | boolean, splitLines?: boolean, skipValidation?: true): unknown {
-        this.command.text =
-            typeof name === "string"
-                ? { name, splitLines, skipValidation }
-                : { splitLines: name, skipValidation: splitLines };
+    text(name?: string | TextParameterOptions, options?: TextParameterOptions): unknown {
+        this.command.text = typeof name === "string" ? { name, ...options } : name;
         return this;
     }
 

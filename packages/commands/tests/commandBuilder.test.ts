@@ -9,7 +9,7 @@ describe("CommandBuilder", () => {
             .optional("p2", Number)
             .optional("p3", Boolean, { default: true })
             .rest("p4", Number)
-            .text("p5", true, true)
+            .text("p5", { skipValidation: true, splitLines: true })
             .use(MiddlewareStage.AfterResolution, context => void context)
             .use({
                 stage: MiddlewareStage.BeforeResolution,
