@@ -9,7 +9,7 @@
         "typings"
     ],
     "scripts": {
-        "build": "ttsc -p tsconfig.build.json"
+        "build": "tsc -p tsconfig.build.json"
     },
     "dependencies": {
         "@replikit/commands": "^0.10.1",
