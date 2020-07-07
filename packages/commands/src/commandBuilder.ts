@@ -186,7 +186,11 @@ export class CommandBuilder<C = HasFields, P extends Parameters = HasFields> {
     text<N extends string>(name: N, options?: TextParameterOptions): AddRequired<C, P, N, string>;
 
     text(name?: string | TextParameterOptions, options?: TextParameterOptions): unknown {
-        this.command.text = typeof name === "string" ? { name, ...options } : name;
+        this.command.text = name
+            ? typeof name === "string"
+                ? { name, ...options }
+                : name
+            : options ?? {};
         return this;
     }
 
