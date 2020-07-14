@@ -1,0 +1,12 @@
+{
+    "extends": "../../tsconfig.build.json",
+    "compilerOptions": {
+        "outDir": "plugin",
+        "rootDir": "src/plugin",
+        "paths": {
+            "@replikit/hooks": ["hooks/src"]
+        },
+        "plugins": []
+    },
+    "include": ["src/plugin"]
+}

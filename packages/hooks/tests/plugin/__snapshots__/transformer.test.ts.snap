@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`hook transformer should collect parameters from function hooks and add to CommandBuilder 1`] = `
+"\\"use strict\\";
+exports.__esModule = true;
+var commands_1 = require(\\"@replikit/commands\\");
+commands_1.command(\\"test\\").required(\\"p1\\", String).optional(\\"p2\\", Number, { \\"default\\": 123 }).text(\\"p3\\").rest(\\"p4\\", Number).handler(handler).register();
+function handler() {
+    var p1 = useRequired(\\"p1\\", String);
+    var p2 = useOptional(\\"p2\\", Number, { \\"default\\": 123 });
+    var p3 = useText(\\"p3\\");
+    var p4 = useRest(\\"p4\\", Number);
+}
+"
+`;

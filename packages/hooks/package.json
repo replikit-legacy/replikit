@@ -1,0 +1,24 @@
+{
+    "name": "@replikit/hooks",
+    "version": "0.10.1",
+    "license": "MIT",
+    "main": "dist/index.js",
+    "typings": "dist/index.d.ts",
+    "files": [
+        "dist",
+        "plugin",
+        "typings"
+    ],
+    "scripts": {
+        "build:package": "tsc -p tsconfig.build.json",
+        "build:plugin": "tsc -p tsconfig.plugin.json",
+        "build": "yarn build:plugin && yarn build:package"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "dependencies": {
+        "@replikit/commands": "^0.10.1",
+        "@replikit/core": "^0.10.1"
+    }
+}
