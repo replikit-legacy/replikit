@@ -20,6 +20,9 @@
 
         "types": ["@types/node", "@types/jest"],
 
-        "plugins": [{ "transform": "typescript-transform-paths" }]
+        "plugins": [
+            { "transform": "typescript-transform-paths" },
+            { "transform": "@replikit/hooks/plugin" }
+        ]
     }
 }
