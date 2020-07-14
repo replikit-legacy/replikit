@@ -1,7 +1,5 @@
 import { hook, updateConfig, config } from "@replikit/core";
-import { MessageContext, ChannelContext } from "@replikit/router";
 import { LocaleStorage } from "@replikit/i18n";
-import { LocaleConstructor } from "@replikit/i18n/typings";
 
 updateConfig({ i18n: { defaultLocale: "en", fallbackLocale: "en" } });
 
