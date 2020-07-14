@@ -4,6 +4,7 @@ import { Constructor } from "@replikit/core/typings";
 import { ParameterOptions, CommandContext, RestParameterOptions } from "@replikit/commands/typings";
 import { useContext } from "@replikit/hooks";
 import { NormalizeType, TextParameterOptions } from "@replikit/commands";
+import { LocaleConstructor } from "@replikit/i18n/typings";
 
 export function useCommandContext(): CommandContext {
     return useContext() as CommandContext;
@@ -58,4 +59,9 @@ export function useRest<T>(
 ): NormalizeType<T>[] {
     const context = useCommandContext();
     return context.params[name] as NormalizeType<T>[];
+}
+
+export function useLocale<T>(type: LocaleConstructor<T>): T {
+    const context = useContext();
+    return context.getLocale(type);
 }
