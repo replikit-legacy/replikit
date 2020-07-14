@@ -1,7 +1,7 @@
 import { Command, CommandContext } from "@replikit/commands/typings";
 import { MessageContext } from "@replikit/router";
 import { MessageBuilder, fromCode } from "@replikit/messages";
-import { MiddlewareStage, renderUsage } from "@replikit/commands";
+import { MiddlewareStage, renderUsage, CommandsLocale } from "@replikit/commands";
 import { NextHandler } from "@replikit/router/typings";
 
 function chooseOverload(commands: Command[], args: string[]): Command | undefined {
@@ -74,8 +74,9 @@ export class CommandStorage {
         args: string[],
         text: string
     ): Promise<void> {
+        const locale = context.getLocale(CommandsLocale);
         async function replyError(error: string): Promise<void> {
-            const usage = context.t.commands.usage + " " + command.usage!;
+            const usage = locale.usage + " " + command.usage!;
             await context.reply(fromCode(error + "\n" + usage));
         }
 
@@ -86,13 +87,13 @@ export class CommandStorage {
         if (!command.handler) {
             const [subcommand, newArgs] = findCommand(command, args);
             if (!subcommand) {
-                return replyError(context.t.commands.commandNotFound);
+                return replyError(locale.commandNotFound);
             }
             return this.processCommand(context, subcommand, newArgs, text);
         }
 
         if (args.length < command.requiredCount) {
-            return replyError(context.t.commands.mismatch(command.requiredCount, args.length));
+            return replyError(locale.mismatch(command.requiredCount, args.length));
         }
 
         const commandContext = context as CommandContext;
@@ -138,14 +139,14 @@ export class CommandStorage {
             const minCount = command.rest.options.minCount;
             if (minCount && restParameters.length < minCount) {
                 return replyParameterError(
-                    context.t.commands.shouldBeNoLessParametersThan(minCount),
+                    locale.shouldBeNoLessParametersThan(minCount),
                     command.rest.name
                 );
             }
             const maxCount = command.rest.options.maxCount;
             if (maxCount && restParameters.length > maxCount) {
                 return replyParameterError(
-                    context.t.commands.shouldBeNoMoreParametersThan(maxCount),
+                    locale.shouldBeNoMoreParametersThan(maxCount),
                     command.rest.name
                 );
             }
@@ -180,7 +181,7 @@ export class CommandStorage {
                     : textValue;
             }
             if (!command.text.skipValidation && !commandContext.params[textName]) {
-                return replyParameterError(context.t.commands.emptyTextParameter, textName);
+                return replyParameterError(locale.emptyTextParameter, textName);
             }
         }
 

@@ -1,6 +1,7 @@
 import { locales } from "@replikit/i18n";
+import { CommandsLocale } from "@replikit/commands";
 
-locales.add("en", "commands", {
+locales.add("en", CommandsLocale, {
     mismatch: (expected, actual) =>
         `Argument count mismatch.\n${expected} expected, got ${actual}.`,
     numberRequired: "Number required",

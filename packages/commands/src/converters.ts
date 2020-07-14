@@ -1,27 +1,28 @@
-import { converter } from "@replikit/commands";
+import { converter, CommandsLocale } from "@replikit/commands";
 import { ConverterBuilderFactory } from "@replikit/commands/typings";
 
 export function registerBasicConverters(converter: ConverterBuilderFactory): void {
     converter(Number)
         .validator((context, param, options) => {
+            const locale = context.getLocale(CommandsLocale);
             if (options.float) {
                 param = param.replace(",", ".");
             } else if (param.includes(",") || param.includes(".")) {
-                return context.t.commands.integerRequired;
+                return locale.integerRequired;
             }
 
             const result = options.float ? parseFloat(param) : parseInt(param);
             if (isNaN(result)) {
-                return context.t.commands.numberRequired;
+                return locale.numberRequired;
             }
             if (options.positive && result <= 0) {
-                return context.t.commands.positiveNumberRequired;
+                return locale.positiveNumberRequired;
             }
             if (options.min && result < options.min) {
-                return context.t.commands.shouldBeNoLessThan(options.min);
+                return locale.shouldBeNoLessThan(options.min);
             }
             if (options.max && result > options.max) {
-                return context.t.commands.shouldBeNoMoreThan(options.max);
+                return locale.shouldBeNoMoreThan(options.max);
             }
             return result;
         })
@@ -34,8 +35,10 @@ export function registerBasicConverters(converter: ConverterBuilderFactory): voi
                     return true;
                 case "false":
                     return false;
-                default:
-                    return context.t.commands.booleanRequired;
+                default: {
+                    const locale = context.getLocale(CommandsLocale);
+                    return locale.booleanRequired;
+                }
             }
         })
         .register();

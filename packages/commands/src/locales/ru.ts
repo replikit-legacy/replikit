@@ -1,6 +1,7 @@
 import { locales, ru } from "@replikit/i18n";
+import { CommandsLocale } from "@replikit/commands";
 
-locales.add("ru", "commands", {
+locales.add("ru", CommandsLocale, {
     mismatch: (expected, actual) => {
         const actualText = ru.plural(actual, "получен", "получено");
         return `Несоответствие количества аргументов.\nТребуется ${expected}, ${actualText} ${actual}.`;

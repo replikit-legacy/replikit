@@ -1,5 +1,6 @@
 /// <reference path="../typings/index.d.ts" />
 
+export * from "./commandsLocale";
 export * from "./usageRenderer";
 export * from "./middlewareStage";
 export * from "./middlewareRouter";

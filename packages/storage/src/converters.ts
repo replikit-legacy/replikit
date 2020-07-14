@@ -1,5 +1,6 @@
-import { User, Channel } from "@replikit/storage";
+import { User, Channel, StorageLocale } from "@replikit/storage";
 import { ConverterBuilderFactory } from "@replikit/commands/typings";
+import { CommandsLocale } from "@replikit/commands";
 
 type CommandsModule = typeof import("@replikit/commands");
 
@@ -17,33 +18,41 @@ export function registerStorageConverters(converter: ConverterBuilderFactory): v
         .validator((context, param) => {
             const id = +param;
             if (!isNaN(id)) {
-                return id > 0 ? id : context.t.commands.positiveNumberRequired;
+                if (id > 0) {
+                    return id;
+                }
+
+                const locale = context.getLocale(CommandsLocale);
+                return locale.positiveNumberRequired;
             }
             return [param];
         })
         .resolver(async (context, param) => {
             const users = context.connection.getRepository(User);
+            const locale = context.getLocale(StorageLocale);
             if (typeof param !== "number") {
                 const user = await users.findOne({ username: param[0] });
-                return user ?? context.t.storage.userNotFound;
+                return user ?? locale.userNotFound;
             }
             const user = await users.findOne({ _id: param });
-            return user ?? context.t.storage.userNotFound;
+            return user ?? locale.userNotFound;
         })
         .register();
 
     converter(Channel)
         .validator((context, param) => {
             const id = +param;
+            const locale = context.getLocale(CommandsLocale);
             if (!isNaN(id)) {
-                return id > 0 ? id : context.t.commands.positiveNumberRequired;
+                return id > 0 ? id : locale.positiveNumberRequired;
             }
-            return context.t.commands.numberRequired;
+            return locale.numberRequired;
         })
         .resolver(async (context, param) => {
             const channels = context.connection.getRepository(Channel);
             const channel = await channels.findOne({ _id: param });
-            return channel ?? context.t.storage.channelNotFound;
+            const storage = context.getLocale(StorageLocale);
+            return channel ?? storage.channelNotFound;
         })
         .register();
 }
