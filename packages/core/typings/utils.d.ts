@@ -1,6 +1,10 @@
+/* eslint-disable @typescript-eslint/ban-types */
+
 export type RecursivePartial<T> = {
     [P in keyof T]?: T[P] extends (infer U)[]
-        ? RecursivePartial<U>[] // eslint-disable-next-line @typescript-eslint/ban-types
+        ? RecursivePartial<U>[]
+        : T[P] extends Function
+        ? T[P]
         : T[P] extends object
         ? RecursivePartial<T[P]>
         : T[P];
@@ -8,7 +12,9 @@ export type RecursivePartial<T> = {
 
 export type RecursiveRequired<T> = {
     [P in keyof T]-?: T[P] extends (infer U)[]
-        ? RecursiveRequired<U>[] // eslint-disable-next-line @typescript-eslint/ban-types
+        ? RecursiveRequired<U>[]
+        : T[P] extends Function
+        ? T[P]
         : T[P] extends object | undefined
         ? RecursiveRequired<T[P]>
         : T[P];
