@@ -17,7 +17,6 @@
         "@typescript-eslint/restrict-template-expressions": ["off"],
         "@typescript-eslint/triple-slash-reference": ["off"],
         "@typescript-eslint/no-non-null-assertion": ["off"],
-        "eqeqeq": ["error"],
-        "curly": ["warn"]
+        "eqeqeq": ["error"]
     }
 }
