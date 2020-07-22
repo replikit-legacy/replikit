@@ -3,8 +3,7 @@
 import { Constructor } from "@replikit/core/typings";
 import { ParameterOptions, CommandContext, RestParameterOptions } from "@replikit/commands/typings";
 import { useContext } from "@replikit/hooks";
-import { NormalizeType, TextParameterOptions } from "@replikit/commands";
-import { LocaleConstructor } from "@replikit/i18n/typings";
+import { NormalizeType, TextParameterOptions, CommandBuilder } from "@replikit/commands";
 
 export function useCommandContext(): CommandContext {
     return useContext() as CommandContext;
@@ -18,6 +17,10 @@ export function useRequired<T>(
     const context = useCommandContext();
     return context.params[name] as NormalizeType<T>;
 }
+
+useRequired.build = (builder: CommandBuilder, args: Parameters<typeof useRequired>) => {
+    return builder.required(...args);
+};
 
 export function useOptional<T>(
     name: string,
@@ -40,6 +43,10 @@ export function useOptional<T>(
     return context.params[name] as NormalizeType<T>;
 }
 
+useOptional.build = (builder: CommandBuilder, args: Parameters<typeof useOptional>) => {
+    return builder.optional(...args);
+};
+
 export function useText(name?: string, options?: TextParameterOptions): string;
 export function useText(options: TextParameterOptions): string;
 
@@ -52,16 +59,19 @@ export function useText(
     return context.params[propName] as string;
 }
 
+useText.build = (builder: CommandBuilder, args: Parameters<typeof useText>) => {
+    return builder.text(...args);
+};
+
 export function useRest<T>(
     name: string,
     type: Constructor<T>,
-    options: RestParameterOptions<T>
+    options?: RestParameterOptions<T>
 ): NormalizeType<T>[] {
     const context = useCommandContext();
     return context.params[name] as NormalizeType<T>[];
 }
 
-export function useLocale<T>(type: LocaleConstructor<T>): T {
-    const context = useContext();
-    return context.getLocale(type);
-}
+useRest.build = (builder: CommandBuilder, args: Parameters<typeof useRest>) => {
+    return builder.rest(...args);
+};

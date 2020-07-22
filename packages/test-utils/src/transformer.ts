@@ -17,31 +17,35 @@ function createTransformers(
     return factories.map(x => x(program));
 }
 
-export function transpileModule(code: string, transformers: Partial<CustomTransformers>): string {
-    const host = ts.createCompilerHost({});
-    // eslint-disable-next-line @typescript-eslint/unbound-method
-    const originalGetSourceFile = host.getSourceFile;
-    const sourceFile = ts.createSourceFile("test.ts", code, ts.ScriptTarget.ES2018);
-    host.getSourceFile = (fileName, version) => {
-        if (fileName === "test.ts") {
-            return sourceFile;
+type Transpiler = (code: string) => string;
+
+export function createTranspiler(transformers: Partial<CustomTransformers>): Transpiler {
+    return (code: string) => {
+        const host = ts.createCompilerHost({});
+        // eslint-disable-next-line @typescript-eslint/unbound-method
+        const originalGetSourceFile = host.getSourceFile;
+        const sourceFile = ts.createSourceFile("test.ts", code, ts.ScriptTarget.ES2018);
+        host.getSourceFile = (fileName, version) => {
+            if (fileName === "test.ts") {
+                return sourceFile;
+            }
+            return originalGetSourceFile.call(host, fileName, version);
+        };
+        const program = ts.createProgram({ options: {}, rootNames: ["test.ts"], host });
+        const customTransformers: ts.CustomTransformers = {};
+        customTransformers.before = createTransformers(program, transformers.before);
+        customTransformers.after = createTransformers(program, transformers.after);
+        let result = "";
+        const emitResult = program.emit(
+            sourceFile,
+            (_, content) => (result = content),
+            undefined,
+            undefined,
+            customTransformers
+        );
+        if (emitResult.emitSkipped) {
+            throw new Error("Emit skipped");
         }
-        return originalGetSourceFile.call(host, fileName, version);
+        return result;
     };
-    const program = ts.createProgram({ options: {}, rootNames: ["test.ts"], host });
-    const customTransformers: ts.CustomTransformers = {};
-    customTransformers.before = createTransformers(program, transformers.before);
-    customTransformers.after = createTransformers(program, transformers.after);
-    let result = "";
-    const emitResult = program.emit(
-        sourceFile,
-        (_, content) => (result = content),
-        undefined,
-        undefined,
-        customTransformers
-    );
-    if (emitResult.emitSkipped) {
-        throw new Error("Emit skipped");
-    }
-    return result;
 }

@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`useOptional hook should add an optional parameter to command 1`] = `
+Object {
+  "aliases": Array [],
+  "commands": Array [],
+  "name": "test",
+  "params": Array [
+    Object {
+      "converter": Object {
+        "validator": [Function],
+      },
+      "isString": false,
+      "name": "p2",
+      "optional": true,
+      "options": Object {
+        "default": true,
+      },
+      "type": [Function],
+    },
+  ],
+  "requiredCount": 0,
+}
+`;
+
+exports[`useRequired hook should add a required parameter to command 1`] = `
+Object {
+  "aliases": Array [],
+  "commands": Array [],
+  "name": "test",
+  "params": Array [
+    Object {
+      "converter": Object {
+        "validator": [Function],
+      },
+      "isString": false,
+      "name": "p1",
+      "options": Object {},
+      "type": [Function],
+    },
+  ],
+  "requiredCount": 1,
+}
+`;
+
+exports[`useRest hook should add a rest parameter to command 1`] = `
+Object {
+  "aliases": Array [],
+  "commands": Array [],
+  "name": "test",
+  "params": Array [],
+  "requiredCount": 0,
+  "rest": Object {
+    "isString": true,
+    "name": "p3",
+    "options": Object {},
+  },
+}
+`;
+
+exports[`useText hook should add a text parameter to command 1`] = `
+Object {
+  "aliases": Array [],
+  "commands": Array [],
+  "name": "test",
+  "params": Array [],
+  "requiredCount": 0,
+  "text": Object {},
+}
+`;

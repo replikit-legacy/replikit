@@ -4,7 +4,7 @@
         "outDir": "plugin",
         "rootDir": "src/plugin",
         "paths": {
-            "@replikit/hooks": ["hooks/src"]
+            "@replikit/hooks/plugin": ["hooks/src/plugin"]
         },
         "plugins": []
     },

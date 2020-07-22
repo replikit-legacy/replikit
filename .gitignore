@@ -1,5 +1,6 @@
 node_modules
 dist
+packages/hooks/plugin
 coverage
 .env
 yarn-error.log
