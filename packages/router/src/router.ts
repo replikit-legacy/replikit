@@ -6,8 +6,16 @@ type RouterChain = HandlerChain<ContextMap[keyof ContextMap]>;
 
 export class Router {
     private readonly chainMap = new Map<EventName, RouterChain>();
+    private finalChain?: RouterChain;
 
     constructor(private readonly contextFactories: ContextFactoryStorage) {}
+
+    get final(): RouterChain {
+        if (!this.finalChain) {
+            this.finalChain = new HandlerChain();
+        }
+        return this.finalChain;
+    }
 
     of<T extends EventName>(type: T): HandlerChain<ContextMap[T]> {
         let chain = this.chainMap.get(type);
@@ -20,11 +28,12 @@ export class Router {
 
     async process(event: Event): Promise<void> {
         const chain = this.chainMap.get(event.type);
-        if (!chain) {
+        if (!chain && !this.finalChain) {
             return;
         }
         const context = await this.contextFactories.createContext(event);
-        return chain.process(context);
+        await chain?.process(context);
+        await this.finalChain?.process(context);
     }
 }
 
