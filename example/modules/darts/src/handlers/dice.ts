@@ -1,6 +1,6 @@
 import { router } from "@replikit/router";
 import { connection } from "@replikit/storage";
-import { DartThrow, addUserStats, betStorage } from "@example/darts";
+import { DartThrow, addUserStats, DartsLocale, BetUserSession } from "@example/darts";
 import { MessageBuilder } from "@replikit/messages";
 
 router.of("message:received").use(async (context, next) => {
@@ -26,29 +26,37 @@ router.of("message:received").use(async (context, next) => {
     user.darts.average = user.darts.sum / user.darts.total;
     await user.save();
 
+    const locale = context.getLocale(DartsLocale);
     const builder = new MessageBuilder()
+        .addReply(context.message.metadata)
         .addCodeLine(`Результат: ${dice.value}`)
         .addCodeLine(`Вы получили ${dice.value} нихуя`)
         .addCodeLine(`Ваш баланс: ${user.banking.money} нихуя`);
-    addUserStats(builder, user, context.t.darts);
+    addUserStats(builder, user, locale);
     await context.reply(builder);
 
-    const bet = betStorage.getBet(user._id);
-    if (bet === undefined) {
+    const session = await context.getSession(BetUserSession);
+    // eslint-disable-next-line eqeqeq
+    if (!session.activeBet) {
         return;
     }
 
     if (dice.value > 3) {
-        user.banking.money += bet * 2;
+        const prize = session.activeBet * 2;
+        user.banking.money += prize;
         const builder = new MessageBuilder()
-            .addCodeLine(`Ваш выигрыш: ${bet * 2} нихуя`)
+            .addReply(context.message.metadata)
+            .addCodeLine(`Ваш выигрыш: ${prize} нихуя`)
             .addCodeLine(`Ваш баланс: ${user.banking.money} нихуя`);
         await user.save();
         await context.reply(builder);
     } else {
         const builder = new MessageBuilder()
-            .addCodeLine(`Вы проиграли ${bet} нихуя`)
+            .addReply(context.message.metadata)
+            .addCodeLine(`Вы проиграли ${session.activeBet} нихуя`)
             .addCodeLine(`Ваш баланс: ${user.banking.money} нихуя`);
         await context.reply(builder);
     }
+
+    session.activeBet = undefined;
 });
