@@ -1,6 +1,11 @@
 import { AccountContext } from "@replikit/router";
 import { Extension, config } from "@replikit/core";
-import { SessionManager, SessionType, createSessionKey } from "@replikit/sessions";
+import {
+    SessionManager,
+    SessionType,
+    createSessionKey,
+    StorageModuleNotFoundError
+} from "@replikit/sessions";
 import { SessionConstructor } from "@replikit/sessions/typings";
 
 @Extension
@@ -8,7 +13,7 @@ export class AccountContextExtension extends AccountContext {
     /** @internal */
     sessionManager: SessionManager;
 
-    private getSessionKey(type: SessionConstructor): string {
+    private async getSessionKey(type: SessionConstructor): Promise<string> {
         switch (type.type) {
             case SessionType.Channel:
                 return `${createSessionKey(type, this.controller.name)}_${this.channel.id}`;
@@ -18,14 +23,25 @@ export class AccountContextExtension extends AccountContext {
                 const keyPrefix = createSessionKey(type, this.controller.name);
                 return `${keyPrefix}_${this.channel.id}_${this.account.id}`;
             }
+            case SessionType.User: {
+                try {
+                    const user = await this.getUser();
+                    const keyPrefix = createSessionKey(type, this.controller.name);
+                    return `${keyPrefix}_${user._id}`;
+                } catch (e) {
+                    if (e instanceof ReferenceError)
+                        throw new StorageModuleNotFoundError("SessionType.User");
+                    throw e;
+                }
+            }
         }
     }
 
-    getSession<T>(type: SessionConstructor<T>): Promise<T> {
+    async getSession<T>(type: SessionConstructor<T>): Promise<T> {
         if (!this.sessionManager) {
             this.sessionManager = new SessionManager(config.sessions.storage);
         }
-        const key = this.getSessionKey(type);
+        const key = await this.getSessionKey(type);
         return this.sessionManager.get(key, type);
     }
 }

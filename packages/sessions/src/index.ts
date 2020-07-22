@@ -7,3 +7,5 @@ export * from "./sessionManager";
 
 export * from "./extensions/accountContextExtension";
 export * from "./extensions/channelContextExtension";
+
+import "./startup";

@@ -24,7 +24,7 @@ hook("core:startup:ready", () => {
     }
     connection = getConnection()!;
     if (!connection) {
-        throw new StorageModuleNotFoundError();
+        throw new StorageModuleNotFoundError("MongoSesionStorage");
     }
 });
 

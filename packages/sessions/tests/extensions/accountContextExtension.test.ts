@@ -1,7 +1,13 @@
 import { AccountContextExtension, SessionManager, SessionType } from "@replikit/sessions";
-import { ChannelTestSession, MemberTestSession, AccountTestSession } from "../shared";
-import { createMessageEvent } from "@replikit/test-utils";
+import {
+    ChannelTestSession,
+    MemberTestSession,
+    AccountTestSession,
+    UserTestSession
+} from "../shared";
+import { createMessageEvent, DatabaseTestManager } from "@replikit/test-utils";
 import { HasFields } from "@replikit/core/typings";
+import { User } from "@replikit/storage";
 
 function createExtension(type: SessionType): AccountContextExtension {
     const storage = new Map<string, HasFields>();
@@ -20,6 +26,23 @@ describe("AccountContextExtension", () => {
     ])("should get a %s session by type", async (_, extensionType, sessionType) => {
         const extension = createExtension(extensionType);
         const result = await extension.getSession(sessionType);
+        expect(result).toBeDefined();
         expect(result.test).toBe(123);
+    });
+
+    it("should get a user session by type", async () => {
+        const testManager = new DatabaseTestManager();
+        await testManager.connect();
+
+        const repo = testManager.connection.getRepository(User);
+        await repo.create({ accounts: [{ controller: "test", localId: 1 }] }).save();
+
+        const extension = createExtension(SessionType.User);
+        ((extension as unknown) as HasFields)._connection = testManager.connection;
+        const result = await extension.getSession(UserTestSession);
+        expect(result).toBeDefined();
+        expect(result.test).toBe(123);
+
+        await testManager.close();
     });
 });

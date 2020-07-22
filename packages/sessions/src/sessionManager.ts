@@ -26,10 +26,7 @@ export class SessionManager {
             return session.current as T;
         }
         const existing = await this.storage.get(key);
-        if (existing) {
-            return plainToClass(type, existing);
-        }
-        const current = new type();
+        const current = existing ? plainToClass(type, existing) : new type();
         session = { current, original: { ...current } };
         this.sessionMap.set(key, session);
         return current;
