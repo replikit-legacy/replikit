@@ -15,4 +15,3 @@ export * from "./middleware";
 export * from "./commandBuilder";
 
 export * from "./extensions/core";
-export * from "./extensions/i18n";
