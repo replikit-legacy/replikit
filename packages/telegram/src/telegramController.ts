@@ -158,6 +158,7 @@ export class TelegramController extends Controller {
                 if (!handled) {
                     receivedMessages.push(update.message);
                 }
+                continue;
             }
 
             if (update.edited_message) {
