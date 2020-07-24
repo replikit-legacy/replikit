@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.11.0](https://github.com/Exeteres/Replikit/compare/v0.10.1...v0.11.0) (2020-07-24)
+
+
+### Bug Fixes
+
+* **core:** Fix deepmerge ([132b184](https://github.com/Exeteres/Replikit/commit/132b18493e02603c195af70a2cfff0e9c31dc383))
+
+
+### Features
+
+* **sessions:** Add sessions package ([e7a0adf](https://github.com/Exeteres/Replikit/commit/e7a0adf3bbe35091bad6dcf28395e3c389a20a83))
+
+
+
+
+
 ## [0.10.1](https://github.com/Exeteres/Replikit/compare/v0.10.0...v0.10.1) (2020-06-30)
 
 **Note:** Version bump only for package @replikit/core
