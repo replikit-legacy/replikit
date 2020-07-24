@@ -1,15 +1,15 @@
-import { MessageContext } from "@replikit/router";
-import { MessageLike, fromCode, MessageBuilder } from "@replikit/messages";
+import { fromCode, MessageBuilder } from "@replikit/messages";
 import { User } from "@replikit/storage";
 import { command } from "@replikit/commands";
 import { useRequired } from "@replikit/hooks";
 import { logger } from "@example/banking";
+import { CommandContext, CommandResult } from "@replikit/commands/typings";
 
 export const transfer = command("transfer", "перевести")
     .handler(handler)
     .build();
 
-async function handler(context: MessageContext): Promise<MessageLike> {
+async function handler(context: CommandContext): Promise<CommandResult> {
     const targetUser = useRequired("user", User);
     const amount = useRequired("amount", Number, { positive: true });
 

@@ -1,14 +1,14 @@
 import { command } from "@replikit/commands";
-import { fromCode, MessageLike } from "@replikit/messages";
+import { fromCode } from "@replikit/messages";
 import { BetUserSession } from "@example/darts";
 import { useRequired } from "@replikit/hooks";
-import { MessageContext } from "@replikit/router";
+import { CommandContext, CommandResult } from "@replikit/commands/typings";
 
 command("bet")
     .handler(handler)
     .register();
 
-async function handler(context: MessageContext): Promise<MessageLike> {
+async function handler(context: CommandContext): Promise<CommandResult> {
     const amount = useRequired("amount", Number, { positive: true });
 
     const session = await context.getSession(BetUserSession);

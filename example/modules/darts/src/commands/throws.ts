@@ -3,14 +3,14 @@ import { connection } from "@replikit/storage";
 import { DartThrow, DartsLocale } from "@example/darts";
 import { DartThrow as PlainDartThrow } from "@example/darts/typings";
 import { renderDate } from "@replikit/core";
-import { MessageBuilder, MessageLike } from "@replikit/messages";
-import { MessageContext } from "@replikit/router";
+import { MessageBuilder } from "@replikit/messages";
+import { CommandContext, CommandResult } from "@replikit/commands/typings";
 
 command("throws")
     .handler(handler)
     .register();
 
-async function handler(context: MessageContext): Promise<MessageLike> {
+async function handler(context: CommandContext): Promise<CommandResult> {
     const user = await context.getUser();
     const collection = connection.getCollection(DartThrow);
     const throws = await collection

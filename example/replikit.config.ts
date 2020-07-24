@@ -1,5 +1,5 @@
 import { Configuration } from "@replikit/core/typings";
-import { MongoSessionStorage } from "@replikit/sessions";
+// import { MongoSessionStorage } from "@replikit/sessions";
 
 import "@example/random";
 import "@example/banking";
@@ -28,7 +28,8 @@ const config: Configuration = {
         defaultLocale: process.env.DEFAULT_LOCALE!
     },
     sessions: {
-        storage: new MongoSessionStorage()
+        storage: new Map()
+        // storage: new MongoSessionStorage()
     }
 };
 

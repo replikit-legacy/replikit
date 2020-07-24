@@ -1,6 +1,32 @@
 import { command } from "@replikit/commands";
 import { fromCode, MessageBuilder } from "@replikit/messages";
 import { TextTokenKind, TextTokenProp } from "@replikit/core";
+import { useText } from "@replikit/hooks";
+import { CommandContext, CommandResult } from "@replikit/commands/typings";
+
+command("format")
+    .text()
+    .handler(handler)
+    .register();
+
+function handler(context: CommandContext): CommandResult {
+    const text = useText();
+    try {
+        const tokens = JSON.parse(text);
+        if (!Array.isArray(tokens)) {
+            return fromCode("Array expected");
+        }
+        for (const [i, token] of tokens.entries()) {
+            if (!isTextToken(token)) {
+                return fromCode(`Invalid token at index ${i}`);
+            }
+        }
+        const result = context.controller.formatText(tokens);
+        return new MessageBuilder().addText(result);
+    } catch {
+        return fromCode("Invalid json");
+    }
+}
 
 function isTokenKind(item: unknown): item is TextTokenKind {
     return isNaN(item as number) ? false : !!TextTokenKind[item as number];
@@ -28,24 +54,3 @@ function isTextToken(item: Record<string, unknown>): boolean {
 
     return true;
 }
-
-command("format")
-    .text()
-    .handler(context => {
-        try {
-            const tokens = JSON.parse(context.params.text);
-            if (!Array.isArray(tokens)) {
-                return fromCode("Array expected");
-            }
-            for (const [i, token] of tokens.entries()) {
-                if (!isTextToken(token)) {
-                    return fromCode(`Invalid token at index ${i}`);
-                }
-            }
-            const text = context.controller.formatText(tokens);
-            return new MessageBuilder().addText(text);
-        } catch {
-            return fromCode("Invalid json");
-        }
-    })
-    .register();
