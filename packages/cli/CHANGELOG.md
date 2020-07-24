@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.11.1](https://github.com/Exeteres/Replikit/compare/v0.11.0...v0.11.1) (2020-07-24)
+
+
+### Bug Fixes
+
+* **cli:** Fix package.json issue ([2259e63](https://github.com/Exeteres/Replikit/commit/2259e63db0251a8c3ecbd41bd2a06a669d894d9f))
+
+
+
+
+
+
 # [0.11.0](https://github.com/Exeteres/Replikit/compare/v0.10.1...v0.11.0) (2020-07-24)
 
 
