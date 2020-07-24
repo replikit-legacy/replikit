@@ -233,7 +233,8 @@ exports[`ProjectManager should generate project with hook support: /package.json
         \\"postinstall\\": \\"ts-patch install -s\\"
     },
     \\"dependencies\\": {
-        \\"@replikit/static\\": \\"0.0.0\\"
+        \\"@replikit/static\\": \\"0.0.0\\",
+        \\"@replikit/hooks\\": \\"0.0.0\\"
     },
     \\"devDependencies\\": {
         \\"@types/node\\": \\"0.0.0\\",

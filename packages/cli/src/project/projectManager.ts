@@ -93,6 +93,7 @@ export class ProjectManager {
 
         // Add ts-patch
         await this.pm.install(["ts-patch"], true);
+        await this.pm.install(["@replikit/hooks"]);
         await this.pm.load();
         this.pm.config.scripts!.postinstall = "ts-patch install -s";
         await this.pm.save();
