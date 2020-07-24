@@ -1,7 +1,8 @@
 import { locales } from "@replikit/i18n";
 import { descriptions } from "@replikit/help";
+import { RandomLocale } from "@example/random";
 
-locales.add("ru", "random", {
+locales.add("ru", RandomLocale, {
     channelPhotoDeleted: "Фото канала удалено",
     channelPhotoEdited: "Фото канала изменено:",
     accountJoined: account => `${account.username} присоединился к каналу`,

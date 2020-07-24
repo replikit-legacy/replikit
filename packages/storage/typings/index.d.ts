@@ -12,9 +12,7 @@ export * from "./plainObject";
 export * from "./safeCursor";
 export * from "./storageConfiguration";
 export * from "./collectionMap";
-export * from "./storageLocale";
 
 export * from "./extensions/core";
-export * from "./extensions/i18n";
 export * from "./extensions/router";
 export * from "./extensions/commands";

@@ -5,3 +5,4 @@ export * from "./expect";
 export * from "./testController";
 export * from "./commandTestManager";
 export * from "./factories";
+export * from "./transformer";

@@ -2,7 +2,7 @@ import { Constructor, HasFields, ControllerName, ControllerMap } from "@replikit
 import { Controller } from "@replikit/core";
 
 function isObject(item: unknown): boolean {
-    return item !== null && typeof item === "object";
+    return item !== null && typeof item === "object" && item!.constructor === Object;
 }
 
 function isMergebleObject(item: unknown): boolean {
@@ -104,4 +104,20 @@ export function checkController<N extends ControllerName>(
     controller: Controller
 ): controller is ControllerMap[N] {
     return controller.name === name;
+}
+
+export function requireOptional<T>(path: string): T | undefined {
+    try {
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        return require(path) as T;
+    } catch {
+        return undefined;
+    }
+}
+
+export function extendModule<T>(path: string, callback: (module: T) => void): void {
+    const module = requireOptional<T>(path);
+    if (module) {
+        callback(module);
+    }
 }

@@ -1,4 +1,5 @@
 import { router } from "@replikit/router";
+import { RandomLocale } from "@example/random";
 
 let silentMode = false;
 
@@ -8,9 +9,11 @@ router.of("message:received").use(async (context, next) => {
     }
 
     const text = context.message.text?.toLowerCase();
-    if (text === context.t.random.deactivateSilentMode) {
+    const locale = context.getLocale(RandomLocale);
+    if (text === locale.deactivateSilentMode) {
         silentMode = false;
-        await context.reply(context.t.random.silentModeDeactivated);
+        await context.reply(locale.silentModeDeactivated);
+        return;
     }
 
     if (context.channel.permissions.deleteOtherMessages) {
@@ -20,9 +23,10 @@ router.of("message:received").use(async (context, next) => {
 
 router.of("message:received").use(async (context, next) => {
     const text = context.message.text?.toLowerCase();
-    if (text === context.t.random.keepSilence) {
+    const locale = context.getLocale(RandomLocale);
+    if (text === locale.keepSilence) {
         silentMode = true;
-        await context.reply(context.t.random.silentModeActivated);
+        await context.reply(locale.silentModeActivated);
     }
 
     return next();

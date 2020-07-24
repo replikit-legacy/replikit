@@ -1,9 +1,10 @@
 import { CommandBuilder, MiddlewareStage } from "@replikit/commands";
 import { Extension } from "@replikit/core";
 import { UserPermissionName, MemberPermissionName } from "@replikit/permissions/typings";
-import { FallbackStrategy, Channel } from "@replikit/storage";
+import { FallbackStrategy, Channel, StorageLocale } from "@replikit/storage";
 import { ChannelParameterOptions } from "@replikit/storage/typings";
 import { fromCode } from "@replikit/messages";
+import { AuthorizationLocale } from "@replikit/authorization";
 
 @Extension
 export class CommandBuilderExtension extends CommandBuilder {
@@ -11,7 +12,8 @@ export class CommandBuilderExtension extends CommandBuilder {
         return this.use(MiddlewareStage.BeforeResolution, async (context, next) => {
             const user = await context.getUser(FallbackStrategy.Undefined);
             if (!user || !user.hasPermission(permission)) {
-                await context.reply(fromCode(context.t.authorization.accessDenied));
+                const locale = context.getLocale(AuthorizationLocale);
+                await context.reply(fromCode(locale.accessDenied));
                 return;
             }
             return next();
@@ -26,7 +28,8 @@ export class CommandBuilderExtension extends CommandBuilder {
                 const channel = await context.getChannel(FallbackStrategy.Undefined);
                 if (!channel) {
                     // TODO Expose replyParameterError from commandStorage handler and use here
-                    await context.reply(fromCode(context.t.storage.channelNotFound));
+                    const locale = context.getLocale(StorageLocale);
+                    await context.reply(fromCode(locale.channelNotFound));
                     return;
                 }
                 context.params[resolvedName] = channel;
@@ -48,7 +51,8 @@ export class CommandBuilderExtension extends CommandBuilder {
             return this.use(MiddlewareStage.BeforeResolution, async (context, next) => {
                 const member = await context.getMember(FallbackStrategy.Undefined);
                 if (!member || !member.hasPermission(permission)) {
-                    await context.reply(fromCode(context.t.authorization.accessDenied));
+                    const locale = context.getLocale(AuthorizationLocale);
+                    await context.reply(fromCode(locale.accessDenied));
                     return;
                 }
                 return next();
@@ -60,7 +64,8 @@ export class CommandBuilderExtension extends CommandBuilder {
             if (channel.controller === context.controller.name) {
                 const member = await context.getChannelMember(channel.localId);
                 if (!member || !member.hasPermission(permission)) {
-                    await context.reply(fromCode(context.t.authorization.accessDenied));
+                    const locale = context.getLocale(AuthorizationLocale);
+                    await context.reply(fromCode(locale.accessDenied));
                     return;
                 }
                 return next();
@@ -69,7 +74,8 @@ export class CommandBuilderExtension extends CommandBuilder {
             const user = await context.getUser();
             const member = await user.getMember(channel.controller, channel.localId);
             if (!member || !member.hasPermission(permission)) {
-                await context.reply(fromCode(context.t.authorization.accessDenied));
+                const locale = context.getLocale(AuthorizationLocale);
+                await context.reply(fromCode(locale.accessDenied));
                 return;
             }
             return next();

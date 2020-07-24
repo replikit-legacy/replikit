@@ -1,0 +1,25 @@
+{
+    "name": "@replikit/sessions",
+    "version": "0.10.1",
+    "license": "MIT",
+    "main": "dist/index.js",
+    "typings": "dist/index.d.ts",
+    "files": [
+        "dist",
+        "typings"
+    ],
+    "scripts": {
+        "build": "tsc -p tsconfig.build.json"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "dependencies": {
+        "@replikit/core": "^0.10.1",
+        "class-transformer": "^0.2.3"
+    },
+    "optionalDependencies": {
+        "@replikit/commands": "0.10.1",
+        "@replikit/hooks": "0.10.1"
+    }
+}

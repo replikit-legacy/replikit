@@ -1,11 +1,11 @@
-import { Locale } from "@replikit/i18n/typings";
+import { LocaleConstructor } from "@replikit/i18n/typings";
 import { deepmerge, config } from "@replikit/core";
 import { MissingFallbackLocaleError, UnableToResolveLocaleError } from "@replikit/i18n";
 import { HasFields } from "@replikit/core/typings";
 
 export class LocaleStorage {
-    private readonly locales = new Map<string, Locale>();
-    private readonly resolvedLocales = new Map<string, Locale>();
+    private readonly locales = new Map<string, HasFields>();
+    private readonly resolvedLocales = new Map<string, HasFields>();
 
     updateLocales(): void {
         const fallbackLocale = this.locales.get(config.i18n.fallbackLocale);
@@ -16,43 +16,41 @@ export class LocaleStorage {
             if (lang === config.i18n.fallbackLocale) {
                 continue;
             }
-            const resolvedLocale = {} as Locale;
+            const resolvedLocale: HasFields = {};
             for (const namespaceName in locale) {
-                const namespace = locale[namespaceName as keyof Locale];
-                const fallbackNamespace = fallbackLocale[namespaceName as keyof Locale];
+                const namespace = locale[namespaceName];
+                const fallbackNamespace = fallbackLocale[namespaceName];
                 if (!fallbackNamespace) {
                     throw new MissingFallbackLocaleError(namespaceName);
                 }
-                // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-                resolvedLocale[namespaceName as keyof Locale] = deepmerge(
-                    {} as HasFields,
+                resolvedLocale[namespaceName] = deepmerge(
+                    {},
                     fallbackNamespace as HasFields,
                     namespace as HasFields
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                ) as any;
+                );
             }
             this.resolvedLocales.set(lang, resolvedLocale);
         }
     }
 
-    add<T extends keyof Locale>(lang: string, namespace: T, translation: Partial<Locale[T]>): void {
+    add<T>(lang: string, type: LocaleConstructor<T>, translation: Partial<T>): void {
         let locale = this.locales.get(lang);
         if (!locale) {
-            locale = {} as Locale;
+            locale = {};
             this.locales.set(lang, locale);
         }
-        locale[namespace] = translation as Locale[T];
+        locale[type.namespace] = translation;
     }
 
-    resolve(lang?: string): Locale {
+    resolve<T>(type: LocaleConstructor<T>, lang?: string): T {
         const resolvedLang = lang ?? config.i18n.defaultLocale;
-        const locale = this.resolvedLocales.get(resolvedLang);
-        if (locale) {
-            return locale;
+        const resolvedLocale = this.resolvedLocales.get(resolvedLang);
+        if (resolvedLocale) {
+            return resolvedLocale[type.namespace] as T;
         }
         const fallbackLocale = this.locales.get(config.i18n.fallbackLocale);
         if (fallbackLocale) {
-            return fallbackLocale;
+            return fallbackLocale[type.namespace] as T;
         }
         throw new UnableToResolveLocaleError(lang);
     }

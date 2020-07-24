@@ -2,6 +2,7 @@
 
 import "@replikit/permissions";
 
+export * from "./authorizationLocale";
 export * from "./commandBuilderExtension";
 
 import "./locales/en";

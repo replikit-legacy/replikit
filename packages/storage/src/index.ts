@@ -1,6 +1,7 @@
 /// <reference path="../typings/index.d.ts" />
 import "@abraham/reflection";
 
+export * from "./storageLocale";
 export * from "./models/fallbackStrategy";
 
 export * from "./errors";

@@ -35,7 +35,9 @@ function createSendedAttachment(attachment: ResolvedAttachment): SendedAttachmen
     return { origin: attachment, id: attachment.source };
 }
 
-const getRandomId = () => `${Math.floor(Math.random() * 1e4)}${Date.now()}`;
+function getRandomId(): string {
+    return `${Math.floor(Math.random() * 1e4)}${Date.now()}`;
+}
 
 export class VKController extends Controller {
     readonly vk: VK;

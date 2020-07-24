@@ -9,6 +9,6 @@
         "typings"
     ],
     "scripts": {
-        "build": "ttsc -p tsconfig.build.json"
+        "build": "tsc -p tsconfig.build.json"
     }
 }

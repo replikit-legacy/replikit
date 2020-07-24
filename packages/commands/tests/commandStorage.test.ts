@@ -238,7 +238,7 @@ describe("CommandStorage", () => {
     it("should handle a command with text parameter splitted into lines", async () => {
         const { testManager, command } = createTestManager();
         command("test")
-            .text(true)
+            .text({ splitLines: true })
             .handler(context => {
                 const param = context.params.text;
                 expect(param).toStrictEqual(["test", "test"]);
@@ -251,7 +251,7 @@ describe("CommandStorage", () => {
     it("should handle a command with text parameter and skip validation", async () => {
         const { testManager, command } = createTestManager();
         command("test")
-            .text(false, true)
+            .text({ skipValidation: true })
             .handler(context => {
                 expect(context.params.text).toBe("");
             })

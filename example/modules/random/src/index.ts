@@ -1,5 +1,8 @@
 import "@replikit/attachments";
 
+export * from "./randomLocale";
+export * from "./startup";
+
 import "./locales/en";
 import "./locales/ru";
 
@@ -14,5 +17,3 @@ import "./commands/echo";
 import "./handlers/silence";
 import "./handlers/debug";
 import "./handlers/random";
-
-export * from "./startup";

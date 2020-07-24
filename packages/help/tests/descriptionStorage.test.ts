@@ -81,7 +81,7 @@ describe("DescriptionStorage", () => {
                 .build()
         );
 
-        const action = () => descriptionStorage.render(commands.getCommands(), "en");
+        const action = () => void descriptionStorage.render(commands.getCommands(), "en");
         expect(action).toThrow(InvalidCommandDescriptionError);
     });
 
@@ -107,13 +107,13 @@ describe("DescriptionStorage", () => {
                 .build()
         );
 
-        const action = () => descriptionStorage.render(commands.getCommands(), "en");
+        const action = () => void descriptionStorage.render(commands.getCommands(), "en");
         expect(action).toThrow(InvalidCommandDescriptionError);
     });
 
     it("should throw an error when default locale not exists", () => {
         const descriptionStorage = new DescriptionStorage();
-        const action = () => descriptionStorage.render([], "en");
+        const action = () => void descriptionStorage.render([], "en");
         expect(action).toThrow(DefaultLocaleNotFoundError);
     });
 });

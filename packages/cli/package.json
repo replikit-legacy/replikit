@@ -9,7 +9,7 @@
         "typings"
     ],
     "scripts": {
-        "build": "ttsc -p tsconfig.build.json",
+        "build": "tsc -p tsconfig.build.json",
         "dev": "ts-node -r tsconfig-paths/register src/main.ts"
     },
     "bin": {
@@ -18,14 +18,14 @@
     "dependencies": {
         "@replikit/chalk": "^0.10.1",
         "@replikit/core": "^0.10.1",
-        "commander": "^5.1.0",
+        "commander": "^6.0.0",
         "dotenv": "^8.2.0",
         "execa": "^4.0.0",
         "fs-extra": "^9.0.0",
         "inquirer": "^7.1.0",
         "native-addon-loader": "^2.0.1",
         "require-from-string": "^2.0.2",
-        "ts-loader": "^7.0.5",
+        "ts-loader": "^8.0.1",
         "ts-morph": "^7.0.3",
         "ts-node": "^8.0.2",
         "ts-node-dev": "^1.0.0-pre.44",
@@ -37,8 +37,8 @@
         "webpackbar": "^4.0.0"
     },
     "devDependencies": {
-        "@types/fs-extra": "^8.1.0",
-        "@types/inquirer": "^6.5.0",
+        "@types/fs-extra": "^9.0.1",
+        "@types/inquirer": "^7.3.0",
         "@types/require-from-string": "^1.2.0",
         "@types/webpack": "^4.41.17",
         "@types/webpack-virtual-modules": "^0.1.0",

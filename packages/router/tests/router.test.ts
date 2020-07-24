@@ -30,4 +30,16 @@ describe("router", () => {
 
         expect.assertions(2);
     });
+
+    it("should call handlers from final chain if it exists", async () => {
+        const router = new Router(contextFactories);
+
+        router.final.use(context => {
+            expect(context).toBeDefined();
+        });
+
+        await router.process({ type: "message:received", payload: {} as MessageContext });
+
+        expect.assertions(1);
+    });
 });

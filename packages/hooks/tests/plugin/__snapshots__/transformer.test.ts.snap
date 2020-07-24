@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`hook transformer should collect hook calls from function body and add corresponding applyHook calls to CommandBuilder 1`] = `
+"var hooks_1 = require(\\"@replikit/hooks\\");
+hooks_1.applyHook(hooks_1.applyHook(command(\\"test\\"), useRequired, [\\"p1\\", String]), useOptional, [\\"p2\\", Number, { \\"default\\": 123 }]).handler(handler).register();
+function handler() {
+    hooks_1.setContext(arguments[0]);
+    var p1 = useRequired(\\"p1\\", String);
+    var p2 = useOptional(\\"p2\\", Number, { \\"default\\": 123 });
+}
+"
+`;
+
+exports[`hook transformer should do not require @replikit/hooks if it already required 1`] = `
+"\\"use strict\\";
+exports.__esModule = true;
+var hooks_1 = require(\\"@replikit/hooks\\");
+hooks_1.applyHook(command(\\"test\\"), hooks_1.useRequired, [\\"p1\\", String]).handler(handler).register();
+function handler() {
+    hooks_1.setContext(arguments[0]);
+    var p1 = hooks_1.useRequired(\\"p1\\", String);
+}
+"
+`;
+
+exports[`hook transformer should ignore arrow function as handlers 1`] = `
+"command(\\"test\\")
+    .handler(function () { })
+    .register();
+"
+`;
+
+exports[`hook transformer should ignore commands without handler 1`] = `
+"command(\\"test\\")
+    .commands()
+    .register();
+"
+`;

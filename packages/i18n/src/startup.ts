@@ -1,5 +1,4 @@
 import { hook, updateConfig, config } from "@replikit/core";
-import { MessageContext } from "@replikit/router";
 import { LocaleStorage } from "@replikit/i18n";
 
 updateConfig({ i18n: { defaultLocale: "en", fallbackLocale: "en" } });
@@ -17,12 +16,4 @@ hook("core:settings:update", previous => {
 
 hook("core:startup:init", () => {
     locales.updateLocales();
-});
-
-hook("router:context:created", context => {
-    if (context instanceof MessageContext) {
-        context.t = locales.resolve(context.account.language);
-        return;
-    }
-    context.t = locales.resolve();
 });

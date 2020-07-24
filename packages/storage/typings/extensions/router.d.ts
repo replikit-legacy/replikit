@@ -9,7 +9,7 @@ declare module "@replikit/router/typings/context/channelContext" {
 
 declare module "@replikit/router/typings/context/accountContext" {
     export interface AccountContext {
-        connection: ConnectionManager;
+        readonly connection: ConnectionManager;
         getUser(fallbackStrategy?: FallbackStrategy): Promise<User>;
         getMember(fallbackStrategy?: FallbackStrategy): Promise<Member>;
         getChannelMember(channelId: number): Promise<Member | undefined>;

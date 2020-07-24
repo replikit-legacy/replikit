@@ -7,9 +7,12 @@ module.exports = {
     preset: "ts-jest",
     testEnvironment: "node",
     setupFiles: [resolve(root, "test-utils/src/setup.ts")],
-    moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
-        prefix: root + "/"
-    }),
+    moduleNameMapper: {
+        "@replikit/hooks/plugin": root + "/hooks/src/plugin",
+        ...pathsToModuleNameMapper(compilerOptions.paths, {
+            prefix: root + "/"
+        })
+    },
     testRegex: `packages/.*/tests/.*\.test\.ts$`,
     watchPlugins: ["jest-watch-suspend"],
     moduleFileExtensions: ["js", "ts", "d.ts"],

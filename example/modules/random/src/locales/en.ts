@@ -1,7 +1,8 @@
 import { locales } from "@replikit/i18n";
 import { descriptions } from "@replikit/help";
+import { RandomLocale } from "@example/random";
 
-locales.add("en", "random", {
+locales.add("en", RandomLocale, {
     channelPhotoDeleted: "Channel photo deleted",
     channelPhotoEdited: "Channel photo edited:",
     accountJoined: account => `${account.username} join the channel`,
