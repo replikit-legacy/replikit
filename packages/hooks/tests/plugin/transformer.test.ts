@@ -45,7 +45,7 @@ describe("hook transformer", () => {
                 .handler(handler)
                 .register();
         `;
-        const action = () => transpileModule(input);
+        const action = () => void transpileModule(input);
         expect(action).toThrow(FunctionNotModifiedError);
     });
 

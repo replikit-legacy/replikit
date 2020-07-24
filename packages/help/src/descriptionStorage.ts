@@ -15,7 +15,7 @@ export class DescriptionStorage {
         this.descriptionMap.set(locale, descriptions);
     }
 
-    private renderOverloads(description: string | HelpMessage, overloads: Command[]) {
+    private renderOverloads(description: string | HelpMessage, overloads: Command[]): string {
         if (typeof description !== "string") {
             throw new InvalidCommandDescriptionError();
         }

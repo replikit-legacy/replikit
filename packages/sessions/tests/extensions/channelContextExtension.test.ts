@@ -25,7 +25,7 @@ describe("ChannelContextExtension", () => {
 
     it("should throw an error if session type is not a channel", () => {
         const extension = createExtension();
-        const action = () => extension.getSession(AccountTestSession);
+        const action = () => void extension.getSession(AccountTestSession);
         expect(action).toThrow(InvalidSessionTypeError);
     });
 });

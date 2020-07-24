@@ -11,7 +11,13 @@
     },
     "plugins": ["@typescript-eslint"],
     "rules": {
-        "@typescript-eslint/explicit-function-return-type": ["error"],
+        "@typescript-eslint/explicit-function-return-type": [
+            "error",
+            {
+                "allowExpressions": true,
+                "allowConciseArrowFunctionExpressionsStartingWithVoid": true
+            }
+        ],
         "@typescript-eslint/no-unsafe-member-access": ["off"],
         "@typescript-eslint/no-unsafe-call": ["off"],
         "@typescript-eslint/no-unsafe-assignment": ["off"],

@@ -13,7 +13,7 @@ afterEach(() => {
     return testManager.close();
 });
 
-function createStorage() {
+function createStorage(): MongoSessionStorage {
     const storage = new MongoSessionStorage();
     storage._connection = testManager.connection;
     return storage;
