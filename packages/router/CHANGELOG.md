@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.11.0](https://github.com/Exeteres/Replikit/compare/v0.10.1...v0.11.0) (2020-07-24)
+
+
+### Features
+
+* **router:** Add ability to use final handler chain ([83ea2fe](https://github.com/Exeteres/Replikit/commit/83ea2fe74d9b322ebecf6ba8bcbf48fbb65ef973))
+
+
+
+
+
 ## [0.10.1](https://github.com/Exeteres/Replikit/compare/v0.10.0...v0.10.1) (2020-06-30)
 
 **Note:** Version bump only for package @replikit/router

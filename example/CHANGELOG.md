@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.11.0](https://github.com/Exeteres/Replikit/compare/v0.10.1...v0.11.0) (2020-07-24)
+
+
+### Features
+
+* **commands:** Replace positional arguments with options in the text method of CommandBuilder ([f3a0391](https://github.com/Exeteres/Replikit/commit/f3a0391738f62c30c4fe00c0a9369a4a5112c66f))
+* **example:** Update example to use hooks and new localization system ([b9f5ff0](https://github.com/Exeteres/Replikit/commit/b9f5ff02e51e3fe71b30024fd4b01013078a8ca1))
+
+
+
+
+
 ## [0.10.1](https://github.com/Exeteres/Replikit/compare/v0.10.0...v0.10.1) (2020-06-30)
 
 **Note:** Version bump only for package example

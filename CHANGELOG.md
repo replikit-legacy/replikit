@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.11.0](https://github.com/Exeteres/Replikit/compare/v0.10.1...v0.11.0) (2020-07-24)
+
+
+### Bug Fixes
+
+* **core:** Fix deepmerge ([132b184](https://github.com/Exeteres/Replikit/commit/132b18493e02603c195af70a2cfff0e9c31dc383))
+* **sessions:** Fix some bugs in sessions package ([1ddb173](https://github.com/Exeteres/Replikit/commit/1ddb1737ca50d8ba80602dabd3a6d6de50de4ae7))
+* **telegram:** Fix bug in update processing flow ([cd42838](https://github.com/Exeteres/Replikit/commit/cd4283899ec169b439bb29de58b4d5c7128f4655))
+
+
+### Features
+
+* **cli:** Add support for hooks ([f997db0](https://github.com/Exeteres/Replikit/commit/f997db0911f45c5957653357f5cf4cfb2de22e48))
+* **commands:** Replace positional arguments with options in the text method of CommandBuilder ([f3a0391](https://github.com/Exeteres/Replikit/commit/f3a0391738f62c30c4fe00c0a9369a4a5112c66f))
+* **example:** Update example to use hooks and new localization system ([b9f5ff0](https://github.com/Exeteres/Replikit/commit/b9f5ff02e51e3fe71b30024fd4b01013078a8ca1))
+* **hooks:** Add basic hook implementation ([d786346](https://github.com/Exeteres/Replikit/commit/d786346d18eba2476794dbc165f92d9b405500a8))
+* **hooks:** Add useLocale hook ([927f716](https://github.com/Exeteres/Replikit/commit/927f7165d4217aaad27eea2275f8668b1a8dc906))
+* **hooks:** Redesign hooks system ([362a403](https://github.com/Exeteres/Replikit/commit/362a403fac7311a79a43f1d75346edcdfbb20a11))
+* **i18n:** Replace way to use i18n ([df6abcd](https://github.com/Exeteres/Replikit/commit/df6abcd791644bc2255107d98497a7e492fb07ca))
+* **messages:** Add MessageLike type ([046ca1b](https://github.com/Exeteres/Replikit/commit/046ca1b8a19308790f3e0a424a0cb9f3cb7dc7dd))
+* **router:** Add ability to use final handler chain ([83ea2fe](https://github.com/Exeteres/Replikit/commit/83ea2fe74d9b322ebecf6ba8bcbf48fbb65ef973))
+* **sessions:** Add sessions package ([e7a0adf](https://github.com/Exeteres/Replikit/commit/e7a0adf3bbe35091bad6dcf28395e3c389a20a83))
+
+
+
+
+
 ## [0.10.1](https://github.com/Exeteres/Replikit/compare/v0.10.0...v0.10.1) (2020-06-30)
 
 
