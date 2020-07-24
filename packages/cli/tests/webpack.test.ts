@@ -6,7 +6,7 @@ jest.setTimeout(120000);
 
 describe("webpack", () => {
     it("should generate a webpack configuration", async () => {
-        const project = await createProject(false, false);
+        const project = await createProject(false, false, false);
         await project.createModule("test");
 
         const config = {

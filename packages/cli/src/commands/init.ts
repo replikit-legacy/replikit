@@ -17,6 +17,7 @@ interface PromptResult {
     projectName: string;
     useYarn: boolean;
     useLerna: boolean;
+    useHooks: boolean;
     staticModules: string[];
     createModule: boolean;
     moduleName: string;
@@ -59,6 +60,12 @@ command.action(async () => {
             when: (result): boolean => result.useYarn
         },
         {
+            type: "confirm",
+            name: "useHooks",
+            default: false,
+            message: "Do you want to use Hook API?"
+        },
+        {
             type: "checkbox",
             name: "staticModules",
             message: "Static modules",
@@ -94,7 +101,13 @@ command.action(async () => {
     const root = isEmpty ? cwd : resolve(cwd, result.projectName);
     const useLerna = !result.useYarn || result.useLerna;
     try {
-        const manager = await initProject(root, useLerna, result.useYarn, result.staticModules);
+        const manager = await initProject(
+            root,
+            useLerna,
+            result.useYarn,
+            result.useHooks,
+            result.staticModules
+        );
         if (result.createModule) {
             await createModule(manager, result.moduleName, result.modules, result.addLogger);
         }

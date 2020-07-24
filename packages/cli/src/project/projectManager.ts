@@ -9,7 +9,7 @@ import {
     getPMController
 } from "@replikit/cli";
 import { resolve, basename } from "path";
-import { writeFile, mkdir, writeJSON, pathExists } from "fs-extra";
+import { writeFile, mkdir, writeJSON, pathExists, readJSON } from "fs-extra";
 
 export class ProjectManager {
     readonly name: string;
@@ -79,6 +79,22 @@ export class ProjectManager {
         // Create replikit configuration
         this.configPath = resolve(this.root, "replikit.config.ts");
         await this.saveConfig();
+    }
+
+    /**
+     * Add hook plugin and ts-patch dependency.
+     */
+    async addHooks(): Promise<void> {
+        // Add hook plugin
+        const tsconfigPath = resolve(this.root, "tsconfig.json");
+        const tsconfig = await readJSON(tsconfigPath);
+        tsconfig.compilerOptions.plugins = [{ transform: "@replikit/hooks/plugin" }];
+        await writeJSON(tsconfigPath, tsconfig, { spaces: 4 });
+
+        // Add ts-patch
+        await this.pm.install(["ts-patch"], true);
+        this.pm.config.scripts!.postinstall = "ts-patch install -s";
+        await this.pm.save();
     }
 
     /**
