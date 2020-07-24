@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.11.2](https://github.com/Exeteres/Replikit/compare/v0.11.1...v0.11.2) (2020-07-24)
+
+
+### Bug Fixes
+
+* **cli:** Add forgotten dependency ([7f4a86c](https://github.com/Exeteres/Replikit/commit/7f4a86c877bdce26706b7ac38d04c2dee5da02d7))
+
+
+
+
+
 ## [0.11.1](https://github.com/Exeteres/Replikit/compare/v0.11.0...v0.11.1) (2020-07-24)
 
 
