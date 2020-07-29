@@ -1,14 +1,14 @@
 import { CommandBuilder, MiddlewareStage } from "@replikit/commands";
 import { Extension } from "@replikit/core";
-import { UserPermissionName, MemberPermissionName } from "@replikit/permissions/typings";
-import { FallbackStrategy, Channel, StorageLocale } from "@replikit/storage";
+import { FallbackStrategy, Channel } from "@replikit/storage";
 import { ChannelParameterOptions } from "@replikit/storage/typings";
 import { fromCode } from "@replikit/messages";
 import { AuthorizationLocale } from "@replikit/authorization";
+import { PermissionInstance, EntityType } from "@replikit/permissions";
 
 @Extension
 export class CommandBuilderExtension extends CommandBuilder {
-    authorizeUser(permission: UserPermissionName): this {
+    authorizeUser(permission: PermissionInstance<typeof EntityType.User>): this {
         return this.use(MiddlewareStage.BeforeResolution, async (context, next) => {
             const user = await context.getUser(FallbackStrategy.Undefined);
             if (!user || !user.hasPermission(permission)) {
@@ -20,26 +20,7 @@ export class CommandBuilderExtension extends CommandBuilder {
         });
     }
 
-    channel(name?: string): never {
-        const resolvedName = name ?? "channel";
-        this.optional(resolvedName, Channel, { currentAsDefault: true });
-        this.use(MiddlewareStage.AfterResolution, async (context, next) => {
-            if (!context.params[resolvedName]) {
-                const channel = await context.getChannel(FallbackStrategy.Undefined);
-                if (!channel) {
-                    // TODO Expose replyParameterError from commandStorage handler and use here
-                    const locale = context.getLocale(StorageLocale);
-                    await context.reply(fromCode(locale.channelNotFound));
-                    return;
-                }
-                context.params[resolvedName] = channel;
-            }
-            return next();
-        });
-        return this as never;
-    }
-
-    authorizeMember(permission: MemberPermissionName): this {
+    authorizeMember(permission: PermissionInstance<typeof EntityType.Member>): this {
         const channelParam = this.command.params.find(
             x =>
                 !x.isString &&

@@ -2,9 +2,9 @@ import "@replikit/authorization";
 import { DatabaseTestManager, TestManagerSuite, createTestManager } from "@replikit/test-utils";
 import { MessageContext } from "@replikit/router";
 import { AccountContextExtension, User, Member, Channel } from "@replikit/storage";
-import { UserPermissionName } from "@replikit/permissions/typings";
 import { fromText } from "@replikit/messages";
 import { PlainObject } from "@replikit/storage/typings";
+import { TestUserPermission, TestMemberPermission } from "@replikit/permissions/tests";
 
 let dbTestManager: DatabaseTestManager;
 
@@ -28,7 +28,7 @@ function createExtensionTestManager(): TestManagerSuite {
     return suite;
 }
 
-async function insertUser(id: number, permissions: UserPermissionName[]): Promise<void> {
+async function insertUser(id: number, permissions: string[]): Promise<void> {
     const collection = dbTestManager.connection.getCollection(User);
     await collection.insertOne(({
         username: "test",
@@ -40,7 +40,7 @@ async function insertUser(id: number, permissions: UserPermissionName[]): Promis
 
 async function insertMember(
     accountId: number,
-    permissions: UserPermissionName[],
+    permissions: string[],
     channelId = 0,
     controller = "test"
 ): Promise<void> {
@@ -62,11 +62,11 @@ describe("CommandBuilderExtension", () => {
     it("should authorize a user permission", async () => {
         const { testManager, command } = createExtensionTestManager();
 
-        await insertUser(1, ["test1"]);
+        await insertUser(1, [TestUserPermission.Test1.id]);
         await insertUser(2, []);
 
         command("test")
-            .authorizeUser("test1")
+            .authorizeUser(TestUserPermission.Test1)
             .handler(() => fromText("Access allowed"))
             .register();
 
@@ -80,11 +80,11 @@ describe("CommandBuilderExtension", () => {
     it("should authorize a member permission", async () => {
         const { testManager, command } = createExtensionTestManager();
 
-        await insertMember(1, ["test1"]);
+        await insertMember(1, [TestMemberPermission.Test1.id]);
         await insertMember(2, []);
 
         command("test")
-            .authorizeMember("test1")
+            .authorizeMember(TestMemberPermission.Test1)
             .handler(() => fromText("Access allowed"))
             .register();
 
@@ -98,14 +98,14 @@ describe("CommandBuilderExtension", () => {
     it("should authorize a member permission in another channel of the same controller", async () => {
         const { testManager, command } = createExtensionTestManager();
 
-        await insertMember(1, ["test1"], 2);
+        await insertMember(1, [TestMemberPermission.Test1.id], 2);
         await insertMember(2, [], 2);
 
         await insertChannel(2);
 
         command("test")
             .channel()
-            .authorizeMember("test1")
+            .authorizeMember(TestMemberPermission.Test1)
             .handler(() => fromText("Access allowed"))
             .register();
 
@@ -119,14 +119,14 @@ describe("CommandBuilderExtension", () => {
     it("should authorize a member permission in the same channel", async () => {
         const { testManager, command } = createExtensionTestManager();
 
-        await insertMember(1, ["test1"], 0);
+        await insertMember(1, [TestMemberPermission.Test1.id], 0);
         await insertMember(2, [], 0);
 
         await insertChannel(0);
 
         command("test")
             .channel()
-            .authorizeMember("test1")
+            .authorizeMember(TestMemberPermission.Test1)
             .handler(() => fromText("Access allowed"))
             .register();
 
@@ -153,11 +153,11 @@ describe("CommandBuilderExtension", () => {
         });
 
         await insertChannel(2, "another");
-        await insertMember(2, ["test1"], 2, "another");
+        await insertMember(2, [TestMemberPermission.Test1.id], 2, "another");
 
         command("test")
             .channel()
-            .authorizeMember("test1")
+            .authorizeMember(TestMemberPermission.Test1)
             .handler(() => fromText("Access allowed"))
             .register();
 
