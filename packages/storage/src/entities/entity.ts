@@ -1,10 +1,28 @@
 import { Repository, UnlinkedEntityError } from "@replikit/storage";
-import { Exclude } from "class-transformer";
-import { Entity as _Entity } from "@replikit/storage/typings";
+import { Exclude, plainToClass } from "class-transformer";
+import { Entity as _Entity, EntityExtensionConstructor } from "@replikit/storage/typings";
+import { HasFields } from "@replikit/core/typings";
 
 export class Entity {
     @Exclude()
     protected repository: Repository;
+
+    loadExtension(type: EntityExtensionConstructor): void {
+        const hasFields = this as HasFields;
+        if (!hasFields[type.key]) {
+            hasFields[type.key] = new type();
+            return;
+        }
+        if (hasFields[type.key] instanceof type) {
+            return;
+        }
+        hasFields[type.key] = plainToClass(type, hasFields[type.key]);
+    }
+
+    getExtension<T>(type: EntityExtensionConstructor<T>): T {
+        this.loadExtension(type);
+        return (this as HasFields)[type.key] as T;
+    }
 
     save(): Promise<void> {
         if (!this.repository) {

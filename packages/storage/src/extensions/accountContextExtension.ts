@@ -10,7 +10,9 @@ import {
     Account,
     ConnectionManager,
     Member,
-    MemberNotFoundError
+    MemberNotFoundError,
+    loadExtensions,
+    extractArguments
 } from "@replikit/storage";
 import { AccountInfo } from "@replikit/core/typings";
 
@@ -40,8 +42,11 @@ export class AccountContextExtension extends AccountContext {
     }
 
     @CacheResult
-    async getUser(fallbackStrategy?: FallbackStrategy): Promise<User> {
-        fallbackStrategy = fallbackStrategy ?? config.storage.userFallbackStrategy;
+    async getUser(...args: unknown[]): Promise<User> {
+        const [fallbackStrategy, extensions] = extractArguments(
+            args,
+            config.storage.userFallbackStrategy
+        );
         const repo = this.connection.getRepository(User);
         const user = await repo.findOne({
             accounts: {
@@ -52,20 +57,26 @@ export class AccountContextExtension extends AccountContext {
             }
         });
         if (user) {
+            loadExtensions(user, ...extensions);
             return user;
         }
         if (fallbackStrategy === FallbackStrategy.Undefined) {
             return undefined!;
         }
         if (fallbackStrategy === FallbackStrategy.Create) {
-            return createUser(repo, this.controller.name, this.account);
+            const user = await createUser(repo, this.controller.name, this.account);
+            loadExtensions(user, ...extensions);
+            return user;
         }
         throw new UserNotFoundError();
     }
 
     @CacheResult
-    async getMember(fallbackStrategy?: FallbackStrategy): Promise<Member> {
-        fallbackStrategy = fallbackStrategy ?? config.storage.memberFallbackStrategy;
+    async getMember(...args: unknown[]): Promise<Member> {
+        const [fallbackStrategy, extensions] = extractArguments(
+            args,
+            config.storage.memberFallbackStrategy
+        );
         const repo = this.connection.getRepository(Member);
         const _id = {
             controller: this.controller.name,
@@ -74,6 +85,7 @@ export class AccountContextExtension extends AccountContext {
         };
         const member = await repo.findOne({ _id });
         if (member) {
+            loadExtensions(member, ...extensions);
             return member;
         }
         if (fallbackStrategy === FallbackStrategy.Undefined) {
@@ -81,6 +93,7 @@ export class AccountContextExtension extends AccountContext {
         }
         if (fallbackStrategy === FallbackStrategy.Create) {
             const member = repo.create({ _id });
+            loadExtensions(member, ...extensions);
             await member.save();
             return member;
         }

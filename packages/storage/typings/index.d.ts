@@ -12,6 +12,8 @@ export * from "./plainObject";
 export * from "./safeCursor";
 export * from "./storageConfiguration";
 export * from "./collectionMap";
+export * from "./entityExtensionConstructor";
+export * from "./utils";
 
 export * from "./extensions/core";
 export * from "./extensions/router";

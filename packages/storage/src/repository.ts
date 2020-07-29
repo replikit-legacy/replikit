@@ -53,11 +53,11 @@ export class Repository<T extends Entity = Entity> {
 
     async save(entity: T): Promise<void> {
         type Value = OptionalId<PlainObject<T>>;
-        const value = classToPlain(entity) as Entity;
+        const value = this.createDocument(entity) as Value;
         if (!entity._id) {
             if (this.options.autoIncrement) {
                 const name = this.collection.collectionName;
-                value._id = await this.connection.getNextId(name);
+                (value as HasFields)._id = await this.connection.getNextId(name);
             }
             await this.collection.insertOne((value as unknown) as Value);
             entity._id = value._id;
@@ -91,6 +91,6 @@ export class Repository<T extends Entity = Entity> {
     }
 
     createDocument(entity: T): PlainObject<T> {
-        return classToPlain(entity) as PlainObject<T>;
+        return classToPlain(entity, { excludePrefixes: ["__"] }) as PlainObject<T>;
     }
 }

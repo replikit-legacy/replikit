@@ -19,6 +19,7 @@ export * from "./entities/user";
 
 export * from "./extensions/channelContextExtension";
 export * from "./extensions/accountContextExtension";
+export * from "./extensions/commandBuilderExtension";
 
 export * from "./decorators";
 export * from "./converters";
