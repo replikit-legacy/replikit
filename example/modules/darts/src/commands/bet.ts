@@ -3,6 +3,7 @@ import { fromCode } from "@replikit/messages";
 import { BetUserSession } from "@example/darts";
 import { useRequired } from "@replikit/hooks";
 import { CommandContext, CommandResult } from "@replikit/commands/typings";
+import { BankingUserExtension } from "@example/banking";
 
 command("bet")
     .handler(handler)
@@ -16,7 +17,7 @@ async function handler(context: CommandContext): Promise<CommandResult> {
         return fromCode("У вас уже есть активная ставка");
     }
 
-    const user = await context.getUser();
+    const user = await context.getUser(BankingUserExtension);
     if (user.banking.money < amount) {
         return fromCode("Недостаточно средств");
     }

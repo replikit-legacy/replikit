@@ -1,7 +1,14 @@
 import { router } from "@replikit/router";
 import { connection } from "@replikit/storage";
-import { DartThrow, addUserStats, DartsLocale, BetUserSession } from "@example/darts";
+import {
+    DartThrow,
+    addUserStats,
+    DartsLocale,
+    BetUserSession,
+    DartsUserExtension
+} from "@example/darts";
 import { MessageBuilder } from "@replikit/messages";
+import { BankingUserExtension } from "@example/banking";
 
 router.of("message:received").use(async (context, next) => {
     const dice = context.message.telegram?.dice;
@@ -9,7 +16,7 @@ router.of("message:received").use(async (context, next) => {
         return next();
     }
 
-    const user = await context.getUser();
+    const user = await context.getUser(DartsUserExtension, BankingUserExtension);
     const collection = connection.getRepository(DartThrow);
 
     const dartThrow = collection.create({
@@ -32,7 +39,7 @@ router.of("message:received").use(async (context, next) => {
         .addCodeLine(`Результат: ${dice.value}`)
         .addCodeLine(`Вы получили ${dice.value} нихуя`)
         .addCodeLine(`Ваш баланс: ${user.banking.money} нихуя`);
-    addUserStats(builder, user, locale);
+    addUserStats(builder, user.darts, locale);
     await context.reply(builder);
 
     const session = await context.getSession(BetUserSession);

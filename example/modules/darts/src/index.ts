@@ -1,6 +1,7 @@
 export * from "./entities/dartThrow";
 export * from "./utils";
 
+export * from "./extensions/dartsUserExtension";
 export * from "./sessions/betUserSession";
 
 export * from "./startup";

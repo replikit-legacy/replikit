@@ -1,11 +1,14 @@
 import { MessageBuilder } from "@replikit/messages";
-import { User } from "@replikit/storage";
-import { DartsLocale } from "@example/darts";
+import { DartsLocale, DartsUserExtension } from "@example/darts";
 
-export function addUserStats(builder: MessageBuilder, user: User, t: DartsLocale): void {
+export function addUserStats(
+    builder: MessageBuilder,
+    darts: DartsUserExtension,
+    t: DartsLocale
+): void {
     builder
         .addCodeLine(t.userStats)
-        .addCodeLine(t.totalScore(user.darts.sum))
-        .addCodeLine(t.totalThrows(user.darts.total))
-        .addCodeLine(t.average(user.darts.average.toFixed(2)));
+        .addCodeLine(t.totalScore(darts.sum))
+        .addCodeLine(t.totalThrows(darts.total))
+        .addCodeLine(t.average(darts.average.toFixed(2)));
 }

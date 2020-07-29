@@ -1,8 +1,8 @@
 import { fromCode, MessageBuilder } from "@replikit/messages";
-import { User } from "@replikit/storage";
+import { User, loadExtensions } from "@replikit/storage";
 import { command } from "@replikit/commands";
 import { useRequired } from "@replikit/hooks";
-import { logger } from "@example/banking";
+import { logger, BankingUserExtension } from "@example/banking";
 import { CommandContext, CommandResult } from "@replikit/commands/typings";
 
 export const transfer = command("transfer", "перевести")
@@ -13,7 +13,9 @@ async function handler(context: CommandContext): Promise<CommandResult> {
     const targetUser = useRequired("user", User);
     const amount = useRequired("amount", Number, { positive: true });
 
-    const user = await context.getUser();
+    loadExtensions(targetUser, BankingUserExtension);
+
+    const user = await context.getUser(BankingUserExtension);
     if (user._id === targetUser._id) {
         return fromCode("Вы не можете совершить перевод себе");
     }
