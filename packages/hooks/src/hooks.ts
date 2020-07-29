@@ -4,6 +4,8 @@ import { Constructor } from "@replikit/core/typings";
 import { ParameterOptions, CommandContext, RestParameterOptions } from "@replikit/commands/typings";
 import { useContext } from "@replikit/hooks";
 import { NormalizeType, TextParameterOptions, CommandBuilder } from "@replikit/commands";
+import { Channel } from "@replikit/storage";
+import { ModuleNotFoundError } from "@replikit/core";
 
 export function useCommandContext(): CommandContext {
     return useContext() as CommandContext;
@@ -74,4 +76,16 @@ export function useRest<T>(
 
 useRest.build = (builder: CommandBuilder, args: Parameters<typeof useRest>) => {
     return builder.rest(...args);
+};
+
+export function useChannel(name?: string): Channel {
+    const context = useCommandContext();
+    return context.params[name ?? "channel"] as Channel;
+}
+
+useChannel.build = (builder: CommandBuilder, args: Parameters<typeof useChannel>) => {
+    if (!builder.channel) {
+        throw new ModuleNotFoundError("@replikit/storage", "useChannel hook");
+    }
+    return builder.channel(args[0] as string);
 };

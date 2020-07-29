@@ -1,5 +1,6 @@
 import { command } from "@replikit/commands";
-import { applyHook, useRequired, useOptional, useText, useRest } from "@replikit/hooks";
+import { applyHook, useRequired, useOptional, useText, useRest, useChannel } from "@replikit/hooks";
+import "@replikit/storage";
 
 describe("useRequired hook", () => {
     it("should add a required parameter to command", () => {
@@ -29,6 +30,14 @@ describe("useRest hook", () => {
     it("should add a rest parameter to command", () => {
         const builder = command("test");
         applyHook(builder, useRest, ["p3", String]);
+        expect(builder.build()).toMatchSnapshot();
+    });
+});
+
+describe("useChannel hook", () => {
+    it("should add a channel parameter to command", () => {
+        const builder = command("test");
+        applyHook(builder, useChannel, []);
         expect(builder.build()).toMatchSnapshot();
     });
 });

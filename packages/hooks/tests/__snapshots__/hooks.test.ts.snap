@@ -1,5 +1,41 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`useChannel hook should add a channel parameter to command 1`] = `
+Object {
+  "aliases": Array [],
+  "commands": Array [],
+  "middlewareRouter": MiddlewareRouter {
+    "chainMap": Map {
+      2 => HandlerChain {
+        "firstHandler": HandlerWrapper {
+          "handler": [Function],
+        },
+        "lastHandler": HandlerWrapper {
+          "handler": [Function],
+        },
+      },
+    },
+  },
+  "name": "test",
+  "params": Array [
+    Object {
+      "converter": Object {
+        "resolver": [Function],
+        "validator": [Function],
+      },
+      "isString": false,
+      "name": "channel",
+      "optional": true,
+      "options": Object {
+        "currentAsDefault": true,
+      },
+      "type": [Function],
+    },
+  ],
+  "requiredCount": 0,
+}
+`;
+
 exports[`useOptional hook should add an optional parameter to command 1`] = `
 Object {
   "aliases": Array [],
