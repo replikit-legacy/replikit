@@ -1,6 +1,4 @@
 import { EntityType, Permission, Role, Enum } from "@replikit/permissions";
-import { AccountContext, MessageContext } from "@replikit/router";
-import { SessionType } from "@replikit/sessions";
 
 @Enum("test")
 export class TestUserPermission extends Permission(EntityType.User) {

@@ -1,6 +1,6 @@
 import { LocaleStorage, AccountContextExtension } from "@replikit/i18n";
-import { TestLocale } from "i18n/tests/shared";
 import { AccountEventPayload } from "@replikit/core/typings";
+import { TestLocale } from "@replikit/i18n/tests";
 
 describe("AccountContextExtension", () => {
     it("should get locale using account language", () => {

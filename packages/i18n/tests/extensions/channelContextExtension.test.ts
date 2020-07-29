@@ -1,5 +1,5 @@
 import { LocaleStorage, ChannelContextExtension } from "@replikit/i18n";
-import { TestLocale } from "i18n/tests/shared";
+import { TestLocale } from "@replikit/i18n/tests";
 
 describe("ChannelContextExtension", () => {
     it("should get default locale", () => {

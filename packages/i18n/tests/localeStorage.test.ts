@@ -1,5 +1,5 @@
 import { LocaleStorage } from "@replikit/i18n";
-import { TestLocale } from "i18n/tests/shared";
+import { TestLocale } from "@replikit/i18n/tests";
 
 describe("LocaleStorage", () => {
     it("should register and resolve the fallback locale", () => {
