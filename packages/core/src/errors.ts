@@ -17,3 +17,9 @@ export class EmptyContentError extends Error {
         super("Empty content");
     }
 }
+
+export class ModuleNotFoundError extends Error {
+    constructor(module: string, requirer: string) {
+        super(`Module ${module} not found, but is required by ${requirer}`);
+    }
+}
