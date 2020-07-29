@@ -10,8 +10,8 @@
             "request": "launch",
             "protocol": "inspector",
             "cwd": "${workspaceFolder}/example",
-            "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/replikit",
-            "args": ["dev", "--inspect-brk=9229"],
+            "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/replikit.cmd",
+            "args": ["dev"],
             "skipFiles": ["<node_internals>/**"],
             "restart": true,
             "port": 9229

@@ -9,6 +9,7 @@ module.exports = {
     setupFiles: [resolve(root, "test-utils/src/setup.ts")],
     moduleNameMapper: {
         "@replikit/hooks/plugin": root + "/hooks/src/plugin",
+        "@replikit/(.*)/tests": root + "/$1/tests",
         ...pathsToModuleNameMapper(compilerOptions.paths, {
             prefix: root + "/"
         })

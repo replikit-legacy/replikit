@@ -1,77 +1,123 @@
-import { HasPermissions, PermissionStorage } from "@replikit/permissions";
+import {
+    HasPermissions,
+    PermissionStorage,
+    Role,
+    EntityType,
+    RoleInstance,
+    PermissionInstance,
+    Enum
+} from "@replikit/permissions";
+import { TestUserPermission, TestUserRole } from "@replikit/permissions/tests";
 
-interface ExtensionResult {
-    extension: HasPermissions;
-    storage: PermissionStorage;
-}
-
-function createExtension(): ExtensionResult {
+function createExtension(): HasPermissions {
     const extension = new HasPermissions();
     const storage = new PermissionStorage();
+    RoleInstance._permissionStorage = storage;
+    PermissionInstance._permissionStorage = storage;
     extension.permissions = [];
     extension.roles = [];
-    extension.permissionStorage = storage;
-    return { extension, storage };
+    extension._permissionStorage = storage;
+    return extension;
 }
 
 describe("HasPermissions", () => {
-    it.each([
-        ["permission", "permit", "hasPermission"],
-        ["role", "appoint", "hasRole"]
-    ] as const)("should check %s directly", (_, add, check) => {
-        const { extension } = createExtension();
-        extension[add]("test1");
+    it("should check permission directly", () => {
+        const extension = createExtension();
+        extension.permit(TestUserPermission.Test1);
 
-        expect(extension[check]("test1")).toBeTruthy();
-        expect(extension[check]("test2")).toBeFalsy();
+        expect(extension.hasPermission(TestUserPermission.Test1)).toBeTruthy();
+        expect(extension.hasPermission(TestUserPermission.Test2)).toBeFalsy();
+    });
+
+    it("should check role directly", () => {
+        const extension = createExtension();
+        extension.appoint(TestUserRole.Test1);
+
+        expect(extension.hasRole(TestUserRole.Test1)).toBeTruthy();
+        expect(extension.hasRole(TestUserRole.Test2)).toBeFalsy();
     });
 
     it("should check permission via role", () => {
-        const { extension, storage } = createExtension();
-        storage.updateRole("user", "Admin", { permissions: ["test1"] });
-        extension.appoint("Admin");
+        const extension = createExtension();
 
-        expect(extension.hasPermission("test1")).toBeTruthy();
-        expect(extension.hasPermission("test2")).toBeFalsy();
+        @Enum("test")
+        class TestUserRole extends Role(EntityType.User) {
+            static readonly Admin = new TestUserRole({
+                permissions: [TestUserPermission.Test1]
+            });
+        }
+
+        extension.appoint(TestUserRole.Admin);
+
+        expect(extension.hasPermission(TestUserPermission.Test1)).toBeTruthy();
+        expect(extension.hasPermission(TestUserPermission.Test2)).toBeFalsy();
     });
 
     it("should check permission via fallback role", () => {
-        const { extension, storage } = createExtension();
-        storage.updateRole("user", "Moderator", { permissions: ["test1"] });
-        storage.updateRole("user", "Admin", {
-            permissions: ["test2"],
-            fallbackRoles: ["Moderator"]
-        });
-        extension.appoint("Admin");
+        const extension = createExtension();
 
-        expect(extension.hasPermission("test1")).toBeTruthy();
-        expect(extension.hasPermission("test2")).toBeTruthy();
-        expect(extension.hasPermission("test3")).toBeFalsy();
+        @Enum("test")
+        class TestUserRole extends Role(EntityType.User) {
+            static readonly Moderator = new TestUserRole({
+                permissions: [TestUserPermission.Test1]
+            });
+
+            static readonly Admin = new TestUserRole({
+                permissions: [TestUserPermission.Test2],
+                fallbackRoles: [TestUserRole.Moderator]
+            });
+        }
+
+        extension.appoint(TestUserRole.Admin);
+
+        expect(extension.hasPermission(TestUserPermission.Test1)).toBeTruthy();
+        expect(extension.hasPermission(TestUserPermission.Test2)).toBeTruthy();
+        expect(extension.hasPermission(TestUserPermission.Test3)).toBeFalsy();
     });
 
     it("should check role via fallback role", () => {
-        const { extension, storage } = createExtension();
-        storage.updateRole("user", "Moderator");
-        storage.updateRole("user", "Admin", { fallbackRoles: ["Moderator"] });
-        extension.appoint("Admin");
+        const extension = createExtension();
 
-        expect(extension.hasRole("Admin")).toBeTruthy();
-        expect(extension.hasRole("Moderator")).toBeTruthy();
-        expect(extension.hasRole("SU")).toBeFalsy();
+        @Enum("test")
+        class TestUserRole extends Role(EntityType.User) {
+            static readonly Moderator = new TestUserRole();
+            static readonly SuperUser = new TestUserRole();
+
+            static readonly Admin = new TestUserRole({
+                fallbackRoles: [TestUserRole.Moderator]
+            });
+        }
+
+        extension.appoint(TestUserRole.Admin);
+
+        expect(extension.hasRole(TestUserRole.Admin)).toBeTruthy();
+        expect(extension.hasRole(TestUserRole.Moderator)).toBeTruthy();
+        expect(extension.hasRole(TestUserRole.SuperUser)).toBeFalsy();
     });
 
-    it.each([
-        ["permit", "revoke", "permissions"],
-        ["appoint", "dismiss", "roles"]
-    ] as const)("should %s and %s only once", (add, remove, collection) => {
-        const { extension } = createExtension();
+    it("should permit and revoke only once", () => {
+        const extension = createExtension();
+        expect(extension.permissions).toHaveLength(0);
 
-        extension[add]("test1");
-        extension[add]("test1");
-        expect(extension[collection]).toHaveLength(1);
+        extension.permit(TestUserPermission.Test1);
+        extension.permit(TestUserPermission.Test1);
+        expect(extension.permissions).toHaveLength(1);
 
-        extension[remove]("test1");
-        extension[remove]("test1");
-        expect(extension[collection]).toHaveLength(0);
+        extension.revoke(TestUserPermission.Test1);
+        extension.revoke(TestUserPermission.Test1);
+        expect(extension.permissions).toHaveLength(0);
+    });
+
+    it("should appoint and dismiss only once", () => {
+        const extension = createExtension();
+        expect(extension.roles).toHaveLength(0);
+
+        extension.appoint(TestUserRole.Test1);
+        extension.appoint(TestUserRole.Test1);
+        expect(extension.roles).toHaveLength(1);
+
+        extension.dismiss(TestUserRole.Test1);
+        extension.dismiss(TestUserRole.Test1);
+        expect(extension.roles).toHaveLength(0);
     });
 });

@@ -1,11 +1,6 @@
-export class RoleNotFoundError extends Error {
-    constructor(name: unknown) {
-        super(`Role ${name} not found`);
-    }
-}
-
-export class InvalidFallbackRoleError extends Error {
-    constructor(name: unknown) {
-        super(`Role ${name} cannot be fallback role of itself`);
+export class InvalidConstructorError extends Error {
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    constructor() {
+        super(`An object cannot be constructed using base constructor. Use derived class instead.`);
     }
 }

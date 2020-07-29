@@ -1,44 +1,53 @@
-import { RoleName, PermissionName, TypeName } from "@replikit/permissions/typings";
-import { PermissionStorage, permissions } from "@replikit/permissions";
+import {
+    PermissionStorage,
+    permissionStorage,
+    EntityType,
+    PermissionInstance,
+    RoleInstance
+} from "@replikit/permissions";
+import { Exclude } from "class-transformer";
 
-export class HasPermissions<T extends TypeName = TypeName> {
-    roles: RoleName<T>[];
-    permissions: PermissionName<T>[];
+export class HasPermissions<T extends EntityType = EntityType> {
+    roles: string[];
+    permissions: string[];
 
     /** @internal */
-    permissionStorage?: PermissionStorage;
+    _permissionStorage?: PermissionStorage;
 
-    hasRole(role: RoleName<T>): boolean {
-        const storage = this.permissionStorage ?? permissions;
-        return storage.checkRole((this as unknown) as HasPermissions, role);
+    @Exclude()
+    private get permissionStorage(): PermissionStorage {
+        return this._permissionStorage ?? permissionStorage;
     }
 
-    hasPermission(permission: PermissionName<T>): boolean {
-        const storage = this.permissionStorage ?? permissions;
-        return storage.checkPermission((this as unknown) as HasPermissions, permission);
+    hasRole(role: RoleInstance<T>): boolean {
+        return this.permissionStorage.checkRole(this, role);
     }
 
-    permit(permission: PermissionName<T>): void {
-        if (!this.permissions.includes(permission)) {
-            this.permissions.push(permission);
+    hasPermission(permission: PermissionInstance<T>): boolean {
+        return this.permissionStorage.checkPermission(this, permission);
+    }
+
+    permit(permission: PermissionInstance<T>): void {
+        if (!this.permissions.includes(permission.id)) {
+            this.permissions.push(permission.id);
         }
     }
 
-    revoke(permission: PermissionName<T>): void {
-        const index = this.permissions.indexOf(permission);
+    revoke(permission: PermissionInstance<T>): void {
+        const index = this.permissions.indexOf(permission.id);
         if (index !== -1) {
             this.permissions.splice(index, 1);
         }
     }
 
-    appoint(role: RoleName<T>): void {
-        if (!this.roles.includes(role)) {
-            this.roles.push(role);
+    appoint(role: RoleInstance<T>): void {
+        if (!this.roles.includes(role.id)) {
+            this.roles.push(role.id);
         }
     }
 
-    dismiss(role: RoleName<T>): void {
-        const index = this.roles.indexOf(role);
+    dismiss(role: RoleInstance<T>): void {
+        const index = this.roles.indexOf(role.id);
         if (index !== -1) {
             this.roles.splice(index, 1);
         }

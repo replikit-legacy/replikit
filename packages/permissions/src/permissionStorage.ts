@@ -1,7 +1,11 @@
-import { RoleInfo, TypeName, RoleName, PermissionName } from "@replikit/permissions/typings";
-import { HasPermissions, RoleNotFoundError, InvalidFallbackRoleError } from "@replikit/permissions";
+import {
+    HasPermissions,
+    EntityType,
+    RoleInstance,
+    PermissionInstance
+} from "@replikit/permissions";
 
-function checkPermission(target: RoleInfo, permission: unknown): boolean {
+function checkPermission(target: RoleInstance, permission: PermissionInstance): boolean {
     if (target.permissions.includes(permission)) {
         return true;
     }
@@ -13,92 +17,48 @@ function checkPermission(target: RoleInfo, permission: unknown): boolean {
     return false;
 }
 
-function checkRole(target: RoleInfo, roleName: unknown): boolean {
+function checkRole(target: RoleInstance, targetRole: RoleInstance): boolean {
     for (const role of target.fallbackRoles) {
-        if (role.name === roleName) {
+        if (role === targetRole) {
             return true;
         }
-        if (checkRole(role, roleName)) {
+        if (checkRole(role, targetRole)) {
             return true;
         }
     }
     return false;
 }
 
-interface UpdateRoleInfo<T extends TypeName> {
-    permissions?: PermissionName<T>[];
-    fallbackRoles?: RoleName<T>[];
-}
-
 export class PermissionStorage {
-    private readonly roles: RoleInfo[] = [];
-    private readonly permissionMap = new Map<TypeName, unknown[]>();
+    /** @internal */
+    readonly _roles: RoleInstance[] = [];
 
-    getPermissionNames(type: TypeName): string[] {
-        return (this.permissionMap.get(type) as string[]) ?? [];
+    /** @internal */
+    readonly _permissions: PermissionInstance[] = [];
+
+    get roles(): readonly RoleInstance[] {
+        return this._roles;
     }
 
-    getRoleNames(type: TypeName): string[] {
-        return this.roles.filter(x => x.type === type).map(x => x.name as string);
+    get permissions(): readonly PermissionInstance[] {
+        return this._permissions;
     }
 
-    addPermissions<T extends TypeName>(type: T, permissions: PermissionName<T>[]): void {
-        let permissionArray = this.permissionMap.get(type);
-        if (!permissionArray) {
-            permissionArray = [];
-            this.permissionMap.set(type, permissionArray);
-        }
-        for (const permission of permissions) {
-            if (!permissionArray.includes(permission)) {
-                permissionArray.push(permission);
-            }
-        }
+    getPermissionNames(type: EntityType): string[] {
+        return this.permissions.filter(x => x.type.equals(type)).map(x => x.name);
     }
 
-    private resolveRoles(roleNames: unknown[]): RoleInfo[] {
-        return roleNames.map(name => {
-            const info = this.roles.find(x => x.name === name);
-            if (!info) {
-                throw new RoleNotFoundError(name);
-            }
-            return info;
-        });
+    getRoleNames(type: EntityType): string[] {
+        return this.roles.filter(x => x.type.equals(type)).map(x => x.name);
     }
 
-    updateRole<T extends TypeName>(type: T, name: RoleName<T>, info?: UpdateRoleInfo<T>): void {
-        if (info?.fallbackRoles?.includes(name)) {
-            throw new InvalidFallbackRoleError(name);
-        }
-
-        let role = this.roles.find(x => x.name === name);
-        if (!role) {
-            role = {
-                type,
-                name,
-                fallbackRoles: info?.fallbackRoles ? this.resolveRoles(info.fallbackRoles) : [],
-                permissions: info?.permissions ?? []
-            };
-            this.roles.push(role);
-            return;
-        }
-        if (!info) {
-            return;
-        }
-        if (info.fallbackRoles) {
-            role.fallbackRoles.push(...this.resolveRoles(info.fallbackRoles));
-        }
-        if (info.permissions) {
-            role.permissions.push(...info.permissions);
-        }
-    }
-
-    checkRole(hasPermissions: HasPermissions, targetRole: unknown): boolean {
-        if (hasPermissions.roles.includes(targetRole)) {
+    checkRole(hasPermissions: HasPermissions, targetRole: RoleInstance): boolean {
+        if (hasPermissions.roles.includes(targetRole.id)) {
             return true;
         }
 
         for (const role of hasPermissions.roles) {
-            const info = this.roles.find(x => x.name === role);
+            const info = this.roles.find(x => x.id === role);
             if (!info) {
                 continue;
             }
@@ -110,13 +70,13 @@ export class PermissionStorage {
         return false;
     }
 
-    checkPermission(hasPermissions: HasPermissions, permission: unknown): boolean {
-        if (hasPermissions.permissions.includes(permission)) {
+    checkPermission(hasPermissions: HasPermissions, permission: PermissionInstance): boolean {
+        if (hasPermissions.permissions.includes(permission.id)) {
             return true;
         }
 
         for (const role of hasPermissions.roles) {
-            const info = this.roles.find(x => x.name === role);
+            const info = this.roles.find(x => x.id === role);
             if (!info) {
                 continue;
             }
@@ -129,4 +89,4 @@ export class PermissionStorage {
     }
 }
 
-export const permissions = new PermissionStorage();
+export const permissionStorage = new PermissionStorage();
