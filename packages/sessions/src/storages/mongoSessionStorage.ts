@@ -1,7 +1,6 @@
 import { SessionStorage } from "@replikit/sessions/typings";
 import { ConnectionManager } from "@replikit/storage";
-import { StorageModuleNotFoundError } from "@replikit/sessions";
-import { hook } from "@replikit/core";
+import { hook, ModuleNotFoundError } from "@replikit/core";
 import { HasFields } from "@replikit/core/typings";
 
 type StorageModule = typeof import("@replikit/storage");
@@ -24,7 +23,7 @@ hook("core:startup:ready", () => {
     }
     connection = getConnection()!;
     if (!connection) {
-        throw new StorageModuleNotFoundError("MongoSesionStorage");
+        throw new ModuleNotFoundError("@replikit/storage", "MongoSesionStorage");
     }
 });
 

@@ -5,7 +5,6 @@ export * from "./errors";
 export * from "./storages/mongoSessionStorage";
 export * from "./sessionManager";
 
-export * from "./extensions/accountContextExtension";
-export * from "./extensions/channelContextExtension";
+export * from "./extensions/contextExtension";
 
 import "./startup";

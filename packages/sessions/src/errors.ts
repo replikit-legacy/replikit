@@ -1,13 +1,10 @@
 import { SessionType } from "@replikit/sessions";
-
-export class StorageModuleNotFoundError extends Error {
-    constructor(requirer: string) {
-        super(`Module @replikit/storage was not found, but is required by ${requirer}`);
-    }
-}
+import { Context } from "@replikit/router";
 
 export class InvalidSessionTypeError extends Error {
-    constructor(type: SessionType) {
-        super(`Unable to get a session of type ${SessionType[type]} from ChannelContext`);
+    constructor(type: SessionType, context: Context) {
+        super(
+            `Unable to get a session of type ${SessionType[type]} from ${context.constructor.name}`
+        );
     }
 }
