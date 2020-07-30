@@ -1,7 +1,7 @@
 import "@replikit/authorization";
 import { DatabaseTestManager, TestManagerSuite, createTestManager } from "@replikit/test-utils";
 import { MessageContext } from "@replikit/router";
-import { AccountContextExtension, User, Member, Channel } from "@replikit/storage";
+import { MemberContextExtension, User, Member, Channel } from "@replikit/storage";
 import { fromText } from "@replikit/messages";
 import { PlainObject } from "@replikit/storage/typings";
 import { TestUserPermission, TestMemberPermission } from "@replikit/permissions/tests";
@@ -22,7 +22,7 @@ function createExtensionTestManager(): TestManagerSuite {
     const manager = dbTestManager;
     suite.testManager.contextFactories.register("message:received", event => {
         const context = new MessageContext(event);
-        ((context as unknown) as AccountContextExtension)._connection = manager.connection;
+        ((context as unknown) as MemberContextExtension)._connection = manager.connection;
         return context;
     });
     return suite;
