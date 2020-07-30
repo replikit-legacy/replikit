@@ -20,5 +20,8 @@
     "dependencies": {
         "@replikit/commands": "^0.12.0",
         "@replikit/core": "^0.12.0"
+    },
+    "optionalDependencies": {
+        "@replikit/storage": "^0.12.0"
     }
 }
