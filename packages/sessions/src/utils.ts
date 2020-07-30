@@ -4,7 +4,7 @@ import { SessionType, InvalidSessionTypeError } from "@replikit/sessions";
 import { ModuleNotFoundError } from "@replikit/core";
 
 export async function createSessionKey(context: Context, ctr: SessionConstructor): Promise<string> {
-    const baseKey = `${ctr.type}:${ctr.namespace}:${context.controller.name}`;
+    const baseKey = `${ctr.namespace}:${context.controller.name}:${ctr.type}`;
     const type = ctr.type;
     switch (type) {
         case SessionType.Account: {

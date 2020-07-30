@@ -3,7 +3,7 @@ import { SessionStorage } from "@replikit/sessions/typings";
 import { classToPlain, plainToClass } from "class-transformer";
 
 interface StoredSession {
-    original: unknown;
+    original: string;
     current: unknown;
 }
 
@@ -14,7 +14,7 @@ export class SessionManager {
 
     async save(): Promise<void> {
         for (const [key, session] of this.sessionMap.entries()) {
-            if (JSON.stringify(session.original) !== JSON.stringify(session.current)) {
+            if (JSON.stringify(session.original) !== session.current) {
                 await this.storage.set(key, classToPlain(session.current) as HasFields);
             }
         }
@@ -27,7 +27,7 @@ export class SessionManager {
         }
         const existing = await this.storage.get(key);
         const current = existing ? plainToClass(type, existing) : new type();
-        session = { current, original: { ...current } };
+        session = { current, original: JSON.stringify(current) };
         this.sessionMap.set(key, session);
         return current;
     }
