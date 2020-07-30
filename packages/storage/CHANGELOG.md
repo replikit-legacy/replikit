@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.12.0](https://github.com/Exeteres/Replikit/compare/v0.11.2...v0.12.0) (2020-07-30)
+
+
+### Bug Fixes
+
+* **storage:** Fix extensions to use new core types ([75b9591](https://github.com/Exeteres/Replikit/commit/75b9591fda60d9764bfd3db512062f35cd28e0a0))
+
+
+### Features
+
+* **storage:** Add entity extension system ([6889986](https://github.com/Exeteres/Replikit/commit/6889986bf28d2084c742645904e7c93ddd0de0f6))
+
+
+
+
+
 ## [0.11.2](https://github.com/Exeteres/Replikit/compare/v0.11.1...v0.11.2) (2020-07-24)
 
 **Note:** Version bump only for package @replikit/storage

@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.12.0](https://github.com/Exeteres/Replikit/compare/v0.11.2...v0.12.0) (2020-07-30)
+
+
+### Bug Fixes
+
+* **sessions:** Fix bug with session change detection ([037e3de](https://github.com/Exeteres/Replikit/commit/037e3debdfdca15b80289233c5bcddf9d53e45a4))
+
+
+### Features
+
+* **sessions:** Add support for new core types ([7ec4756](https://github.com/Exeteres/Replikit/commit/7ec4756db3b638cfc3184473b8f182db64604733))
+
+
+
+
+
 ## [0.11.2](https://github.com/Exeteres/Replikit/compare/v0.11.1...v0.11.2) (2020-07-24)
 
 **Note:** Version bump only for package @replikit/sessions

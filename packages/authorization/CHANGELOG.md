@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.12.0](https://github.com/Exeteres/Replikit/compare/v0.11.2...v0.12.0) (2020-07-30)
+
+
+### Bug Fixes
+
+* **authorization:** Fix extensions to use new core types ([c756c73](https://github.com/Exeteres/Replikit/commit/c756c73edb0072760789846bf8e43894b25d4f27))
+
+
+### Features
+
+* **authorization:** Redesign authorization system ([6dd23d1](https://github.com/Exeteres/Replikit/commit/6dd23d1b0bf830bb7dcf8007987d671bd2814c92))
+
+
+
+
+
 ## [0.11.2](https://github.com/Exeteres/Replikit/compare/v0.11.1...v0.11.2) (2020-07-24)
 
 **Note:** Version bump only for package @replikit/authorization

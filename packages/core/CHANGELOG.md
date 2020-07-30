@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.12.0](https://github.com/Exeteres/Replikit/compare/v0.11.2...v0.12.0) (2020-07-30)
+
+
+### Bug Fixes
+
+* **core:** Rename query field to text ([4b0a930](https://github.com/Exeteres/Replikit/commit/4b0a930a4a840efcf56bdc6dfcf0b77a9430a30c))
+
+
+### Features
+
+* **core:** Refactor types and add support for inline queries ([2e52258](https://github.com/Exeteres/Replikit/commit/2e52258587cf0f2d31061c991eb2489ec7acda9e))
+
+
+
+
+
 ## [0.11.2](https://github.com/Exeteres/Replikit/compare/v0.11.1...v0.11.2) (2020-07-24)
 
 **Note:** Version bump only for package @replikit/core

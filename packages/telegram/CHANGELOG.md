@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.12.0](https://github.com/Exeteres/Replikit/compare/v0.11.2...v0.12.0) (2020-07-30)
+
+
+### Bug Fixes
+
+* **core:** Rename query field to text ([4b0a930](https://github.com/Exeteres/Replikit/commit/4b0a930a4a840efcf56bdc6dfcf0b77a9430a30c))
+
+
+### Features
+
+* **telegram:** Add support for inline queries ([3f0271c](https://github.com/Exeteres/Replikit/commit/3f0271c96b6ac9cbfdb5f399ae24dc37d6286231))
+
+
+
+
+
 ## [0.11.2](https://github.com/Exeteres/Replikit/compare/v0.11.1...v0.11.2) (2020-07-24)
 
 **Note:** Version bump only for package @replikit/telegram

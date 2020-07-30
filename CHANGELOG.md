@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.12.0](https://github.com/Exeteres/Replikit/compare/v0.11.2...v0.12.0) (2020-07-30)
+
+
+### Bug Fixes
+
+* **authorization:** Fix extensions to use new core types ([c756c73](https://github.com/Exeteres/Replikit/commit/c756c73edb0072760789846bf8e43894b25d4f27))
+* **core:** Rename query field to text ([4b0a930](https://github.com/Exeteres/Replikit/commit/4b0a930a4a840efcf56bdc6dfcf0b77a9430a30c))
+* **sessions:** Fix bug with session change detection ([037e3de](https://github.com/Exeteres/Replikit/commit/037e3debdfdca15b80289233c5bcddf9d53e45a4))
+* **storage:** Fix extensions to use new core types ([75b9591](https://github.com/Exeteres/Replikit/commit/75b9591fda60d9764bfd3db512062f35cd28e0a0))
+
+
+### Features
+
+* **authorization:** Redesign authorization system ([6dd23d1](https://github.com/Exeteres/Replikit/commit/6dd23d1b0bf830bb7dcf8007987d671bd2814c92))
+* **core:** Refactor types and add support for inline queries ([2e52258](https://github.com/Exeteres/Replikit/commit/2e52258587cf0f2d31061c991eb2489ec7acda9e))
+* **hooks:** Add useChannel hook ([265c4de](https://github.com/Exeteres/Replikit/commit/265c4de8f17ea1db9c63e8900be28e1c50e5ae14))
+* **permissions:** Redesign permission system ([3463834](https://github.com/Exeteres/Replikit/commit/3463834dbdf7fb3fe3d0ed34d10edccba5b0e4d0))
+* **router:** Add support for new core types ([55242f2](https://github.com/Exeteres/Replikit/commit/55242f290b7bd053ed85dfa3f0412c2cd0a8f990))
+* **sessions:** Add support for new core types ([7ec4756](https://github.com/Exeteres/Replikit/commit/7ec4756db3b638cfc3184473b8f182db64604733))
+* **storage:** Add entity extension system ([6889986](https://github.com/Exeteres/Replikit/commit/6889986bf28d2084c742645904e7c93ddd0de0f6))
+* **telegram:** Add support for inline queries ([3f0271c](https://github.com/Exeteres/Replikit/commit/3f0271c96b6ac9cbfdb5f399ae24dc37d6286231))
+
+
+
+
+
 ## [0.11.2](https://github.com/Exeteres/Replikit/compare/v0.11.1...v0.11.2) (2020-07-24)
 
 
