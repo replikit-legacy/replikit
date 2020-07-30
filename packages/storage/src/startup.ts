@@ -1,12 +1,15 @@
-import { config, hook, invokeHook, updateConfig, createScope } from "@replikit/core";
+import { config, hook, invokeHook, updateConfig, createScope, applyMixins } from "@replikit/core";
 import {
     ConnectionManager,
     User,
     Channel,
     Member,
     FallbackStrategy,
-    registerGlobalStorageConverters
+    registerGlobalStorageConverters,
+    AccountContextExtension
 } from "@replikit/storage";
+import { MemberContext } from "@replikit/router";
+import { Constructor } from "@replikit/core/typings";
 
 registerGlobalStorageConverters();
 
@@ -50,3 +53,5 @@ hook("storage:database:done", async () => {
     await connection.getCollection(Channel).createIndexes([{ key: { controller: 1, localId: 1 } }]);
     await connection.getCollection(User).createIndexes([{ key: { username: 1, accounts: 1 } }]);
 });
+
+applyMixins(MemberContext as Constructor, [AccountContextExtension as Constructor]);

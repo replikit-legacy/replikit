@@ -4,13 +4,13 @@ import { EntityExtensionConstructor, ApplyExtensions } from "@replikit/storage/t
 
 declare module "@replikit/router/typings/context/channelContext" {
     export interface ChannelContext {
+        readonly connection: ConnectionManager;
         getChannel(fallbackStrategy?: FallbackStrategy): Promise<Channel>;
     }
 }
 
 declare module "@replikit/router/typings/context/accountContext" {
     export interface AccountContext {
-        readonly connection: ConnectionManager;
         getUser(fallbackStrategy?: FallbackStrategy): Promise<User>;
         getUser<E extends EntityExtensionConstructor[]>(
             fallbackStrategy: FallbackStrategy,
@@ -19,6 +19,11 @@ declare module "@replikit/router/typings/context/accountContext" {
         getUser<E extends EntityExtensionConstructor[]>(
             ...extensions: E
         ): Promise<ApplyExtensions<User, E>>;
+    }
+}
+
+declare module "@replikit/router/typings/context/memberContext" {
+    export interface MemberContext {
         getMember(fallbackStrategy?: FallbackStrategy): Promise<Member>;
         getMember<E extends EntityExtensionConstructor[]>(
             fallbackStrategy: FallbackStrategy,

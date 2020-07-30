@@ -18,6 +18,7 @@ export * from "./entities/account";
 export * from "./entities/user";
 
 export * from "./extensions/channelContextExtension";
+export * from "./extensions/memberContextExtension";
 export * from "./extensions/accountContextExtension";
 export * from "./extensions/commandBuilderExtension";
 

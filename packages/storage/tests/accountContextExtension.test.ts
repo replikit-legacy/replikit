@@ -3,10 +3,10 @@ import {
     AccountContextExtension,
     User,
     Account,
-    UserNotFoundError,
-    FallbackStrategy
+    FallbackStrategy,
+    UserNotFoundError
 } from "@replikit/storage";
-import { MessageContext } from "@replikit/router";
+import { AccountContext } from "@replikit/router";
 import { TestExtension } from "@replikit/storage/tests";
 
 let testManager: DatabaseTestManager;
@@ -20,11 +20,11 @@ afterEach(() => {
     return testManager.close();
 });
 
-function createExtension(): MessageContext {
+function createExtension(): AccountContext {
     const event = createMessageEvent();
     const extension = new AccountContextExtension(event);
     extension._connection = testManager.connection;
-    return (extension as unknown) as MessageContext;
+    return (extension as unknown) as AccountContext;
 }
 
 describe("AccountContextExtension", () => {
@@ -66,13 +66,6 @@ describe("AccountContextExtension", () => {
     it("should create a user with extension", async () => {
         const extension = createExtension();
         const result = await extension.getUser(TestExtension);
-        expect(result).toBeDefined();
-        expect(result.test).toBeInstanceOf(TestExtension);
-    });
-
-    it("should create a member with extension", async () => {
-        const extension = createExtension();
-        const result = await extension.getMember(TestExtension);
         expect(result).toBeDefined();
         expect(result.test).toBeInstanceOf(TestExtension);
     });
