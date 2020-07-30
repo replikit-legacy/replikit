@@ -10,7 +10,11 @@ import {
     MessageEventName,
     ChannelPermissionMap,
     SendedAttachment,
-    MessageMetadata
+    MessageMetadata,
+    InlineQuery as CoreInlineQuery,
+    ChosenInlineQueryResult,
+    InlineQueryResponse,
+    InlineQueryResult as CoreInlineQueryResult
 } from "@replikit/core/typings";
 import Telegraf from "telegraf";
 import {
@@ -32,7 +36,10 @@ import {
     File,
     Update,
     IncomingMessage,
-    PhotoSize
+    PhotoSize,
+    InlineQuery,
+    ChosenInlineResult,
+    InlineQueryResult
 } from "telegraf/typings/telegram-types";
 import { TelegrafContext } from "telegraf/typings/context";
 import { logger, MessageTokenizer, escapeHtml } from "@replikit/telegram";
@@ -63,7 +70,7 @@ export class TelegramController extends Controller {
 
         super({
             name: "tg",
-            features: { implicitUpload: true },
+            features: { implicitUpload: true, inlineMode: true },
             textFormatter
         });
 
@@ -99,7 +106,7 @@ export class TelegramController extends Controller {
             const channel = await this.createChannel(message.chat);
             for (const member of message.new_chat_members) {
                 const account = this.createAccount(member);
-                this.processEvent("account:joined", { channel, account });
+                this.processEvent("member:joined", { channel, account });
             }
             return true;
         }
@@ -107,7 +114,7 @@ export class TelegramController extends Controller {
         if (message.left_chat_member) {
             const channel = await this.createChannel(message.chat);
             const account = this.createAccount(message.left_chat_member);
-            this.processEvent("account:left", { channel, account });
+            this.processEvent("member:left", { channel, account });
             return true;
         }
 
@@ -169,11 +176,101 @@ export class TelegramController extends Controller {
                 continue;
             }
 
+            if (update.inline_query) {
+                const account = this.createAccount(update.inline_query.from);
+                const query = this.createInlineQuery(update.inline_query);
+                this.processEvent("inline-query:received", { account, query });
+                continue;
+            }
+
+            if (update.chosen_inline_result) {
+                const account = this.createAccount(update.chosen_inline_result.from);
+                const result = this.createChosenInlineQueryResult(update.chosen_inline_result);
+                this.processEvent("inline-query:chosen", { account, result });
+                continue;
+            }
+
             await this.bot.handleUpdate(update);
         }
         await this.handleMessages("message:received", receivedMessages);
         await this.handleMessages("message:edited", editedMessages);
         return (undefined as unknown) as unknown[];
+    }
+
+    async answerInlineQuery(id: string, response: InlineQueryResponse): Promise<void> {
+        await this.bot.telegram.answerInlineQuery(
+            id,
+            // eslint-disable-next-line @typescript-eslint/unbound-method
+            response.results.map(this.createInlineQueryResult),
+            {
+                cache_time: response.cacheTime,
+                is_personal: response.isPersonal,
+                next_offset: response.nextOffset,
+                switch_pm_text: response.switchPMText,
+                switch_pm_parameter: response.switchPMParameter
+            }
+        );
+    }
+
+    private createInlineQueryResult(result: CoreInlineQueryResult): InlineQueryResult {
+        if ("article" in result) {
+            return {
+                id: result.id,
+                type: "article",
+                title: result.article.title,
+                description: result.article.description,
+                input_message_content: {
+                    message_text: result.message?.text ?? result.article.title
+                }
+            };
+        }
+        const { attachment, id, message } = result;
+        const commonFields = {
+            id,
+            input_message_content: message?.text ? { message_text: message.text } : undefined
+        };
+        const title = attachment.title ?? "Untitled";
+        switch (attachment.type) {
+            case AttachmentType.Sticker: {
+                return {
+                    ...commonFields,
+                    type: "sticker",
+                    sticker_file_id: attachment.id
+                };
+            }
+            case AttachmentType.Photo: {
+                return {
+                    ...commonFields,
+                    type: "photo",
+                    photo_file_id: attachment.id
+                };
+            }
+            case AttachmentType.Video: {
+                return {
+                    ...commonFields,
+                    title,
+                    type: "video",
+                    video_file_id: attachment.id
+                };
+            }
+            case AttachmentType.Document: {
+                return {
+                    ...commonFields,
+                    title,
+                    type: "document",
+                    document_file_id: attachment.id
+                };
+            }
+            case AttachmentType.Voice: {
+                return {
+                    ...commonFields,
+                    title,
+                    type: "voice",
+                    document_file_id: attachment.id
+                };
+            }
+        }
+        // throw new Error(`Attachment with type ${attachment.type} cannot be an inline query result`);
     }
 
     private async fetchChannelPermissions(channelId: number): Promise<ChannelPermissionMap> {
@@ -617,6 +714,21 @@ export class TelegramController extends Controller {
                 ? await this.createMessage(message.reply_to_message)
                 : undefined,
             forwarded: []
+        };
+    }
+
+    private createChosenInlineQueryResult(result: ChosenInlineResult): ChosenInlineQueryResult {
+        return {
+            id: result.result_id,
+            query: result.query
+        };
+    }
+
+    private createInlineQuery(query: InlineQuery): CoreInlineQuery {
+        return {
+            id: query.id,
+            offset: query.offset,
+            query: query.query
         };
     }
 
