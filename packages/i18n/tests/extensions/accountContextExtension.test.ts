@@ -1,5 +1,5 @@
 import { LocaleStorage, AccountContextExtension } from "@replikit/i18n";
-import { AccountEventPayload } from "@replikit/core/typings";
+import { MemberEventPayload } from "@replikit/core/typings";
 import { TestLocale } from "@replikit/i18n/tests";
 
 describe("AccountContextExtension", () => {
@@ -10,8 +10,8 @@ describe("AccountContextExtension", () => {
         localeStorage.updateLocales();
 
         const extension = new AccountContextExtension({
-            type: "account:joined",
-            payload: { account: { language: "ru" } } as AccountEventPayload
+            type: "member:joined",
+            payload: { account: { language: "ru" } } as MemberEventPayload
         });
         extension._localeStorage = localeStorage;
 
