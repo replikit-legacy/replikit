@@ -2,9 +2,13 @@
 
 export * from "./utils";
 
+export * from "./context/context";
 export * from "./context/channelContext";
 export * from "./context/accountContext";
+export * from "./context/memberContext";
 export * from "./context/messageContext";
+export * from "./context/inlineQueryReceivedContext";
+export * from "./context/inlineQueryChosenContext";
 
 export * from "./contextFactoryStorage";
 export * from "./handlerChain";

@@ -1,14 +1,10 @@
-import { ChannelContext } from "@replikit/router";
+import { Context } from "@replikit/router";
 import { AccountContext as _AccountContext } from "@replikit/router/typings";
-import { AccountEvent, AccountInfo } from "@replikit/core/typings";
+import { AccountInfo, AccountEvent } from "@replikit/core/typings";
 
-export class AccountContext extends ChannelContext {
-    constructor(readonly event: AccountEvent) {
-        super(event);
-    }
-
+export class AccountContext<T extends AccountEvent = AccountEvent> extends Context<T> {
     get account(): AccountInfo {
-        return this.event.payload.account;
+        return this.payload.account;
     }
 }
 

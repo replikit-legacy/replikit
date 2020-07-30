@@ -2,12 +2,20 @@ import { hook, setHandler } from "@replikit/core";
 import {
     router,
     MessageContext,
-    AccountContext,
     ChannelContext,
     ContextFactoryStorage,
-    contextFactories
+    contextFactories,
+    MemberContext,
+    InlineQueryReceivedContext,
+    InlineQueryChosenContext
 } from "@replikit/router";
-import { MessageEvent, AccountEvent, ChannelEvent } from "@replikit/core/typings";
+import {
+    MessageEvent,
+    MemberEvent,
+    ChannelEvent,
+    InlineQueryReceivedEvent,
+    InlineQueryChosenEvent
+} from "@replikit/core/typings";
 
 function createChannelContext<T extends ChannelEvent>(event: T): ChannelContext<T> {
     return new ChannelContext(event);
@@ -17,8 +25,22 @@ function createMessageContext(event: MessageEvent): MessageContext {
     return new MessageContext(event);
 }
 
-function createAccountContext(event: AccountEvent): AccountContext {
-    return new AccountContext(event);
+// function createAccountContext(event: AccountEvent): AccountContext {
+//     return new AccountContext(event);
+// }
+
+function createMemberContext(event: MemberEvent): MemberContext {
+    return new MemberContext(event);
+}
+
+function createInlineQueryReceivedContext(
+    event: InlineQueryReceivedEvent
+): InlineQueryReceivedContext {
+    return new InlineQueryReceivedContext(event);
+}
+
+function createInlineQueryChosenContext(event: InlineQueryChosenEvent): InlineQueryChosenContext {
+    return new InlineQueryChosenContext(event);
 }
 
 export function registerBasicContextFactories(contextFactories: ContextFactoryStorage): void {
@@ -30,8 +52,11 @@ export function registerBasicContextFactories(contextFactories: ContextFactorySt
     contextFactories.register("message:edited", createMessageContext);
     contextFactories.register("message:deleted", createMessageContext);
 
-    contextFactories.register("account:joined", createAccountContext);
-    contextFactories.register("account:left", createAccountContext);
+    contextFactories.register("member:joined", createMemberContext);
+    contextFactories.register("member:left", createMemberContext);
+
+    contextFactories.register("inline-query:received", createInlineQueryReceivedContext);
+    contextFactories.register("inline-query:chosen", createInlineQueryChosenContext);
 }
 
 registerBasicContextFactories(contextFactories);

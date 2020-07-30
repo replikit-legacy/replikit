@@ -1,12 +1,8 @@
-import { AccountContext } from "@replikit/router";
 import { MessageEvent, InMessage } from "@replikit/core/typings";
 import { MessageContext as _MessageContext } from "@replikit/router/typings";
+import { MemberContext } from "@replikit/router";
 
-export class MessageContext extends AccountContext {
-    constructor(readonly event: MessageEvent) {
-        super(event);
-    }
-
+export class MessageContext extends MemberContext<MessageEvent> {
     get message(): InMessage {
         return this.event.payload.message;
     }
