@@ -12,7 +12,8 @@ import {
     EventName,
     EventMap,
     MessageEventName,
-    MessageMetadata
+    MessageMetadata,
+    InlineQueryResponse
 } from "@replikit/core/typings";
 import { IncomingMessage, ServerResponse } from "http";
 import {
@@ -48,7 +49,8 @@ export abstract class Controller {
 
     private static featureMapDefaults: FeatureMap = {
         implicitUpload: false,
-        webhook: false
+        webhook: false,
+        inlineMode: false
     };
 
     constructor(private readonly options: BaseControllerOptions) {
@@ -114,6 +116,11 @@ export abstract class Controller {
             throw new EmptyContentError();
         }
         return this.processSendedMessage(editedMessage);
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    answerInlineQuery(id: string, response: InlineQueryResponse): Promise<void> {
+        throw new Error("Method not implemented");
     }
 
     protected async _resolveSource(

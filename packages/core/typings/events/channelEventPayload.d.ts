@@ -1,7 +1,5 @@
-import { ChannelInfo } from "@replikit/core/typings";
-import { Controller } from "@replikit/core";
+import { ChannelInfo, EventPayload } from "@replikit/core/typings";
 
-export interface ChannelEventPayload {
+export interface ChannelEventPayload extends EventPayload {
     channel: ChannelInfo;
-    controller: Controller;
 }

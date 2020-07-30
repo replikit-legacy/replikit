@@ -1,5 +1,5 @@
-import { InMessage, AccountEventPayload } from "@replikit/core/typings";
+import { InMessage, MemberEventPayload } from "@replikit/core/typings";
 
-export interface MessageEventPayload extends AccountEventPayload {
+export interface MessageEventPayload extends MemberEventPayload {
     message: InMessage;
 }

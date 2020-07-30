@@ -1,5 +1,5 @@
-import { AccountInfo, ChannelEventPayload } from "@replikit/core/typings";
+import { AccountInfo, EventPayload } from "@replikit/core/typings";
 
-export interface AccountEventPayload extends ChannelEventPayload {
+export interface AccountEventPayload extends EventPayload {
     account: AccountInfo;
 }
