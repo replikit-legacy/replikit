@@ -728,7 +728,7 @@ export class TelegramController extends Controller {
         return {
             id: query.id,
             offset: query.offset,
-            query: query.query
+            text: query.query
         };
     }
 

@@ -1,5 +1,5 @@
 export interface InlineQuery {
     id: string;
-    query: string;
+    text: string;
     offset: string;
 }
