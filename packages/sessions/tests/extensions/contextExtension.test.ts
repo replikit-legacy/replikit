@@ -31,7 +31,7 @@ function createContextByType(type: SessionType): Context {
 function createContext(type: SessionType): Context {
     const storage = new Map<string, HasFields>();
     const context = createContextByType(type) as ContextExtension;
-    const key = type === SessionType.Member ? `${type}:test:test:1:1` : `${type}:test:test:1`;
+    const key = type === SessionType.Member ? `test:test:${type}:1:1` : `test:test:${type}:1`;
     storage.set(key, { test: 123 });
     context.sessionManager = new SessionManager(storage);
     return context;
