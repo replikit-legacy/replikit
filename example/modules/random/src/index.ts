@@ -1,5 +1,6 @@
 import "@replikit/attachments";
 
+export * from "./sessions/randomUserSession";
 export * from "./randomLocale";
 export * from "./startup";
 
@@ -17,3 +18,4 @@ import "./commands/echo";
 import "./handlers/silence";
 import "./handlers/debug";
 import "./handlers/random";
+import "./handlers/inline";
