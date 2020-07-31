@@ -82,7 +82,6 @@ export function registerPermissionsConverters(
 
 extendModule<typeof import("@replikit/commands")>("@replikit/commands", ({ converter }) => {
     registerPermissionsConverters(converter, permissionStorage);
-    console.log("aaa");
 });
 
 hook("storage:database:done", () => {
