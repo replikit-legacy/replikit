@@ -21,9 +21,9 @@ export function registerPermissionsDefaults(connection: ConnectionManager): void
     users.setDefault("permissions", []);
     users.setDefault("roles", []);
 
-    const member = connection.getRepository(Member);
-    member.setDefault("permissions", []);
-    member.setDefault("roles", []);
+    const members = connection.getRepository(Member);
+    members.setDefault("permissions", []);
+    members.setDefault("roles", []);
 }
 
 /** @internal */
