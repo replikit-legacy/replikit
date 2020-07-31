@@ -1,0 +1,69 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`converters should resolve member permission parameter 1`] = `
+TestMemberPermission {
+  "id": "test0",
+  "index": 0,
+  "name": "Test1",
+  "type": EntityType {
+    "name": "Member",
+  },
+}
+`;
+
+exports[`converters should resolve member role parameter 1`] = `
+TestMemberRole {
+  "fallbackRoles": Array [],
+  "id": "test0",
+  "index": 0,
+  "name": "Test1",
+  "permissions": Array [],
+  "type": EntityType {
+    "name": "Member",
+  },
+}
+`;
+
+exports[`converters should resolve user permission parameter 1`] = `
+TestUserPermission {
+  "id": "test0",
+  "index": 0,
+  "name": "Test1",
+  "type": EntityType {
+    "name": "User",
+  },
+}
+`;
+
+exports[`converters should resolve user role parameter 1`] = `
+TestUserRole {
+  "fallbackRoles": Array [],
+  "id": "test0",
+  "index": 0,
+  "name": "Test1",
+  "permissions": Array [],
+  "type": EntityType {
+    "name": "User",
+  },
+}
+`;
+
+exports[`converters should throw an error if member permission parameter is invalid 1`] = `
+"[param: Invalid permission. Valid values: Test1, Test2, Test3]
+Usage: /test {param}"
+`;
+
+exports[`converters should throw an error if member role parameter is invalid 1`] = `
+"[param: Invalid role. Valid values: Test1, Test2]
+Usage: /test {param}"
+`;
+
+exports[`converters should throw an error if user permission parameter is invalid 1`] = `
+"[param: Invalid permission. Valid values: Test1, Test2, Test3]
+Usage: /test {param}"
+`;
+
+exports[`converters should throw an error if user role parameter is invalid 1`] = `
+"[param: Invalid role. Valid values: Test1, Test2]
+Usage: /test {param}"
+`;

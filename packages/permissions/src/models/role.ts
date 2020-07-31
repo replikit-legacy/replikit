@@ -29,6 +29,10 @@ export class RoleInstance<T extends EntityType = EntityType> extends EnumInstanc
     permissions: PermissionInstance[];
     fallbackRoles: RoleInstance[];
 
+    matches(type: EntityType, name: string): boolean {
+        return this.type.equals(type) && name === this.name;
+    }
+
     constructor(options?: RoleOptions) {
         super();
         if (new.target === RoleInstance) {

@@ -19,3 +19,9 @@ export class TestUserRole extends Role(EntityType.User) {
     static readonly Test1 = new TestUserRole();
     static readonly Test2 = new TestUserRole();
 }
+
+@Enum("test")
+export class TestMemberRole extends Role(EntityType.Member) {
+    static readonly Test1 = new TestMemberRole();
+    static readonly Test2 = new TestMemberRole();
+}

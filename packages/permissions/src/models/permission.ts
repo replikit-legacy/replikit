@@ -22,6 +22,10 @@ export class PermissionInstance<T extends EntityType = EntityType> extends EnumI
 
     type: T;
 
+    matches(type: EntityType, name: string): boolean {
+        return this.type.equals(type) && name === this.name;
+    }
+
     constructor() {
         super();
         if (new.target === PermissionInstance) {
