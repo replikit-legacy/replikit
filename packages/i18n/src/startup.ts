@@ -1,5 +1,6 @@
-import { hook, updateConfig, config } from "@replikit/core";
-import { LocaleStorage } from "@replikit/i18n";
+import { hook, updateConfig, config, applyMixins } from "@replikit/core";
+import { LocaleStorage, AccountContextExtension } from "@replikit/i18n";
+import { MemberContext } from "@replikit/router";
 
 updateConfig({ i18n: { defaultLocale: "en", fallbackLocale: "en" } });
 
@@ -17,3 +18,5 @@ hook("core:settings:update", previous => {
 hook("core:startup:init", () => {
     locales.updateLocales();
 });
+
+applyMixins(MemberContext, [AccountContextExtension]);
