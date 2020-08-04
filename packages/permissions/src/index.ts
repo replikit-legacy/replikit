@@ -13,6 +13,7 @@ export * from "./errors";
 export * from "./permissionsLocale";
 export * from "./permissionStorage";
 export * from "./hasPermissions";
+export * from "./converters";
 
 import "./locales/en";
 import "./locales/ru";
