@@ -25,7 +25,7 @@ export class CommandBuilderExtension extends CommandBuilder {
             x =>
                 !x.isString &&
                 x.type === Channel &&
-                (x.options as ChannelParameterOptions).currentAsDefault
+                (x.options as ChannelParameterOptions).useInAuthorization
         );
 
         if (!channelParam) {
@@ -41,7 +41,7 @@ export class CommandBuilderExtension extends CommandBuilder {
         }
 
         this.use(MiddlewareStage.AfterResolution, async (context, next) => {
-            const channel = context.params.channel as Channel;
+            const channel = context.params[channelParam.name] as Channel;
             if (channel.controller === context.controller.name) {
                 const member = await context.getChannelMember(channel.localId);
                 if (!member || !member.hasPermission(permission)) {
