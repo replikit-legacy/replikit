@@ -3,4 +3,7 @@ export class StorageLocale {
 
     userNotFound: string;
     channelNotFound: string;
+    currentUserNotFound: string;
+    currentChannelNotFound: string;
+    memberNotFound: string;
 }

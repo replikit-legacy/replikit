@@ -1,6 +1,7 @@
 import { Constructor } from "@replikit/core/typings";
-import { Entity, FallbackStrategy } from "@replikit/storage";
+import { Entity, FallbackStrategy, User, Channel, StorageLocale } from "@replikit/storage";
 import { EntityExtensionConstructor, ApplyExtensions } from "@replikit/storage/typings";
+import { CommandContext } from "@replikit/commands/typings";
 
 export const CacheResult: MethodDecorator = <T>(
     // eslint-disable-next-line @typescript-eslint/ban-types
@@ -46,4 +47,14 @@ export function extractArguments(
         extensions = args as EntityExtensionConstructor[];
     }
     return [fallbackStrategy, extensions];
+}
+
+export async function currentUser(context: CommandContext): Promise<User> {
+    const user = await context.getUser(FallbackStrategy.Undefined);
+    return user ?? context.getLocale(StorageLocale).currentUserNotFound;
+}
+
+export async function currentChannel(context: CommandContext): Promise<Channel> {
+    const channel = await context.getChannel(FallbackStrategy.Undefined);
+    return channel ?? context.getLocale(StorageLocale).currentChannelNotFound;
 }

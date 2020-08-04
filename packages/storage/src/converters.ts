@@ -51,8 +51,8 @@ export function registerStorageConverters(converter: ConverterBuilderFactory): v
         .resolver(async (context, param) => {
             const channels = context.connection.getRepository(Channel);
             const channel = await channels.findOne({ _id: param });
-            const storage = context.getLocale(StorageLocale);
-            return channel ?? storage.channelNotFound;
+            const locale = context.getLocale(StorageLocale);
+            return channel ?? locale.channelNotFound;
         })
         .register();
 }

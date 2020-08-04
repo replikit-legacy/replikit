@@ -1,0 +1,565 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CommandBuilderExtension runtime should reply an error if member not found 1`] = `"Member not found"`;
+
+exports[`CommandBuilderExtension should add channel parameter as required parameter 1`] = `
+Object {
+  "aliases": Array [],
+  "commands": Array [],
+  "name": "test",
+  "params": Array [
+    Object {
+      "converter": Object {
+        "resolver": [Function],
+        "validator": [Function],
+      },
+      "isString": false,
+      "name": "channel",
+      "options": Object {
+        "useInAuthorization": true,
+      },
+      "type": [Function],
+    },
+  ],
+  "requiredCount": 1,
+}
+`;
+
+exports[`CommandBuilderExtension should add channel parameter to not use in authorization 1`] = `
+Object {
+  "aliases": Array [],
+  "commands": Array [],
+  "name": "test",
+  "params": Array [
+    Object {
+      "converter": Object {
+        "resolver": [Function],
+        "validator": [Function],
+      },
+      "isString": false,
+      "name": "channel",
+      "optional": true,
+      "options": Object {
+        "default": [Function],
+        "useInAuthorization": false,
+      },
+      "type": [Function],
+    },
+  ],
+  "requiredCount": 0,
+}
+`;
+
+exports[`CommandBuilderExtension should add channel parameter with custom name 1`] = `
+Object {
+  "aliases": Array [],
+  "commands": Array [],
+  "name": "test",
+  "params": Array [
+    Object {
+      "converter": Object {
+        "resolver": [Function],
+        "validator": [Function],
+      },
+      "isString": false,
+      "name": "custom",
+      "optional": true,
+      "options": Object {
+        "default": [Function],
+        "useInAuthorization": true,
+      },
+      "type": [Function],
+    },
+  ],
+  "requiredCount": 0,
+}
+`;
+
+exports[`CommandBuilderExtension should add channel parameter with default options 1`] = `
+Object {
+  "aliases": Array [],
+  "commands": Array [],
+  "name": "test",
+  "params": Array [
+    Object {
+      "converter": Object {
+        "resolver": [Function],
+        "validator": [Function],
+      },
+      "isString": false,
+      "name": "channel",
+      "optional": true,
+      "options": Object {
+        "default": [Function],
+        "useInAuthorization": true,
+      },
+      "type": [Function],
+    },
+  ],
+  "requiredCount": 0,
+}
+`;
+
+exports[`CommandBuilderExtension should add member parameter in reverse order of channel and user parameters 1`] = `
+Object {
+  "aliases": Array [],
+  "commands": Array [],
+  "middlewareRouter": MiddlewareRouter {
+    "chainMap": Map {
+      2 => HandlerChain {
+        "firstHandler": HandlerWrapper {
+          "handler": [Function],
+        },
+        "lastHandler": HandlerWrapper {
+          "handler": [Function],
+        },
+      },
+    },
+  },
+  "name": "test",
+  "params": Array [
+    Object {
+      "converter": Object {
+        "resolver": [Function],
+        "validator": [Function],
+      },
+      "isString": false,
+      "name": "user",
+      "optional": true,
+      "options": Object {
+        "default": [Function],
+      },
+      "type": [Function],
+    },
+    Object {
+      "converter": Object {
+        "resolver": [Function],
+        "validator": [Function],
+      },
+      "isString": false,
+      "name": "channel",
+      "optional": true,
+      "options": Object {
+        "default": [Function],
+        "useInAuthorization": true,
+      },
+      "type": [Function],
+    },
+  ],
+  "requiredCount": 0,
+}
+`;
+
+exports[`CommandBuilderExtension should add member parameter with channel not used in authorization 1`] = `
+Object {
+  "aliases": Array [],
+  "commands": Array [],
+  "middlewareRouter": MiddlewareRouter {
+    "chainMap": Map {
+      2 => HandlerChain {
+        "firstHandler": HandlerWrapper {
+          "handler": [Function],
+        },
+        "lastHandler": HandlerWrapper {
+          "handler": [Function],
+        },
+      },
+    },
+  },
+  "name": "test",
+  "params": Array [
+    Object {
+      "converter": Object {
+        "resolver": [Function],
+        "validator": [Function],
+      },
+      "isString": false,
+      "name": "channel",
+      "optional": true,
+      "options": Object {
+        "default": [Function],
+        "useInAuthorization": false,
+      },
+      "type": [Function],
+    },
+    Object {
+      "converter": Object {
+        "resolver": [Function],
+        "validator": [Function],
+      },
+      "isString": false,
+      "name": "user",
+      "optional": true,
+      "options": Object {
+        "default": [Function],
+      },
+      "type": [Function],
+    },
+  ],
+  "requiredCount": 0,
+}
+`;
+
+exports[`CommandBuilderExtension should add member parameter with custom channel parameter name 1`] = `
+Object {
+  "aliases": Array [],
+  "commands": Array [],
+  "middlewareRouter": MiddlewareRouter {
+    "chainMap": Map {
+      2 => HandlerChain {
+        "firstHandler": HandlerWrapper {
+          "handler": [Function],
+        },
+        "lastHandler": HandlerWrapper {
+          "handler": [Function],
+        },
+      },
+    },
+  },
+  "name": "test",
+  "params": Array [
+    Object {
+      "converter": Object {
+        "resolver": [Function],
+        "validator": [Function],
+      },
+      "isString": false,
+      "name": "customChannel",
+      "optional": true,
+      "options": Object {
+        "default": [Function],
+        "useInAuthorization": true,
+      },
+      "type": [Function],
+    },
+    Object {
+      "converter": Object {
+        "resolver": [Function],
+        "validator": [Function],
+      },
+      "isString": false,
+      "name": "user",
+      "optional": true,
+      "options": Object {
+        "default": [Function],
+      },
+      "type": [Function],
+    },
+  ],
+  "requiredCount": 0,
+}
+`;
+
+exports[`CommandBuilderExtension should add member parameter with custom name 1`] = `
+Object {
+  "aliases": Array [],
+  "commands": Array [],
+  "middlewareRouter": MiddlewareRouter {
+    "chainMap": Map {
+      2 => HandlerChain {
+        "firstHandler": HandlerWrapper {
+          "handler": [Function],
+        },
+        "lastHandler": HandlerWrapper {
+          "handler": [Function],
+        },
+      },
+    },
+  },
+  "name": "test",
+  "params": Array [
+    Object {
+      "converter": Object {
+        "resolver": [Function],
+        "validator": [Function],
+      },
+      "isString": false,
+      "name": "channel",
+      "optional": true,
+      "options": Object {
+        "default": [Function],
+        "useInAuthorization": true,
+      },
+      "type": [Function],
+    },
+    Object {
+      "converter": Object {
+        "resolver": [Function],
+        "validator": [Function],
+      },
+      "isString": false,
+      "name": "user",
+      "optional": true,
+      "options": Object {
+        "default": [Function],
+      },
+      "type": [Function],
+    },
+  ],
+  "requiredCount": 0,
+}
+`;
+
+exports[`CommandBuilderExtension should add member parameter with custom user parameter name 1`] = `
+Object {
+  "aliases": Array [],
+  "commands": Array [],
+  "middlewareRouter": MiddlewareRouter {
+    "chainMap": Map {
+      2 => HandlerChain {
+        "firstHandler": HandlerWrapper {
+          "handler": [Function],
+        },
+        "lastHandler": HandlerWrapper {
+          "handler": [Function],
+        },
+      },
+    },
+  },
+  "name": "test",
+  "params": Array [
+    Object {
+      "converter": Object {
+        "resolver": [Function],
+        "validator": [Function],
+      },
+      "isString": false,
+      "name": "channel",
+      "optional": true,
+      "options": Object {
+        "default": [Function],
+        "useInAuthorization": true,
+      },
+      "type": [Function],
+    },
+    Object {
+      "converter": Object {
+        "resolver": [Function],
+        "validator": [Function],
+      },
+      "isString": false,
+      "name": "customUser",
+      "optional": true,
+      "options": Object {
+        "default": [Function],
+      },
+      "type": [Function],
+    },
+  ],
+  "requiredCount": 0,
+}
+`;
+
+exports[`CommandBuilderExtension should add member parameter with default options 1`] = `
+Object {
+  "aliases": Array [],
+  "commands": Array [],
+  "middlewareRouter": MiddlewareRouter {
+    "chainMap": Map {
+      2 => HandlerChain {
+        "firstHandler": HandlerWrapper {
+          "handler": [Function],
+        },
+        "lastHandler": HandlerWrapper {
+          "handler": [Function],
+        },
+      },
+    },
+  },
+  "name": "test",
+  "params": Array [
+    Object {
+      "converter": Object {
+        "resolver": [Function],
+        "validator": [Function],
+      },
+      "isString": false,
+      "name": "channel",
+      "optional": true,
+      "options": Object {
+        "default": [Function],
+        "useInAuthorization": true,
+      },
+      "type": [Function],
+    },
+    Object {
+      "converter": Object {
+        "resolver": [Function],
+        "validator": [Function],
+      },
+      "isString": false,
+      "name": "user",
+      "optional": true,
+      "options": Object {
+        "default": [Function],
+      },
+      "type": [Function],
+    },
+  ],
+  "requiredCount": 0,
+}
+`;
+
+exports[`CommandBuilderExtension should add member parameter with required channel parameter 1`] = `
+Object {
+  "aliases": Array [],
+  "commands": Array [],
+  "middlewareRouter": MiddlewareRouter {
+    "chainMap": Map {
+      2 => HandlerChain {
+        "firstHandler": HandlerWrapper {
+          "handler": [Function],
+        },
+        "lastHandler": HandlerWrapper {
+          "handler": [Function],
+        },
+      },
+    },
+  },
+  "name": "test",
+  "params": Array [
+    Object {
+      "converter": Object {
+        "resolver": [Function],
+        "validator": [Function],
+      },
+      "isString": false,
+      "name": "channel",
+      "options": Object {
+        "useInAuthorization": true,
+      },
+      "type": [Function],
+    },
+    Object {
+      "converter": Object {
+        "resolver": [Function],
+        "validator": [Function],
+      },
+      "isString": false,
+      "name": "user",
+      "optional": true,
+      "options": Object {
+        "default": [Function],
+      },
+      "type": [Function],
+    },
+  ],
+  "requiredCount": 1,
+}
+`;
+
+exports[`CommandBuilderExtension should add member parameter with required user parameter 1`] = `
+Object {
+  "aliases": Array [],
+  "commands": Array [],
+  "middlewareRouter": MiddlewareRouter {
+    "chainMap": Map {
+      2 => HandlerChain {
+        "firstHandler": HandlerWrapper {
+          "handler": [Function],
+        },
+        "lastHandler": HandlerWrapper {
+          "handler": [Function],
+        },
+      },
+    },
+  },
+  "name": "test",
+  "params": Array [
+    Object {
+      "converter": Object {
+        "resolver": [Function],
+        "validator": [Function],
+      },
+      "isString": false,
+      "name": "channel",
+      "optional": true,
+      "options": Object {
+        "default": [Function],
+        "useInAuthorization": true,
+      },
+      "type": [Function],
+    },
+    Object {
+      "converter": Object {
+        "resolver": [Function],
+        "validator": [Function],
+      },
+      "isString": false,
+      "name": "user",
+      "options": Object {},
+      "type": [Function],
+    },
+  ],
+  "requiredCount": 1,
+}
+`;
+
+exports[`CommandBuilderExtension should add user parameter as required parameter 1`] = `
+Object {
+  "aliases": Array [],
+  "commands": Array [],
+  "name": "test",
+  "params": Array [
+    Object {
+      "converter": Object {
+        "resolver": [Function],
+        "validator": [Function],
+      },
+      "isString": false,
+      "name": "user",
+      "options": Object {},
+      "type": [Function],
+    },
+  ],
+  "requiredCount": 1,
+}
+`;
+
+exports[`CommandBuilderExtension should add user parameter with custom name 1`] = `
+Object {
+  "aliases": Array [],
+  "commands": Array [],
+  "name": "test",
+  "params": Array [
+    Object {
+      "converter": Object {
+        "resolver": [Function],
+        "validator": [Function],
+      },
+      "isString": false,
+      "name": "custom",
+      "optional": true,
+      "options": Object {
+        "default": [Function],
+      },
+      "type": [Function],
+    },
+  ],
+  "requiredCount": 0,
+}
+`;
+
+exports[`CommandBuilderExtension should add user parameter with default options 1`] = `
+Object {
+  "aliases": Array [],
+  "commands": Array [],
+  "name": "test",
+  "params": Array [
+    Object {
+      "converter": Object {
+        "resolver": [Function],
+        "validator": [Function],
+      },
+      "isString": false,
+      "name": "user",
+      "optional": true,
+      "options": Object {
+        "default": [Function],
+      },
+      "type": [Function],
+    },
+  ],
+  "requiredCount": 0,
+}
+`;

@@ -1,3 +1,3 @@
 export interface ChannelParameterOptions {
-    currentAsDefault?: boolean;
+    useInAuthorization?: boolean;
 }

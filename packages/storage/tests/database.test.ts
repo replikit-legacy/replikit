@@ -37,7 +37,7 @@ describe("storage", () => {
         expect(users[0].username).toBe("test");
     });
 
-    it("should throw an error if calling repository-speicifc method on unlinked entity", () => {
+    it("should throw an error if calling repository-specific method on unlinked entity", () => {
         const user = new User();
         expect(() => user.save()).toThrow(UnlinkedEntityError);
         expect(() => user.delete()).toThrow(UnlinkedEntityError);
