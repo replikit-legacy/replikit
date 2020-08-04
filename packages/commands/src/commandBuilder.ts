@@ -8,7 +8,8 @@ import {
     MiddlewareHandler,
     Middleware,
     RestParameterOptions,
-    CommandBuilder as _CommandBuilder
+    CommandBuilder as _CommandBuilder,
+    DefaultResolver
 } from "@replikit/commands/typings";
 import {
     converters,
@@ -19,6 +20,7 @@ import {
     commands
 } from "@replikit/commands";
 import { Constructor, HasFields } from "@replikit/core/typings";
+import { Builder } from "@replikit/core";
 
 export type NormalizeType<T> = T extends (infer U)[]
     ? NormalizeType<U>[]
@@ -48,7 +50,7 @@ export interface TextParameterOptions {
     skipValidation?: boolean;
 }
 
-export class CommandBuilder<C = HasFields, P extends Parameters = HasFields> {
+export class CommandBuilder<C = HasFields, P extends Parameters = HasFields> extends Builder {
     protected readonly command: Command;
 
     constructor(
@@ -57,6 +59,7 @@ export class CommandBuilder<C = HasFields, P extends Parameters = HasFields> {
         name: string,
         ...aliases: string[]
     ) {
+        super();
         this.command = {
             name,
             commands: [],
@@ -117,7 +120,7 @@ export class CommandBuilder<C = HasFields, P extends Parameters = HasFields> {
     optional<N extends string, T>(
         name: N,
         type: Constructor<T>,
-        options: ParameterOptions<T> & { default: T }
+        options: ParameterOptions<T> & { default: T | DefaultResolver<T> }
     ): Omit<AddRequired<C, P, N, T>, "required">;
 
     optional<N extends string, T>(

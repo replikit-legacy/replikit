@@ -390,6 +390,51 @@ describe("CommandStorage", () => {
         expect.assertions(1);
     });
 
+    it("should handle a command with optional parameter with default value resolved", async () => {
+        const { testManager, command } = createTestManager();
+        command("test")
+            .optional("p1", Number, { default: context => context.account.id })
+            .handler(context => {
+                expect(context.params.p1).toBe(123);
+            })
+            .register();
+        await testManager.processCommand("/test", 123);
+        expect.assertions(1);
+    });
+
+    it("should reply an error returned from default resolver", async () => {
+        const { testManager, command } = createTestManager();
+        command("test")
+            .optional("p1", Number, { default: () => "Invalid parameter" })
+            .handler(context => void context)
+            .register();
+        await testManager.processCommand("/test");
+        expect.assertions(1);
+    });
+
+    it("should extract value returned inside an array", async () => {
+        const { testManager, command } = createTestManager();
+        command("test")
+            .optional("p1", String, { default: () => ["123"] })
+            .handler(context => expect(context.params.p1).toBe("123"))
+            .register();
+        await testManager.processCommand("/test");
+        expect.assertions(1);
+    });
+
+    it.each([
+        ["empty array", []],
+        ["undefined", undefined]
+    ])("should reply an error if default resolver returns %s", async (_, value) => {
+        const { testManager, command } = createTestManager();
+        command("test")
+            .optional("p1", Number, { default: () => value })
+            .handler(context => void context)
+            .register();
+        await testManager.processCommand("/test");
+        expect.assertions(1);
+    });
+
     it.each(["/test", "/test 1 2", "/test 1 2 3"])(
         "should handle a command with rest parameter count restriction: %s",
         async text => {

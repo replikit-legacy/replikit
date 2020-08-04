@@ -153,6 +153,16 @@ exports[`CommandStorage should handle a command with text parameter: /test 1`] =
 Usage: /test"
 `;
 
+exports[`CommandStorage should reply an error if default resolver returns empty array 1`] = `
+"[p1: Error when resolving default value]
+Usage: /test [p1]"
+`;
+
+exports[`CommandStorage should reply an error if default resolver returns undefined 1`] = `
+"[p1: Error when resolving default value]
+Usage: /test [p1]"
+`;
+
 exports[`CommandStorage should reply an error if resolver returns a string 1`] = `
 "[p1: Invalid parameter]
 Usage: /test {p1}"
@@ -161,4 +171,9 @@ Usage: /test {p1}"
 exports[`CommandStorage should reply an error if validator returns a string 1`] = `
 "[p1: Invalid parameter]
 Usage: /test {p1}"
+`;
+
+exports[`CommandStorage should reply an error returned from default resolver 1`] = `
+"[p1: Invalid parameter]
+Usage: /test [p1]"
 `;

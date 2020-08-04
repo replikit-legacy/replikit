@@ -114,7 +114,27 @@ export class CommandStorage {
         for (const [i, param] of command.params.entries()) {
             const arg = args[i];
             if (!arg) {
-                commandContext.params[param.name] = param.options.default;
+                const defaultv = param.options.default;
+                if (typeof defaultv !== "function") {
+                    commandContext.params[param.name] = defaultv;
+                    continue;
+                }
+                const result = await defaultv(context);
+                if (!result) {
+                    return replyParameterError(locale.errorWhenResolvingDefaultValue, param.name);
+                }
+                if (!Array.isArray(result)) {
+                    if (typeof result === "string") {
+                        return replyParameterError(result, param.name);
+                    }
+                    commandContext.params[param.name] = result;
+                    continue;
+                }
+                const item = result[0];
+                if (!item) {
+                    return replyParameterError(locale.errorWhenResolvingDefaultValue, param.name);
+                }
+                commandContext.params[param.name] = item;
                 continue;
             }
             if (param.isString) {

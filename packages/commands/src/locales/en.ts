@@ -16,5 +16,6 @@ locales.add("en", CommandsLocale, {
         `The number of additional parameters should be no less than ${value}`,
     shouldBeNoLessThan: value => `The value should be no less than ${value}`,
     shouldBeNoMoreThan: value => `The value should be no more than ${value}`,
-    integerRequired: "Integer required"
+    integerRequired: "Integer required",
+    errorWhenResolvingDefaultValue: "Error when resolving default value"
 });

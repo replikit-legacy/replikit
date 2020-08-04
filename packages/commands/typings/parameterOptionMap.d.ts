@@ -4,7 +4,8 @@ import { FilterKeys } from "@replikit/core/typings";
 import {
     NumberParameterOptions,
     StringParameterOptions,
-    BooleanParameterOptions
+    BooleanParameterOptions,
+    CommandContext
 } from "@replikit/commands/typings";
 
 export interface ParameterOptionMap {
@@ -17,8 +18,12 @@ type ResolveOptions<T> = ParameterOptionMap[FilterKeys<ParameterOptionMap, [T, u
 
 type Options<T> = ResolveOptions<T> extends never ? object : ResolveOptions<T>;
 
+export type DefaultResolver<T> = (
+    context: CommandContext
+) => T | Promise<T> | T[] | Promise<T[]> | string | Promise<string>;
+
 interface DefaultOptions<T> {
-    default?: T;
+    default?: T | DefaultResolver<T>;
 }
 
 interface RestOptions {

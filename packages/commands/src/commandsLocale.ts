@@ -8,6 +8,7 @@ export class CommandsLocale {
     booleanRequired: string;
     commandNotFound: string;
     usage: string;
+    errorWhenResolvingDefaultValue: string;
 
     mismatch: (expected: number, actual: number) => string;
     shouldBeNoMoreThan: (value: number) => string;

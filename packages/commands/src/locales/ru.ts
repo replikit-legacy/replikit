@@ -18,5 +18,6 @@ locales.add("ru", CommandsLocale, {
         `Количество дополнительных параметров должно быть не меньше ${value}`,
     shouldBeNoLessThan: value => `Значение должно быть не меньше ${value}`,
     shouldBeNoMoreThan: value => `Значение должно быть не больше ${value}`,
-    integerRequired: "Требуется целое число"
+    integerRequired: "Требуется целое число",
+    errorWhenResolvingDefaultValue: "Ошибка при разрешении значения по умолчанию"
 });
