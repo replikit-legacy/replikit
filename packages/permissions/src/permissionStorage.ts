@@ -58,7 +58,7 @@ export class PermissionStorage {
         }
 
         for (const role of hasPermissions.roles) {
-            const info = this.roles.find(x => x.id === role);
+            const info = this.roles.find(x => x.id === role && x.type.equals(targetRole.type));
             if (!info) {
                 continue;
             }
@@ -76,7 +76,7 @@ export class PermissionStorage {
         }
 
         for (const role of hasPermissions.roles) {
-            const info = this.roles.find(x => x.id === role);
+            const info = this.roles.find(x => x.id === role && x.type.equals(permission.type));
             if (!info) {
                 continue;
             }
