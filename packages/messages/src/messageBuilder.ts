@@ -1,8 +1,8 @@
 import { OutMessage, Attachment, TextToken, MessageMetadata } from "@replikit/core/typings";
-import { AttachmentType, TextTokenKind, TextTokenProp } from "@replikit/core";
+import { AttachmentType, TextTokenKind, TextTokenProp, Builder } from "@replikit/core";
 import { hashString } from "@replikit/messages";
 
-export class MessageBuilder {
+export class MessageBuilder extends Builder {
     protected readonly message: OutMessage = {
         forwarded: [],
         attachments: [],
