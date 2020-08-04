@@ -35,7 +35,7 @@ router.of("message:received").use(async (context, next) => {
 
     const locale = context.getLocale(DartsLocale);
     const builder = new MessageBuilder()
-        .addReply(context.message.metadata)
+        .addReply(context.message)
         .addCodeLine(`Результат: ${dice.value}`)
         .addCodeLine(`Вы получили ${dice.value} нихуя`)
         .addCodeLine(`Ваш баланс: ${user.banking.money} нихуя`)
@@ -52,14 +52,14 @@ router.of("message:received").use(async (context, next) => {
         const prize = session.activeBet * 2;
         user.banking.money += prize;
         const builder = new MessageBuilder()
-            .addReply(context.message.metadata)
+            .addReply(context.message)
             .addCodeLine(`Ваш выигрыш: ${prize} нихуя`)
             .addCodeLine(`Ваш баланс: ${user.banking.money} нихуя`);
         await user.save();
         await context.reply(builder);
     } else {
         const builder = new MessageBuilder()
-            .addReply(context.message.metadata)
+            .addReply(context.message)
             .addCodeLine(`Вы проиграли ${session.activeBet} нихуя`)
             .addCodeLine(`Ваш баланс: ${user.banking.money} нихуя`);
         await context.reply(builder);

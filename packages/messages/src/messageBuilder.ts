@@ -1,6 +1,6 @@
-import { OutMessage, Attachment, TextToken, MessageMetadata } from "@replikit/core/typings";
+import { OutMessage, Attachment, TextToken } from "@replikit/core/typings";
 import { AttachmentType, TextTokenKind, TextTokenProp, Builder } from "@replikit/core";
-import { hashString } from "@replikit/messages";
+import { hashString, MetadataLike, extractMetadata } from "@replikit/messages";
 
 export class MessageBuilder extends Builder {
     protected readonly message: OutMessage = {
@@ -9,13 +9,13 @@ export class MessageBuilder extends Builder {
         tokens: []
     };
 
-    addReply(metadata: MessageMetadata): this {
-        this.message.reply = metadata;
+    addReply(metadata: MetadataLike): this {
+        this.message.reply = extractMetadata(metadata);
         return this;
     }
 
-    useMetadata(metadata: MessageMetadata): this {
-        this.message.metadata = metadata;
+    useMetadata(metadata: MetadataLike): this {
+        this.message.metadata = extractMetadata(metadata);
         return this;
     }
 
