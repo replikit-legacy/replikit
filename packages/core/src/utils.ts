@@ -121,3 +121,14 @@ export function extendModule<T>(path: string, callback: (module: T) => void): vo
         callback(module);
     }
 }
+
+export type BuilderPipeHandler<T extends Builder, A extends unknown[]> = (
+    builder: T,
+    ...args: A
+) => T;
+
+export class Builder {
+    pipe<A extends unknown[]>(handler: BuilderPipeHandler<this, A>, ...args: A): this {
+        return handler(this, ...args);
+    }
+}
