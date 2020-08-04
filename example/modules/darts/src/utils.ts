@@ -5,8 +5,8 @@ export function addUserStats(
     builder: MessageBuilder,
     darts: DartsUserExtension,
     t: DartsLocale
-): void {
-    builder
+): MessageBuilder {
+    return builder
         .addCodeLine(t.userStats)
         .addCodeLine(t.totalScore(darts.sum))
         .addCodeLine(t.totalThrows(darts.total))

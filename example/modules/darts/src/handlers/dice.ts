@@ -38,8 +38,8 @@ router.of("message:received").use(async (context, next) => {
         .addReply(context.message.metadata)
         .addCodeLine(`Результат: ${dice.value}`)
         .addCodeLine(`Вы получили ${dice.value} нихуя`)
-        .addCodeLine(`Ваш баланс: ${user.banking.money} нихуя`);
-    addUserStats(builder, user.darts, locale);
+        .addCodeLine(`Ваш баланс: ${user.banking.money} нихуя`)
+        .pipe(addUserStats, user.darts, locale);
     await context.reply(builder);
 
     const session = await context.getSession(BetUserSession);
