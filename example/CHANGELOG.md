@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.13.0](https://github.com/Exeteres/Replikit/compare/v0.12.1...v0.13.0) (2020-08-04)
+
+
+### Features
+
+* **messages:** Add alias to use message with metadata as metadata ([e315a25](https://github.com/Exeteres/Replikit/commit/e315a256dfeef85137f640e08176d14c84a1638f))
+
+
+
+
+
 # [0.12.0](https://github.com/Exeteres/Replikit/compare/v0.11.2...v0.12.0) (2020-07-30)
 
 **Note:** Version bump only for package example

@@ -1,6 +1,6 @@
 {
     "name": "@replikit/hooks",
-    "version": "0.12.1",
+    "version": "0.13.0",
     "license": "MIT",
     "main": "dist/index.js",
     "typings": "dist/index.d.ts",
@@ -18,10 +18,10 @@
         "access": "public"
     },
     "dependencies": {
-        "@replikit/commands": "^0.12.0",
-        "@replikit/core": "^0.12.0"
+        "@replikit/commands": "^0.13.0",
+        "@replikit/core": "^0.13.0"
     },
     "optionalDependencies": {
-        "@replikit/storage": "^0.12.0"
+        "@replikit/storage": "^0.13.0"
     }
 }

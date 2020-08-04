@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.13.0](https://github.com/Exeteres/Replikit/compare/v0.12.1...v0.13.0) (2020-08-04)
+
+
+### Bug Fixes
+
+* **core:** Fix constructor type ([9687c48](https://github.com/Exeteres/Replikit/commit/9687c48773917919a2d8c38add27fba15cc11f00))
+
+
+### Features
+
+* **core:** Add ability to use pipe method in builders ([95c3cca](https://github.com/Exeteres/Replikit/commit/95c3cca0d1f4c5203fde3386c3775ecc77b92a1b))
+
+
+
+
+
 # [0.12.0](https://github.com/Exeteres/Replikit/compare/v0.11.2...v0.12.0) (2020-07-30)
 
 

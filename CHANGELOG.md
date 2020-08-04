@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.13.0](https://github.com/Exeteres/Replikit/compare/v0.12.1...v0.13.0) (2020-08-04)
+
+
+### Bug Fixes
+
+* **authorization:** Fix some bugs in authorization system ([5d0f0d3](https://github.com/Exeteres/Replikit/commit/5d0f0d339c41e3982b9f165685101fd6a3a6998c))
+* **core:** Fix constructor type ([9687c48](https://github.com/Exeteres/Replikit/commit/9687c48773917919a2d8c38add27fba15cc11f00))
+* **i18n:** Fix bug with invalid locale resolution in MemberContext ([a1af23d](https://github.com/Exeteres/Replikit/commit/a1af23d764f417dcbceef3eba877d28b6e0b8b03))
+* **replikit:** Fix @replikit/cli dependency version ([2566dfa](https://github.com/Exeteres/Replikit/commit/2566dfa37e12dd6823c1c35dd2e3d17f2cd9ecc4))
+
+
+### Features
+
+* **commands:** Add ability to use function as default value resolver ([6d8014f](https://github.com/Exeteres/Replikit/commit/6d8014f88777a15f3c50c96ddd29c0dba10ef0ae))
+* **core:** Add ability to use pipe method in builders ([95c3cca](https://github.com/Exeteres/Replikit/commit/95c3cca0d1f4c5203fde3386c3775ecc77b92a1b))
+* **hooks:** Add hooks to work with storage parameters ([09536f2](https://github.com/Exeteres/Replikit/commit/09536f2082364c46a8c14b70694e08e4b27e0b8e))
+* **messages:** Add ability to use pipe method in MessageBuilder ([f5fe039](https://github.com/Exeteres/Replikit/commit/f5fe0391708753b7404e6c695a77cd793e83120c))
+* **messages:** Add alias to use message with metadata as metadata ([e315a25](https://github.com/Exeteres/Replikit/commit/e315a256dfeef85137f640e08176d14c84a1638f))
+* **permissions:** Add command parameter converters ([1ead835](https://github.com/Exeteres/Replikit/commit/1ead83526994aaeaa49322a797918211cb628944))
+* **storage:** Redesign "channel", "user" and "member" parameters ([8c3ed96](https://github.com/Exeteres/Replikit/commit/8c3ed962534e74e209a33bb4d4ad6f867a8f6933))
+
+
+
+
+
 ## [0.12.1](https://github.com/Exeteres/Replikit/compare/v0.12.0...v0.12.1) (2020-07-30)
 
 **Note:** Version bump only for package replikit
