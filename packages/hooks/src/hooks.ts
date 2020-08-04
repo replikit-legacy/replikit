@@ -4,8 +4,9 @@ import { Constructor } from "@replikit/core/typings";
 import { ParameterOptions, CommandContext, RestParameterOptions } from "@replikit/commands/typings";
 import { useContext } from "@replikit/hooks";
 import { NormalizeType, TextParameterOptions, CommandBuilder } from "@replikit/commands";
-import { Channel } from "@replikit/storage";
+import { Channel, User, Member } from "@replikit/storage";
 import { ModuleNotFoundError } from "@replikit/core";
+import { ChannelOptions, UserOptions, MemberOptions } from "@replikit/storage/typings";
 
 export function useCommandContext(): CommandContext {
     return useContext() as CommandContext;
@@ -78,14 +79,47 @@ useRest.build = (builder: CommandBuilder, args: Parameters<typeof useRest>) => {
     return builder.rest(...args);
 };
 
-export function useChannel(name?: string): Channel {
+export function useChannel(options?: ChannelOptions): Channel {
     const context = useCommandContext();
-    return context.params[name ?? "channel"] as Channel;
+    return context.params[options?.name ?? "channel"] as Channel;
 }
 
 useChannel.build = (builder: CommandBuilder, args: Parameters<typeof useChannel>) => {
     if (!builder.channel) {
         throw new ModuleNotFoundError("@replikit/storage", "useChannel hook");
     }
-    return builder.channel(args[0] as string);
+    return builder.channel(args[0]);
+};
+
+export function useUser(options?: UserOptions): User {
+    const context = useCommandContext();
+    return context.params[options?.name ?? "user"] as User;
+}
+
+useUser.build = (builder: CommandBuilder, args: Parameters<typeof useUser>) => {
+    if (!builder.user) {
+        throw new ModuleNotFoundError("@replikit/storage", "useUser hook");
+    }
+    return builder.user(args[0]);
+};
+
+export interface MemberHookResult {
+    member: Member;
+    user: User;
+    channel: Channel;
+}
+
+export function useMember(options?: MemberOptions): MemberHookResult {
+    const context = useCommandContext();
+    const member = context.params[options?.name ?? "member"] as Member;
+    const user = context.params[options?.userParameterName ?? "user"] as User;
+    const channel = context.params[options?.channelParameterName ?? "channel"] as Channel;
+    return { member, user, channel };
+}
+
+useMember.build = (builder: CommandBuilder, args: Parameters<typeof useMember>) => {
+    if (!builder.member) {
+        throw new ModuleNotFoundError("@replikit/storage", "useMember hook");
+    }
+    return builder.member(args[0]);
 };

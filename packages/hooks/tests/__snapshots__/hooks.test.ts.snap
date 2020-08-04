@@ -4,6 +4,31 @@ exports[`useChannel hook should add a channel parameter to command 1`] = `
 Object {
   "aliases": Array [],
   "commands": Array [],
+  "name": "test",
+  "params": Array [
+    Object {
+      "converter": Object {
+        "resolver": [Function],
+        "validator": [Function],
+      },
+      "isString": false,
+      "name": "channel",
+      "optional": true,
+      "options": Object {
+        "default": [Function],
+        "useInAuthorization": true,
+      },
+      "type": [Function],
+    },
+  ],
+  "requiredCount": 0,
+}
+`;
+
+exports[`useMember hook should add a member parameter to command 1`] = `
+Object {
+  "aliases": Array [],
+  "commands": Array [],
   "middlewareRouter": MiddlewareRouter {
     "chainMap": Map {
       2 => HandlerChain {
@@ -27,7 +52,21 @@ Object {
       "name": "channel",
       "optional": true,
       "options": Object {
-        "currentAsDefault": true,
+        "default": [Function],
+        "useInAuthorization": true,
+      },
+      "type": [Function],
+    },
+    Object {
+      "converter": Object {
+        "resolver": [Function],
+        "validator": [Function],
+      },
+      "isString": false,
+      "name": "user",
+      "optional": true,
+      "options": Object {
+        "default": [Function],
       },
       "type": [Function],
     },
@@ -102,5 +141,29 @@ Object {
   "params": Array [],
   "requiredCount": 0,
   "text": Object {},
+}
+`;
+
+exports[`useUser hook should add a user parameter to command 1`] = `
+Object {
+  "aliases": Array [],
+  "commands": Array [],
+  "name": "test",
+  "params": Array [
+    Object {
+      "converter": Object {
+        "resolver": [Function],
+        "validator": [Function],
+      },
+      "isString": false,
+      "name": "user",
+      "optional": true,
+      "options": Object {
+        "default": [Function],
+      },
+      "type": [Function],
+    },
+  ],
+  "requiredCount": 0,
 }
 `;
