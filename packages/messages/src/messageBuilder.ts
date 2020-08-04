@@ -41,16 +41,16 @@ export class MessageBuilder extends Builder {
         });
     }
 
-    addCodeLine(line: string): this {
-        return this.addCode(line + "\n");
+    addCodeLine(line?: string): this {
+        return this.addCode(line ? line + "\n" : "\n");
     }
 
     addCodeLines(lines: string[]): this {
         return this.addCode(lines.join("\n") + "\n");
     }
 
-    addLine(line: string): this {
-        return this.addText(line + "\n");
+    addLine(line?: string): this {
+        return this.addText(line ? line + "\n" : "\n");
     }
 
     addLines(lines: string[]): this {

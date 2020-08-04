@@ -48,4 +48,12 @@ describe("MessageBuilder", () => {
             .build();
         expect(message).toMatchSnapshot();
     });
+
+    it.each([
+        ["line", "addLine"],
+        ["code line", "addCodeLine"]
+    ] as const)("should create a message with empty %s", (_, method) => {
+        const message = new MessageBuilder()[method]().build();
+        expect(message).toMatchSnapshot();
+    });
 });

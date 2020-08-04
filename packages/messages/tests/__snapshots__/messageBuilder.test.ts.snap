@@ -70,6 +70,38 @@ Object {
 }
 `;
 
+exports[`MessageBuilder should create a message with empty code line 1`] = `
+Object {
+  "attachments": Array [],
+  "forwarded": Array [],
+  "tokens": Array [
+    Object {
+      "kind": 0,
+      "props": Array [
+        5,
+      ],
+      "text": "
+",
+    },
+  ],
+}
+`;
+
+exports[`MessageBuilder should create a message with empty line 1`] = `
+Object {
+  "attachments": Array [],
+  "forwarded": Array [],
+  "tokens": Array [
+    Object {
+      "kind": 0,
+      "props": Array [],
+      "text": "
+",
+    },
+  ],
+}
+`;
+
 exports[`MessageBuilder should create a message with reply 1`] = `
 Object {
   "attachments": Array [],
