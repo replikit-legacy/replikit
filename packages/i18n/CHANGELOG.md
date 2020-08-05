@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.14.0](https://github.com/Exeteres/Replikit/compare/v0.13.0...v0.14.0) (2020-08-05)
+
+
+### Bug Fixes
+
+* **i18n:** Allow getLocale method for inline query contexts ([48c5836](https://github.com/Exeteres/Replikit/commit/48c5836d55294f777a0c6bb8ff605bd57e23e877))
+
+
+
+
+
 # [0.13.0](https://github.com/Exeteres/Replikit/compare/v0.12.1...v0.13.0) (2020-08-04)
 
 

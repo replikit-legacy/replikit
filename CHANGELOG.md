@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.14.0](https://github.com/Exeteres/Replikit/compare/v0.13.0...v0.14.0) (2020-08-05)
+
+
+### Bug Fixes
+
+* **cli:** Fix typings ([9851fe5](https://github.com/Exeteres/Replikit/commit/9851fe5b87e07318da5c085f4b1bbddb23984136))
+* **i18n:** Allow getLocale method for inline query contexts ([48c5836](https://github.com/Exeteres/Replikit/commit/48c5836d55294f777a0c6bb8ff605bd57e23e877))
+* **permissions:** Fix permission check issue ([9ac9cef](https://github.com/Exeteres/Replikit/commit/9ac9cefdf637850fac1d10f9c92260f7907b2bc8))
+* **router:** Fix typings for inline query contexts ([e2adfb9](https://github.com/Exeteres/Replikit/commit/e2adfb97409a8d002ac48a6e48c491b4b86c47cd))
+
+
+### Features
+
+* **cli:** Add ability to modify webpack configuration ([7375e56](https://github.com/Exeteres/Replikit/commit/7375e56262f1b38767286fe4c6de74927264247d))
+* **messages:** Add ability to use addLine method without text ([3886f11](https://github.com/Exeteres/Replikit/commit/3886f113aa94943afea2bd5f4f94462eccec055e))
+
+
+
+
+
 # [0.13.0](https://github.com/Exeteres/Replikit/compare/v0.12.1...v0.13.0) (2020-08-04)
 
 

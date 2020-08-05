@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.14.0](https://github.com/Exeteres/Replikit/compare/v0.13.0...v0.14.0) (2020-08-05)
+
+
+### Bug Fixes
+
+* **router:** Fix typings for inline query contexts ([e2adfb9](https://github.com/Exeteres/Replikit/commit/e2adfb97409a8d002ac48a6e48c491b4b86c47cd))
+
+
+
+
+
 # [0.13.0](https://github.com/Exeteres/Replikit/compare/v0.12.1...v0.13.0) (2020-08-04)
 
 **Note:** Version bump only for package @replikit/router

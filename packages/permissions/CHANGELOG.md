@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.14.0](https://github.com/Exeteres/Replikit/compare/v0.13.0...v0.14.0) (2020-08-05)
+
+
+### Bug Fixes
+
+* **permissions:** Fix permission check issue ([9ac9cef](https://github.com/Exeteres/Replikit/commit/9ac9cefdf637850fac1d10f9c92260f7907b2bc8))
+
+
+
+
+
 # [0.13.0](https://github.com/Exeteres/Replikit/compare/v0.12.1...v0.13.0) (2020-08-04)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.14.0](https://github.com/Exeteres/Replikit/compare/v0.13.0...v0.14.0) (2020-08-05)
+
+
+### Bug Fixes
+
+* **cli:** Fix typings ([9851fe5](https://github.com/Exeteres/Replikit/commit/9851fe5b87e07318da5c085f4b1bbddb23984136))
+
+
+
+
+
 # [0.13.0](https://github.com/Exeteres/Replikit/compare/v0.12.1...v0.13.0) (2020-08-04)
 
 
