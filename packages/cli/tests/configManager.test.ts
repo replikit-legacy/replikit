@@ -124,4 +124,23 @@ describe("TSConfigManager", () => {
         const result = manager.compile();
         expect(result).toMatchSnapshot();
     });
+
+    it("should remove @replikit/cli module from compilation result", () => {
+        const config = code`
+        import { Configuration } from "@replikit/core";
+
+        import "@replikit/cli";
+
+        const config: Configuration = {
+            cli: { test: "test" }
+        };
+
+        export default config;`;
+
+        const manager = new ConfigManager();
+        manager.load(config);
+
+        const result = manager.compile();
+        expect(result).toMatchSnapshot();
+    });
 });

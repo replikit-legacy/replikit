@@ -1,6 +1,7 @@
 import { createProject } from "./shared";
 import { createWebpackConfiguration } from "@replikit/cli";
 import { resolve } from "path";
+import { Configuration } from "webpack";
 
 jest.setTimeout(120000);
 
@@ -26,5 +27,21 @@ describe("webpack", () => {
         expect(result.output!.path).toBe(expectedOutputPath);
         const aliasPath = result.resolve!.alias!["@test-project/test"];
         expect(aliasPath).toBe(expectedAliasPath);
+    });
+
+    it("should pass webpack configuration throw user specified transformer", async () => {
+        const project = await createProject(false, false, false);
+
+        const config = {
+            modules: [],
+            outDir: "./dist",
+            webpack: (config: Configuration) => {
+                config.name = "test";
+                return config;
+            }
+        };
+
+        const result = createWebpackConfiguration(project, config);
+        expect(result.name).toBe("test");
     });
 });

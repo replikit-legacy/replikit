@@ -28,7 +28,10 @@ export class ConfigManager implements ConfigManager {
         const project = new Project();
         const config = project.createSourceFile("config.ts", this.source.getFullText());
         const imports = config.getImportDeclarations().filter(isModuleImport);
-        const importArray = imports.map(x => x.getModuleSpecifier().getText()).join(", ");
+        const importArray = imports
+            .map(x => x.getModuleSpecifier().getText())
+            .filter(x => !x.includes("@replikit/cli"))
+            .join(", ");
         imports.forEach(x => x.remove());
         const text = transpileModule(config.getFullText(), {
             compilerOptions: { module: ModuleKind.CommonJS },

@@ -90,7 +90,7 @@ export function createWebpackConfiguration(
         `main();`
     ].join("\n");
 
-    return {
+    const result: Configuration = {
         entry,
         resolve: {
             alias,
@@ -132,4 +132,5 @@ export function createWebpackConfiguration(
             chunkFilename: "chunks/[chunkhash].js"
         }
     };
+    return config.webpack ? config.webpack(result) : result;
 }

@@ -50,6 +50,16 @@ export default config;
 "
 `;
 
+exports[`TSConfigManager should remove @replikit/cli module from compilation result 1`] = `
+"\\"use strict\\";
+Object.defineProperty(exports, \\"__esModule\\", { value: true });
+var config = {
+    cli: { test: \\"test\\" }
+};
+exports.default = config;
+exports.modules = [];"
+`;
+
 exports[`TSConfigManager should remove the import declaration from file with one import 1`] = `
 "import { Configuration } from \\"@replikit/core\\";
 
