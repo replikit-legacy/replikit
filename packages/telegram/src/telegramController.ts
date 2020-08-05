@@ -194,7 +194,7 @@ export class TelegramController extends Controller {
         }
         await this.handleMessages("message:received", receivedMessages);
         await this.handleMessages("message:edited", editedMessages);
-        return (undefined as unknown) as unknown[];
+        return undefined!;
     }
 
     async answerInlineQuery(id: string, response: InlineQueryResponse): Promise<void> {
