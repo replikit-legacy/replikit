@@ -2,28 +2,28 @@
 
 exports[`CommandBuilderExtension should authorize a member permission 1`] = `"Access allowed"`;
 
-exports[`CommandBuilderExtension should authorize a member permission 2`] = `"Access denied"`;
+exports[`CommandBuilderExtension should authorize a member permission 2`] = `"Access denied!"`;
 
-exports[`CommandBuilderExtension should authorize a member permission 3`] = `"Access denied"`;
+exports[`CommandBuilderExtension should authorize a member permission 3`] = `"Access denied!"`;
 
 exports[`CommandBuilderExtension should authorize a member permission in another channel of another controller 1`] = `"Access allowed"`;
 
-exports[`CommandBuilderExtension should authorize a member permission in another channel of another controller 2`] = `"Access denied"`;
+exports[`CommandBuilderExtension should authorize a member permission in another channel of another controller 2`] = `"Access denied!"`;
 
 exports[`CommandBuilderExtension should authorize a member permission in another channel of the same controller 1`] = `"Access allowed"`;
 
-exports[`CommandBuilderExtension should authorize a member permission in another channel of the same controller 2`] = `"Access denied"`;
+exports[`CommandBuilderExtension should authorize a member permission in another channel of the same controller 2`] = `"Access denied!"`;
 
-exports[`CommandBuilderExtension should authorize a member permission in another channel of the same controller 3`] = `"Access denied"`;
+exports[`CommandBuilderExtension should authorize a member permission in another channel of the same controller 3`] = `"Access denied!"`;
 
 exports[`CommandBuilderExtension should authorize a member permission in the same channel 1`] = `"Access allowed"`;
 
-exports[`CommandBuilderExtension should authorize a member permission in the same channel 2`] = `"Access denied"`;
+exports[`CommandBuilderExtension should authorize a member permission in the same channel 2`] = `"Access denied!"`;
 
-exports[`CommandBuilderExtension should authorize a member permission in the same channel 3`] = `"Access denied"`;
+exports[`CommandBuilderExtension should authorize a member permission in the same channel 3`] = `"Access denied!"`;
 
 exports[`CommandBuilderExtension should authorize a user permission 1`] = `"Access allowed"`;
 
-exports[`CommandBuilderExtension should authorize a user permission 2`] = `"Access denied"`;
+exports[`CommandBuilderExtension should authorize a user permission 2`] = `"Access denied!"`;
 
-exports[`CommandBuilderExtension should authorize a user permission 3`] = `"Access denied"`;
+exports[`CommandBuilderExtension should authorize a user permission 3`] = `"Access denied!"`;
