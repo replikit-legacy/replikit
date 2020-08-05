@@ -1,4 +1,5 @@
 import { AccountContext } from "@replikit/router";
+import { InlineQueryReceivedContext as _InlineQueryReceivedContext } from "@replikit/router/typings";
 import { InlineQueryReceivedEvent, InlineQuery, InlineQueryResponse } from "@replikit/core/typings";
 
 export class InlineQueryReceivedContext extends AccountContext<InlineQueryReceivedEvent> {
@@ -10,3 +11,6 @@ export class InlineQueryReceivedContext extends AccountContext<InlineQueryReceiv
         return this.controller.answerInlineQuery(this.query.id, response);
     }
 }
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface InlineQueryReceivedContext extends _InlineQueryReceivedContext {}
