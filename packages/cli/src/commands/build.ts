@@ -9,6 +9,7 @@ import { updateConfig, config } from "@replikit/core";
 import webpack from "webpack";
 import { inspect } from "util";
 import { remove, pathExists } from "fs-extra";
+import { CliConfiguration } from "@replikit/cli/typings";
 
 const command = program
     .command("build")
@@ -22,7 +23,7 @@ command.action(async options => {
     const projectManager = await getProjectManager();
     const webpackConfig = createWebpackConfiguration(
         projectManager,
-        config.cli,
+        config.cli as CliConfiguration,
         options.development
     );
 

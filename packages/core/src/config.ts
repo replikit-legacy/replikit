@@ -5,7 +5,7 @@ export const config: ResolvedConfiguration = {} as ResolvedConfiguration;
 
 export function updateConfig(update: RecursivePartial<Configuration>): void {
     const previous = deepmerge({} as ResolvedConfiguration, config);
-    deepmerge(config, update);
+    deepmerge(config, update as ResolvedConfiguration);
     void invokeHook("core:settings:update", previous);
 }
 

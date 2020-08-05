@@ -1,5 +1,4 @@
 import { Configuration, IgnorePlugin } from "webpack";
-import { CliConfiguration } from "@replikit/cli/typings";
 import WebpackBar from "webpackbar";
 import { CompilerOptions } from "typescript";
 import {
@@ -8,12 +7,12 @@ import {
     ProjectManager
 } from "@replikit/cli";
 import { resolve, isAbsolute } from "path";
-import { Require } from "@replikit/core/typings";
 import VirtualModulesPlugin from "webpack-virtual-modules";
+import { CliConfiguration } from "@replikit/cli/typings";
 
 export function createWebpackConfiguration(
     projectManager: ProjectManager,
-    config: Require<CliConfiguration, "modules" | "outDir">,
+    config: CliConfiguration,
     development = false
 ): Configuration {
     const tsconfig = config.tsconfig ?? "tsconfig.json";
@@ -44,7 +43,8 @@ export function createWebpackConfiguration(
 
     const alias: Record<string, string> = {};
     const entry: Record<string, string> = { main: "./main.js" };
-    for (const module of config.modules) {
+    const modules = config.modules ?? [];
+    for (const module of modules) {
         const moduleParts = module.slice(1).split("/");
         if (moduleParts.length < 2) {
             continue;
@@ -58,9 +58,8 @@ export function createWebpackConfiguration(
         }
     }
 
-    const outputPath = isAbsolute(config.outDir)
-        ? config.outDir
-        : resolve(projectManager.root, config.outDir);
+    const outDir = config.outDir ?? "./dist";
+    const outputPath = isAbsolute(outDir) ? config.outDir : resolve(projectManager.root, outDir);
 
     // TODO prevent repeated config compilation
     const configManager = projectManager.getConfigManager();
@@ -76,7 +75,7 @@ export function createWebpackConfiguration(
         `const excludedModules = parseModules(process.env.REPLIKIT_EXCLUDED_MODULES);`,
         `const unrestricted = !includedModules && !excludedModules;`,
         `const logger = createScope("runtime");`,
-        ...config.modules.map(x => {
+        ...modules.map(x => {
             return [
                 `(unrestricted`,
                 `|| includedModules && includedModules.includes("${x}")`,
