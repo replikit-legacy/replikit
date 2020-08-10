@@ -4,7 +4,7 @@ import { classToPlain, plainToClass } from "class-transformer";
 
 interface StoredSession {
     original: string;
-    current: unknown;
+    current: HasFields;
 }
 
 export class SessionManager {
@@ -14,8 +14,8 @@ export class SessionManager {
 
     async save(): Promise<void> {
         for (const [key, session] of this.sessionMap.entries()) {
-            if (JSON.stringify(session.original) !== session.current) {
-                await this.storage.set(key, classToPlain(session.current) as HasFields);
+            if (JSON.stringify(session.current) !== session.original) {
+                await this.storage.set(key, classToPlain(session.current));
             }
         }
     }
@@ -27,7 +27,7 @@ export class SessionManager {
         }
         const existing = await this.storage.get(key);
         const current = existing ? plainToClass(type, existing) : new type();
-        session = { current, original: JSON.stringify(current) };
+        session = { current: current as HasFields, original: JSON.stringify(current) };
         this.sessionMap.set(key, session);
         return current;
     }
