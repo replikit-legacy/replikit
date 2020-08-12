@@ -8,6 +8,8 @@
         "../packages"
     ],
     "scripts": {
-        "dev": "replikit dev"
+        "replikit": "node ./node_modules/@replikit/cli/dist/main.js",
+        "dev": "yarn replikit dev",
+        "build": "yarn replikit build"
     }
 }

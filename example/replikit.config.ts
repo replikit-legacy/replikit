@@ -6,7 +6,6 @@ import "@example/banking";
 import "@example/darts";
 import "@replikit/telegram";
 import "@replikit/vk";
-import { MongoSessionStorage } from "@replikit/sessions";
 
 const config: Configuration = {
     telegram: {
@@ -29,8 +28,8 @@ const config: Configuration = {
         defaultLocale: process.env.DEFAULT_LOCALE!
     },
     sessions: {
-        // storage: new Map()
-        storage: new MongoSessionStorage()
+        storage: new Map()
+        // storage: new MongoSessionStorage()
     }
 };
 
