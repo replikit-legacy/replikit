@@ -49,12 +49,12 @@ export function extractArguments(
     return [fallbackStrategy, extensions];
 }
 
-export async function currentUser(context: CommandContext): Promise<User> {
+export async function currentUser(context: CommandContext): Promise<User | string> {
     const user = await context.getUser(FallbackStrategy.Undefined);
     return user ?? context.getLocale(StorageLocale).currentUserNotFound;
 }
 
-export async function currentChannel(context: CommandContext): Promise<Channel> {
+export async function currentChannel(context: CommandContext): Promise<Channel | string> {
     const channel = await context.getChannel(FallbackStrategy.Undefined);
     return channel ?? context.getLocale(StorageLocale).currentChannelNotFound;
 }
