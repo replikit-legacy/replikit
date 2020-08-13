@@ -1,10 +1,12 @@
 /// <reference path="../typings/index.d.ts" />
 
-export * from "./pm/pmType";
-export * from "./pm/pmController";
-export * from "./pm/npmController";
-export * from "./pm/yarnController";
-export * from "./pm/pmDetector";
+export * from "./controllers/shellController";
+export * from "./controllers/gitController";
+export * from "./controllers/pm/pmType";
+export * from "./controllers/pm/pmController";
+export * from "./controllers/pm/npmController";
+export * from "./controllers/pm/yarnController";
+export * from "./controllers/pm/pmDetector";
 
 export * from "./project/moduleManager";
 export * from "./project/projectManager";
@@ -26,3 +28,4 @@ import "./commands/init";
 import "./commands/createModule";
 import "./commands/dev";
 import "./commands/build";
+import "./commands/addExternal";

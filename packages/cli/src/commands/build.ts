@@ -1,11 +1,11 @@
 import { program } from "commander";
 import {
-    loadConfiguration,
     createWebpackConfiguration,
     getProjectManager,
-    logger
+    logger,
+    setupConfiguration
 } from "@replikit/cli";
-import { updateConfig, config } from "@replikit/core";
+import { config } from "@replikit/core";
 import webpack from "webpack";
 import { inspect } from "util";
 import { remove, pathExists } from "fs-extra";
@@ -17,8 +17,7 @@ const command = program
     .option("--development")
     .description("Build all modules to production-ready bundle");
 command.action(async options => {
-    const newConfig = await loadConfiguration(options.config);
-    updateConfig(newConfig);
+    await setupConfiguration(options.config);
 
     const projectManager = await getProjectManager();
     const webpackConfig = createWebpackConfiguration(

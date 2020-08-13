@@ -3,15 +3,16 @@ import { PackageConfig } from "@replikit/cli/typings";
 import { deepmerge } from "@replikit/core";
 import { writeJSON, readJSON } from "fs-extra";
 import { resolve } from "path";
-import { PMType } from "@replikit/cli";
+import { PMType, ShellController } from "@replikit/cli";
 
-export abstract class PMController {
+export abstract class PMController extends ShellController {
     abstract readonly type: PMType;
 
     private readonly configPath: string;
     config: PackageConfig;
 
-    constructor(private readonly path: string) {
+    constructor(path: string) {
+        super(path);
         this.configPath = resolve(this.path, "package.json");
     }
 

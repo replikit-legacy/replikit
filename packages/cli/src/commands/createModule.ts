@@ -1,19 +1,17 @@
 import {
     getProjectManager,
-    loadConfiguration,
     validateDirectoryName,
     availableModules,
     createModule,
-    logger
+    logger,
+    setupConfiguration
 } from "@replikit/cli";
 import { program } from "commander";
 import { prompt } from "inquirer";
-import { updateConfig } from "@replikit/core";
 
 const command = program.command("create-module").description("Create a new module");
 command.action(async options => {
-    const config = await loadConfiguration(options.config);
-    updateConfig(config);
+    await setupConfiguration(options.config);
     const result = await prompt([
         {
             type: "input",

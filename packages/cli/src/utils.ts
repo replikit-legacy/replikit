@@ -1,4 +1,4 @@
-import { config } from "@replikit/core";
+import { config, updateConfig } from "@replikit/core";
 import { resolve } from "path";
 import { logger, ProjectManager, ConfigManager } from "@replikit/cli";
 import { readdir, pathExists, readFile } from "fs-extra";
@@ -55,6 +55,11 @@ export async function loadConfiguration(file?: string): Promise<Configuration> {
     }
 }
 
+export async function setupConfiguration(file?: string): Promise<void> {
+    const config = await loadConfiguration(file);
+    updateConfig(config);
+}
+
 export async function checkFolderIsEmpty(path: string): Promise<boolean> {
     const items = await readdir(path);
     return items.length === 0;
@@ -70,4 +75,10 @@ export async function getProjectManager(): Promise<ProjectManager> {
     const manager = new ProjectManager(root, configManager);
     await manager.load();
     return manager;
+}
+
+export function createExternalProjectName(url: string): string {
+    const segments = url.split("/");
+    const last = segments[segments.length - 1];
+    return last.endsWith(".git") ? last.slice(0, -4) : last;
 }

@@ -1,14 +1,14 @@
 import { Configuration, IgnorePlugin } from "webpack";
 import WebpackBar from "webpackbar";
 import { CompilerOptions } from "typescript";
-import {
-    MissingTSConfigurationField,
-    ModulePathMappingNotFound,
-    ProjectManager
-} from "@replikit/cli";
+import { MissingTSConfigurationField, ProjectManager } from "@replikit/cli";
 import { resolve, isAbsolute } from "path";
 import VirtualModulesPlugin from "webpack-virtual-modules";
 import { CliConfiguration } from "@replikit/cli/typings";
+
+function normalizeMappingPath(path: string): string {
+    return path.endsWith("/index.ts") ? path : `${path}/index.ts`;
+}
 
 export function createWebpackConfiguration(
     projectManager: ProjectManager,
@@ -30,16 +30,12 @@ export function createWebpackConfiguration(
         throw new MissingTSConfigurationField("paths");
     }
 
-    const projectName = `@${projectManager.name}`;
-    const mappings = paths[`${projectName}/*`];
-    if (!mappings || !mappings.length) {
-        throw new ModulePathMappingNotFound();
-    }
-
-    let mapping = mappings[0].replace("*/", "");
-    if (!mapping.endsWith("/index.ts")) {
-        mapping += "/index.ts";
-    }
+    const mappings = Object.keys(paths)
+        .filter(x => /^@\S*\/\*$/gm.test(x))
+        .map(x => ({
+            namespace: x.split("/")[0].slice(1),
+            path: normalizeMappingPath(paths[x][0])
+        }));
 
     const alias: Record<string, string> = {};
     const entry: Record<string, string> = { main: "./main.js" };
@@ -52,9 +48,13 @@ export function createWebpackConfiguration(
 
         entry[`${moduleParts[0]}_${moduleParts[1]}`] = module;
 
-        if (module.startsWith(projectName)) {
-            const path = resolve(projectManager.root, baseUrl, moduleParts[1], mapping);
-            alias[module] = path;
+        const mapping = mappings.find(x => x.namespace === moduleParts[0]);
+        if (mapping) {
+            alias[module] = resolve(
+                projectManager.root,
+                baseUrl,
+                mapping.path.replace("*", moduleParts[1])
+            );
         }
     }
 
@@ -96,7 +96,14 @@ export function createWebpackConfiguration(
             mainFields: ["main"],
             extensions: [".ts", ".js"]
         },
-        optimization: { splitChunks: { chunks: "all" } },
+        optimization: {
+            splitChunks: {
+                chunks: "all",
+                minSize: 0,
+                maxAsyncRequests: Infinity,
+                maxInitialRequests: Infinity
+            }
+        },
         mode: development ? "development" : "production",
         devtool: development && "inline-cheap-source-map",
         target: "node",

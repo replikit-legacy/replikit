@@ -5,7 +5,8 @@ import { resolve } from "path";
 const command = program
     .command("dev")
     .description("Start in dev mode")
-    .option("--inspect-brk <port>", "Enable NodeJS debugger with specified port");
+    .option("--inspect-brk <port>", "Enable NodeJS debugger with specified port")
+    .option("--transpile-only", "Skip typecheking");
 command.action(async options => {
     const tsndPath = require.resolve("ts-node-dev/bin/ts-node-dev");
     const workerPath = resolve(__dirname, "../worker/dev.js");
@@ -15,10 +16,12 @@ command.action(async options => {
         "--no-notify",
         "--files",
         "--exit-child",
-        // "--transpile-only",
         "--watch",
         "replikit.config.ts"
     ];
+    if (options.transpileOnly) {
+        args.push(`--transpile-only`);
+    }
     if (options.inspectBrk) {
         args.push(`--inspect-brk=${options.inspectBrk}`);
     }

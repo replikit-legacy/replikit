@@ -36,6 +36,9 @@ Object {
   "optimization": Object {
     "splitChunks": Object {
       "chunks": "all",
+      "maxAsyncRequests": Infinity,
+      "maxInitialRequests": Infinity,
+      "minSize": 0,
     },
   },
   "output": Object {

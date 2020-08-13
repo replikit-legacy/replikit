@@ -6,13 +6,17 @@ import {
     PMController,
     PMType,
     createPMController,
-    getPMController
+    getPMController,
+    GitController
 } from "@replikit/cli";
-import { resolve, basename } from "path";
-import { writeFile, mkdir, writeJSON, pathExists, readJSON } from "fs-extra";
+import { resolve, basename, join } from "path";
+import { writeFile, mkdir, writeJSON, pathExists, readJSON, readdir, ensureDir } from "fs-extra";
+import { PackageConfig } from "@replikit/cli/typings";
 
 export class ProjectManager {
     readonly name: string;
+    readonly externalPath: string;
+    readonly git: GitController;
 
     private readonly configManager: ConfigManager;
     private pm: PMController;
@@ -21,6 +25,8 @@ export class ProjectManager {
     constructor(readonly root: string, configManager?: ConfigManager) {
         this.configManager = configManager ?? new ConfigManager();
         this.name = basename(this.root);
+        this.externalPath = join(this.root, "external");
+        this.git = new GitController(this.externalPath);
     }
 
     private async saveConfig(): Promise<void> {
@@ -47,7 +53,7 @@ export class ProjectManager {
 
         const exists = await pathExists(this.root);
         if (!exists) {
-            await mkdir(this.root);
+            await ensureDir(this.root);
         }
 
         // Create modules folder
@@ -115,6 +121,34 @@ export class ProjectManager {
     }
 
     /**
+     * Updates tsconfig paths to use modules from external repo.
+     */
+    async addExternalRepo(path: string): Promise<void> {
+        const packageJsonPath = join(this.externalPath, path, "package.json");
+        const packageJson: PackageConfig = await readJSON(packageJsonPath);
+        const tsconfigPath = resolve(this.root, "tsconfig.json");
+        const tsconfig = await readJSON(tsconfigPath);
+        tsconfig.compilerOptions.paths = {
+            ...tsconfig.compilerOptions.paths,
+            [`@${packageJson.name}/*`]: [`../external/${path}/modules/*/src`],
+            [`@${packageJson.name}/*/typings`]: [`../external/${path}/modules/*/typings`]
+        };
+        await writeJSON(tsconfigPath, tsconfig, { spaces: 4 });
+    }
+
+    /**
+     * Gets names of all modules in the external repo.
+     */
+    async getExternalModuleNames(path: string): Promise<string[]> {
+        const repoPath = join(this.externalPath, path);
+        const packageJsonPath = join(repoPath, "package.json");
+        const packageJson: PackageConfig = await readJSON(packageJsonPath);
+        const modulesPath = join(repoPath, "modules");
+        const moduleNames = await readdir(modulesPath);
+        return moduleNames.map(x => `@${packageJson.name}/${x}`);
+    }
+
+    /**
      * Loads an existing project from the root directory.
      */
     async load(): Promise<void> {
@@ -146,14 +180,21 @@ export class ProjectManager {
     }
 
     /**
-     * Adds modules to the project and updates config.
+     * Adds already installed modules to the project and updates config.
      */
-    async addModules(modules: string[], dev?: boolean): Promise<void> {
-        await this.install(modules, dev);
+    async addLocalModules(modules: string[]): Promise<void> {
         for (const module of modules) {
             this.configManager.addModule(module);
         }
         await this.saveConfig();
+    }
+
+    /**
+     * Adds modules to the project and updates config.
+     */
+    async addModules(modules: string[], dev?: boolean): Promise<void> {
+        await this.install(modules, dev);
+        await this.addLocalModules(modules);
     }
 
     /**

@@ -155,6 +155,131 @@ exports[`ProjectManager should add a module to the project without logger: /tsco
 "
 `;
 
+exports[`ProjectManager should add external subrepository, update tsconfig.json and add modules to replikit config: /external/external-repo/modules/external-module/package.json 1`] = `
+"{
+    \\"name\\": \\"@external-repo/external-module\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"license\\": \\"MIT\\"
+}
+"
+`;
+
+exports[`ProjectManager should add external subrepository, update tsconfig.json and add modules to replikit config: /external/external-repo/modules/external-module/src/index.ts 1`] = `""`;
+
+exports[`ProjectManager should add external subrepository, update tsconfig.json and add modules to replikit config: /external/external-repo/package.json 1`] = `
+"{
+    \\"name\\": \\"external-repo\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"license\\": \\"MIT\\",
+    \\"private\\": true,
+    \\"scripts\\": {
+        \\"dev\\": \\"replikit dev\\",
+        \\"build\\": \\"replikit build\\"
+    }
+}
+"
+`;
+
+exports[`ProjectManager should add external subrepository, update tsconfig.json and add modules to replikit config: /external/external-repo/replikit.config.ts 1`] = `
+"import { Configuration } from \\"@replikit/core/typings\\";
+
+import \\"@external-repo/external-module\\";
+
+const config: Configuration = {};
+
+export default config;
+"
+`;
+
+exports[`ProjectManager should add external subrepository, update tsconfig.json and add modules to replikit config: /external/external-repo/tsconfig.json 1`] = `
+"{
+    \\"compilerOptions\\": {
+        \\"target\\": \\"es2019\\",
+        \\"module\\": \\"commonjs\\",
+        \\"moduleResolution\\": \\"node\\",
+        \\"baseUrl\\": \\"modules\\",
+        \\"strict\\": true,
+        \\"paths\\": {
+            \\"@external-repo/*\\": [
+                \\"*/src\\"
+            ],
+            \\"@external-repo/*/typings\\": [
+                \\"*/typings\\"
+            ]
+        }
+    },
+    \\"include\\": [
+        \\"replikit.config.ts\\",
+        \\"modules/**/*.ts\\"
+    ]
+}
+"
+`;
+
+exports[`ProjectManager should add external subrepository, update tsconfig.json and add modules to replikit config: /package.json 1`] = `
+"{
+    \\"name\\": \\"test-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"license\\": \\"MIT\\",
+    \\"private\\": true,
+    \\"scripts\\": {
+        \\"dev\\": \\"replikit dev\\",
+        \\"build\\": \\"replikit build\\"
+    },
+    \\"dependencies\\": {
+        \\"@replikit/static\\": \\"0.0.0\\"
+    },
+    \\"devDependencies\\": {
+        \\"@types/node\\": \\"0.0.0\\",
+        \\"replikit\\": \\"0.0.0\\"
+    }
+}
+"
+`;
+
+exports[`ProjectManager should add external subrepository, update tsconfig.json and add modules to replikit config: /replikit.config.ts 1`] = `
+"import { Configuration } from \\"@replikit/core/typings\\";
+
+import \\"@replikit/static\\";
+import \\"@external-repo/external-module\\";
+
+const config: Configuration = {};
+
+export default config;
+"
+`;
+
+exports[`ProjectManager should add external subrepository, update tsconfig.json and add modules to replikit config: /tsconfig.json 1`] = `
+"{
+    \\"compilerOptions\\": {
+        \\"target\\": \\"es2019\\",
+        \\"module\\": \\"commonjs\\",
+        \\"moduleResolution\\": \\"node\\",
+        \\"baseUrl\\": \\"modules\\",
+        \\"strict\\": true,
+        \\"paths\\": {
+            \\"@test-project/*\\": [
+                \\"*/src\\"
+            ],
+            \\"@test-project/*/typings\\": [
+                \\"*/typings\\"
+            ],
+            \\"@external-repo/*\\": [
+                \\"../external/external-repo/modules/*/src\\"
+            ],
+            \\"@external-repo/*/typings\\": [
+                \\"../external/external-repo/modules/*/typings\\"
+            ]
+        }
+    },
+    \\"include\\": [
+        \\"replikit.config.ts\\",
+        \\"modules/**/*.ts\\"
+    ]
+}
+"
+`;
+
 exports[`ProjectManager should generate npm project: /lerna.json 1`] = `
 "{
     \\"version\\": \\"0.0.0\\",
