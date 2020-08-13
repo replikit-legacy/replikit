@@ -566,11 +566,15 @@ export class TelegramController extends Controller {
             file_unique_id: string;
         }
 
-        const fileInfo = await this.bot.telegram.getFile(attachment.id);
-        attachment.uploadId = attachment.id;
-        attachment.id = (fileInfo as AttachmentFile).file_unique_id;
-        attachment.url = this.getFileUrl(fileInfo.file_path!);
-        return attachment;
+        try {
+            const fileInfo = await this.bot.telegram.getFile(attachment.id);
+            attachment.uploadId = attachment.id;
+            attachment.id = (fileInfo as AttachmentFile).file_unique_id;
+            attachment.url = this.getFileUrl(fileInfo.file_path!);
+            return attachment;
+        } catch (e) {
+            logger.warn(`Skipping file because of error while getting global id: ${e.message}`);
+        }
     }
 
     private async extractAttachments(message: Message): Promise<Attachment[]> {
