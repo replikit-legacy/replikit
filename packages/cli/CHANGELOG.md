@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.15.0](https://github.com/Exeteres/Replikit/compare/v0.14.0...v0.15.0) (2020-08-13)
+
+
+### Features
+
+* **cli:** Add ability to include modules from external repositories ([1376bb7](https://github.com/Exeteres/Replikit/commit/1376bb7513bb518dfdd47975e1695d697fda1e52))
+
+
+
+
+
 # [0.14.0](https://github.com/Exeteres/Replikit/compare/v0.13.0...v0.14.0) (2020-08-05)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.15.0](https://github.com/Exeteres/Replikit/compare/v0.14.0...v0.15.0) (2020-08-13)
+
+
+### Bug Fixes
+
+* **sessions:** Fix invalid session comparison ([8e74de1](https://github.com/Exeteres/Replikit/commit/8e74de11ff79cc032d9b6b55a6598e1f7c46d7a2))
+
+
+
+
+
 # [0.14.0](https://github.com/Exeteres/Replikit/compare/v0.13.0...v0.14.0) (2020-08-05)
 
 **Note:** Version bump only for package @replikit/sessions

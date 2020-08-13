@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.15.0](https://github.com/Exeteres/Replikit/compare/v0.14.0...v0.15.0) (2020-08-13)
+
+
+### Bug Fixes
+
+* **telegram:** Fix error in attachment resolution process ([b46a253](https://github.com/Exeteres/Replikit/commit/b46a2537df0b1939171ce70ce9186d5401ee993e))
+
+
+
+
+
 # [0.14.0](https://github.com/Exeteres/Replikit/compare/v0.13.0...v0.14.0) (2020-08-05)
 
 **Note:** Version bump only for package @replikit/telegram

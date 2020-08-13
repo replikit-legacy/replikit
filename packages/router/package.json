@@ -1,6 +1,6 @@
 {
     "name": "@replikit/router",
-    "version": "0.14.0",
+    "version": "0.15.0",
     "license": "MIT",
     "main": "dist/index.js",
     "typings": "dist/index.d.ts",
@@ -12,7 +12,7 @@
         "build": "tsc -p tsconfig.build.json"
     },
     "dependencies": {
-        "@replikit/core": "^0.14.0",
-        "@replikit/messages": "^0.14.0"
+        "@replikit/core": "^0.15.0",
+        "@replikit/messages": "^0.15.0"
     }
 }
