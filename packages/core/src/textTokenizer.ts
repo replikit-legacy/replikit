@@ -108,7 +108,14 @@ export class TextTokenizer {
                 tokens.push(...this.matchTextPropRules(plainText));
             }
             tokens.push(match.rule.handler(match.match));
-            lastIndex = match.match[0].length;
+            lastIndex = match.match.index + match.match[0].length;
+        }
+
+        if (text.length > lastIndex) {
+            const plainText = text.slice(lastIndex, text.length);
+            if (plainText) {
+                tokens.push(...this.matchTextPropRules(plainText));
+            }
         }
 
         return tokens;

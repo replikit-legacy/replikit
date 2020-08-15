@@ -1,5 +1,32 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`textTokenizer should tokenize a text with mention in the middle 1`] = `
+Array [
+  Object {
+    "kind": 0,
+    "props": Array [],
+    "text": "test ",
+  },
+  Object {
+    "id": 88005553535,
+    "kind": 1,
+    "props": Array [],
+  },
+  Object {
+    "kind": 0,
+    "props": Array [],
+    "text": " ",
+  },
+  Object {
+    "kind": 0,
+    "props": Array [
+      1,
+    ],
+    "text": "test",
+  },
+]
+`;
+
 exports[`textTokenizer should tokenize a text with mentions and props 1`] = `
 Array [
   Object {
