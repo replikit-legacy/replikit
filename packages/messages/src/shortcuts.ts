@@ -15,7 +15,7 @@ export function fromCode(code: string): OutMessage {
             {
                 kind: TextTokenKind.Text,
                 text: code,
-                props: [TextTokenProp.Monospace]
+                props: [TextTokenProp.Code]
             }
         ],
         attachments: [],

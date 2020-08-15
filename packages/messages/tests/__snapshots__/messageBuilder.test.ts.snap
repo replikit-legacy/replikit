@@ -102,6 +102,18 @@ Object {
 }
 `;
 
+exports[`MessageBuilder should create a message with header 1`] = `
+Object {
+  "attachments": Array [],
+  "forwarded": Array [],
+  "header": Object {
+    "avatar": "https://example.com/avatar.png",
+    "username": "username",
+  },
+  "tokens": Array [],
+}
+`;
+
 exports[`MessageBuilder should create a message with reply 1`] = `
 Object {
   "attachments": Array [],

@@ -56,4 +56,11 @@ describe("MessageBuilder", () => {
         const message = new MessageBuilder()[method]().build();
         expect(message).toMatchSnapshot();
     });
+
+    it("should create a message with header", () => {
+        const message = new MessageBuilder()
+            .addHeader({ username: "username", avatar: "https://example.com/avatar.png" })
+            .build();
+        expect(message).toMatchSnapshot();
+    });
 });

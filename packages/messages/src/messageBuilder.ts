@@ -1,4 +1,4 @@
-import { OutMessage, Attachment, TextToken } from "@replikit/core/typings";
+import { OutMessage, Attachment, TextToken, MessageHeader } from "@replikit/core/typings";
 import { AttachmentType, TextTokenKind, TextTokenProp, Builder } from "@replikit/core";
 import { hashString, MetadataLike, extractMetadata } from "@replikit/messages";
 
@@ -11,6 +11,11 @@ export class MessageBuilder extends Builder {
 
     addReply(metadata: MetadataLike): this {
         this.message.reply = extractMetadata(metadata);
+        return this;
+    }
+
+    addHeader(header: MessageHeader): this {
+        this.message.header = header;
         return this;
     }
 
@@ -30,7 +35,7 @@ export class MessageBuilder extends Builder {
     }
 
     addCode(code: string): this {
-        return this.addText(code, [TextTokenProp.Monospace]);
+        return this.addText(code, [TextTokenProp.Code]);
     }
 
     addText(text: string, props?: TextTokenProp[]): this {
