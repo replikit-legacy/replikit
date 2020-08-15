@@ -1,5 +1,6 @@
 import { Constructor, HasFields, ControllerName, ControllerMap } from "@replikit/core/typings";
 import { Controller } from "@replikit/core";
+import { AssertionError } from "assert";
 
 function isObject(item: unknown): boolean {
     return item !== null && typeof item === "object" && item!.constructor === Object;
@@ -130,5 +131,11 @@ export type BuilderPipeHandler<T extends Builder, A extends unknown[]> = (
 export class Builder {
     pipe<A extends unknown[]>(handler: BuilderPipeHandler<this, A>, ...args: A): this {
         return handler(this, ...args);
+    }
+}
+
+export function assert(expression: unknown, message?: string): asserts expression {
+    if (!expression) {
+        throw new AssertionError({ message });
     }
 }

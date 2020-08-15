@@ -4,6 +4,7 @@ export * from "./models/accountInfo";
 export * from "./models/attachment";
 export * from "./models/inlineQueryAttachment";
 export * from "./models/forwardedOutMessage";
+export * from "./models/messageHeader";
 export * from "./models/outMessage";
 export * from "./models/messageMetadata";
 export * from "./models/inMessage";

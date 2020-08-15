@@ -2,7 +2,8 @@ import {
     Attachment,
     TextToken,
     MessageMetadata,
-    ForwardedOutMessage
+    ForwardedOutMessage,
+    MessageHeader
 } from "@replikit/core/typings";
 
 export interface OutMessage {
@@ -11,4 +12,5 @@ export interface OutMessage {
     reply?: MessageMetadata;
     forwarded: ForwardedOutMessage[];
     metadata?: MessageMetadata;
+    header?: MessageHeader;
 }

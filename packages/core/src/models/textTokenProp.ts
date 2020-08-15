@@ -4,5 +4,6 @@ export enum TextTokenProp {
     Italic,
     Underline,
     Strikethrough,
-    Monospace
+    Code,
+    InlineCode
 }
