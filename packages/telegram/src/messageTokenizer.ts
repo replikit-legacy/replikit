@@ -101,9 +101,12 @@ export class MessageTokenizer {
                 this.props.push(TextTokenProp.Strikethrough);
                 break;
             }
-            case "code":
+            case "code": {
+                this.props.push(TextTokenProp.InlineCode);
+                break;
+            }
             case "pre": {
-                this.props.push(TextTokenProp.Monospace);
+                this.props.push(TextTokenProp.Code);
                 break;
             }
         }

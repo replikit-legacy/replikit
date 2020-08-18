@@ -40,7 +40,7 @@ function getRandomId(): string {
 }
 
 export class VKController extends Controller {
-    readonly vk: VK;
+    readonly backend: VK;
 
     constructor() {
         const textTokenizer = new TextTokenizer()
@@ -76,19 +76,19 @@ export class VKController extends Controller {
             textFormatter
         });
 
-        this.vk = new VK({
+        this.backend = new VK({
             token: config.vk.token,
             pollingGroupId: config.vk.pollingGroup
         });
 
-        this.vk.updates.on("new_message", async context => {
+        this.backend.updates.on("new_message", async context => {
             if (context.senderType === "user") {
                 const message = await this.createMessage(context);
                 this.processMessageEvent("message:received", message);
             }
         });
 
-        this.vk.updates.on("edit_message", async context => {
+        this.backend.updates.on("edit_message", async context => {
             if (context.senderType === "user") {
                 const message = await this.createMessage(context);
                 this.processMessageEvent("message:edited", message);
@@ -97,13 +97,15 @@ export class VKController extends Controller {
     }
 
     async start(): Promise<void> {
-        const resp = await this.vk.api.groups.getById({ group_id: `-${config.vk.pollingGroup}` });
+        const resp = await this.backend.api.groups.getById({
+            group_id: `-${config.vk.pollingGroup}`
+        });
         this._botInfo = { id: config.vk.pollingGroup, username: resp[0].screen_name! };
-        await this.vk.updates.start();
+        await this.backend.updates.start();
     }
 
     async stop(): Promise<void> {
-        await this.vk.updates.stop();
+        await this.backend.updates.stop();
     }
 
     private createIdRequest(channelId: number, id: number): string {
@@ -118,14 +120,14 @@ export class VKController extends Controller {
 
     async deleteMessage(channelId: number, metadata: MessageMetadata): Promise<void> {
         if (metadata.globalId) {
-            await this.vk.api.messages.delete({
+            await this.backend.api.messages.delete({
                 delete_for_all: true,
                 message_ids: [metadata.globalId]
             });
             return;
         }
         const request = this.createIdRequest(channelId, metadata.messageIds[0]);
-        await this.vk.api.execute({
+        await this.backend.api.execute({
             code: `
                 ${request}
                 API.messages.delete({
@@ -137,7 +139,7 @@ export class VKController extends Controller {
     }
 
     protected async fetchChannelInfo(localId: number): Promise<ChannelInfo | undefined> {
-        const conversations = await this.vk.api.messages.getConversationsById({
+        const conversations = await this.backend.api.messages.getConversationsById({
             peer_ids: [localId]
         });
         const conversation = conversations.items[0];
@@ -185,13 +187,13 @@ export class VKController extends Controller {
         switch (attachment.type) {
             case AttachmentType.Photo:
             case AttachmentType.Sticker: {
-                const uploaded = await this.vk.upload.messagePhoto({
+                const uploaded = await this.backend.upload.messagePhoto({
                     source: attachment.url!
                 });
                 return uploaded.toString();
             }
             case AttachmentType.Voice: {
-                const uploaded = await this.vk.upload.audioMessage({
+                const uploaded = await this.backend.upload.audioMessage({
                     source: attachment.url!,
                     peer_id: channelId
                 });
@@ -203,7 +205,7 @@ export class VKController extends Controller {
 
     protected async fetchAccountInfo(localId: number): Promise<AccountInfo | undefined> {
         if (localId > 0) {
-            const users = await this.vk.api.users.get({
+            const users = await this.backend.api.users.get({
                 user_ids: [localId.toString()],
                 fields: ["screen_name", "photo_100"]
             });
@@ -220,7 +222,7 @@ export class VKController extends Controller {
             };
         }
 
-        const groups = await this.vk.api.groups.getById({
+        const groups = await this.backend.api.groups.getById({
             group_id: localId.toString()
         });
         const group = groups[0];
@@ -252,7 +254,7 @@ export class VKController extends Controller {
             const serializedAttachments = this.formatAttachments(attachments);
             if (message.reply && !message.reply.globalId) {
                 const request = this.createIdRequest(channelId, message.reply.messageIds[0]);
-                const data = await this.vk.api.execute({
+                const data = await this.backend.api.execute({
                     code: `
                         ${request}
                         return API.messages.send({
@@ -267,7 +269,7 @@ export class VKController extends Controller {
                 const sended = data.response;
                 result = this.createSendedMessage(sended, attachments);
             } else {
-                const sended = await this.vk.api.messages.send({
+                const sended = await this.backend.api.messages.send({
                     peer_id: channelId,
                     message: message.text ?? "",
                     reply_to: message.reply?.globalId ?? 0,
@@ -282,7 +284,7 @@ export class VKController extends Controller {
             let sended: number;
             if (message.reply && !message.reply.globalId) {
                 const request = this.createIdRequest(channelId, message.reply.messageIds[0]);
-                const data = await this.vk.api.execute({
+                const data = await this.backend.api.execute({
                     code: `
                         ${request}
                         return API.messages.send({
@@ -295,7 +297,7 @@ export class VKController extends Controller {
                 });
                 sended = data.response;
             } else {
-                sended = await this.vk.api.messages.send({
+                sended = await this.backend.api.messages.send({
                     peer_id: channelId,
                     sticker_id: parseInt(sticker.id),
                     reply_to: message.reply?.globalId ?? 0
@@ -326,7 +328,7 @@ export class VKController extends Controller {
 
         if (message.metadata.globalId) {
             const messageId = message.metadata.globalId;
-            await this.vk.api.messages.edit({
+            await this.backend.api.messages.edit({
                 peer_id: channelId,
                 message_id: messageId,
                 message: message.text,
@@ -337,7 +339,7 @@ export class VKController extends Controller {
 
         const messageId = message.metadata.messageIds[0];
         const request = this.createIdRequest(channelId, messageId);
-        await this.vk.api.execute({
+        await this.backend.api.execute({
             code: `
                 ${request}
                 API.messages.edit({

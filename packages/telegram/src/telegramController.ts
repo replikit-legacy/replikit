@@ -46,7 +46,8 @@ import { logger, MessageTokenizer, escapeHtml } from "@replikit/telegram";
 import { Dice } from "@replikit/telegram/typings";
 
 export class TelegramController extends Controller {
-    readonly bot: Telegraf<TelegrafContext>;
+    readonly backend: Telegraf<TelegrafContext>;
+
     private readonly startDate: number;
     private readonly permissionCache: CacheManager<number, ChannelPermissionMap>;
 
@@ -56,7 +57,8 @@ export class TelegramController extends Controller {
             .addPropFormatter(TextTokenProp.Italic, "<i>", "</i>")
             .addPropFormatter(TextTokenProp.Underline, "<u>", "</u>")
             .addPropFormatter(TextTokenProp.Strikethrough, "<s>", "</s>")
-            .addPropFormatter(TextTokenProp.Monospace, "<pre>", "</pre>")
+            .addPropFormatter(TextTokenProp.Code, "<pre>", "</pre>")
+            .addPropFormatter(TextTokenProp.InlineCode, "<code>", "</code>")
             .addVisitor(TextTokenKind.Text, token => {
                 return escapeHtml(token.text);
             })
@@ -83,10 +85,10 @@ export class TelegramController extends Controller {
             logger.fatal("Missing telegram token");
         }
 
-        this.bot = new Telegraf(config.telegram.token);
+        this.backend = new Telegraf(config.telegram.token);
         this.startDate = Math.floor(Date.now() / 1000);
 
-        this.bot.handleUpdates = this.handleUpdates.bind(this);
+        this.backend.handleUpdates = this.handleUpdates.bind(this);
     }
 
     private async handleMediaGroup(event: MessageEventName, messages: Message[]): Promise<void> {
@@ -190,7 +192,7 @@ export class TelegramController extends Controller {
                 continue;
             }
 
-            await this.bot.handleUpdate(update);
+            await this.backend.handleUpdate(update);
         }
         await this.handleMessages("message:received", receivedMessages);
         await this.handleMessages("message:edited", editedMessages);
@@ -198,7 +200,7 @@ export class TelegramController extends Controller {
     }
 
     async answerInlineQuery(id: string, response: InlineQueryResponse): Promise<void> {
-        await this.bot.telegram.answerInlineQuery(
+        await this.backend.telegram.answerInlineQuery(
             id,
             // eslint-disable-next-line @typescript-eslint/unbound-method
             response.results.map(this.createInlineQueryResult),
@@ -274,7 +276,7 @@ export class TelegramController extends Controller {
     }
 
     private async fetchChannelPermissions(channelId: number): Promise<ChannelPermissionMap> {
-        const botMember = await this.bot.telegram.getChatMember(channelId, this.botInfo.id);
+        const botMember = await this.backend.telegram.getChatMember(channelId, this.botInfo.id);
         if (!botMember) {
             return {
                 deleteMessages: false,
@@ -300,18 +302,18 @@ export class TelegramController extends Controller {
     }
 
     async start(): Promise<void> {
-        const me = await this.bot.telegram.getMe();
+        const me = await this.backend.telegram.getMe();
         this._botInfo = { id: me.id, username: me.username! };
-        await this.bot.launch();
+        await this.backend.launch();
     }
 
     async stop(): Promise<void> {
-        await this.bot.stop();
+        await this.backend.stop();
     }
 
     async fetchChannelInfo(localId: number): Promise<ChannelInfo | undefined> {
         try {
-            const chat = await this.bot.telegram.getChat(localId);
+            const chat = await this.backend.telegram.getChat(localId);
             return this.createChannel(chat);
         } catch {
             return undefined;
@@ -320,14 +322,14 @@ export class TelegramController extends Controller {
 
     async fetchAccountInfo(localId: number): Promise<AccountInfo | undefined> {
         try {
-            const chat = await this.bot.telegram.getChat(localId);
+            const chat = await this.backend.telegram.getChat(localId);
             return {
                 id: chat.id,
                 firstName: chat.first_name,
                 lastName: chat.last_name,
                 username: chat.username,
                 avatarUrl: chat.photo
-                    ? await this.bot.telegram.getFileLink(chat.photo.small_file_id)
+                    ? await this.backend.telegram.getFileLink(chat.photo.small_file_id)
                     : undefined
             };
         } catch {
@@ -343,7 +345,7 @@ export class TelegramController extends Controller {
 
         // Отправляем текст, если есть
         if (message.text) {
-            const sended = await this.bot.telegram.sendMessage(channelId, message.text, {
+            const sended = await this.backend.telegram.sendMessage(channelId, message.text, {
                 parse_mode: "HTML",
                 disable_web_page_preview: true,
                 reply_to_message_id: message.reply?.messageIds[0]
@@ -365,8 +367,8 @@ export class TelegramController extends Controller {
             const item = media[0];
 
             const sended = await (item.type === AttachmentType.Photo
-                ? this.bot.telegram.sendPhoto(channelId, item.source, extra)
-                : this.bot.telegram.sendVideo(channelId, item.source, extra));
+                ? this.backend.telegram.sendPhoto(channelId, item.source, extra)
+                : this.backend.telegram.sendVideo(channelId, item.source, extra));
             extra = undefined;
             if (!result) {
                 result = await this.createSendedMessage(sended);
@@ -379,7 +381,7 @@ export class TelegramController extends Controller {
                     type: x.type === AttachmentType.Photo ? "photo" : "video",
                     media: x.source
                 }));
-                const sended = await this.bot.telegram.sendMediaGroup(channelId, items, extra);
+                const sended = await this.backend.telegram.sendMediaGroup(channelId, items, extra);
                 extra = undefined;
                 for (const [i, msg] of sended.entries()) {
                     if (i === 0 && !result) {
@@ -409,7 +411,7 @@ export class TelegramController extends Controller {
 
         // Отправляем пересланные сообщения
         for (const [i, forwarded] of message.forwarded.entries()) {
-            const sended = await this.bot.telegram.forwardMessage(
+            const sended = await this.backend.telegram.forwardMessage(
                 channelId,
                 forwarded.channelId,
                 forwarded.messageId
@@ -436,19 +438,19 @@ export class TelegramController extends Controller {
         switch (attachment.type) {
             case AttachmentType.Sticker: {
                 if (attachment.controllerName === this.name) {
-                    return this.bot.telegram.sendSticker(channelId, attachment.source, extra);
+                    return this.backend.telegram.sendSticker(channelId, attachment.source, extra);
                 }
-                return this.bot.telegram.sendPhoto(channelId, attachment.source, extra);
+                return this.backend.telegram.sendPhoto(channelId, attachment.source, extra);
             }
             case AttachmentType.Voice: {
-                return this.bot.telegram.sendVoice(channelId, attachment.source, extra);
+                return this.backend.telegram.sendVoice(channelId, attachment.source, extra);
             }
             case AttachmentType.Document: {
-                return this.bot.telegram.sendDocument(channelId, attachment.source, extra);
+                return this.backend.telegram.sendDocument(channelId, attachment.source, extra);
             }
             default: {
                 const type = AttachmentType[attachment.type];
-                return this.bot.telegram.sendMessage(
+                return this.backend.telegram.sendMessage(
                     channelId,
                     `<code>Unsupported attachment type: "${type}"</code>`,
                     { parse_mode: "HTML", ...extra }
@@ -478,7 +480,7 @@ export class TelegramController extends Controller {
             if (!message.metadata.hasText) {
                 throw new Error("Unable to update text");
             }
-            const edited = await this.bot.telegram.editMessageText(
+            const edited = await this.backend.telegram.editMessageText(
                 channelId,
                 message.metadata.messageIds[0],
                 undefined,
@@ -492,7 +494,7 @@ export class TelegramController extends Controller {
 
     async deleteMessage(channelId: number, metadata: MessageMetadata): Promise<void> {
         for (const messageId of metadata.messageIds) {
-            await this.bot.telegram.deleteMessage(channelId, messageId);
+            await this.backend.telegram.deleteMessage(channelId, messageId);
         }
     }
 
@@ -567,7 +569,7 @@ export class TelegramController extends Controller {
         }
 
         try {
-            const fileInfo = await this.bot.telegram.getFile(attachment.id);
+            const fileInfo = await this.backend.telegram.getFile(attachment.id);
             attachment.uploadId = attachment.id;
             attachment.id = (fileInfo as AttachmentFile).file_unique_id;
             attachment.url = this.getFileUrl(fileInfo.file_path!);
