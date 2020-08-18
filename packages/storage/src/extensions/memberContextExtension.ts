@@ -1,5 +1,5 @@
 import { MemberContext } from "@replikit/router";
-import { Extension, config } from "@replikit/core";
+import { Extension } from "@replikit/core";
 import {
     CacheResult,
     connection,
@@ -8,7 +8,8 @@ import {
     Member,
     MemberNotFoundError,
     loadExtensions,
-    extractArguments
+    extractArguments,
+    MemberRepository
 } from "@replikit/storage";
 
 @Extension
@@ -20,18 +21,15 @@ export class MemberContextExtension extends MemberContext {
     }
 
     @CacheResult
+    private async fetchMember(): Promise<Member | undefined> {
+        const repo = this.connection.getRepository(MemberRepository);
+        return repo.findByLocal(this.controller.name, this.channel.id, this.account.id);
+    }
+
     async getMember(...args: unknown[]): Promise<Member> {
-        const [fallbackStrategy, extensions] = extractArguments(
-            args,
-            config.storage.memberFallbackStrategy
-        );
+        const [fallbackStrategy, extensions] = extractArguments(args, FallbackStrategy.Create);
         const repo = this.connection.getRepository(Member);
-        const _id = {
-            controller: this.controller.name,
-            channelId: this.channel.id,
-            accountId: this.account.id
-        };
-        const member = await repo.findOne({ _id });
+        const member = await this.fetchMember();
         if (member) {
             loadExtensions(member, ...extensions);
             return member;
@@ -40,7 +38,13 @@ export class MemberContextExtension extends MemberContext {
             return undefined!;
         }
         if (fallbackStrategy === FallbackStrategy.Create) {
-            const member = repo.create({ _id });
+            const member = repo.create({
+                _id: {
+                    controller: this.controller.name,
+                    channelId: this.channel.id,
+                    accountId: this.account.id
+                }
+            });
             loadExtensions(member, ...extensions);
             await member.save();
             return member;
@@ -49,13 +53,7 @@ export class MemberContextExtension extends MemberContext {
     }
 
     async getChannelMember(channelId: number): Promise<Member | undefined> {
-        const repo = this.connection.getRepository(Member);
-        return repo.findOne({
-            _id: {
-                controller: this.controller.name,
-                channelId,
-                accountId: this.account.id
-            }
-        });
+        const repo = this.connection.getRepository(MemberRepository);
+        return repo.findByLocal(this.controller.name, channelId, this.account.id);
     }
 }

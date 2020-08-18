@@ -1,12 +1,14 @@
-import { config, hook, invokeHook, updateConfig, createScope, applyMixins } from "@replikit/core";
+import { config, hook, invokeHook, createScope, applyMixins } from "@replikit/core";
 import {
     ConnectionManager,
     User,
     Channel,
     Member,
-    FallbackStrategy,
     registerGlobalStorageConverters,
-    AccountContextExtension
+    AccountContextExtension,
+    UserRepository,
+    ChannelRepository,
+    MemberRepository
 } from "@replikit/storage";
 import { MemberContext } from "@replikit/router";
 import { Constructor } from "@replikit/core/typings";
@@ -22,15 +24,10 @@ export function registerBasicRepositories(connection: ConnectionManager): void {
     connection.registerRepository("users", User, { autoIncrement: true });
     connection.registerRepository("channels", Channel, { autoIncrement: true });
     connection.registerRepository("members", Member);
+    connection.registerRepositoryExtension(User, UserRepository);
+    connection.registerRepositoryExtension(Channel, ChannelRepository);
+    connection.registerRepositoryExtension(Member, MemberRepository);
 }
-
-updateConfig({
-    storage: {
-        channelFallbackStrategy: FallbackStrategy.Error,
-        userFallbackStrategy: FallbackStrategy.Create,
-        memberFallbackStrategy: FallbackStrategy.Create
-    }
-});
 
 hook("core:startup:init", async () => {
     try {

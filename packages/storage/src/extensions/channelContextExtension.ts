@@ -1,12 +1,15 @@
 import { ChannelContext } from "@replikit/router";
-import { Extension, config } from "@replikit/core";
+import { Extension } from "@replikit/core";
 import {
     Channel,
     ChannelNotFoundError,
     CacheResult,
     FallbackStrategy,
     ConnectionManager,
-    connection
+    connection,
+    ChannelRepository,
+    extractArguments,
+    loadExtensions
 } from "@replikit/storage";
 
 @Extension
@@ -18,24 +21,28 @@ export class ChannelContextExtension extends ChannelContext {
     }
 
     @CacheResult
-    async getChannel(fallbackStrategy?: FallbackStrategy): Promise<Channel> {
-        fallbackStrategy = fallbackStrategy ?? config.storage.channelFallbackStrategy;
-        const repo = this.connection.getRepository(Channel);
-        const channel = await repo.findOne({
-            localId: this.channel.id,
-            controller: this.controller.name
-        });
+    private async fetchChannel(): Promise<Channel | undefined> {
+        const repo = this.connection.getRepository(ChannelRepository);
+        return repo.findByLocal(this.controller.name, this.channel.id);
+    }
+
+    async getChannel(...args: unknown[]): Promise<Channel> {
+        const [fallbackStrategy, extensions] = extractArguments(args, FallbackStrategy.Error);
+        const channel = await this.fetchChannel();
         if (channel) {
+            loadExtensions(channel, ...extensions);
             return channel;
         }
         if (fallbackStrategy === FallbackStrategy.Undefined) {
             return undefined!;
         }
         if (fallbackStrategy === FallbackStrategy.Create) {
+            const repo = this.connection.getRepository(ChannelRepository);
             const channel = repo.create({
                 controller: this.controller.name,
                 localId: this.channel.id
             });
+            loadExtensions(channel, ...extensions);
             await channel.save();
             return channel;
         }

@@ -17,6 +17,10 @@ export * from "./entities/embeddedEntity";
 export * from "./entities/account";
 export * from "./entities/user";
 
+export * from "./repositories/userRepository";
+export * from "./repositories/channelRepository";
+export * from "./repositories/memberRepository";
+
 export * from "./extensions/channelContextExtension";
 export * from "./extensions/memberContextExtension";
 export * from "./extensions/accountContextExtension";

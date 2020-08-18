@@ -1,4 +1,4 @@
-import { CacheResult, User, loadExtensions } from "@replikit/storage";
+import { CacheResult, User, loadExtensions, Memoize } from "@replikit/storage";
 import { TestExtension } from "@replikit/storage/tests";
 import { HasFields } from "@replikit/core/typings";
 
@@ -9,6 +9,12 @@ class Counter {
     getCount(): number {
         this.count++;
         return this.count;
+    }
+
+    @Memoize
+    getMultipliedCount(multiplier: number): number {
+        this.count++;
+        return this.count * multiplier;
     }
 }
 
@@ -21,6 +27,22 @@ describe("CacheResult", () => {
         expect(counter.count).toBe(1);
         expect(counter.getCount()).toBe(1);
         expect(counter.count).toBe(1);
+    });
+
+    it("should use a memoized result instead of calling the method", () => {
+        const counter = new Counter();
+
+        expect(counter.count).toBe(0);
+
+        expect(counter.getMultipliedCount(1)).toBe(1);
+        expect(counter.count).toBe(1);
+        expect(counter.getMultipliedCount(1)).toBe(1);
+        expect(counter.count).toBe(1);
+
+        expect(counter.getMultipliedCount(2)).toBe(4);
+        expect(counter.count).toBe(2);
+        expect(counter.getMultipliedCount(2)).toBe(4);
+        expect(counter.count).toBe(2);
     });
 
     it("should create and load extension", () => {

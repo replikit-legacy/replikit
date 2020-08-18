@@ -1,5 +1,5 @@
 import { AccountContext } from "@replikit/router";
-import { Extension, config } from "@replikit/core";
+import { Extension } from "@replikit/core";
 import {
     CacheResult,
     extractArguments,
@@ -10,7 +10,8 @@ import {
     FallbackStrategy,
     Repository,
     Account,
-    UserNotFoundError
+    UserNotFoundError,
+    UserRepository
 } from "@replikit/storage";
 import { AccountInfo } from "@replikit/core/typings";
 
@@ -40,20 +41,14 @@ export class AccountContextExtension extends AccountContext {
     }
 
     @CacheResult
+    private async fetchUser(): Promise<User | undefined> {
+        const repo = this.connection.getRepository(UserRepository);
+        return repo.findByAccount(this.controller.name, this.account.id);
+    }
+
     async getUser(...args: unknown[]): Promise<User> {
-        const [fallbackStrategy, extensions] = extractArguments(
-            args,
-            config.storage.userFallbackStrategy
-        );
-        const repo = this.connection.getRepository(User);
-        const user = await repo.findOne({
-            accounts: {
-                $elemMatch: {
-                    controller: this.controller.name,
-                    localId: this.account.id
-                }
-            }
-        });
+        const [fallbackStrategy, extensions] = extractArguments(args, FallbackStrategy.Create);
+        const user = await this.fetchUser();
         if (user) {
             loadExtensions(user, ...extensions);
             return user;
@@ -62,6 +57,7 @@ export class AccountContextExtension extends AccountContext {
             return undefined!;
         }
         if (fallbackStrategy === FallbackStrategy.Create) {
+            const repo = this.connection.getRepository(User);
             const user = await createUser(repo, this.controller.name, this.account);
             loadExtensions(user, ...extensions);
             return user;

@@ -6,11 +6,19 @@ declare module "@replikit/router/typings/context/channelContext" {
     export interface ChannelContext {
         readonly connection: ConnectionManager;
         getChannel(fallbackStrategy?: FallbackStrategy): Promise<Channel>;
+        getChannel<E extends EntityExtensionConstructor[]>(
+            fallbackStrategy: FallbackStrategy,
+            ...extensions: E
+        ): Promise<ApplyExtensions<Channel, E>>;
+        getChannel<E extends EntityExtensionConstructor[]>(
+            ...extensions: E
+        ): Promise<ApplyExtensions<Channel, E>>;
     }
 }
 
 declare module "@replikit/router/typings/context/accountContext" {
     export interface AccountContext {
+        readonly connection: ConnectionManager;
         getUser(fallbackStrategy?: FallbackStrategy): Promise<User>;
         getUser<E extends EntityExtensionConstructor[]>(
             fallbackStrategy: FallbackStrategy,

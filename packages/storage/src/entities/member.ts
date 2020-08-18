@@ -9,7 +9,9 @@ import {
     UserNotFoundError,
     InaccessibleChannelInfoError,
     InaccessibleAccountInfoError,
-    CacheResult
+    CacheResult,
+    ChannelRepository,
+    UserRepository
 } from "@replikit/storage";
 
 export class Member extends Entity {
@@ -41,11 +43,8 @@ export class Member extends Entity {
 
     @CacheResult
     async getChannel(): Promise<Channel> {
-        const repository = this.repository.connection.getRepository(Channel);
-        const channel = await repository.findOne({
-            controller: this._id.controller,
-            localId: this._id.channelId
-        });
+        const repository = this.repository.connection.getRepository(ChannelRepository);
+        const channel = await repository.findByLocal(this._id.controller, this._id.channelId);
         if (!channel) {
             throw new ChannelNotFoundError();
         }
@@ -54,15 +53,8 @@ export class Member extends Entity {
 
     @CacheResult
     async getUser(): Promise<User> {
-        const repository = this.repository.connection.getRepository(User);
-        const user = await repository.findOne({
-            accounts: {
-                $elemMatch: {
-                    controller: this._id.controller,
-                    localId: this._id.accountId
-                }
-            }
-        });
+        const repository = this.repository.connection.getRepository(UserRepository);
+        const user = await repository.findByAccount(this._id.controller, this._id.accountId);
         if (!user) {
             throw new UserNotFoundError();
         }

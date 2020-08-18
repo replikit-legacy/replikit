@@ -6,6 +6,12 @@ export class RepositoryNotRegisteredError extends Error {
     }
 }
 
+export class RepositoryExtensionNotRegisteredError extends Error {
+    constructor(constructor: Constructor) {
+        super(`Repository extension for type ${constructor.name} not found`);
+    }
+}
+
 export class UnlinkedEntityError extends Error {
     constructor(method: string) {
         super(`Cannot perform ${method} method on unlinked entity`);

@@ -23,6 +23,26 @@ export const CacheResult: MethodDecorator = <T>(
     };
 };
 
+export const Memoize: MethodDecorator = <T>(
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    instance: Object,
+    name: string | symbol,
+    descriptor: TypedPropertyDescriptor<T>
+): TypedPropertyDescriptor<T> => {
+    const original = (descriptor.value! as unknown) as Constructor;
+    return {
+        value: (function(this: unknown, ...args: unknown[]): unknown {
+            const key = `__result_${name.toString()}_${args}`;
+            let result = (this as Record<string, unknown>)[key];
+            if (!result) {
+                result = original.apply(this, args);
+                (this as Record<string, unknown>)[key] = result;
+            }
+            return result;
+        } as unknown) as T
+    };
+};
+
 export function loadExtensions<T extends Entity, E extends EntityExtensionConstructor[]>(
     type: T,
     ...extensions: E
@@ -32,7 +52,16 @@ export function loadExtensions<T extends Entity, E extends EntityExtensionConstr
     }
 }
 
-/** @internal */
+export async function currentUser(context: CommandContext): Promise<User | string> {
+    const user = await context.getUser(FallbackStrategy.Undefined);
+    return user ?? context.getLocale(StorageLocale).currentUserNotFound;
+}
+
+export async function currentChannel(context: CommandContext): Promise<Channel | string> {
+    const channel = await context.getChannel(FallbackStrategy.Undefined);
+    return channel ?? context.getLocale(StorageLocale).currentChannelNotFound;
+}
+
 export function extractArguments(
     args: unknown[],
     defaultStrategy: FallbackStrategy
@@ -47,14 +76,4 @@ export function extractArguments(
         extensions = args as EntityExtensionConstructor[];
     }
     return [fallbackStrategy, extensions];
-}
-
-export async function currentUser(context: CommandContext): Promise<User | string> {
-    const user = await context.getUser(FallbackStrategy.Undefined);
-    return user ?? context.getLocale(StorageLocale).currentUserNotFound;
-}
-
-export async function currentChannel(context: CommandContext): Promise<Channel | string> {
-    const channel = await context.getChannel(FallbackStrategy.Undefined);
-    return channel ?? context.getLocale(StorageLocale).currentChannelNotFound;
 }
