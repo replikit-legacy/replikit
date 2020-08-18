@@ -7,6 +7,11 @@ router.of("message:edited").use(async context => {
     await context.reply(locale.userEditedMessage(context.account));
 });
 
+router.of("message:deleted").use(async context => {
+    const locale = context.getLocale(RandomLocale);
+    await context.reply(locale.userDeletedMessage(context.account));
+});
+
 router.of("member:left").use(async context => {
     const locale = context.getLocale(RandomLocale);
     await context.reply(locale.accountLeft(context.account));

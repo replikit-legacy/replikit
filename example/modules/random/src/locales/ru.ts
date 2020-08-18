@@ -9,6 +9,7 @@ locales.add("ru", RandomLocale, {
     accountLeft: account => `${account.username} покинул канал`,
     channelTitleEdited: channel => `Название канала изменено: ${channel.title}`,
     userEditedMessage: channel => `Попался редачер @${channel.username}`,
+    userDeletedMessage: account => `@${account.username} удалил сообщение`,
     dataDeleted: "[ДАННЫЕ УДАЛЕНЫ]",
     keepSilence: "всем молчать блять",
     deactivateSilentMode: "отмена режима молчания",

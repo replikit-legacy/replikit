@@ -14,5 +14,11 @@ function handler(context: CommandContext): CommandResult {
     if (context.message.reply) {
         builder.addReply(context.message.reply.metadata);
     }
+    if (context.message.text?.includes("header")) {
+        builder.addHeader({
+            username: "Replikit Echo",
+            avatar: "https://sntch.com/uploads/2018/07/original.jpg"
+        });
+    }
     return builder;
 }

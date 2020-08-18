@@ -1,3 +1,4 @@
+/// <reference path="../typings/index.d.ts" />
 import "@replikit/attachments";
 
 export * from "./sessions/randomUserSession";
@@ -16,6 +17,5 @@ import "./commands/format";
 import "./commands/echo";
 
 import "./handlers/silence";
-import "./handlers/debug";
 import "./handlers/random";
 import "./handlers/inline";

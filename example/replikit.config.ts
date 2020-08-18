@@ -6,6 +6,7 @@ import "@example/banking";
 import "@example/darts";
 import "@replikit/telegram";
 import "@replikit/vk";
+import "@replikit/discord";
 
 const config: Configuration = {
     telegram: {
@@ -30,6 +31,9 @@ const config: Configuration = {
     sessions: {
         storage: new Map()
         // storage: new MongoSessionStorage()
+    },
+    discord: {
+        token: process.env.DISCORD_TOKEN!
     }
 };
 

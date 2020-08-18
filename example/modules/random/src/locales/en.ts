@@ -9,6 +9,7 @@ locales.add("en", RandomLocale, {
     accountLeft: account => `${account.username} left the channel`,
     channelTitleEdited: channel => `Channel title edited: ${channel.title}`,
     userEditedMessage: account => `@${account.username} just edited a message`,
+    userDeletedMessage: account => `@${account.username} just deleted a message`,
     dataDeleted: "[DATA DELETED]",
     keepSilence: "keep silence",
     deactivateSilentMode: "deactivate silent mode",

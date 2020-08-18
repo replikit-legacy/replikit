@@ -19,6 +19,7 @@ type Replacer = (key: string, value: unknown) => unknown;
 
 function createReplacer(locale: RandomLocale): Replacer {
     return (key: string, value: unknown): unknown => {
+        if (typeof value === "bigint") return value.toString();
         return typeof value === "string"
             ? value.replace(config.telegram.token, locale.dataDeleted)
             : value;

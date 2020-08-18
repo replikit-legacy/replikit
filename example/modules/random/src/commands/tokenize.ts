@@ -6,8 +6,12 @@ command("tokenize")
     .handler(handler)
     .register();
 
+type Replacer = (key: string, value: unknown) => unknown;
+
+const replacer: Replacer = (_, value) => (typeof value === "bigint" ? value.toString() : value);
+
 function handler(context: CommandContext): CommandResult {
     const message = context.message.reply ?? context.message;
     const tokens = context.controller.tokenizeText(message);
-    return fromCode(JSON.stringify(tokens, undefined, 2));
+    return fromCode(JSON.stringify(tokens, replacer, 2));
 }

@@ -12,6 +12,7 @@ export class RandomLocale {
     silentModeDeactivated: string;
 
     userEditedMessage: (account: AccountInfo) => string;
+    userDeletedMessage: (account: AccountInfo) => string;
     accountLeft: (account: AccountInfo) => string;
     accountJoined: (account: AccountInfo) => string;
     channelTitleEdited: (channel: ChannelInfo) => string;
