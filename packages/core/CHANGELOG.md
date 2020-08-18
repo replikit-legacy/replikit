@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.16.0](https://github.com/Exeteres/Replikit/compare/v0.15.1...v0.16.0) (2020-08-18)
+
+
+### Bug Fixes
+
+* **core:** Fix bug in text tokenization system ([43404bf](https://github.com/Exeteres/Replikit/commit/43404bffdb878e1f4abd18f69970cd6520251dd9))
+
+
+### Features
+
+* **core:** Add support for message headers ([5754c94](https://github.com/Exeteres/Replikit/commit/5754c94e0f89edb4ff3dde4fe410ade303bfb58f))
+
+
+
+
+
 ## [0.15.1](https://github.com/Exeteres/Replikit/compare/v0.15.0...v0.15.1) (2020-08-13)
 
 **Note:** Version bump only for package @replikit/core

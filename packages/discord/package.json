@@ -1,6 +1,6 @@
 {
     "name": "@replikit/discord",
-    "version": "0.15.1",
+    "version": "0.16.0",
     "typings": "./dist/index.d.ts",
     "main": "./dist/index.js",
     "license": "MIT",
@@ -8,11 +8,10 @@
         "build": "tsc -p tsconfig.build.json"
     },
     "dependencies": {
-        "@replikit/core": "^0.15.1",
+        "@replikit/core": "^0.16.0",
         "discord.js": "^11.5.1"
     },
     "publishConfig": {
         "access": "public"
-    },
-    "devDependencies": {}
+    }
 }

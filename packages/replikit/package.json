@@ -2,12 +2,12 @@
     "name": "replikit",
     "description": "A powerful framework for building universal strongly typed bots",
     "author": "Exeteres",
-    "version": "0.15.1",
+    "version": "0.16.0",
     "license": "MIT",
     "bin": {
         "replikit": "@replikit/cli/dist/main.js"
     },
     "dependencies": {
-        "@replikit/cli": "^0.15.1"
+        "@replikit/cli": "^0.16.0"
     }
 }
