@@ -27,7 +27,9 @@ import {
     CacheManager,
     TextFormatter,
     TextTokenKind,
-    TextTokenProp
+    TextTokenProp,
+    assertType,
+    assert
 } from "@replikit/core";
 import {
     Chat,
@@ -48,8 +50,9 @@ import { Dice } from "@replikit/telegram/typings";
 export class TelegramController extends Controller {
     readonly backend: Telegraf<TelegrafContext>;
 
-    private readonly startDate: number;
+    private startDate: number;
     private readonly permissionCache: CacheManager<number, ChannelPermissionMap>;
+    private readonly chatCache: CacheManager<number | string, Chat | undefined>;
 
     constructor() {
         const textFormatter = new TextFormatter()
@@ -76,19 +79,20 @@ export class TelegramController extends Controller {
             textFormatter
         });
 
+        assert(config.telegram.token, "Missing telegram token");
+
+        this.backend = new Telegraf(config.telegram.token);
+        this.backend.handleUpdates = this.handleUpdates.bind(this);
+
         this.permissionCache = new CacheManager(
             this.fetchChannelPermissions.bind(this),
             config.core.cache.expire
         );
 
-        if (!config.telegram?.token) {
-            logger.fatal("Missing telegram token");
-        }
-
-        this.backend = new Telegraf(config.telegram.token);
-        this.startDate = Math.floor(Date.now() / 1000);
-
-        this.backend.handleUpdates = this.handleUpdates.bind(this);
+        this.chatCache = new CacheManager(
+            this.backend.telegram.getChat.bind(this.backend.telegram),
+            config.core.cache.expire
+        );
     }
 
     private async handleMediaGroup(event: MessageEventName, messages: Message[]): Promise<void> {
@@ -302,6 +306,7 @@ export class TelegramController extends Controller {
     }
 
     async start(): Promise<void> {
+        this.startDate = Math.floor(Date.now() / 1000);
         const me = await this.backend.telegram.getMe();
         this._botInfo = { id: me.id, username: me.username! };
         await this.backend.launch();
@@ -311,27 +316,19 @@ export class TelegramController extends Controller {
         await this.backend.stop();
     }
 
-    async fetchChannelInfo(localId: number): Promise<ChannelInfo | undefined> {
+    protected async fetchChannelInfo(localId: number): Promise<ChannelInfo | undefined> {
         try {
-            const chat = await this.backend.telegram.getChat(localId);
-            return this.createChannel(chat);
+            const chat = await this.chatCache.get(localId);
+            return chat && this.createChannel(chat);
         } catch {
             return undefined;
         }
     }
 
-    async fetchAccountInfo(localId: number): Promise<AccountInfo | undefined> {
+    protected async fetchAccountInfo(localId: number): Promise<AccountInfo | undefined> {
         try {
-            const chat = await this.backend.telegram.getChat(localId);
-            return {
-                id: chat.id,
-                firstName: chat.first_name,
-                lastName: chat.last_name,
-                username: chat.username,
-                avatarUrl: chat.photo
-                    ? await this.backend.telegram.getFileLink(chat.photo.small_file_id)
-                    : undefined
-            };
+            const chat = await this.chatCache.get(localId);
+            return chat && this.createAccount(chat);
         } catch {
             return undefined;
         }
@@ -345,10 +342,14 @@ export class TelegramController extends Controller {
 
         // Отправляем текст, если есть
         if (message.text) {
+            const replyMessageId = message.reply?.messageIds[0];
+            if (replyMessageId) {
+                assertType(replyMessageId, "number", "reply message id");
+            }
             const sended = await this.backend.telegram.sendMessage(channelId, message.text, {
                 parse_mode: "HTML",
                 disable_web_page_preview: true,
-                reply_to_message_id: message.reply?.messageIds[0]
+                reply_to_message_id: replyMessageId as number
             });
             extra = undefined;
             result = await this.createSendedMessage(sended);
@@ -411,6 +412,8 @@ export class TelegramController extends Controller {
 
         // Отправляем пересланные сообщения
         for (const [i, forwarded] of message.forwarded.entries()) {
+            assertType(forwarded.channelId, "number", "forwarded channel id");
+            assertType(forwarded.messageId, "number", "forwarded message id");
             const sended = await this.backend.telegram.forwardMessage(
                 channelId,
                 forwarded.channelId,
@@ -480,9 +483,11 @@ export class TelegramController extends Controller {
             if (!message.metadata.hasText) {
                 throw new Error("Unable to update text");
             }
+            const messageId = message.metadata.messageIds[0];
+            assertType(messageId, "number", "message id");
             const edited = await this.backend.telegram.editMessageText(
                 channelId,
-                message.metadata.messageIds[0],
+                messageId,
                 undefined,
                 message.text
             );
@@ -494,6 +499,7 @@ export class TelegramController extends Controller {
 
     async deleteMessage(channelId: number, metadata: MessageMetadata): Promise<void> {
         for (const messageId of metadata.messageIds) {
+            assertType(messageId, "number", "message id");
             await this.backend.telegram.deleteMessage(channelId, messageId);
         }
     }
@@ -505,6 +511,9 @@ export class TelegramController extends Controller {
             firstName: user.first_name,
             lastName: user.last_name,
             language: (user as User).language_code
+            // avatarUrl: chat.photo
+            //     ? await this.backend.telegram.getFileLink(chat.photo.small_file_id)
+            //     : undefined
         };
     }
 
