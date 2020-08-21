@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.17.0](https://github.com/Exeteres/Replikit/compare/v0.16.0...v0.17.0) (2020-08-21)
+
+
+### Bug Fixes
+
+* **authorization:** Fix bug with user resolution ([c3b12ee](https://github.com/Exeteres/Replikit/commit/c3b12eedc1b3fcd548c486ba5fb919ef920a2a63))
+
+
+### Features
+
+* **core:** Add Identifier type ([e97ef90](https://github.com/Exeteres/Replikit/commit/e97ef90d24068fe4c16842b17bae0b8e6570ec47))
+* **discord:** Update controller to use Identifier type ([8382577](https://github.com/Exeteres/Replikit/commit/83825773a78c3be41b7f15d23825cfa88a58b32e))
+* **storage:** Update to use Identifier type and fix issue with username conflicts ([903c47d](https://github.com/Exeteres/Replikit/commit/903c47d57b8ca65de57ae1f384118f565cecfeb1))
+* **telegram:** Update controller to use Identifier type ([eafe441](https://github.com/Exeteres/Replikit/commit/eafe4417de82e594cd6e1ee7fc4f6ef1f6491a6e))
+* **vk:** Update controller to use Identifier type ([b8b51ad](https://github.com/Exeteres/Replikit/commit/b8b51adf348b1d8a8536661459087a9cdaad6d1c))
+
+
+
+
+
 # [0.16.0](https://github.com/Exeteres/Replikit/compare/v0.15.1...v0.16.0) (2020-08-18)
 
 

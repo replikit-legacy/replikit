@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.17.0](https://github.com/Exeteres/Replikit/compare/v0.16.0...v0.17.0) (2020-08-21)
+
+
+### Bug Fixes
+
+* **authorization:** Fix bug with user resolution ([c3b12ee](https://github.com/Exeteres/Replikit/commit/c3b12eedc1b3fcd548c486ba5fb919ef920a2a63))
+
+
+
+
+
 # [0.16.0](https://github.com/Exeteres/Replikit/compare/v0.15.1...v0.16.0) (2020-08-18)
 
 **Note:** Version bump only for package @replikit/authorization
