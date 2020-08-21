@@ -5,7 +5,8 @@ import {
     TextTokenizer,
     TextTokenKind,
     ChannelType,
-    TextFormatter
+    TextFormatter,
+    assertType
 } from "@replikit/core";
 import {
     ChannelInfo,
@@ -17,7 +18,8 @@ import {
     ResolvedAttachment,
     SendedAttachment,
     ForwardedMessage,
-    MessageMetadata
+    MessageMetadata,
+    Identifier
 } from "@replikit/core/typings";
 import {
     VK,
@@ -26,7 +28,8 @@ import {
     AudioMessageAttachment,
     StickerAttachment,
     Attachment as VKAttachment,
-    ExternalAttachment
+    ExternalAttachment,
+    UsersUserXtrCounters
 } from "vk-io";
 import MessageForward from "vk-io/lib/structures/shared/message-forward";
 import MessageReply from "vk-io/lib/structures/shared/message-reply";
@@ -108,7 +111,8 @@ export class VKController extends Controller {
         await this.backend.updates.stop();
     }
 
-    private createIdRequest(channelId: number, id: number): string {
+    private createIdRequest(channelId: number, id: Identifier): string {
+        assertType(id, "number", "message id");
         return `
             var resp = API.messages.getByConversationMessageId({ 
                 peer_id: ${channelId}, 
@@ -205,34 +209,32 @@ export class VKController extends Controller {
 
     protected async fetchAccountInfo(localId: number): Promise<AccountInfo | undefined> {
         if (localId > 0) {
-            const users = await this.backend.api.users.get({
+            const [user] = await this.backend.api.users.get({
                 user_ids: [localId.toString()],
                 fields: ["screen_name", "photo_100"]
             });
-            const user = users[0];
-            if (!user) {
-                return undefined;
-            }
-            return {
-                id: localId,
-                username: user.screen_name,
-                firstName: user.first_name,
-                lastName: user.last_name,
-                avatarUrl: user.photo_100?.toString()
-            };
+            return user && this.createAccountInfoByUser(user);
         }
 
         const groups = await this.backend.api.groups.getById({
             group_id: localId.toString()
         });
         const group = groups[0];
-        if (!group) {
-            return undefined;
-        }
+        if (!group) return;
         return {
             id: localId,
             username: group.screen_name,
             firstName: group.name
+        };
+    }
+
+    private createAccountInfoByUser(user: UsersUserXtrCounters): AccountInfo {
+        return {
+            id: user.id,
+            username: user.screen_name,
+            firstName: user.first_name,
+            lastName: user.last_name,
+            avatarUrl: user.photo_100?.toString()
         };
     }
 
@@ -282,6 +284,7 @@ export class VKController extends Controller {
         const sticker = message.attachments.find(x => x.type === AttachmentType.Sticker);
         if (sticker && sticker.controllerName === this.name) {
             let sended: number;
+            const stickerId = parseInt(sticker.id);
             if (message.reply && !message.reply.globalId) {
                 const request = this.createIdRequest(channelId, message.reply.messageIds[0]);
                 const data = await this.backend.api.execute({
@@ -290,7 +293,7 @@ export class VKController extends Controller {
                         return API.messages.send({
                             random_id: ${getRandomId()},
                             peer_id: channelId,
-                            sticker_id: ${parseInt(sticker.id)},
+                            sticker_id: ${stickerId},
                             reply_to: messageId
                         });
                     `
@@ -299,7 +302,7 @@ export class VKController extends Controller {
             } else {
                 sended = await this.backend.api.messages.send({
                     peer_id: channelId,
-                    sticker_id: parseInt(sticker.id),
+                    sticker_id: stickerId,
                     reply_to: message.reply?.globalId ?? 0
                 });
             }
@@ -338,6 +341,7 @@ export class VKController extends Controller {
         }
 
         const messageId = message.metadata.messageIds[0];
+        assertType(messageId, "number", "message id");
         const request = this.createIdRequest(channelId, messageId);
         await this.backend.api.execute({
             code: `
