@@ -31,7 +31,7 @@ function createExtensionTestManager(): TestManagerSuite {
 async function insertUser(id: number, permissions: string[]): Promise<void> {
     const collection = dbTestManager.connection.getCollection(User);
     await collection.insertOne(({
-        username: "test",
+        username: `test${id}`,
         permissions,
         roles: [],
         accounts: [{ controller: "test", localId: id }]

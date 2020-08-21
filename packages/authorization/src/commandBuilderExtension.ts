@@ -13,8 +13,7 @@ export class CommandBuilderExtension extends CommandBuilder {
             const user = await context.getUser(FallbackStrategy.Undefined);
             if (!user || !user.hasPermission(permission)) {
                 const locale = context.getLocale(AuthorizationLocale);
-                await context.reply(fromCode(locale.accessDenied));
-                return;
+                return context.reply(fromCode(locale.accessDenied));
             }
             return next();
         });
@@ -33,8 +32,7 @@ export class CommandBuilderExtension extends CommandBuilder {
                 const member = await context.getMember(FallbackStrategy.Undefined);
                 if (!member || !member.hasPermission(permission)) {
                     const locale = context.getLocale(AuthorizationLocale);
-                    await context.reply(fromCode(locale.accessDenied));
-                    return;
+                    return context.reply(fromCode(locale.accessDenied));
                 }
                 return next();
             });
@@ -46,18 +44,20 @@ export class CommandBuilderExtension extends CommandBuilder {
                 const member = await context.getChannelMember(channel.localId);
                 if (!member || !member.hasPermission(permission)) {
                     const locale = context.getLocale(AuthorizationLocale);
-                    await context.reply(fromCode(locale.accessDenied));
-                    return;
+                    return context.reply(fromCode(locale.accessDenied));
                 }
                 return next();
             }
 
-            const user = await context.getUser();
+            const user = await context.getUser(FallbackStrategy.Undefined);
+            if (!user) {
+                const locale = context.getLocale(AuthorizationLocale);
+                return context.reply(fromCode(locale.accessDenied));
+            }
             const member = await user.getMember(channel.controller, channel.localId);
             if (!member || !member.hasPermission(permission)) {
                 const locale = context.getLocale(AuthorizationLocale);
-                await context.reply(fromCode(locale.accessDenied));
-                return;
+                return context.reply(fromCode(locale.accessDenied));
             }
             return next();
         });
