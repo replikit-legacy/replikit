@@ -20,13 +20,17 @@ export const logger = createScope("storage");
 
 export const connection = new ConnectionManager();
 
-export function registerBasicRepositories(connection: ConnectionManager): void {
+export async function registerBasicRepositories(connection: ConnectionManager): Promise<void> {
     connection.registerRepository("users", User, { autoIncrement: true });
     connection.registerRepository("channels", Channel, { autoIncrement: true });
     connection.registerRepository("members", Member);
     connection.registerRepositoryExtension(User, UserRepository);
     connection.registerRepositoryExtension(Channel, ChannelRepository);
     connection.registerRepositoryExtension(Member, MemberRepository);
+    await connection.getCollection(Channel).createIndexes([{ key: { controller: 1, localId: 1 } }]);
+    await connection
+        .getCollection(User)
+        .createIndexes([{ key: { username: 1 }, unique: true }, { key: { accounts: 1 } }]);
 }
 
 hook("core:startup:init", async () => {
@@ -46,9 +50,7 @@ hook("core:shutdown:init", async () => {
 });
 
 hook("storage:database:done", async () => {
-    registerBasicRepositories(connection);
-    await connection.getCollection(Channel).createIndexes([{ key: { controller: 1, localId: 1 } }]);
-    await connection.getCollection(User).createIndexes([{ key: { username: 1, accounts: 1 } }]);
+    await registerBasicRepositories(connection);
 });
 
 applyMixins(MemberContext as Constructor, [AccountContextExtension as Constructor]);

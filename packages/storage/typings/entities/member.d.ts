@@ -1,7 +1,9 @@
+import { Identifier } from "@replikit/core/typings";
+
 export interface MemberId {
     controller: string;
-    channelId: number;
-    accountId: number;
+    channelId: Identifier;
+    accountId: Identifier;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface

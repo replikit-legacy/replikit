@@ -8,29 +8,12 @@ import {
     User,
     loadExtensions,
     FallbackStrategy,
-    Repository,
     Account,
     UserNotFoundError,
     UserRepository
 } from "@replikit/storage";
-import { AccountInfo } from "@replikit/core/typings";
-
-async function createUser(
-    repository: Repository<User>,
-    controller: string,
-    info: AccountInfo
-): Promise<User> {
-    const user = info.username
-        ? (await repository.findOne({ username: info.username })) ??
-          repository.create({ username: info.username })
-        : repository.create({ username: `${controller}${info.id}` });
-    const account = new Account();
-    account.controller = controller;
-    account.localId = info.id;
-    user.accounts.push(account);
-    await user.save();
-    return user;
-}
+import { MongoError } from "mongodb";
+import { invokeHook } from "@replikit/core";
 
 @Extension
 export class AccountContextExtension extends AccountContext {
@@ -46,6 +29,33 @@ export class AccountContextExtension extends AccountContext {
         return repo.findByAccount(this.controller.name, this.account.id);
     }
 
+    private async createUser(): Promise<User> {
+        const repository = this.connection.getRepository(User);
+        const user = repository.create({ username: this.account.username });
+        const account = new Account();
+        account.controller = this.controller.name;
+        account.localId = this.account.id;
+        user.accounts.push(account);
+        let postfix = 1;
+        for (;;) {
+            try {
+                await user.save();
+                break;
+            } catch (e) {
+                if (e instanceof MongoError && e.code === 11000) {
+                    user.username = `${this.account.username}${postfix}`;
+                    postfix++;
+                    continue;
+                }
+                throw e;
+            }
+        }
+        if (postfix > 1) {
+            await invokeHook("storage:user:conflict", { context: this, user });
+        }
+        return user;
+    }
+
     async getUser(...args: unknown[]): Promise<User> {
         const [fallbackStrategy, extensions] = extractArguments(args, FallbackStrategy.Create);
         const user = await this.fetchUser();
@@ -57,8 +67,7 @@ export class AccountContextExtension extends AccountContext {
             return undefined!;
         }
         if (fallbackStrategy === FallbackStrategy.Create) {
-            const repo = this.connection.getRepository(User);
-            const user = await createUser(repo, this.controller.name, this.account);
+            const user = await this.createUser();
             loadExtensions(user, ...extensions);
             return user;
         }

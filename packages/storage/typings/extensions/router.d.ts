@@ -1,6 +1,7 @@
 import "@replikit/router/typings";
 import { Channel, User, FallbackStrategy, Member, ConnectionManager } from "@replikit/storage";
 import { EntityExtensionConstructor, ApplyExtensions } from "@replikit/storage/typings";
+import { Identifier } from "@replikit/core/typings";
 
 declare module "@replikit/router/typings/context/channelContext" {
     export interface ChannelContext {
@@ -40,6 +41,6 @@ declare module "@replikit/router/typings/context/memberContext" {
         getMember<E extends EntityExtensionConstructor[]>(
             ...extensions: E
         ): Promise<ApplyExtensions<Member, E>>;
-        getChannelMember(channelId: number): Promise<Member | undefined>;
+        getChannelMember(channelId: Identifier): Promise<Member | undefined>;
     }
 }

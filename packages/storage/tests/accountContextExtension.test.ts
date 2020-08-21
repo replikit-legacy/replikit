@@ -63,10 +63,38 @@ describe("AccountContextExtension", () => {
         expect(user!.username).toBe("test");
     });
 
+    it("should append a postfix if user with the same username already exists", async () => {
+        const repository = testManager.connection.getRepository(User);
+        await repository.create({ username: "test" }).save();
+
+        const extension = createExtension();
+        const result = await extension.getUser();
+        expect(result).toBeDefined();
+        expect(result.username).toBe("test1");
+    });
+
     it("should create a user with extension", async () => {
         const extension = createExtension();
         const result = await extension.getUser(TestExtension);
         expect(result).toBeDefined();
         expect(result.test).toBeInstanceOf(TestExtension);
+    });
+
+    it("should apply an extension to cached entity", async () => {
+        await testManager.connection.getCollection(User).insertOne({
+            username: "test",
+            accounts: [{ controller: "test", localId: 1 } as Account]
+        } as User);
+
+        class AnotherExtension {
+            static readonly key = "another";
+        }
+
+        const extension = createExtension();
+        const result = await extension.getUser(TestExtension);
+        const result2 = await extension.getUser(AnotherExtension);
+        expect(result).toBe(result2);
+        expect(result.test).toBeInstanceOf(TestExtension);
+        expect(result2.another).toBeInstanceOf(AnotherExtension);
     });
 });
