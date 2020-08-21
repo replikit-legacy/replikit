@@ -1,4 +1,6 @@
+import { Identifier } from "@replikit/core/typings";
+
 export interface ForwardedOutMessage {
-    messageId: number;
-    channelId: number;
+    messageId: Identifier;
+    channelId: Identifier;
 }

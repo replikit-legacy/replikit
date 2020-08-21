@@ -1,10 +1,11 @@
-import { LogLevelName, ControllerConfiguration } from "@replikit/core/typings";
+import { LogLevelName } from "@replikit/core/typings";
+
+export interface CoreCacheConfiguration {
+    expire?: number;
+}
 
 export interface CoreConfiguration {
     logLevel?: LogLevelName;
-    controller?: ControllerConfiguration;
     disabledControllers?: string[];
-    cache?: {
-        expire?: number;
-    };
+    cache?: CoreCacheConfiguration;
 }

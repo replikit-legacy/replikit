@@ -9,4 +9,11 @@ export function updateConfig(update: RecursivePartial<Configuration>): void {
     void invokeHook("core:settings:update", previous);
 }
 
-updateConfig({ core: { cache: { expire: 10000 }, logLevel: "info" } });
+updateConfig({
+    core: {
+        cache: {
+            expire: 60000
+        },
+        logLevel: "info"
+    }
+});

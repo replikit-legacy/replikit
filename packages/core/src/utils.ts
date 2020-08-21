@@ -1,4 +1,11 @@
-import { Constructor, HasFields, ControllerName, ControllerMap } from "@replikit/core/typings";
+import {
+    Constructor,
+    HasFields,
+    ControllerName,
+    ControllerMap,
+    TypeOfResult,
+    TypeOf
+} from "@replikit/core/typings";
 import { Controller } from "@replikit/core";
 import { AssertionError } from "assert";
 
@@ -137,5 +144,17 @@ export class Builder {
 export function assert(expression: unknown, message?: string): asserts expression {
     if (!expression) {
         throw new AssertionError({ message });
+    }
+}
+
+export function assertType<T extends TypeOfResult>(
+    expression: unknown,
+    type: T,
+    entity = "value"
+): asserts expression is TypeOf<T> {
+    if (typeof expression !== type) {
+        throw new AssertionError({
+            message: `Invalid type of ${entity}: Got ${typeof expression}, ${type} expected`
+        });
     }
 }

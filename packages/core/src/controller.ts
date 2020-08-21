@@ -13,7 +13,8 @@ import {
     EventMap,
     MessageEventName,
     MessageMetadata,
-    InlineQueryResponse
+    InlineQueryResponse,
+    Identifier
 } from "@replikit/core/typings";
 import { IncomingMessage, ServerResponse } from "http";
 import {
@@ -41,8 +42,8 @@ export interface ControllerBotInfo {
 export abstract class Controller {
     private static defaultTextFormatter = new TextFormatter();
 
-    private readonly accountInfoCache: CacheManager<number, AccountInfo | undefined>;
-    private readonly channelInfoCache: CacheManager<number, ChannelInfo | undefined>;
+    private readonly accountInfoCache: CacheManager<Identifier, AccountInfo | undefined>;
+    private readonly channelInfoCache: CacheManager<Identifier, ChannelInfo | undefined>;
 
     readonly name: string;
     readonly features: FeatureMap;
@@ -89,7 +90,7 @@ export abstract class Controller {
         return Promise.resolve(sendedMessages);
     }
 
-    async sendMessage(channelId: number, message: OutMessage): Promise<SendedMessage> {
+    async sendMessage(channelId: Identifier, message: OutMessage): Promise<SendedMessage> {
         const attachments = await this.resolveAttachments(channelId, message);
         const sendedMessage = await this.sendResolvedMessage(channelId, {
             ...message,
@@ -102,7 +103,7 @@ export abstract class Controller {
         return this.processSendedMessage(sendedMessage);
     }
 
-    async editMessage(channelId: number, message: OutMessage): Promise<SendedMessage> {
+    async editMessage(channelId: Identifier, message: OutMessage): Promise<SendedMessage> {
         if (!message.metadata) {
             throw new MissingMetadataError();
         }
@@ -124,7 +125,7 @@ export abstract class Controller {
     }
 
     protected async _resolveSource(
-        channelId: number,
+        channelId: Identifier,
         attachment: Attachment
     ): Promise<string | undefined> {
         if (attachment.controllerName === this.name) {
@@ -135,15 +136,15 @@ export abstract class Controller {
             : await this.uploadAttachment!(channelId, attachment);
     }
 
-    protected async resolveSource(
-        channelId: number,
+    protected resolveSource(
+        channelId: Identifier,
         attachment: Attachment
     ): Promise<string | undefined> {
         return this._resolveSource(channelId, attachment);
     }
 
     private async resolveAttachments(
-        channelId: number,
+        channelId: Identifier,
         message: OutMessage
     ): Promise<ResolvedAttachment[]> {
         const attachments: ResolvedAttachment[] = [];
@@ -156,11 +157,11 @@ export abstract class Controller {
         return attachments;
     }
 
-    getChannelInfo(channelId: number): Promise<ChannelInfo | undefined> {
+    getChannelInfo(channelId: Identifier): Promise<ChannelInfo | undefined> {
         return this.channelInfoCache.get(channelId);
     }
 
-    getAccountInfo(accountId: number): Promise<AccountInfo | undefined> {
+    getAccountInfo(accountId: Identifier): Promise<AccountInfo | undefined> {
         return this.accountInfoCache.get(accountId);
     }
 
@@ -173,7 +174,7 @@ export abstract class Controller {
         return Controller.defaultTextFormatter.formatText(tokens);
     }
 
-    abstract deleteMessage(channelId: number, metadata: MessageMetadata): Promise<void>;
+    abstract deleteMessage(channelId: Identifier, metadata: MessageMetadata): Promise<void>;
 
     start(): Promise<void> {
         return Promise.resolve();
@@ -218,21 +219,20 @@ export abstract class Controller {
     }
 
     protected uploadAttachment?(
-        channelId: number,
+        channelId: Identifier,
         attachment: Attachment
     ): Promise<string | undefined>;
 
-    protected abstract fetchChannelInfo(localId: number): Promise<ChannelInfo | undefined>;
-
-    protected abstract fetchAccountInfo(localId: number): Promise<AccountInfo | undefined>;
+    protected abstract fetchChannelInfo(localId: Identifier): Promise<ChannelInfo | undefined>;
+    protected abstract fetchAccountInfo(localId: Identifier): Promise<AccountInfo | undefined>;
 
     protected abstract sendResolvedMessage(
-        channelId: number,
+        channelId: Identifier,
         message: ResolvedMessage
     ): Promise<SendedMessage | undefined>;
 
     protected abstract editResolvedMessage(
-        channelId: number,
+        channelId: Identifier,
         message: ResolvedMessage
     ): Promise<SendedMessage | undefined>;
 }

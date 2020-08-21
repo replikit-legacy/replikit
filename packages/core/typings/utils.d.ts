@@ -48,3 +48,33 @@ export type HasFields = Record<string, unknown>;
 export type SafeFunction = (...args: unknown[]) => unknown;
 
 export type Require<T, K extends keyof T> = T & Pick<Required<T>, K>;
+
+export type Identifier = number | bigint | string;
+
+export type TypeOfResult =
+    | "string"
+    | "number"
+    | "bigint"
+    | "boolean"
+    | "symbol"
+    | "undefined"
+    | "object"
+    | "function";
+
+export type TypeOf<T extends TypeOfResult> = T extends "string"
+    ? string
+    : T extends "number"
+    ? number
+    : T extends "bigint"
+    ? bigint
+    : T extends "boolean"
+    ? boolean
+    : T extends "symbol"
+    ? symbol
+    : T extends "undefined"
+    ? undefined
+    : T extends "object"
+    ? object
+    : T extends "function"
+    ? Function
+    : never;
