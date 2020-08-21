@@ -274,13 +274,14 @@ export class CommandStorage {
     }
 
     async process(context: MessageContext, next: NextHandler): Promise<unknown> {
-        if (!context.message.text) {
+        const messageText = context.message.text;
+        if (!messageText) {
             return next();
         }
-        if (!context.message.text.startsWith(this.prefix)) {
+        if (!messageText.startsWith(this.prefix)) {
             return next();
         }
-        const [firstLine, text] = splitText(context.message.text);
+        const [firstLine, text] = splitText(messageText);
         const partIterator = firstLine.replace(this.prefix, "").matchAll(/\s?"(.*?)"|\s?(\S+)\s?/g);
         const parts = Array.from(partIterator).map(x => x[1] ?? x[2]);
         // TODO somehow extract into the telegram module

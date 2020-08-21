@@ -393,7 +393,7 @@ describe("CommandStorage", () => {
     it("should handle a command with optional parameter with default value resolved", async () => {
         const { testManager, command } = createTestManager();
         command("test")
-            .optional("p1", Number, { default: context => context.account.id })
+            .optional("p1", Number, { default: context => context.account.id as number })
             .handler(context => {
                 expect(context.params.p1).toBe(123);
             })

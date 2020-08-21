@@ -9,7 +9,7 @@ export class DatabaseTestManager {
         this.server = new MongoMemoryServer();
         const uri = await this.server.getConnectionString();
         await this.connection.connect(uri);
-        registerBasicRepositories(this.connection);
+        await registerBasicRepositories(this.connection);
     }
 
     async close(): Promise<void> {
