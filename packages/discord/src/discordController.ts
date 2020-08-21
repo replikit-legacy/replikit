@@ -16,7 +16,8 @@ import {
     Attachment,
     InMessage,
     MessageMetadata,
-    ResolvedAttachment
+    ResolvedAttachment,
+    Identifier
 } from "@replikit/core/typings";
 import {
     Client,
@@ -56,7 +57,7 @@ export class DiscordController extends Controller {
             .addTextPropRule("```", TextTokenProp.Code)
             .addRegexRule(/<@(?:!|&|#)?(\d*)>/, groups => ({
                 kind: TextTokenKind.Mention as const,
-                id: this.createId(groups[1]),
+                id: groups[1],
                 props: []
             }));
 
@@ -133,12 +134,12 @@ export class DiscordController extends Controller {
         return Promise.resolve();
     }
 
-    fetchChannelInfo(localId: number): Promise<ChannelInfo | undefined> {
+    protected fetchChannelInfo(localId: number): Promise<ChannelInfo | undefined> {
         const channel = this.backend.channels.get(localId.toString());
-        return Promise.resolve(channel ? this.createChannel(channel as TextChannel) : channel);
+        return Promise.resolve(channel ? this.createChannel(channel) : channel);
     }
 
-    fetchAccountInfo(localId: number): Promise<AccountInfo | undefined> {
+    protected fetchAccountInfo(localId: number): Promise<AccountInfo | undefined> {
         const user = this.backend.users.get(localId.toString());
         return Promise.resolve(user ? this.createAccount(user) : user);
     }
@@ -194,7 +195,7 @@ export class DiscordController extends Controller {
             if (message.text) {
                 const sended = await webhook.send(message.text, options);
                 assert(!Array.isArray(sended), "Unexpected webhook.send result");
-                result.metadata.messageIds.push(this.createId(sended.id));
+                result.metadata.messageIds.push(sended.id);
             }
 
             for (const attachment of attachments) {
@@ -218,13 +219,13 @@ export class DiscordController extends Controller {
 
         if (message.text) {
             const sended = await channel.send(message.text);
-            result.metadata.messageIds.push(this.createId(sended.id));
+            result.metadata.messageIds.push(sended.id);
         }
 
         for (const attachment of attachments) {
             const content = this.createAttachmentContent(attachment);
             const sended = await channel.send(content);
-            result.metadata.messageIds.push(this.createId(sended.id));
+            result.metadata.messageIds.push(sended.id);
             const sendedAttachment = sended.attachments.first();
             if (!sendedAttachment) continue;
             result.attachments.push({
@@ -247,18 +248,14 @@ export class DiscordController extends Controller {
         // TODO edit message attachments
         const msg = await channel.fetchMessage(message.metadata.messageIds[0].toString());
         const result = await msg.edit(message.text);
-        return { metadata: { messageIds: [this.createId(result.id)] }, attachments: [] };
+        return { metadata: { messageIds: [result.id] }, attachments: [] };
     }
 
-    private createId(id: string): number {
-        return (BigInt(id) as unknown) as number;
-    }
-
-    private createMessageIds(message: Message | Message[]): number[] {
+    private createMessageIds(message: Message | Message[]): Identifier[] {
         if (Array.isArray(message)) {
-            return message.map(x => this.createId(x.id));
+            return message.map(x => x.id);
         }
-        return [this.createId(message.id)];
+        return [message.id];
     }
 
     private createMessage(message: Message): InMessage {
@@ -268,7 +265,7 @@ export class DiscordController extends Controller {
             channel: this.createChannel(message.channel),
             attachments: this.extractAttachments(message.attachments),
             forwarded: [],
-            metadata: { messageIds: [this.createId(message.id)] }
+            metadata: { messageIds: [message.id] }
         };
     }
 
@@ -310,7 +307,7 @@ export class DiscordController extends Controller {
         const permissions = channel.permissionsFor(this.backend.user);
         const manageMessages = permissions?.has("MANAGE_MESSAGES") ?? false;
         return {
-            id: this.createId(channel.id),
+            id: channel.id,
             title: channel.name,
             permissions: {
                 sendMessages: permissions?.has("SEND_MESSAGES") ?? false,
@@ -337,7 +334,7 @@ export class DiscordController extends Controller {
 
     private createAccount(account: User): AccountInfo {
         return {
-            id: this.createId(account.id),
+            id: account.id,
             firstName: account.username,
             username: account.tag,
             avatarUrl: account.avatarURL
