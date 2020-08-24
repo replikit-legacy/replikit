@@ -9,7 +9,8 @@ import {
     connection,
     ChannelRepository,
     extractArguments,
-    loadExtensions
+    loadExtensions,
+    setCachedResult
 } from "@replikit/storage";
 
 @Extension
@@ -21,7 +22,7 @@ export class ChannelContextExtension extends ChannelContext {
     }
 
     @CacheResult
-    private async fetchChannel(): Promise<Channel | undefined> {
+    async fetchChannel(): Promise<Channel | undefined> {
         const repo = this.connection.getRepository(ChannelRepository);
         return repo.findByLocal(this.controller.name, this.channel.id);
     }
@@ -44,6 +45,7 @@ export class ChannelContextExtension extends ChannelContext {
             });
             loadExtensions(channel, ...extensions);
             await channel.save();
+            setCachedResult(this, "fetchChannel", channel);
             return channel;
         }
         throw new ChannelNotFoundError();

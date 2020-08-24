@@ -9,7 +9,8 @@ import {
     MemberNotFoundError,
     loadExtensions,
     extractArguments,
-    MemberRepository
+    MemberRepository,
+    setCachedResult
 } from "@replikit/storage";
 
 @Extension
@@ -21,7 +22,7 @@ export class MemberContextExtension extends MemberContext {
     }
 
     @CacheResult
-    private async fetchMember(): Promise<Member | undefined> {
+    async fetchMember(): Promise<Member | undefined> {
         const repo = this.connection.getRepository(MemberRepository);
         return repo.findByLocal(this.controller.name, this.channel.id, this.account.id);
     }
@@ -47,6 +48,7 @@ export class MemberContextExtension extends MemberContext {
             });
             loadExtensions(member, ...extensions);
             await member.save();
+            setCachedResult(this, "fetchMember", member);
             return member;
         }
         throw new MemberNotFoundError();

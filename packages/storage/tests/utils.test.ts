@@ -1,4 +1,4 @@
-import { CacheResult, User, loadExtensions, Memoize } from "@replikit/storage";
+import { CacheResult, User, loadExtensions, Memoize, setCachedResult } from "@replikit/storage";
 import { TestExtension } from "@replikit/storage/tests";
 import { HasFields } from "@replikit/core/typings";
 
@@ -26,6 +26,20 @@ describe("CacheResult", () => {
         expect(counter.getCount()).toBe(1);
         expect(counter.count).toBe(1);
         expect(counter.getCount()).toBe(1);
+        expect(counter.count).toBe(1);
+    });
+
+    it("should override cached result", () => {
+        const counter = new Counter();
+
+        expect(counter.count).toBe(0);
+        expect(counter.getCount()).toBe(1);
+        expect(counter.getCount()).toBe(1);
+
+        setCachedResult(counter, "getCount", 10);
+
+        expect(counter.getCount()).toBe(10);
+        expect(counter.getCount()).toBe(10);
         expect(counter.count).toBe(1);
     });
 

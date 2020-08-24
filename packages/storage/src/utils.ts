@@ -1,4 +1,4 @@
-import { Constructor } from "@replikit/core/typings";
+import { Constructor, HasFields } from "@replikit/core/typings";
 import { Entity, FallbackStrategy, User, Channel, StorageLocale } from "@replikit/storage";
 import { EntityExtensionConstructor, ApplyExtensions } from "@replikit/storage/typings";
 import { CommandContext } from "@replikit/commands/typings";
@@ -76,4 +76,14 @@ export function extractArguments(
         extensions = args as EntityExtensionConstructor[];
     }
     return [fallbackStrategy, extensions];
+}
+
+// eslint-disable-next-line @typescript-eslint/ban-types
+export function setCachedResult<T extends object, K extends keyof T>(
+    obj: T,
+    prop: K,
+    value: unknown
+): void {
+    const key = `__result_${prop.toString()}`;
+    (obj as HasFields)[key] = value;
 }

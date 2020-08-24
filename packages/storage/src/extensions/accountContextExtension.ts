@@ -10,7 +10,8 @@ import {
     FallbackStrategy,
     Account,
     UserNotFoundError,
-    UserRepository
+    UserRepository,
+    setCachedResult
 } from "@replikit/storage";
 import { MongoError } from "mongodb";
 import { invokeHook } from "@replikit/core";
@@ -24,7 +25,7 @@ export class AccountContextExtension extends AccountContext {
     }
 
     @CacheResult
-    private async fetchUser(): Promise<User | undefined> {
+    async fetchUser(): Promise<User | undefined> {
         const repo = this.connection.getRepository(UserRepository);
         return repo.findByAccount(this.controller.name, this.account.id);
     }
@@ -69,6 +70,7 @@ export class AccountContextExtension extends AccountContext {
         if (fallbackStrategy === FallbackStrategy.Create) {
             const user = await this.createUser();
             loadExtensions(user, ...extensions);
+            setCachedResult(this, "fetchUser", user);
             return user;
         }
         throw new UserNotFoundError();
