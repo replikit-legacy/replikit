@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.17.2](https://github.com/Exeteres/Replikit/compare/v0.17.1...v0.17.2) (2020-08-24)
+
+
+### Bug Fixes
+
+* **cli:** Fix several bugs in webpack configuration ([5ce34dc](https://github.com/Exeteres/Replikit/commit/5ce34dc818907ba09ac63256a946141dc2b13f98))
+
+
+
+
+
 ## [0.17.1](https://github.com/Exeteres/Replikit/compare/v0.17.0...v0.17.1) (2020-08-21)
 
 **Note:** Version bump only for package @replikit/cli

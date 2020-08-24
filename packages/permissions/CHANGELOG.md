@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.17.2](https://github.com/Exeteres/Replikit/compare/v0.17.1...v0.17.2) (2020-08-24)
+
+
+### Bug Fixes
+
+* **permissions:** Expose registerPermissionsConverters function ([b2f2c3b](https://github.com/Exeteres/Replikit/commit/b2f2c3b06ab1f316df69cf568be13c77b9c5355c))
+
+
+
+
+
 ## [0.17.1](https://github.com/Exeteres/Replikit/compare/v0.17.0...v0.17.1) (2020-08-21)
 
 **Note:** Version bump only for package @replikit/permissions
