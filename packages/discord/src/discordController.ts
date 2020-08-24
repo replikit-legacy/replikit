@@ -87,7 +87,7 @@ export class DiscordController extends Controller {
         });
 
         this.webhookStorage = new WebhookStorage();
-        this.backend = new Client();
+        this.backend = new Client({ retryLimit: 3 });
 
         this.backend.on("message", message => {
             if (!message.author.bot) {
