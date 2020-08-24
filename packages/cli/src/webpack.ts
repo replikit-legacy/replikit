@@ -5,6 +5,7 @@ import { MissingTSConfigurationField, ProjectManager } from "@replikit/cli";
 import { resolve, isAbsolute } from "path";
 import VirtualModulesPlugin from "webpack-virtual-modules";
 import { CliConfiguration } from "@replikit/cli/typings";
+import TerserPlugin from "terser-webpack-plugin";
 
 function normalizeMappingPath(path: string): string {
     return path.endsWith("/index.ts") ? path : `${path}/index.ts`;
@@ -94,7 +95,7 @@ export function createWebpackConfiguration(
         resolve: {
             alias,
             mainFields: ["main"],
-            extensions: [".ts", ".js"]
+            extensions: [".ts", ".js", ".json"]
         },
         optimization: {
             splitChunks: {
@@ -121,7 +122,7 @@ export function createWebpackConfiguration(
                     test: /\.node$/,
                     use: {
                         loader: "native-addon-loader",
-                        options: { name: "addons/[name].[ext]" }
+                        options: { name: "addons/[name].[ext]", from: "chunks" }
                     }
                 }
             ]
@@ -135,8 +136,25 @@ export function createWebpackConfiguration(
             path: outputPath,
             filename: chunkDate =>
                 chunkDate.chunk.name === "main" ? "main.js" : "modules/[name].js",
-            chunkFilename: "chunks/[chunkhash].js"
+            chunkFilename: "chunks/[chunkhash].js",
+            libraryTarget: "commonjs2"
         }
     };
+
+    // Disable some optimizations to allow discord controller bundling
+    if (modules.includes("@replikit/discord")) {
+        result.externals = ["@discordjs/opus", "node-opus", "opusscript"];
+        result.optimization!.minimizer = [
+            new TerserPlugin({
+                cache: true,
+                parallel: true,
+                sourceMap: true,
+                terserOptions: {
+                    keep_classnames: true
+                }
+            })
+        ];
+    }
+
     return config.webpack ? config.webpack(result) : result;
 }

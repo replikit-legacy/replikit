@@ -44,4 +44,16 @@ describe("webpack", () => {
         const result = createWebpackConfiguration(project, config);
         expect(result.name).toBe("test");
     });
+
+    it("should include extra configuration when using discord controller", async () => {
+        const project = await createProject(false, false, false);
+
+        const config = {
+            modules: ["@replikit/discord"],
+            outDir: "./dist"
+        };
+
+        const result = createWebpackConfiguration(project, config);
+        expect(result).toMatchSnapshot({ output: { path: expect.any(String) } });
+    });
 });

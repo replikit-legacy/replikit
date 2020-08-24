@@ -27,6 +27,7 @@ Object {
         "use": Object {
           "loader": "native-addon-loader",
           "options": Object {
+            "from": "chunks",
             "name": "addons/[name].[ext]",
           },
         },
@@ -44,6 +45,7 @@ Object {
   "output": Object {
     "chunkFilename": "chunks/[chunkhash].js",
     "filename": [Function],
+    "libraryTarget": "commonjs2",
     "path": Any<String>,
   },
   "plugins": Array [
@@ -104,6 +106,147 @@ main();",
     "extensions": Array [
       ".ts",
       ".js",
+      ".json",
+    ],
+    "mainFields": Array [
+      "main",
+    ],
+  },
+  "target": "node",
+}
+`;
+
+exports[`webpack should include extra configuration when using discord controller 1`] = `
+Object {
+  "devtool": false,
+  "entry": Object {
+    "main": "./main.js",
+    "replikit_discord": "@replikit/discord",
+  },
+  "externals": Array [
+    "@discordjs/opus",
+    "node-opus",
+    "opusscript",
+  ],
+  "mode": "production",
+  "module": Object {
+    "rules": Array [
+      Object {
+        "exclude": /node_modules/,
+        "test": /\\\\\\.tsx\\?\\$/,
+        "use": Object {
+          "loader": "ts-loader",
+          "options": Object {
+            "configFile": "tsconfig.json",
+            "transpileOnly": true,
+          },
+        },
+      },
+      Object {
+        "test": /\\\\\\.node\\$/,
+        "use": Object {
+          "loader": "native-addon-loader",
+          "options": Object {
+            "from": "chunks",
+            "name": "addons/[name].[ext]",
+          },
+        },
+      },
+    ],
+  },
+  "optimization": Object {
+    "minimizer": Array [
+      TerserPlugin {
+        "options": Object {
+          "cache": true,
+          "cacheKeys": [Function],
+          "chunkFilter": [Function],
+          "exclude": undefined,
+          "extractComments": false,
+          "include": undefined,
+          "minify": undefined,
+          "parallel": true,
+          "sourceMap": true,
+          "terserOptions": Object {
+            "keep_classnames": true,
+            "output": Object {
+              "comments": /\\^\\\\\\*\\*!\\|@preserve\\|@license\\|@cc_on/i,
+            },
+          },
+          "test": /\\\\\\.m\\?js\\(\\\\\\?\\.\\*\\)\\?\\$/i,
+          "warningsFilter": [Function],
+        },
+      },
+    ],
+    "splitChunks": Object {
+      "chunks": "all",
+      "maxAsyncRequests": Infinity,
+      "maxInitialRequests": Infinity,
+      "minSize": 0,
+    },
+  },
+  "output": Object {
+    "chunkFilename": "chunks/[chunkhash].js",
+    "filename": [Function],
+    "libraryTarget": "commonjs2",
+    "path": Any<String>,
+  },
+  "plugins": Array [
+    IgnorePlugin {
+      "checkIgnore": [Function],
+      "options": Object {
+        "contextRegExp": undefined,
+        "resourceRegExp": /@vk-io\\\\/\\.\\*/,
+      },
+    },
+    WebpackBarPlugin {
+      "handler": [Function],
+      "modulesCount": 500,
+      "options": Object {
+        "color": "blue",
+        "name": "Replikit Build",
+        "reporter": null,
+        "reporters": Array [
+          "basic",
+        ],
+      },
+      "profile": false,
+      "reporters": Array [
+        SimpleReporter {},
+      ],
+      "showActiveModules": true,
+      "showEntries": false,
+      "showModules": true,
+    },
+    VirtualModulesPlugin {
+      "_staticModules": Object {
+        "./main.js": "async function main() {
+await import(\\"dotenv/config\\");
+const { updateConfig, bootstrap, createScope } = await import(\\"@replikit/core\\");
+\\"use strict\\";
+Object.defineProperty(exports, \\"__esModule\\", { value: true });
+var config = {};
+exports.default = config;
+exports.modules = [\\"@replikit/static\\"];
+const parseModules = env => env && env.split(\\",\\").map(x => x.trim());
+const includedModules = parseModules(process.env.REPLIKIT_INCLUDED_MODULES);
+const excludedModules = parseModules(process.env.REPLIKIT_EXCLUDED_MODULES);
+const unrestricted = !includedModules && !excludedModules;
+const logger = createScope(\\"runtime\\");
+(unrestricted || includedModules && includedModules.includes(\\"@replikit/discord\\") || excludedModules && !excludedModules.includes(\\"@replikit/discord\\")) && (logger.info(\\"Loaded module @replikit/discord\\"), await import(\\"@replikit/discord\\"));
+updateConfig(exports.default);
+await bootstrap();
+}
+main();",
+      },
+    },
+  ],
+  "resolve": Object {
+    "alias": Object {},
+    "extensions": Array [
+      ".ts",
+      ".js",
+      ".json",
     ],
     "mainFields": Array [
       "main",
