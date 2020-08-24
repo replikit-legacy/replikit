@@ -9,7 +9,6 @@ import {
     MemberRole
 } from "@replikit/permissions";
 
-/** @internal */
 export function registerPermissionsConverters(
     converter: ConverterBuilderFactory,
     permissionStorage: PermissionStorage
