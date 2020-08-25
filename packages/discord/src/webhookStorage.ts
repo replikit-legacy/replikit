@@ -17,7 +17,7 @@ export class WebhookStorage {
             return webhook;
         }
 
-        webhook = await channel.createWebhook(config.discord.webhookName, undefined!);
+        webhook = await channel.createWebhook(config.discord.webhookName, undefined);
         this.webhookMap.set(channel.id, webhook);
         return webhook;
     }

@@ -2387,6 +2387,13 @@
     "@types/node" "*"
     "@types/webpack" "*"
 
+"@types/ws@^7.2.6":
+  version "7.2.6"
+  resolved "https://registry.npmjs.org/@types/ws/-/ws-7.2.6.tgz#516cbfb818310f87b43940460e065eb912a4178d"
+  integrity sha512-Q07IrQUSNpr+cXU4E4LtkSIBPie5GLZyyMC1QtQYRLWz701+XcoVygGUZgvLqElq1nU4ICldMYPnexlBsg3dqQ==
+  dependencies:
+    "@types/node" "*"
+
 "@types/yargs-parser@*":
   version "15.0.0"
   resolved "https://registry.npmjs.org/@types/yargs-parser/-/yargs-parser-15.0.0.tgz#cb3f9f741869e20cce330ffbeb9271590483882d"
@@ -12498,6 +12505,11 @@ typescript-transform-paths@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npmjs.org/typescript-transform-paths/-/typescript-transform-paths-2.0.0.tgz#7dfaded593c45aba209009b820fc098a11862fa6"
   integrity sha512-62mmNsZ6mUMrcusTHyAJBuyZl+5ltsArFVXj6AdRIF/6IJUykYwly0LtjeEPE5MTtkhkCfv4s9eYFb73giKrfQ==
+
+typescript@3.9.7:
+  version "3.9.7"
+  resolved "https://registry.npmjs.org/typescript/-/typescript-3.9.7.tgz#98d600a5ebdc38f40cb277522f12dc800e9e25fa"
+  integrity sha512-BLbiRkiBzAwsjut4x/dsibSTB6yWpwT5qWmC2OfuCg3GgVQCSgMs4vEctYPhsaGtd0AeuuHMkjZ2h2WG8MSzRw==
 
 typescript@^4.0.2, typescript@~4.0.2:
   version "4.0.2"
