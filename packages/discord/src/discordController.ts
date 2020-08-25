@@ -23,12 +23,11 @@ import {
     Client,
     Message,
     TextChannel,
-    MessageAttachment,
     Collection,
     User,
     Channel,
-    GuildChannelType,
-    Attachment as DiscordAttachment
+    MessageAttachment,
+    PartialMessage
 } from "discord.js";
 import { extname } from "path";
 import { WebhookStorage } from "@replikit/discord";
@@ -97,13 +96,14 @@ export class DiscordController extends Controller {
         });
 
         this.backend.on("messageUpdate", message => {
-            if (!message.author.bot) {
+            if (!message.author?.bot) {
                 const inMessage = this.createMessage(message);
                 this.processMessageEvent("message:edited", inMessage);
             }
         });
 
         this.backend.on("messageDelete", message => {
+            assert(message.author);
             if (!message.author.bot) {
                 const inMessage = this.createMessage(message);
                 this.processMessageEvent("message:deleted", inMessage);
@@ -111,13 +111,15 @@ export class DiscordController extends Controller {
         });
 
         this.backend.on("guildMemberAdd", member => {
-            const channel = this.createChannel(member.guild.defaultChannel);
+            const channel = this.createChannel(member.guild.channels.cache.first()!);
+            assert(member.user, "Unable to get user of member");
             const account = this.createAccount(member.user);
             this.processEvent("member:joined", { channel, account });
         });
 
         this.backend.on("guildMemberRemove", member => {
-            const channel = this.createChannel(member.guild.defaultChannel);
+            const channel = this.createChannel(member.guild.channels.cache.first()!);
+            assert(member.user, "Unable to get user of member");
             const account = this.createAccount(member.user);
             this.processEvent("member:left", { channel, account });
         });
@@ -134,44 +136,40 @@ export class DiscordController extends Controller {
         return Promise.resolve();
     }
 
-    protected fetchChannelInfo(localId: number): Promise<ChannelInfo | undefined> {
-        const channel = this.backend.channels.get(localId.toString());
-        return Promise.resolve(channel ? this.createChannel(channel) : channel);
+    protected async fetchChannelInfo(localId: number): Promise<ChannelInfo | undefined> {
+        const channel = await this.backend.channels.fetch(localId.toString());
+        return this.createChannel(channel);
     }
 
-    protected fetchAccountInfo(localId: number): Promise<AccountInfo | undefined> {
-        const user = this.backend.users.get(localId.toString());
-        return Promise.resolve(user ? this.createAccount(user) : user);
+    protected async fetchAccountInfo(localId: number): Promise<AccountInfo | undefined> {
+        const user = await this.backend.users.fetch(localId.toString());
+        return this.createAccount(user);
     }
 
-    private getChannel(channelId: number): TextChannel {
-        const channel = this.backend.channels.get(channelId.toString());
+    private async getChannel(channelId: number): Promise<TextChannel> {
+        const channel = await this.backend.channels.fetch(channelId.toString());
         assert(channel, "Channel inaccesible");
         assertTextChannel(channel);
         return channel;
     }
 
-    checkWebhookPermission(channelId: number): boolean {
-        const channel = this.getChannel(channelId);
-        const permissions = channel.memberPermissions(channel.guild.me);
-        if (!permissions) {
-            return false;
-        }
-        return permissions.has("MANAGE_WEBHOOKS");
+    async checkWebhookPermission(channelId: number): Promise<boolean> {
+        const channel = await this.getChannel(channelId);
+        return channel.guild.me?.hasPermission("MANAGE_WEBHOOKS") ?? false;
     }
 
     async deleteMessage(channelId: number, metadata: MessageMetadata): Promise<void> {
-        const channel = this.getChannel(channelId);
+        const channel = await this.getChannel(channelId);
         const promises = metadata.messageIds.map(async x => {
-            const message = await channel.fetchMessage(x.toString());
+            const message = await channel.messages.fetch(x.toString());
             await message.delete();
         });
         await Promise.all(promises);
     }
 
-    private createAttachmentContent(attachment: ResolvedAttachment): string | DiscordAttachment {
+    private createAttachmentContent(attachment: ResolvedAttachment): string | MessageAttachment {
         return attachment.source === attachment.url
-            ? new DiscordAttachment(attachment.url)
+            ? new MessageAttachment(attachment.url)
             : attachment.source;
     }
 
@@ -179,7 +177,7 @@ export class DiscordController extends Controller {
         channelId: number,
         message: ResolvedMessage
     ): Promise<SendedMessage> {
-        const channel = this.getChannel(channelId);
+        const channel = await this.getChannel(channelId);
         const result: SendedMessage = { attachments: [], metadata: { messageIds: [] } };
 
         const types = [AttachmentType.Photo, AttachmentType.Sticker];
@@ -202,9 +200,8 @@ export class DiscordController extends Controller {
                 const content = this.createAttachmentContent(attachment);
                 const data = typeof content === "string" ? content : void 0;
                 const file = typeof content === "string" ? void 0 : content;
-                const sended = await webhook.send(data, { ...options, file });
+                const sended = await webhook.send(data, { ...options, files: file ? [file] : [] });
                 result.metadata.messageIds.push(...this.createMessageIds(sended));
-                assert(!Array.isArray(sended), "Unexpected webhook.send result");
                 const sendedAttachment = sended.attachments.first();
                 if (!sendedAttachment) continue;
                 result.attachments.push({
@@ -242,11 +239,11 @@ export class DiscordController extends Controller {
         channelId: number,
         message: ResolvedMessage
     ): Promise<SendedMessage> {
-        const channel = this.getChannel(channelId);
+        const channel = await this.getChannel(channelId);
         assert(message.metadata);
         assert(message.text);
         // TODO edit message attachments
-        const msg = await channel.fetchMessage(message.metadata.messageIds[0].toString());
+        const msg = await channel.messages.fetch(message.metadata.messageIds[0].toString());
         const result = await msg.edit(message.text);
         return { metadata: { messageIds: [result.id] }, attachments: [] };
     }
@@ -258,9 +255,10 @@ export class DiscordController extends Controller {
         return [message.id];
     }
 
-    private createMessage(message: Message): InMessage {
+    private createMessage(message: Message | PartialMessage): InMessage {
+        assert(message.author, "Unable to process message without author");
         return {
-            text: message.content,
+            text: message.content || undefined,
             account: this.createAccount(message.author),
             channel: this.createChannel(message.channel),
             attachments: this.extractAttachments(message.attachments),
@@ -270,7 +268,7 @@ export class DiscordController extends Controller {
     }
 
     private getAttachmentType(attachment: MessageAttachment): AttachmentType {
-        const extension = extname(attachment.filename);
+        const extension = extname(attachment.name!);
         switch (extension) {
             case ".png":
             case ".jpg":
@@ -304,13 +302,13 @@ export class DiscordController extends Controller {
 
     private createChannel(channel: Channel): ChannelInfo {
         assertTextChannel(channel);
-        const permissions = channel.permissionsFor(this.backend.user);
-        const manageMessages = permissions?.has("MANAGE_MESSAGES") ?? false;
+        const me = channel.guild.me;
+        const manageMessages = me?.hasPermission("MANAGE_MESSAGES") ?? false;
         return {
             id: channel.id,
             title: channel.name,
             permissions: {
-                sendMessages: permissions?.has("SEND_MESSAGES") ?? false,
+                sendMessages: me?.hasPermission("SEND_MESSAGES") ?? false,
                 deleteMessages: true,
                 editMessages: true,
                 deleteOtherMessages: manageMessages
@@ -319,7 +317,7 @@ export class DiscordController extends Controller {
         };
     }
 
-    private createChannelType(type: "dm" | "group" | GuildChannelType): ChannelType {
+    private createChannelType(type: string): ChannelType {
         switch (type) {
             case "dm":
                 return ChannelType.Direct;
@@ -337,7 +335,7 @@ export class DiscordController extends Controller {
             id: account.id,
             firstName: account.username,
             username: account.tag,
-            avatarUrl: account.avatarURL
+            avatarUrl: account.avatar || undefined
         };
     }
 }
