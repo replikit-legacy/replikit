@@ -22,6 +22,14 @@ export function resolveController(name: string): Controller {
     return controller;
 }
 
+export function tryResolveController<N extends ControllerName>(
+    name: N
+): ControllerMap[N] | undefined;
+export function tryResolveController(name: string): Controller | undefined;
+export function tryResolveController(name: string): Controller | undefined {
+    return controllers.find(x => x.name === name);
+}
+
 export async function bootstrap(): Promise<void> {
     try {
         logger.info("Booting up replikit core ...");

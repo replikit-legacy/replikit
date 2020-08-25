@@ -45,10 +45,10 @@ export class Repository<T extends Entity = Entity> {
         return this.fetchEntities(builder(cursor));
     }
 
+    /** @internal */
     async delete(entity: T): Promise<void> {
-        await this.collection.deleteOne(({
-            _id: entity._id
-        } as unknown) as FilterQuery<PlainObject<T>>);
+        const filter = ({ _id: entity._id } as unknown) as FilterQuery<PlainObject<T>>;
+        await this.collection.deleteOne(filter);
     }
 
     async save(entity: T): Promise<void> {

@@ -38,9 +38,9 @@ describe("storage", () => {
     });
 
     it("should throw an error if calling repository-specific method on unlinked entity", () => {
-        const user = new User();
-        expect(() => user.save()).toThrow(UnlinkedEntityError);
-        expect(() => user.delete()).toThrow(UnlinkedEntityError);
+        const member = new Member();
+        expect(() => member.save()).toThrow(UnlinkedEntityError);
+        expect(() => member.delete()).toThrow(UnlinkedEntityError);
     });
 
     it("should update an existing document by save method", async () => {

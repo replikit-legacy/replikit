@@ -1,14 +1,12 @@
 import { Member as _Member, MemberId } from "@replikit/storage/typings";
 import { ChannelInfo, AccountInfo } from "@replikit/core/typings";
-import { resolveController, Controller } from "@replikit/core";
+import { Controller, tryResolveController } from "@replikit/core";
 import {
     Channel,
     User,
     Entity,
     ChannelNotFoundError,
     UserNotFoundError,
-    InaccessibleChannelInfoError,
-    InaccessibleAccountInfoError,
     CacheResult,
     ChannelRepository,
     UserRepository
@@ -17,28 +15,18 @@ import {
 export class Member extends Entity {
     _id: MemberId;
 
-    getController(): Controller {
-        return resolveController(this._id.controller);
+    getController(): Controller | undefined {
+        return tryResolveController(this._id.controller);
     }
 
     @CacheResult
-    async getChannelInfo(): Promise<ChannelInfo> {
-        const controller = this.getController();
-        const info = await controller.getChannelInfo(this._id.channelId);
-        if (!info) {
-            throw new InaccessibleChannelInfoError();
-        }
-        return info;
+    async getChannelInfo(): Promise<ChannelInfo | undefined> {
+        return this.getController()?.getChannelInfo(this._id.channelId);
     }
 
     @CacheResult
-    async getAccountInfo(): Promise<AccountInfo> {
-        const controller = this.getController();
-        const info = await controller.getAccountInfo(this._id.accountId);
-        if (!info) {
-            throw new InaccessibleAccountInfoError();
-        }
-        return info;
+    async getAccountInfo(): Promise<AccountInfo | undefined> {
+        return this.getController()?.getAccountInfo(this._id.accountId);
     }
 
     @CacheResult

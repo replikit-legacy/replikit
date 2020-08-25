@@ -23,6 +23,19 @@ export class User extends Entity {
         }
         return repo.findByLocal(controller, channelId, account.localId);
     }
+
+    async delete(): Promise<void> {
+        const memberCollection = this.repository.connection.getCollection(Member);
+        await Promise.all([
+            super.delete(),
+            memberCollection.deleteMany({
+                $or: this.accounts.map(x => ({
+                    "_id.controller": x.controller,
+                    "_id.accountId": x.localId
+                }))
+            })
+        ]);
+    }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface

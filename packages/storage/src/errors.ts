@@ -36,18 +36,6 @@ export class MemberNotFoundError extends Error {
     }
 }
 
-export class InaccessibleChannelInfoError extends Error {
-    constructor() {
-        super("Channel info inaccessible");
-    }
-}
-
-export class InaccessibleAccountInfoError extends Error {
-    constructor() {
-        super("Account info inaccessible");
-    }
-}
-
 export class NextIdDetectionError extends Error {
     constructor(collection: string) {
         super(`Unable to detect next id of collection ${collection}`);
