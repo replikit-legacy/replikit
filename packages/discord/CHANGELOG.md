@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.17.3](https://github.com/Exeteres/Replikit/compare/v0.17.2...v0.17.3) (2020-08-25)
+
+
+### Bug Fixes
+
+* **discord:** Update discord backend ([470947f](https://github.com/Exeteres/Replikit/commit/470947fd3f1d214469186da0539bb24181c7c029))
+
+
+
+
+
 ## [0.17.2](https://github.com/Exeteres/Replikit/compare/v0.17.1...v0.17.2) (2020-08-24)
 
 

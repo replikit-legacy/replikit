@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.17.3](https://github.com/Exeteres/Replikit/compare/v0.17.2...v0.17.3) (2020-08-25)
+
+
+### Bug Fixes
+
+* **storage:** Fix "getInfo" and "delete" methods ([75daea3](https://github.com/Exeteres/Replikit/commit/75daea3a85a04102e34d08d309dfc4ae2ecff8bf))
+
+
+
+
+
 ## [0.17.2](https://github.com/Exeteres/Replikit/compare/v0.17.1...v0.17.2) (2020-08-24)
 
 
