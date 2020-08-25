@@ -8,7 +8,7 @@ const command = program
     .option("--inspect-brk <port>", "Enable NodeJS debugger with specified port")
     .option("--transpile-only", "Skip typecheking");
 command.action(async options => {
-    const tsndPath = require.resolve("ts-node-dev/bin/ts-node-dev");
+    const tsndPath = require.resolve("ts-node-dev/lib/bin");
     const workerPath = resolve(__dirname, "../worker/dev.js");
     const args = [
         "--respawn",
