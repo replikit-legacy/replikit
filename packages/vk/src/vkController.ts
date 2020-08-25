@@ -29,17 +29,12 @@ import {
     StickerAttachment,
     Attachment as VKAttachment,
     ExternalAttachment,
-    UsersUserXtrCounters
+    getRandomId
 } from "vk-io";
-import MessageForward from "vk-io/lib/structures/shared/message-forward";
-import MessageReply from "vk-io/lib/structures/shared/message-reply";
+import { UsersUserXtrCounters } from "vk-io/lib/api/schemas/objects";
 
 function createSendedAttachment(attachment: ResolvedAttachment): SendedAttachment {
     return { origin: attachment, id: attachment.source };
-}
-
-function getRandomId(): string {
-    return `${Math.floor(Math.random() * 1e4)}${Date.now()}`;
 }
 
 export class VKController extends Controller {
@@ -84,14 +79,14 @@ export class VKController extends Controller {
             pollingGroupId: config.vk.pollingGroup
         });
 
-        this.backend.updates.on("new_message", async context => {
+        this.backend.updates.on("message_new", async context => {
             if (context.senderType === "user") {
                 const message = await this.createMessage(context);
                 this.processMessageEvent("message:received", message);
             }
         });
 
-        this.backend.updates.on("edit_message", async context => {
+        this.backend.updates.on("message_edit", async context => {
             if (context.senderType === "user") {
                 const message = await this.createMessage(context);
                 this.processMessageEvent("message:edited", message);
@@ -157,10 +152,9 @@ export class VKController extends Controller {
             if (!user) {
                 return undefined;
             }
-            const usernamePostfix = user.username ? ` (${user.username})` : "";
             return {
                 id: localId,
-                title: `${user.firstName} ${user.lastName}` + usernamePostfix,
+                title: `${user.firstName} ${user.lastName}`,
                 type: ChannelType.Direct,
                 permissions: {
                     sendMessages: canWrite,
@@ -192,13 +186,13 @@ export class VKController extends Controller {
             case AttachmentType.Photo:
             case AttachmentType.Sticker: {
                 const uploaded = await this.backend.upload.messagePhoto({
-                    source: attachment.url!
+                    source: { value: attachment.url! }
                 });
                 return uploaded.toString();
             }
             case AttachmentType.Voice: {
                 const uploaded = await this.backend.upload.audioMessage({
-                    source: attachment.url!,
+                    source: { value: attachment.url! },
                     peer_id: channelId
                 });
                 return uploaded.toString();
@@ -275,7 +269,8 @@ export class VKController extends Controller {
                     peer_id: channelId,
                     message: message.text ?? "",
                     reply_to: message.reply?.globalId ?? 0,
-                    attachment: serializedAttachments
+                    attachment: serializedAttachments,
+                    random_id: getRandomId()
                 });
                 result = this.createSendedMessage(sended, attachments);
             }
@@ -303,7 +298,8 @@ export class VKController extends Controller {
                 sended = await this.backend.api.messages.send({
                     peer_id: channelId,
                     sticker_id: stickerId,
-                    reply_to: message.reply?.globalId ?? 0
+                    reply_to: message.reply?.globalId ?? 0,
+                    random_id: getRandomId()
                 });
             }
             if (!result) {
@@ -395,7 +391,7 @@ export class VKController extends Controller {
                     result.push({
                         type: AttachmentType.Photo,
                         id: photoAttachment.toString(),
-                        url: photoAttachment.largePhoto!
+                        url: photoAttachment.largeSizeUrl!
                     });
                     break;
                 }
@@ -423,21 +419,21 @@ export class VKController extends Controller {
         return result;
     }
 
-    private createForwardedMessage(message: MessageForward): ForwardedMessage {
+    private createForwardedMessage(message: MessageContext): ForwardedMessage {
         return {
             text: message.text ?? undefined,
             controllerName: this.name,
             attachments: this.extractAttachments(message.attachments),
             channel: this.createChannel(-1),
             account: this.createAccount(message.senderId),
-            forwarded: message.forwards.map(x => this.createForwardedMessage(x)),
+            forwarded: message.forwards.map(this.createForwardedMessage.bind(this)),
             metadata: { messageIds: [-1] }
         };
     }
 
     private async createReplyMessage(
         channel: ChannelInfo,
-        replyMessage: MessageReply | null
+        replyMessage: MessageContext | undefined
     ): Promise<InMessage | undefined> {
         if (!replyMessage) {
             return;

@@ -13,6 +13,6 @@
     },
     "dependencies": {
         "@replikit/core": "^0.17.2",
-        "vk-io": "^4.0.0-rc.30"
+        "vk-io": "^4.0.1"
     }
 }
