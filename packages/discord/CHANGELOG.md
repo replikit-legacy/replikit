@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.18.0](https://github.com/Exeteres/Replikit/compare/v0.17.3...v0.18.0) (2020-09-09)
+
+
+### Bug Fixes
+
+* **discord:** Fix channel detection in guild-specific events ([be7f00c](https://github.com/Exeteres/Replikit/commit/be7f00cf2469b8c8b1b0e7552165f90de089d023))
+
+
+### Features
+
+* Improve avatar field ([a0d28db](https://github.com/Exeteres/Replikit/commit/a0d28db296c4764f1a2aafb8641123534e1d5009))
+
+
+
+
+
 ## [0.17.3](https://github.com/Exeteres/Replikit/compare/v0.17.2...v0.17.3) (2020-08-25)
 
 

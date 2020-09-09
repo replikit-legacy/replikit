@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.18.0](https://github.com/Exeteres/Replikit/compare/v0.17.3...v0.18.0) (2020-09-09)
+
+
+### Bug Fixes
+
+* **cli:** Fix discord controller bundling ([b399f46](https://github.com/Exeteres/Replikit/commit/b399f46deeed3dc596ad5afcd9d56a1f3bb5e724))
+
+
+
+
+
 ## [0.17.3](https://github.com/Exeteres/Replikit/compare/v0.17.2...v0.17.3) (2020-08-25)
 
 
