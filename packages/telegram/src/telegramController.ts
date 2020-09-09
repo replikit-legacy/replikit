@@ -113,7 +113,8 @@ export class TelegramController extends Controller {
             if (!photos.length) {
                 return;
             }
-            const file = await this.backend.telegram.getFile(photos[0][photos.length - 1].file_id);
+            const photo = photos[0];
+            const file = await this.backend.telegram.getFile(photo[photo.length - 1].file_id);
             return this.getAttachment(AttachmentType.Photo, file.file_id);
         } catch (err) {
             logger.warn("Error while getting avatar url", err);
