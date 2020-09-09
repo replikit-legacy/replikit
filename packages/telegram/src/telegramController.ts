@@ -542,7 +542,7 @@ export class TelegramController extends Controller {
             firstName: user.first_name,
             lastName: user.last_name,
             language: (user as User).language_code,
-            avatar: await this.avatarUrlCache.get(user.id)
+            avatar: "type" in user ? undefined : await this.avatarUrlCache.get(user.id)
         };
     }
 
