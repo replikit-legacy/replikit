@@ -27,7 +27,8 @@ import {
     User,
     Channel,
     MessageAttachment,
-    PartialMessage
+    PartialMessage,
+    Guild
 } from "discord.js";
 import { extname } from "path";
 import { WebhookStorage } from "@replikit/discord";
@@ -111,18 +112,25 @@ export class DiscordController extends Controller {
         });
 
         this.backend.on("guildMemberAdd", member => {
-            const channel = this.createChannel(member.guild.channels.cache.first()!);
+            const channel = this.getDefaultChannel(member.guild);
             assert(member.user, "Unable to get user of member");
             const account = this.createAccount(member.user);
             this.processEvent("member:joined", { channel, account });
         });
 
         this.backend.on("guildMemberRemove", member => {
-            const channel = this.createChannel(member.guild.channels.cache.first()!);
+            const channel = this.getDefaultChannel(member.guild);
             assert(member.user, "Unable to get user of member");
             const account = this.createAccount(member.user);
             this.processEvent("member:left", { channel, account });
         });
+    }
+
+    private getDefaultChannel(guild: Guild): ChannelInfo {
+        const textChannel =
+            guild.systemChannel ?? guild.channels.cache.filter(x => x.type === "text").first();
+        assert(textChannel, "Unable to find text channel");
+        return this.createChannel(textChannel);
     }
 
     async start(): Promise<void> {
