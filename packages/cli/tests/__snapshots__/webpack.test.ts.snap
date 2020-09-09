@@ -127,6 +127,7 @@ Object {
     "@discordjs/opus",
     "node-opus",
     "opusscript",
+    "ffmpeg-static",
   ],
   "mode": "production",
   "module": Object {
