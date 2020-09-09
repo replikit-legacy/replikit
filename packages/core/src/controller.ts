@@ -207,6 +207,9 @@ export abstract class Controller {
         if (message.reply) {
             this.setControllerName(message.reply);
         }
+        if (message.account.avatar) {
+            message.account.avatar.controllerName = this.name;
+        }
     }
 
     protected processMessageEvent(type: MessageEventName, message: InMessage): void {

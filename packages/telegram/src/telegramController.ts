@@ -53,6 +53,7 @@ export class TelegramController extends Controller {
     private startDate: number;
     private readonly permissionCache: CacheManager<number, ChannelPermissionMap>;
     private readonly chatCache: CacheManager<number | string, Chat | undefined>;
+    private readonly avatarUrlCache: CacheManager<number, Attachment | undefined>;
 
     constructor() {
         const textFormatter = new TextFormatter()
@@ -93,6 +94,31 @@ export class TelegramController extends Controller {
             this.backend.telegram.getChat.bind(this.backend.telegram),
             config.core.cache.expire
         );
+
+        this.avatarUrlCache = new CacheManager(this.getAvatar.bind(this), config.core.cache.expire);
+    }
+
+    private async getAvatar(userId: number): Promise<Attachment | undefined> {
+        interface UserProfilePhotos {
+            photos: PhotoSize[][];
+        }
+
+        interface Telegram {
+            getUserProfilePhotos(userId: number): Promise<UserProfilePhotos>;
+        }
+
+        try {
+            const { photos } = await ((this.backend
+                .telegram as unknown) as Telegram).getUserProfilePhotos(userId);
+            if (!photos.length) {
+                return;
+            }
+            const file = await this.backend.telegram.getFile(photos[0][photos.length - 1].file_id);
+            return this.getAttachment(AttachmentType.Photo, file.file_id);
+        } catch (err) {
+            logger.warn("Error while getting avatar url", err);
+            return;
+        }
     }
 
     private async handleMediaGroup(event: MessageEventName, messages: Message[]): Promise<void> {
@@ -111,7 +137,7 @@ export class TelegramController extends Controller {
         if (message.new_chat_members) {
             const channel = await this.createChannel(message.chat);
             for (const member of message.new_chat_members) {
-                const account = this.createAccount(member);
+                const account = await this.createAccount(member);
                 this.processEvent("member:joined", { channel, account });
             }
             return true;
@@ -119,7 +145,7 @@ export class TelegramController extends Controller {
 
         if (message.left_chat_member) {
             const channel = await this.createChannel(message.chat);
-            const account = this.createAccount(message.left_chat_member);
+            const account = await this.createAccount(message.left_chat_member);
             this.processEvent("member:left", { channel, account });
             return true;
         }
@@ -183,14 +209,14 @@ export class TelegramController extends Controller {
             }
 
             if (update.inline_query) {
-                const account = this.createAccount(update.inline_query.from);
+                const account = await this.createAccount(update.inline_query.from);
                 const query = this.createInlineQuery(update.inline_query);
                 this.processEvent("inline-query:received", { account, query });
                 continue;
             }
 
             if (update.chosen_inline_result) {
-                const account = this.createAccount(update.chosen_inline_result.from);
+                const account = await this.createAccount(update.chosen_inline_result.from);
                 const result = this.createChosenInlineQueryResult(update.chosen_inline_result);
                 this.processEvent("inline-query:chosen", { account, result });
                 continue;
@@ -328,7 +354,7 @@ export class TelegramController extends Controller {
     protected async fetchAccountInfo(localId: number): Promise<AccountInfo | undefined> {
         try {
             const chat = await this.chatCache.get(localId);
-            return chat && this.createAccount(chat);
+            return chat && (await this.createAccount(chat));
         } catch {
             return undefined;
         }
@@ -504,16 +530,14 @@ export class TelegramController extends Controller {
         }
     }
 
-    private createAccount(user: User | Chat): AccountInfo {
+    private async createAccount(user: User | Chat): Promise<AccountInfo> {
         return {
             id: user.id,
             username: user.username,
             firstName: user.first_name,
             lastName: user.last_name,
-            language: (user as User).language_code
-            // avatarUrl: chat.photo
-            //     ? await this.backend.telegram.getFileLink(chat.photo.small_file_id)
-            //     : undefined
+            language: (user as User).language_code,
+            avatar: await this.avatarUrlCache.get(user.id)
         };
     }
 
@@ -567,25 +591,27 @@ export class TelegramController extends Controller {
         return `https://api.telegram.org/file/bot${config.telegram.token}/${path}`;
     }
 
-    private async resolveAttachment(message: Message): Promise<Attachment | undefined> {
-        const attachment = this.extractAttachment(message);
-        if (!attachment) {
-            return;
-        }
-
+    private async getAttachment(type: AttachmentType, id: string): Promise<Attachment | undefined> {
         interface AttachmentFile extends File {
             file_unique_id: string;
         }
 
         try {
-            const fileInfo = await this.backend.telegram.getFile(attachment.id);
-            attachment.uploadId = attachment.id;
-            attachment.id = (fileInfo as AttachmentFile).file_unique_id;
-            attachment.url = this.getFileUrl(fileInfo.file_path!);
-            return attachment;
+            const fileInfo = await this.backend.telegram.getFile(id);
+            return {
+                type,
+                id: (fileInfo as AttachmentFile).file_unique_id,
+                url: this.getFileUrl(fileInfo.file_path!),
+                uploadId: id
+            };
         } catch (e) {
             logger.warn(`Skipping file because of error while getting global id: ${e.message}`);
         }
+    }
+
+    private async resolveAttachment(message: Message): Promise<Attachment | undefined> {
+        const attachment = this.extractAttachment(message);
+        return attachment && this.getAttachment(attachment.type, attachment.id);
     }
 
     private async extractAttachments(message: Message): Promise<Attachment[]> {
@@ -662,14 +688,14 @@ export class TelegramController extends Controller {
         if (message.forward_from) {
             return {
                 attachments: [],
-                account: this.createAccount(message.from!),
+                account: await this.createAccount(message.from!),
                 channel: await this.createChannel(message.chat),
                 forwarded: [
                     {
                         text: message.text || message.caption,
                         controllerName: this.name,
                         attachments: await this.extractAttachments(message),
-                        account: this.createAccount(message.forward_from),
+                        account: await this.createAccount(message.forward_from),
                         channel: await this.createChannel(
                             message.forward_from_chat ?? message.forward_from
                         ),
@@ -691,14 +717,14 @@ export class TelegramController extends Controller {
         if (message.forward_from_chat) {
             return {
                 attachments: [],
-                account: this.createAccount(message.from!),
+                account: await this.createAccount(message.from!),
                 channel: await this.createChannel(message.chat),
                 forwarded: [
                     {
                         text: message.text || message.caption,
                         controllerName: this.name,
                         attachments: await this.extractAttachments(message),
-                        account: this.createAccount(message.forward_from_chat),
+                        account: await this.createAccount(message.forward_from_chat),
                         channel: await this.createChannel(message.forward_from_chat),
                         forwarded: [],
                         telegram: {
@@ -722,7 +748,7 @@ export class TelegramController extends Controller {
                 dice: message.dice as Dice
             },
             attachments: await this.extractAttachments(message),
-            account: this.createAccount(message.from!),
+            account: await this.createAccount(message.from!),
             channel: await this.createChannel(message.chat),
             metadata: this.createMetadata(message.message_id, !!message.text),
             reply: message.reply_to_message

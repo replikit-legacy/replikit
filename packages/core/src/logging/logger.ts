@@ -11,8 +11,8 @@ export class Logger {
         logManager.log(LogLevel.Info, message, this.scopes);
     }
 
-    warn(message: string): void {
-        logManager.log(LogLevel.Warning, message, this.scopes);
+    warn(message: string, error?: Error): void {
+        logManager.log(LogLevel.Warning, message, this.scopes, error);
     }
 
     debug(message: string): void {

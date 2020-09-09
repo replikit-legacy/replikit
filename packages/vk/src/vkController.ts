@@ -228,7 +228,11 @@ export class VKController extends Controller {
             username: user.screen_name,
             firstName: user.first_name,
             lastName: user.last_name,
-            avatarUrl: user.photo_100?.toString()
+            avatar: {
+                id: undefined!,
+                type: AttachmentType.Photo,
+                url: user.photo_100?.toString()
+            }
         };
     }
 
