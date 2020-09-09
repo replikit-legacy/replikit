@@ -128,7 +128,11 @@ export class TelegramController extends Controller {
         for (const mediaItem of messages.slice(1)) {
             const attachment = await this.resolveAttachment(mediaItem);
             if (attachment) {
-                message.attachments.push(attachment);
+                if (message.forwarded.length) {
+                    message.forwarded[0].attachments.push(attachment);
+                } else {
+                    message.attachments.push(attachment);
+                }
             }
         }
         this.processMessageEvent(event, message);
