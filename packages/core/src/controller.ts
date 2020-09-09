@@ -151,7 +151,11 @@ export abstract class Controller {
         for (const attachment of message.attachments) {
             const source = await this.resolveSource(channelId, attachment);
             if (source) {
-                attachments.push({ ...attachment, source });
+                attachments.push({
+                    ...attachment,
+                    source,
+                    controllerName: attachment.controllerName ?? this.name
+                });
             }
         }
         return attachments;
