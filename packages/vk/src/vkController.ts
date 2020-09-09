@@ -237,7 +237,7 @@ export class VKController extends Controller {
     }
 
     private formatAttachments(attachments: ResolvedAttachment[]): string {
-        return attachments.map(x => x.source).join(", ");
+        return attachments.map(x => x.source).join(",");
     }
 
     protected async sendResolvedMessage(
