@@ -1,6 +1,6 @@
 {
     "name": "@replikit/commands",
-    "version": "0.18.1",
+    "version": "0.18.2",
     "license": "MIT",
     "main": "dist/index.js",
     "typings": "dist/index.d.ts",
@@ -12,8 +12,8 @@
         "build": "tsc -p tsconfig.build.json"
     },
     "dependencies": {
-        "@replikit/core": "^0.18.1",
-        "@replikit/i18n": "^0.18.1",
-        "@replikit/router": "^0.18.1"
+        "@replikit/core": "^0.18.2",
+        "@replikit/i18n": "^0.18.2",
+        "@replikit/router": "^0.18.2"
     }
 }

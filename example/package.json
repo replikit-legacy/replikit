@@ -1,6 +1,6 @@
 {
     "name": "example",
-    "version": "0.18.0",
+    "version": "0.18.2",
     "license": "MIT",
     "private": true,
     "workspaces": [
