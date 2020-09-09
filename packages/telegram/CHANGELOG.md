@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.18.1](https://github.com/Exeteres/Replikit/compare/v0.18.0...v0.18.1) (2020-09-09)
+
+
+### Bug Fixes
+
+* **telegram:** Fix attachment aggregation ([e484d7f](https://github.com/Exeteres/Replikit/commit/e484d7fd0117c7fca0e90675b701ff2d7c17f8a0))
+* **telegram:** Fix bug in avatar resolution ([de1f82c](https://github.com/Exeteres/Replikit/commit/de1f82cc70fc335655bfb9be5ee05643be368736))
+
+
+
+
+
 # [0.18.0](https://github.com/Exeteres/Replikit/compare/v0.17.3...v0.18.0) (2020-09-09)
 
 

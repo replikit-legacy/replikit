@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.18.1](https://github.com/Exeteres/Replikit/compare/v0.18.0...v0.18.1) (2020-09-09)
+
+
+### Bug Fixes
+
+* **core:** Allow caching of undefined values ([7a5b80f](https://github.com/Exeteres/Replikit/commit/7a5b80f52f102c325788109a6fe454c5242849bc))
+
+
+
+
+
 # [0.18.0](https://github.com/Exeteres/Replikit/compare/v0.17.3...v0.18.0) (2020-09-09)
 
 
