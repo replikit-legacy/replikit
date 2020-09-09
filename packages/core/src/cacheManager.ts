@@ -9,13 +9,12 @@ export class CacheManager<TKey, TValue> {
     ) {}
 
     async get(key: TKey): Promise<TValue> {
-        const value = this.storage.get(key);
-        if (value) {
-            return value;
+        if (this.storage.has(key)) {
+            return this.storage.get(key)!;
         }
-        const newValue = await this.resolver(key);
-        this.storage.set(key, newValue);
+        const value = await this.resolver(key);
+        this.storage.set(key, value);
         setTimeout(this.storage.delete.bind(this.storage), this.expire, key);
-        return newValue;
+        return value;
     }
 }
