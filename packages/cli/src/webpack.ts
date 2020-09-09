@@ -143,7 +143,7 @@ export function createWebpackConfiguration(
 
     // Disable some optimizations to allow discord controller bundling
     if (modules.includes("@replikit/discord")) {
-        result.externals = ["@discordjs/opus", "node-opus", "opusscript"];
+        result.externals = ["@discordjs/opus", "node-opus", "opusscript", "ffmpeg-static"];
         result.optimization!.minimizer = [
             new TerserPlugin({
                 cache: true,
