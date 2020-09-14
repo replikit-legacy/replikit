@@ -3,7 +3,8 @@ import {
     ChannelContext,
     MemberContext,
     InlineQueryReceivedContext,
-    InlineQueryChosenContext
+    InlineQueryChosenContext,
+    ButtonContext
 } from "@replikit/router";
 import { ChannelPhotoEvent } from "@replikit/core/typings";
 
@@ -18,4 +19,5 @@ export interface ContextMap {
     "channel:photo:deleted": ChannelContext;
     "inline-query:received": InlineQueryReceivedContext;
     "inline-query:chosen": InlineQueryChosenContext;
+    "button:clicked": ButtonContext;
 }

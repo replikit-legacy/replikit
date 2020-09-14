@@ -7,14 +7,16 @@ import {
     contextFactories,
     MemberContext,
     InlineQueryReceivedContext,
-    InlineQueryChosenContext
+    InlineQueryChosenContext,
+    ButtonContext
 } from "@replikit/router";
 import {
     MessageEvent,
     MemberEvent,
     ChannelEvent,
     InlineQueryReceivedEvent,
-    InlineQueryChosenEvent
+    InlineQueryChosenEvent,
+    ButtonEvent
 } from "@replikit/core/typings";
 
 function createChannelContext<T extends ChannelEvent>(event: T): ChannelContext<T> {
@@ -43,6 +45,10 @@ function createInlineQueryChosenContext(event: InlineQueryChosenEvent): InlineQu
     return new InlineQueryChosenContext(event);
 }
 
+function createButtonContext(event: ButtonEvent): ButtonContext {
+    return new ButtonContext(event);
+}
+
 export function registerBasicContextFactories(contextFactories: ContextFactoryStorage): void {
     contextFactories.register("channel:title:edited", createChannelContext);
     contextFactories.register("channel:photo:edited", createChannelContext);
@@ -57,6 +63,8 @@ export function registerBasicContextFactories(contextFactories: ContextFactorySt
 
     contextFactories.register("inline-query:received", createInlineQueryReceivedContext);
     contextFactories.register("inline-query:chosen", createInlineQueryChosenContext);
+
+    contextFactories.register("button:clicked", createButtonContext);
 }
 
 registerBasicContextFactories(contextFactories);

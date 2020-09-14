@@ -5,6 +5,7 @@ export * from "./context/inlineQueryChosenContext";
 export * from "./context/accountContext";
 export * from "./context/channelContext";
 export * from "./context/messageContext";
+export * from "./context/buttonContext";
 
 export * from "./contextBase";
 export * from "./contextMap";

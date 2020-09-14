@@ -9,6 +9,7 @@ export * from "./context/memberContext";
 export * from "./context/messageContext";
 export * from "./context/inlineQueryReceivedContext";
 export * from "./context/inlineQueryChosenContext";
+export * from "./context/buttonContext";
 
 export * from "./contextFactoryStorage";
 export * from "./handlerChain";
