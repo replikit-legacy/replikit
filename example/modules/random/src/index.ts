@@ -16,7 +16,9 @@ import "./commands/tokenize";
 import "./commands/format";
 import "./commands/echo";
 import "./commands/avatar";
+import "./commands/button";
 
 import "./handlers/silence";
 import "./handlers/random";
 import "./handlers/inline";
+import "./handlers/button";
