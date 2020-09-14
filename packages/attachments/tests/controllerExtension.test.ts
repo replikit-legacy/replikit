@@ -4,6 +4,7 @@ import { TestController, DatabaseTestManager, TestControllerOptions } from "@rep
 import { AttachmentType } from "@replikit/core";
 import { SendedMessage } from "@replikit/core/typings";
 import { Attachment } from "@replikit/attachments/typings";
+import { fromAttachment } from "@replikit/messages";
 
 let testManager: DatabaseTestManager;
 
@@ -41,13 +42,9 @@ function createSendedMessage(): SendedMessage {
 }
 
 describe("ControllerExtension", () => {
-    it("should do nothing if controller don't return sended attachment", async () => {
+    it("should do nothing if controller didn't return sended attachment", async () => {
         const controller = createExtension();
-        await controller.sendMessage(1, {
-            attachments: [{ id: "123", type: AttachmentType.Photo }],
-            forwarded: [],
-            tokens: []
-        });
+        await controller.sendMessage(1, fromAttachment({ id: "123", type: AttachmentType.Photo }));
 
         const collection = testManager.connection //
             .getRawCollection<Attachment>("attachments");
@@ -60,17 +57,12 @@ describe("ControllerExtension", () => {
     it("should do nothing if controllerName matches the controller", async () => {
         const message = createSendedMessage();
         const controller = createExtension({ sendedMessage: message });
-        await controller.sendMessage(1, {
-            attachments: [
-                {
-                    id: "123",
-                    type: AttachmentType.Photo,
-                    controllerName: "test"
-                }
-            ],
-            tokens: [],
-            forwarded: []
+        const outMessage = fromAttachment({
+            id: "123",
+            controllerName: "test",
+            type: AttachmentType.Photo
         });
+        await controller.sendMessage(1, outMessage);
 
         const collection = testManager.connection //
             .getRawCollection<Attachment>("attachments");
@@ -83,17 +75,12 @@ describe("ControllerExtension", () => {
     it("should save attachment returned from controller", async () => {
         const message = createSendedMessage();
         const controller = createExtension({ sendedMessage: message });
-        await controller.sendMessage(1, {
-            attachments: [
-                {
-                    id: "123",
-                    controllerName: "another",
-                    type: AttachmentType.Photo
-                }
-            ],
-            tokens: [],
-            forwarded: []
+        const outMessage = fromAttachment({
+            id: "123",
+            controllerName: "another",
+            type: AttachmentType.Photo
         });
+        await controller.sendMessage(1, outMessage);
 
         const collection = testManager.connection //
             .getRawCollection<Attachment>("attachments");
@@ -124,17 +111,12 @@ describe("ControllerExtension", () => {
 
         const message = createSendedMessage();
         const controller = createExtension({ sendedMessage: message });
-        await controller.sendMessage(1, {
-            attachments: [
-                {
-                    id: "123",
-                    controllerName: "another",
-                    type: AttachmentType.Photo
-                }
-            ],
-            tokens: [],
-            forwarded: []
+        const outMessage = fromAttachment({
+            id: "123",
+            controllerName: "another",
+            type: AttachmentType.Photo
         });
+        await controller.sendMessage(1, outMessage);
 
         const attachments = await collection.find().toArray();
         expect(attachments).toHaveLength(1);
