@@ -17,7 +17,8 @@ import {
     InMessage,
     MessageMetadata,
     ResolvedAttachment,
-    Identifier
+    Identifier,
+    ChannelPermissionMap
 } from "@replikit/core/typings";
 import {
     Client,
@@ -69,7 +70,7 @@ export class DiscordController extends Controller {
             .addPropFormatter(TextTokenProp.Strikethrough, "~~")
             .addPropFormatter(TextTokenProp.Underline, "__")
             .addVisitor(TextTokenKind.Link, token => {
-                return `[${token.text}](${token.props})`;
+                return `[${token.text}](${token.url})`;
             })
             .addVisitor(TextTokenKind.Mention, token => {
                 if (token.id) {
@@ -191,11 +192,16 @@ export class DiscordController extends Controller {
         const types = [AttachmentType.Photo, AttachmentType.Sticker];
         const attachments = message.attachments.filter(x => types.includes(x.type));
 
-        if (message.header) {
-            const webhook = await this.webhookStorage.resolve(channel);
+        const shouldUseWebhooks =
+            message.header ||
+            (!config.discord.disableWebhooks &&
+                message.tokens.some(x => x.kind === TextTokenKind.Link));
+
+        if (shouldUseWebhooks) {
+            const webhook = await this.webhookStorage.resolve(this.backend.user!, channel);
             const options = {
-                username: message.header.username,
-                avatarURL: message.header.avatar
+                username: message.header?.username,
+                avatarURL: message.header?.avatar
             };
 
             if (message.text) {
@@ -308,19 +314,31 @@ export class DiscordController extends Controller {
         }));
     }
 
+    private createChannelPermissions(guild: Guild): ChannelPermissionMap {
+        if (!guild) {
+            return {
+                sendMessages: true,
+                editMessages: true,
+                deleteMessages: true,
+                deleteOtherMessages: false
+            };
+        }
+        const me = guild.me;
+        const manageMessages = me?.hasPermission("MANAGE_MESSAGES") ?? false;
+        return {
+            sendMessages: me?.hasPermission("SEND_MESSAGES") ?? false,
+            deleteMessages: true,
+            editMessages: true,
+            deleteOtherMessages: manageMessages
+        };
+    }
+
     private createChannel(channel: Channel): ChannelInfo {
         assertTextChannel(channel);
-        const me = channel.guild.me;
-        const manageMessages = me?.hasPermission("MANAGE_MESSAGES") ?? false;
         return {
             id: channel.id,
             title: channel.name,
-            permissions: {
-                sendMessages: me?.hasPermission("SEND_MESSAGES") ?? false,
-                deleteMessages: true,
-                editMessages: true,
-                deleteOtherMessages: manageMessages
-            },
+            permissions: this.createChannelPermissions(channel.guild),
             type: this.createChannelType(channel.type)
         };
     }
