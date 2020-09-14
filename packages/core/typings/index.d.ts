@@ -5,6 +5,7 @@ export * from "./models/attachment";
 export * from "./models/inlineQueryAttachment";
 export * from "./models/forwardedOutMessage";
 export * from "./models/messageHeader";
+export * from "./models/button";
 export * from "./models/outMessage";
 export * from "./models/messageMetadata";
 export * from "./models/inMessage";
@@ -36,6 +37,7 @@ export * from "./events/inlineQueryReceivedEventPayload";
 export * from "./events/inlineQueryChosenEventPayload";
 export * from "./events/messageEventPayload";
 export * from "./events/channelPhotoEventPayload";
+export * from "./events/buttonEventPayload";
 export * from "./events/eventMap";
 export * from "./events/eventHandler";
 

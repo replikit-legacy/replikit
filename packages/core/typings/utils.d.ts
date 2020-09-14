@@ -78,3 +78,6 @@ export type TypeOf<T extends TypeOfResult> = T extends "string"
     : T extends "function"
     ? Function
     : never;
+
+// https://stackoverflow.com/a/54178819/10502674
+export type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;

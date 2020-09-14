@@ -4,7 +4,8 @@ import {
     ChannelEventPayload,
     ChannelPhotoEventPayload,
     InlineQueryReceivedEventPayload,
-    InlineQueryChosenEventPayload
+    InlineQueryChosenEventPayload,
+    ButtonEventPayload
 } from "@replikit/core/typings";
 
 export interface EventMap {
@@ -18,4 +19,5 @@ export interface EventMap {
     "channel:photo:deleted": ChannelEventPayload;
     "inline-query:received": InlineQueryReceivedEventPayload;
     "inline-query:chosen": InlineQueryChosenEventPayload;
+    "button:clicked": ButtonEventPayload;
 }

@@ -14,7 +14,8 @@ import {
     MessageEventName,
     MessageMetadata,
     InlineQueryResponse,
-    Identifier
+    Identifier,
+    PartialBy
 } from "@replikit/core/typings";
 import { IncomingMessage, ServerResponse } from "http";
 import {
@@ -223,6 +224,18 @@ export abstract class Controller {
             account: message.account,
             channel: message.channel
         });
+    }
+
+    protected processMessageLikeEvent<T extends MessageEventName>(
+        type: T,
+        payload: PartialBy<EventMap[T], "account" | "channel" | "controller">
+    ): void {
+        this.setControllerName(payload.message);
+        this.processEvent(type, {
+            account: payload.message.account,
+            channel: payload.message.channel,
+            ...payload
+        } as EventMap[T]);
     }
 
     protected uploadAttachment?(

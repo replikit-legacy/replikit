@@ -6,7 +6,8 @@ import {
     ChannelPhotoEventPayload,
     AccountEventPayload,
     InlineQueryReceivedEventPayload,
-    InlineQueryChosenEventPayload
+    InlineQueryChosenEventPayload,
+    ButtonEventPayload
 } from "@replikit/core/typings";
 
 export type EventName = keyof EventMap;
@@ -23,6 +24,7 @@ export type MessageEventName = ExtractEventName<MessageEventPayload>;
 export type AccountEventName = ExtractEventName<AccountEventPayload>;
 export type InlineQueryReceivedEventName = ExtractEventName<InlineQueryReceivedEventPayload>;
 export type InlineQueryChosenEventName = ExtractEventName<InlineQueryChosenEventPayload>;
+export type ButtonEventName = ExtractEventName<ButtonEventPayload>;
 
 export interface Event<T extends EventName = EventName> {
     type: T;
@@ -36,5 +38,6 @@ export type AccountEvent = Event<AccountEventName>;
 export type MessageEvent = Event<MessageEventName>;
 export type InlineQueryReceivedEvent = Event<InlineQueryReceivedEventName>;
 export type InlineQueryChosenEvent = Event<InlineQueryChosenEventName>;
+export type ButtonEvent = Event<ButtonEventName>;
 
 export type EventHandler<T extends EventName = EventName> = (event: Event<T>) => void;
