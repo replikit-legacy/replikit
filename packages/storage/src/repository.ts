@@ -41,8 +41,13 @@ export class Repository<T extends Entity = Entity> {
     }
 
     async query(builder: QueryBuilder<T>): Promise<T[]> {
-        const cursor = this.collection.find();
-        return this.fetchEntities(builder(cursor));
+        return this.fetchEntities(builder(this.collection.find()));
+    }
+
+    async queryAndCount(builder: QueryBuilder<T>): Promise<[T[], number]> {
+        const items = await this.fetchEntities(builder(this.collection.find()));
+        const count = await builder(this.collection.find()).count(false);
+        return [items, count];
     }
 
     /** @internal */
