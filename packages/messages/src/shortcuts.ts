@@ -1,24 +1,19 @@
-import { OutMessage } from "@replikit/core/typings";
-import { TextTokenKind, TextTokenProp } from "@replikit/core";
+import { OutMessage, Attachment } from "@replikit/core/typings";
+import { TextTokenProp } from "@replikit/core";
+import { createPlainTextToken } from "@replikit/messages";
+
+export function fromPartial(outMessage: Partial<OutMessage>): OutMessage {
+    return { attachments: [], forwarded: [], tokens: [], buttons: [], ...outMessage };
+}
 
 export function fromText(text: string): OutMessage {
-    return {
-        tokens: [{ kind: TextTokenKind.Text, text, props: [] }],
-        attachments: [],
-        forwarded: []
-    };
+    return fromPartial({ tokens: [createPlainTextToken(text)] });
 }
 
 export function fromCode(code: string): OutMessage {
-    return {
-        tokens: [
-            {
-                kind: TextTokenKind.Text,
-                text: code,
-                props: [TextTokenProp.Code]
-            }
-        ],
-        attachments: [],
-        forwarded: []
-    };
+    return fromPartial({ tokens: [createPlainTextToken(code, [TextTokenProp.Code])] });
+}
+
+export function fromAttachment(attachment: Attachment): OutMessage {
+    return fromPartial({ attachments: [attachment] });
 }

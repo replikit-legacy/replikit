@@ -6,7 +6,8 @@ export class MessageBuilder extends Builder {
     protected readonly message: OutMessage = {
         forwarded: [],
         attachments: [],
-        tokens: []
+        tokens: [],
+        buttons: []
     };
 
     addReply(metadata: MetadataLike): this {
@@ -74,6 +75,16 @@ export class MessageBuilder extends Builder {
 
     addAttachments(attachments: Attachment[]): this {
         this.message.attachments.push(...attachments);
+        return this;
+    }
+
+    addButtonWithPayload(text: string, payload: string): this {
+        this.message.buttons.push({ text, payload });
+        return this;
+    }
+
+    addButtonWithUrl(text: string, url: string): this {
+        this.message.buttons.push({ text, url });
         return this;
     }
 
