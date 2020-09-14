@@ -3,6 +3,7 @@
 exports[`shortcuts should create a message with code 1`] = `
 Object {
   "attachments": Array [],
+  "buttons": Array [],
   "forwarded": Array [],
   "tokens": Array [
     Object {
@@ -19,6 +20,7 @@ Object {
 exports[`shortcuts should create a message with text 1`] = `
 Object {
   "attachments": Array [],
+  "buttons": Array [],
   "forwarded": Array [],
   "tokens": Array [
     Object {

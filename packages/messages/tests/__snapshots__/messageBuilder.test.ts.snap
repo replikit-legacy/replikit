@@ -8,6 +8,7 @@ Object {
       "type": 0,
     },
   ],
+  "buttons": Array [],
   "forwarded": Array [],
   "tokens": Array [],
 }
@@ -16,6 +17,7 @@ Object {
 exports[`MessageBuilder should create a message with an array of tokens 1`] = `
 Object {
   "attachments": Array [],
+  "buttons": Array [],
   "forwarded": Array [],
   "tokens": Array [
     Object {
@@ -35,6 +37,7 @@ Object {
       "type": 0,
     },
   ],
+  "buttons": Array [],
   "forwarded": Array [],
   "tokens": Array [],
 }
@@ -49,6 +52,7 @@ Object {
       "url": "https://path/to/attachment.png",
     },
   ],
+  "buttons": Array [],
   "forwarded": Array [],
   "tokens": Array [],
 }
@@ -57,6 +61,7 @@ Object {
 exports[`MessageBuilder should create a message with code 1`] = `
 Object {
   "attachments": Array [],
+  "buttons": Array [],
   "forwarded": Array [],
   "tokens": Array [
     Object {
@@ -73,6 +78,7 @@ Object {
 exports[`MessageBuilder should create a message with empty code line 1`] = `
 Object {
   "attachments": Array [],
+  "buttons": Array [],
   "forwarded": Array [],
   "tokens": Array [
     Object {
@@ -90,6 +96,7 @@ Object {
 exports[`MessageBuilder should create a message with empty line 1`] = `
 Object {
   "attachments": Array [],
+  "buttons": Array [],
   "forwarded": Array [],
   "tokens": Array [
     Object {
@@ -105,6 +112,7 @@ Object {
 exports[`MessageBuilder should create a message with header 1`] = `
 Object {
   "attachments": Array [],
+  "buttons": Array [],
   "forwarded": Array [],
   "header": Object {
     "avatar": "https://example.com/avatar.png",
@@ -117,6 +125,7 @@ Object {
 exports[`MessageBuilder should create a message with reply 1`] = `
 Object {
   "attachments": Array [],
+  "buttons": Array [],
   "forwarded": Array [],
   "reply": Object {
     "messageIds": Array [
@@ -130,6 +139,7 @@ Object {
 exports[`MessageBuilder should create a message with text 1`] = `
 Object {
   "attachments": Array [],
+  "buttons": Array [],
   "forwarded": Array [],
   "tokens": Array [
     Object {
