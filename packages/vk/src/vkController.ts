@@ -197,6 +197,13 @@ export class VKController extends Controller {
                 });
                 return uploaded.toString();
             }
+            case AttachmentType.Video: {
+                const uploaded = await this.backend.upload.video({
+                    source: { value: attachment.url! },
+                    is_private: 1
+                });
+                return uploaded.toString();
+            }
         }
         return undefined;
     }
