@@ -14,9 +14,10 @@ import {
     InlineQuery as CoreInlineQuery,
     ChosenInlineQueryResult,
     InlineQueryResponse,
-    InlineQueryResult as CoreInlineQueryResult
+    InlineQueryResult as CoreInlineQueryResult,
+    Button
 } from "@replikit/core/typings";
-import Telegraf from "telegraf";
+import Telegraf, { Markup } from "telegraf";
 import {
     config,
     Controller,
@@ -41,11 +42,13 @@ import {
     PhotoSize,
     InlineQuery,
     ChosenInlineResult,
-    InlineQueryResult
+    InlineQueryResult,
+    InlineKeyboardMarkup
 } from "telegraf/typings/telegram-types";
 import { TelegrafContext } from "telegraf/typings/context";
 import { logger, MessageTokenizer, escapeHtml } from "@replikit/telegram";
 import { Dice } from "@replikit/telegram/typings";
+import { InlineKeyboardButton } from "telegraf/typings/markup";
 
 export class TelegramController extends Controller {
     readonly backend: Telegraf<TelegrafContext>;
@@ -227,6 +230,20 @@ export class TelegramController extends Controller {
                 continue;
             }
 
+            if (update.callback_query) {
+                const buttonMessage = update.callback_query.message;
+                assert(buttonMessage, "Unable to process button click without access to message");
+                const account = await this.createAccount(update.callback_query.from);
+                const message = await this.createMessage(buttonMessage);
+                const buttonPayload = update.callback_query.data;
+                this.processMessageLikeEvent("button:clicked", {
+                    message,
+                    account,
+                    buttonPayload: buttonPayload as string
+                });
+                continue;
+            }
+
             await this.backend.handleUpdate(update);
         }
         await this.handleMessages("message:received", receivedMessages);
@@ -365,23 +382,27 @@ export class TelegramController extends Controller {
         }
     }
 
+    private createButtons(buttons: Button[]): InlineKeyboardMarkup | undefined {
+        if (!buttons.length) {
+            return;
+        }
+        const payload = buttons.map(x => ({ callback_data: x.payload, text: x.text, url: x.url }));
+        return Markup.inlineKeyboard(payload as InlineKeyboardButton[]);
+    }
+
     async sendResolvedMessage(channelId: number, message: ResolvedMessage): Promise<SendedMessage> {
         let result: SendedMessage | undefined = undefined;
+
         let extra: Record<string, unknown> | undefined = {
-            reply_to_message_id: message.reply
+            reply_to_message_id: message.reply?.messageIds[0],
+            parse_mode: "HTML",
+            disable_web_page_preview: true,
+            reply_markup: this.createButtons(message.buttons)
         };
 
         // Отправляем текст, если есть
         if (message.text) {
-            const replyMessageId = message.reply?.messageIds[0];
-            if (replyMessageId) {
-                assertType(replyMessageId, "number", "reply message id");
-            }
-            const sended = await this.backend.telegram.sendMessage(channelId, message.text, {
-                parse_mode: "HTML",
-                disable_web_page_preview: true,
-                reply_to_message_id: replyMessageId as number
-            });
+            const sended = await this.backend.telegram.sendMessage(channelId, message.text, extra);
             extra = undefined;
             result = await this.createSendedMessage(sended);
         }
