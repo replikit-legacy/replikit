@@ -5,9 +5,9 @@ on:
     types: [published]
 
 jobs:
-  prepare:
+  packages:
     runs-on: ubuntu-latest
-    name: Prepare
+    name: Publish packages
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
@@ -15,7 +15,6 @@ jobs:
           node-version: "12.x"
 
       - uses: actions/cache@master
-        id: cache
         with:
           path: |
             node_modules
@@ -26,23 +25,6 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: yarn
 
-  packages:
-    runs-on: ubuntu-latest
-    name: Publish packages
-    needs: prepare
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: "12.x"
-
-      - uses: actions/cache@master
-        with:
-          path: |
-            node_modules
-            */*/node_modules
-          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}-${{ hashFiles('**/package.json') }}
-
       - name: Build packages
         run: yarn build
 
@@ -52,31 +34,3 @@ jobs:
           yarn publish-packages
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-  docs:
-    runs-on: ubuntu-latest
-    name: Publish documentation
-    needs: prepare
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: "12.x"
-
-      - uses: actions/cache@master
-        with:
-          path: |
-            node_modules
-            */*/node_modules
-          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
-
-      - name: Build docs
-        run: yarn docs:build
-
-      - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@3.5.5
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: gh-pages
-          FOLDER: docs/.vuepress/dist
-

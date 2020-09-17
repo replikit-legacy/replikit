@@ -13,8 +13,6 @@
         "build": "lerna run build",
         "publish-packages": "lerna publish from-git -y",
         "release": "lerna version --conventional-commits --create-release github",
-        "docs:dev": "vuepress dev docs",
-        "docs:build": "vuepress build docs",
         "postinstall": "ts-patch install -s"
     },
     "workspaces": [
@@ -37,10 +35,6 @@
         "ts-patch": "^1.3.0",
         "tsconfig-paths": "^3.9.0",
         "typescript": "3.9.7",
-        "typescript-transform-paths": "^2.0.0",
-        "vuepress": "^1.5.4"
-    },
-    "resolutions": {
-        "watchpack": "1.6.1"
+        "typescript-transform-paths": "^2.0.0"
     }
 }
