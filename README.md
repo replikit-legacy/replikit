@@ -1,8 +1,8 @@
 # Replikit
 
-[![Build](https://github.com/Exeteres/replikit/workflows/Test/badge.svg)](https://github.com/Exeteres/replikit/actions?query=workflow%3ATest)
-[![codecov](https://codecov.io/gh/Exeteres/replikit/branch/master/graph/badge.svg?token=388CI4Q17W)](https://codecov.io/gh/Exeteres/replikit)
-[![CodeFactor](https://www.codefactor.io/repository/github/exeteres/replikit/badge?s=1f014229e5b8686c540b0364e05e52676fd25b5d)](https://www.codefactor.io/repository/github/exeteres/replikit)
+[![Build](https://github.com/replikit/replikit/workflows/Test/badge.svg)](https://github.com/replikit/replikit/actions?query=workflow%3ATest)
+[![codecov](https://codecov.io/gh/replikit/replikit/branch/master/graph/badge.svg?token=388CI4Q17W)](https://codecov.io/gh/replikit/replikit)
+[![CodeFactor](https://www.codefactor.io/repository/github/replikit/replikit/badge?s=1f014229e5b8686c540b0364e05e52676fd25b5d)](https://www.codefactor.io/repository/github/replikit/replikit)
 
 This monorepo contains the source code of core Replikit packages and some example modules.
 
