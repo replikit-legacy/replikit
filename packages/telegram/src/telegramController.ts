@@ -393,12 +393,7 @@ export class TelegramController extends Controller {
     async sendResolvedMessage(channelId: number, message: ResolvedMessage): Promise<SendedMessage> {
         let result: SendedMessage | undefined = undefined;
 
-        let extra: Record<string, unknown> | undefined = {
-            reply_to_message_id: message.reply?.messageIds[0],
-            parse_mode: "HTML",
-            disable_web_page_preview: true,
-            reply_markup: this.createButtons(message.buttons)
-        };
+        let extra = this.createExtra(message);
 
         // Отправляем текст, если есть
         if (message.text) {
@@ -485,6 +480,15 @@ export class TelegramController extends Controller {
         return result;
     }
 
+    private createExtra(message: ResolvedMessage): Record<string, unknown> | undefined {
+        return {
+            reply_to_message_id: message.reply?.messageIds[0],
+            parse_mode: "HTML",
+            disable_web_page_preview: true,
+            reply_markup: this.createButtons(message.buttons)
+        };
+    }
+
     private sendOtherAttachment(
         channelId: number,
         attachment: ResolvedAttachment,
@@ -519,6 +523,7 @@ export class TelegramController extends Controller {
         message: ResolvedMessage
     ): Promise<SendedMessage | undefined> {
         let result: SendedMessage | undefined = undefined;
+        let extra = this.createExtra(message);
 
         if (!message.metadata) {
             throw new Error("Metadata required");
@@ -541,9 +546,11 @@ export class TelegramController extends Controller {
                 channelId,
                 messageId,
                 undefined,
-                message.text
+                message.text,
+                extra
             );
             result = await this.createSendedMessage(edited as Message);
+            extra = undefined;
         }
 
         return result;
