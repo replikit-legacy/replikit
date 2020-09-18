@@ -40,7 +40,7 @@ exports[`ProjectManager should add a module to the project with logger: /package
     },
     \\"devDependencies\\": {
         \\"@types/node\\": \\"0.0.0\\",
-        \\"replikit\\": \\"0.0.0\\"
+        \\"@replikit/cli\\": \\"0.0.0\\"
     }
 }
 "
@@ -112,7 +112,7 @@ exports[`ProjectManager should add a module to the project without logger: /pack
     },
     \\"devDependencies\\": {
         \\"@types/node\\": \\"0.0.0\\",
-        \\"replikit\\": \\"0.0.0\\"
+        \\"@replikit/cli\\": \\"0.0.0\\"
     }
 }
 "
@@ -231,7 +231,7 @@ exports[`ProjectManager should add external subrepository, update tsconfig.json 
     },
     \\"devDependencies\\": {
         \\"@types/node\\": \\"0.0.0\\",
-        \\"replikit\\": \\"0.0.0\\"
+        \\"@replikit/cli\\": \\"0.0.0\\"
     }
 }
 "
@@ -303,7 +303,7 @@ exports[`ProjectManager should generate npm project: /package.json 1`] = `
     },
     \\"devDependencies\\": {
         \\"@types/node\\": \\"0.0.0\\",
-        \\"replikit\\": \\"0.0.0\\",
+        \\"@replikit/cli\\": \\"0.0.0\\",
         \\"lerna\\": \\"0.0.0\\"
     }
 }
@@ -363,7 +363,7 @@ exports[`ProjectManager should generate project with hook support: /package.json
     },
     \\"devDependencies\\": {
         \\"@types/node\\": \\"0.0.0\\",
-        \\"replikit\\": \\"0.0.0\\",
+        \\"@replikit/cli\\": \\"0.0.0\\",
         \\"ts-patch\\": \\"0.0.0\\"
     }
 }
@@ -429,7 +429,7 @@ exports[`ProjectManager should generate yarn project: /package.json 1`] = `
     },
     \\"devDependencies\\": {
         \\"@types/node\\": \\"0.0.0\\",
-        \\"replikit\\": \\"0.0.0\\"
+        \\"@replikit/cli\\": \\"0.0.0\\"
     }
 }
 "
@@ -498,7 +498,7 @@ exports[`ProjectManager should generate yarn-lerna project: /package.json 1`] = 
     },
     \\"devDependencies\\": {
         \\"@types/node\\": \\"0.0.0\\",
-        \\"replikit\\": \\"0.0.0\\",
+        \\"@replikit/cli\\": \\"0.0.0\\",
         \\"lerna\\": \\"0.0.0\\"
     }
 }
