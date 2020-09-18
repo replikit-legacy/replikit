@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import "@replikit/commands/typings";
 import { Parameters } from "@replikit/commands/typings";
 import { PermissionInstance, EntityType } from "@replikit/permissions";
