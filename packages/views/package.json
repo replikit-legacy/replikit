@@ -1,0 +1,22 @@
+{
+    "name": "@replikit/views",
+    "version": "0.18.2",
+    "license": "MIT",
+    "main": "dist/index.js",
+    "typings": "dist/index.d.ts",
+    "files": [
+        "dist",
+        "typings"
+    ],
+    "scripts": {
+        "build": "tsc -p tsconfig.build.json"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "dependencies": {
+        "@replikit/core": "^0.18.2",
+        "@replikit/router": "^0.18.2",
+        "@replikit/sessions": "^0.18.2"
+    }
+}
