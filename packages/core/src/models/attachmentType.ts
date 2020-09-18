@@ -3,5 +3,6 @@ export enum AttachmentType {
     Video,
     Sticker,
     Voice,
-    Document
+    Document,
+    Animation
 }

@@ -323,6 +323,14 @@ export class TelegramController extends Controller {
                     document_file_id: attachment.id
                 };
             }
+            case AttachmentType.Animation: {
+                return {
+                    ...commonFields,
+                    title,
+                    type: "mpeg4_gif",
+                    document_file_id: attachment.id
+                };
+            }
         }
         // throw new Error(`Attachment with type ${attachment.type} cannot be an inline query result`);
     }
@@ -507,6 +515,12 @@ export class TelegramController extends Controller {
             case AttachmentType.Document: {
                 return this.backend.telegram.sendDocument(channelId, attachment.source, extra);
             }
+            case AttachmentType.Animation: {
+                return this.backend.telegram.sendAnimation(channelId, attachment.source, extra);
+            }
+            case AttachmentType.Video: {
+                return this.backend.telegram.sendVideo(channelId, attachment.source, extra);
+            }
             default: {
                 const type = AttachmentType[attachment.type];
                 return this.backend.telegram.sendMessage(
@@ -607,6 +621,13 @@ export class TelegramController extends Controller {
 
         if (message.video) {
             return { id: message.video.file_id, type: AttachmentType.Video };
+        }
+
+        if (message.animation) {
+            return {
+                id: message.animation.file_id,
+                type: AttachmentType.Animation
+            };
         }
 
         return undefined;

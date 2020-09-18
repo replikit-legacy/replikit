@@ -289,7 +289,7 @@ export class DiscordController extends Controller {
             case ".jpeg":
                 return AttachmentType.Photo;
             case ".gif":
-                return AttachmentType.Document;
+                return AttachmentType.Animation;
         }
         return null!;
     }

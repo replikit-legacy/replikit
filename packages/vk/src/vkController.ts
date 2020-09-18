@@ -29,7 +29,8 @@ import {
     StickerAttachment,
     Attachment as VKAttachment,
     ExternalAttachment,
-    getRandomId
+    getRandomId,
+    DocumentAttachment
 } from "vk-io";
 import { UsersUserXtrCounters } from "vk-io/lib/api/schemas/objects";
 
@@ -422,6 +423,19 @@ export class VKController extends Controller {
                         type: AttachmentType.Sticker,
                         id: stickerAttachment.id.toString(),
                         url: images[images.length - 3].url
+                    });
+                    break;
+                }
+                case "document": {
+                    const documentAttachment = attachment as DocumentAttachment;
+                    const type =
+                        documentAttachment.typeId === 3
+                            ? AttachmentType.Animation
+                            : AttachmentType.Document;
+                    result.push({
+                        type,
+                        id: documentAttachment.toString(),
+                        url: documentAttachment.url
                     });
                     break;
                 }
