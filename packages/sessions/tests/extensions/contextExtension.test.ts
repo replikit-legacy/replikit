@@ -13,7 +13,13 @@ import {
 import { createMessageEvent, DatabaseTestManager } from "@replikit/test-utils";
 import { HasFields } from "@replikit/core/typings";
 import { User } from "@replikit/storage";
-import { Context, AccountContext, ChannelContext, MemberContext } from "@replikit/router";
+import {
+    Context,
+    AccountContext,
+    ChannelContext,
+    MemberContext,
+    MessageContext
+} from "@replikit/router";
 
 function createContextByType(type: SessionType): Context {
     const event = createMessageEvent();
@@ -25,6 +31,8 @@ function createContextByType(type: SessionType): Context {
             return new ChannelContext(event);
         case SessionType.Member:
             return new MemberContext(event);
+        case SessionType.Message:
+            return new MessageContext(event);
     }
 }
 

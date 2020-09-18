@@ -1,6 +1,6 @@
-import { SessionType } from "@replikit/sessions";
+import { Session, SessionType } from "@replikit/sessions";
 
-export class ChannelTestSession {
+export class ChannelTestSession extends Session {
     static readonly namespace = "test";
     static readonly type = SessionType.Channel;
 
@@ -11,21 +11,21 @@ export class ChannelTestSession {
     }
 }
 
-export class MemberTestSession {
+export class MemberTestSession extends Session {
     static readonly namespace = "test";
     static readonly type = SessionType.Member;
 
     test: number;
 }
 
-export class AccountTestSession {
+export class AccountTestSession extends Session {
     static readonly namespace = "test";
     static readonly type = SessionType.Account;
 
     test: number;
 }
 
-export class UserTestSession {
+export class UserTestSession extends Session {
     static readonly namespace = "test";
     static readonly type = SessionType.User;
 

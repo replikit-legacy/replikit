@@ -12,12 +12,26 @@ export class SessionManager {
 
     constructor(private readonly storage: SessionStorage) {}
 
+    private async saveWorker(key: string, session: StoredSession): Promise<void> {
+        if (JSON.stringify(session.current) !== session.original) {
+            await this.storage.set(key, classToPlain(session.current));
+        }
+    }
+
+    async saveSession(key: string): Promise<void> {
+        const session = this.sessionMap.get(key);
+        return session && this.saveWorker(key, session);
+    }
+
     async save(): Promise<void> {
         for (const [key, session] of this.sessionMap.entries()) {
-            if (JSON.stringify(session.current) !== session.original) {
-                await this.storage.set(key, classToPlain(session.current));
-            }
+            await this.saveWorker(key, session);
         }
+    }
+
+    async delete(key: string): Promise<void> {
+        this.sessionMap.delete(key);
+        await this.storage.delete(key);
     }
 
     async get<T>(key: string, type: Constructor<T>): Promise<T> {
@@ -27,6 +41,8 @@ export class SessionManager {
         }
         const existing = await this.storage.get(key);
         const current = existing ? plainToClass(type, existing) : new type();
+        (current as HasFields).key = key;
+        (current as HasFields).sessionManager = this;
         session = { current: current as HasFields, original: JSON.stringify(current) };
         this.sessionMap.set(key, session);
         return current;

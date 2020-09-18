@@ -1,5 +1,7 @@
 import { SessionStorage } from "@replikit/sessions/typings";
 
+export type SessionStorageOption = "memory" | "database" | SessionStorage;
+
 export interface SessionsConfiguration {
-    storage: SessionStorage;
+    storage: SessionStorageOption;
 }

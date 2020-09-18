@@ -1,7 +1,7 @@
 import { Constructor } from "@replikit/core/typings";
-import { SessionType } from "@replikit/sessions";
+import { Session, SessionType } from "@replikit/sessions";
 
-export interface SessionConstructor<T = unknown> extends Constructor<T> {
+export interface SessionConstructor<T extends Session = Session> extends Constructor<T> {
     type: SessionType;
     namespace: string;
 }

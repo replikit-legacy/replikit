@@ -52,4 +52,9 @@ export class MongoSessionStorage implements SessionStorage {
         const collection = this.connection.getRawCollection<HasFields>("sessions");
         await collection.replaceOne({ _id: key }, value, { upsert: true });
     }
+
+    async delete(key: string): Promise<void> {
+        const collection = this.connection.getRawCollection<HasFields>("sessions");
+        await collection.deleteOne({ _id: key });
+    }
 }
