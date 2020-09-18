@@ -1,6 +1,6 @@
-import { SessionType } from "@replikit/sessions";
+import { Session, SessionType } from "@replikit/sessions";
 
-export class RandomUserSession {
+export class RandomUserSession extends Session {
     static readonly namespace = "random";
     static readonly type = SessionType.User;
 

@@ -81,3 +81,12 @@ export type TypeOf<T extends TypeOfResult> = T extends "string"
 
 // https://stackoverflow.com/a/54178819/10502674
 export type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
+
+// https://stackoverflow.com/a/56333836/10502674
+export type WidenLiterals<T> = T extends boolean
+    ? boolean
+    : T extends string
+    ? string
+    : T extends number
+    ? number
+    : T;
