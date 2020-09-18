@@ -13,7 +13,7 @@ export class SessionManager {
     constructor(private readonly storage: SessionStorage) {}
 
     private async saveWorker(key: string, session: StoredSession): Promise<void> {
-        if (JSON.stringify(session.current) !== session.original) {
+        if (JSON.stringify(classToPlain(session.current)) !== session.original) {
             await this.storage.set(key, classToPlain(session.current));
         }
     }
@@ -43,7 +43,10 @@ export class SessionManager {
         const current = existing ? plainToClass(type, existing) : new type();
         (current as HasFields).key = key;
         (current as HasFields).sessionManager = this;
-        session = { current: current as HasFields, original: JSON.stringify(current) };
+        session = {
+            current: current as HasFields,
+            original: JSON.stringify(classToPlain(current))
+        };
         this.sessionMap.set(key, session);
         return current;
     }

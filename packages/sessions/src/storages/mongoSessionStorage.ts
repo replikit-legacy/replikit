@@ -1,6 +1,6 @@
 import { SessionStorage } from "@replikit/sessions/typings";
 import { ConnectionManager } from "@replikit/storage";
-import { hook, ModuleNotFoundError } from "@replikit/core";
+import { ModuleNotFoundError } from "@replikit/core";
 import { HasFields } from "@replikit/core/typings";
 
 type StorageModule = typeof import("@replikit/storage");
@@ -14,30 +14,20 @@ function getConnection(): ConnectionManager | undefined {
     }
 }
 
-let connection: ConnectionManager;
-let isUsed = false;
-
-hook("core:startup:ready", () => {
-    if (!isUsed) {
-        return;
-    }
-    connection = getConnection()!;
-    if (!connection) {
-        throw new ModuleNotFoundError("@replikit/storage", "MongoSesionStorage");
-    }
-});
-
 export class MongoSessionStorage implements SessionStorage {
-    constructor() {
-        isUsed = true;
-    }
-
     /** @internal */
     _connection?: ConnectionManager;
 
     /** @internal */
     private get connection(): ConnectionManager {
-        return this._connection ?? connection;
+        if (this._connection) {
+            return this._connection;
+        }
+        this._connection = getConnection()!;
+        if (!this._connection) {
+            throw new ModuleNotFoundError("@replikit/storage", "MongoSesionStorage");
+        }
+        return this._connection;
     }
 
     async get(key: string): Promise<HasFields | undefined> {
