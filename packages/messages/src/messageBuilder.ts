@@ -1,4 +1,4 @@
-import { OutMessage, Attachment, TextToken, MessageHeader } from "@replikit/core/typings";
+import { OutMessage, Attachment, TextToken, MessageHeader, Button } from "@replikit/core/typings";
 import { AttachmentType, TextTokenKind, TextTokenProp, Builder } from "@replikit/core";
 import { hashString, MetadataLike, extractMetadata } from "@replikit/messages";
 
@@ -85,6 +85,11 @@ export class MessageBuilder extends Builder {
 
     addButtonWithUrl(text: string, url: string): this {
         this.message.buttons.push({ text, url });
+        return this;
+    }
+
+    addButton(button: Button): this {
+        this.message.buttons.push(button);
         return this;
     }
 
