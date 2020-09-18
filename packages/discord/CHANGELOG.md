@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.19.0](https://github.com/Exeteres/Replikit/compare/v0.18.2...v0.19.0) (2020-09-18)
+
+
+### Bug Fixes
+
+* **discord:** Add support for links and dm channels ([96b0c13](https://github.com/Exeteres/Replikit/commit/96b0c13b1ba7ff754ba00f6c0640888a6a987edd))
+
+
+### Features
+
+* Add animation support ([3fe6611](https://github.com/Exeteres/Replikit/commit/3fe661176d558217b66e663e5071452f9d218987))
+
+
+
+
+
 ## [0.18.2](https://github.com/Exeteres/Replikit/compare/v0.18.1...v0.18.2) (2020-09-09)
 
 **Note:** Version bump only for package @replikit/discord

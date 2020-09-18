@@ -1,6 +1,6 @@
 {
     "name": "@replikit/sessions",
-    "version": "0.18.2",
+    "version": "0.19.0",
     "license": "MIT",
     "main": "dist/index.js",
     "typings": "dist/index.d.ts",
@@ -15,11 +15,11 @@
         "access": "public"
     },
     "dependencies": {
-        "@replikit/core": "^0.18.2",
+        "@replikit/core": "^0.19.0",
         "class-transformer": "^0.3.1"
     },
     "optionalDependencies": {
-        "@replikit/commands": "^0.18.2",
-        "@replikit/hooks": "^0.18.2"
+        "@replikit/commands": "^0.19.0",
+        "@replikit/hooks": "^0.19.0"
     }
 }

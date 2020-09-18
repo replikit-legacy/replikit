@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.19.0](https://github.com/Exeteres/Replikit/compare/v0.18.2...v0.19.0) (2020-09-18)
+
+
+### Bug Fixes
+
+* **cli:** Use @replikit/cli instead of replikit ([1d99cdb](https://github.com/Exeteres/Replikit/commit/1d99cdb49f12ab1baef1dcf1be727046c8a40b33))
+* **discord:** Add support for links and dm channels ([96b0c13](https://github.com/Exeteres/Replikit/commit/96b0c13b1ba7ff754ba00f6c0640888a6a987edd))
+* **sessions:** Fix MongoSessionStorage ([2a4702d](https://github.com/Exeteres/Replikit/commit/2a4702d34ec2b9df298f1bc26b2581696a1feefc))
+* **telegram:** Fix formatting in editMessage method ([7726e80](https://github.com/Exeteres/Replikit/commit/7726e80c0bb829d117fb7ded79ea565486b76f16))
+
+
+### Features
+
+* **core:** Add support for inline buttons ([d39240c](https://github.com/Exeteres/Replikit/commit/d39240ca7f7fdd7302e98b514ac3893682995fda))
+* **messages:** Add addButton method ([1d7f3a0](https://github.com/Exeteres/Replikit/commit/1d7f3a0adb2b31e02707f4093e0ec7d828797403))
+* **messages:** Add OutMessageLike type and utils ([a9fb59c](https://github.com/Exeteres/Replikit/commit/a9fb59cb432419fadd3a51e79d135ac29c9087b5))
+* **messages:** Add token factories and support for buttons ([2275483](https://github.com/Exeteres/Replikit/commit/227548389a70cf64756c298951241ea96fbd77c4))
+* **router:** Add support for buttons ([6011d74](https://github.com/Exeteres/Replikit/commit/6011d74acff02a6f9db93778f2578cb6ea69b6f7))
+* **sessions:** Redesign session system ([aa9c505](https://github.com/Exeteres/Replikit/commit/aa9c50519def6c210a5069b157c4f4f0de06e35c))
+* **views:** Add experimental view system ([8874b49](https://github.com/Exeteres/Replikit/commit/8874b493152ff228b645f25baa8a034ea4383795))
+* Add animation support ([3fe6611](https://github.com/Exeteres/Replikit/commit/3fe661176d558217b66e663e5071452f9d218987))
+* Add support for switchInline button ([506f93e](https://github.com/Exeteres/Replikit/commit/506f93eec1788bc9d5b4ae40c1ccd615b13cbe52))
+* **storage:** Add more useful methods ([e5cefa5](https://github.com/Exeteres/Replikit/commit/e5cefa5545a833af0574d74752ab6581103c5374))
+* **telegram:** Add support for inline buttons ([66488b9](https://github.com/Exeteres/Replikit/commit/66488b9bd5bea2e1551920694f4d4f51a58ab95b))
+* **vk:** Add support for videos ([a65a280](https://github.com/Exeteres/Replikit/commit/a65a280ed021e1f6d2d3edd930146958e994634c))
+
+
+
+
+
 ## [0.18.2](https://github.com/Exeteres/Replikit/compare/v0.18.1...v0.18.2) (2020-09-09)
 
 

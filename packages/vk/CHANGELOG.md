@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.19.0](https://github.com/Exeteres/Replikit/compare/v0.18.2...v0.19.0) (2020-09-18)
+
+
+### Features
+
+* Add animation support ([3fe6611](https://github.com/Exeteres/Replikit/commit/3fe661176d558217b66e663e5071452f9d218987))
+* **vk:** Add support for videos ([a65a280](https://github.com/Exeteres/Replikit/commit/a65a280ed021e1f6d2d3edd930146958e994634c))
+
+
+
+
+
 ## [0.18.2](https://github.com/Exeteres/Replikit/compare/v0.18.1...v0.18.2) (2020-09-09)
 
 

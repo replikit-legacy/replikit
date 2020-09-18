@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.19.0](https://github.com/Exeteres/Replikit/compare/v0.18.2...v0.19.0) (2020-09-18)
+
+
+### Features
+
+* **router:** Add support for buttons ([6011d74](https://github.com/Exeteres/Replikit/commit/6011d74acff02a6f9db93778f2578cb6ea69b6f7))
+
+
+
+
+
 ## [0.18.2](https://github.com/Exeteres/Replikit/compare/v0.18.1...v0.18.2) (2020-09-09)
 
 **Note:** Version bump only for package @replikit/router

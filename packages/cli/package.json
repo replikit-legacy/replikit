@@ -1,6 +1,6 @@
 {
     "name": "@replikit/cli",
-    "version": "0.18.2",
+    "version": "0.19.0",
     "license": "MIT",
     "main": "dist/index.js",
     "typings": "dist/index.d.ts",
@@ -16,8 +16,8 @@
         "replikit": "./dist/main.js"
     },
     "dependencies": {
-        "@replikit/chalk": "^0.18.2",
-        "@replikit/core": "^0.18.2",
+        "@replikit/chalk": "^0.19.0",
+        "@replikit/core": "^0.19.0",
         "commander": "^6.0.0",
         "dotenv": "^8.2.0",
         "execa": "^4.0.0",

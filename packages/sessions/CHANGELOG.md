@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.19.0](https://github.com/Exeteres/Replikit/compare/v0.18.2...v0.19.0) (2020-09-18)
+
+
+### Bug Fixes
+
+* **sessions:** Fix MongoSessionStorage ([2a4702d](https://github.com/Exeteres/Replikit/commit/2a4702d34ec2b9df298f1bc26b2581696a1feefc))
+
+
+### Features
+
+* **sessions:** Redesign session system ([aa9c505](https://github.com/Exeteres/Replikit/commit/aa9c50519def6c210a5069b157c4f4f0de06e35c))
+
+
+
+
+
 ## [0.18.2](https://github.com/Exeteres/Replikit/compare/v0.18.1...v0.18.2) (2020-09-09)
 
 **Note:** Version bump only for package @replikit/sessions

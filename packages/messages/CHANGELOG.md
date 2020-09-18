@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.19.0](https://github.com/Exeteres/Replikit/compare/v0.18.2...v0.19.0) (2020-09-18)
+
+
+### Features
+
+* **messages:** Add addButton method ([1d7f3a0](https://github.com/Exeteres/Replikit/commit/1d7f3a0adb2b31e02707f4093e0ec7d828797403))
+* **messages:** Add OutMessageLike type and utils ([a9fb59c](https://github.com/Exeteres/Replikit/commit/a9fb59cb432419fadd3a51e79d135ac29c9087b5))
+* **messages:** Add token factories and support for buttons ([2275483](https://github.com/Exeteres/Replikit/commit/227548389a70cf64756c298951241ea96fbd77c4))
+
+
+
+
+
 ## [0.18.2](https://github.com/Exeteres/Replikit/compare/v0.18.1...v0.18.2) (2020-09-09)
 
 **Note:** Version bump only for package @replikit/messages

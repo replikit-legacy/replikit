@@ -1,6 +1,6 @@
 {
     "name": "@replikit/permissions",
-    "version": "0.18.2",
+    "version": "0.19.0",
     "license": "MIT",
     "main": "dist/index.js",
     "typings": "dist/index.d.ts",
@@ -12,11 +12,11 @@
         "build": "tsc -p tsconfig.build.json"
     },
     "dependencies": {
-        "@replikit/core": "^0.18.2",
-        "@replikit/i18n": "^0.18.2",
-        "@replikit/storage": "^0.18.2"
+        "@replikit/core": "^0.19.0",
+        "@replikit/i18n": "^0.19.0",
+        "@replikit/storage": "^0.19.0"
     },
     "optionalDependencies": {
-        "@replikit/commands": "^0.18.2"
+        "@replikit/commands": "^0.19.0"
     }
 }

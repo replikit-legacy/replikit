@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.19.0](https://github.com/Exeteres/Replikit/compare/v0.18.2...v0.19.0) (2020-09-18)
+
+
+### Bug Fixes
+
+* **telegram:** Fix formatting in editMessage method ([7726e80](https://github.com/Exeteres/Replikit/commit/7726e80c0bb829d117fb7ded79ea565486b76f16))
+
+
+### Features
+
+* Add animation support ([3fe6611](https://github.com/Exeteres/Replikit/commit/3fe661176d558217b66e663e5071452f9d218987))
+* Add support for switchInline button ([506f93e](https://github.com/Exeteres/Replikit/commit/506f93eec1788bc9d5b4ae40c1ccd615b13cbe52))
+* **telegram:** Add support for inline buttons ([66488b9](https://github.com/Exeteres/Replikit/commit/66488b9bd5bea2e1551920694f4d4f51a58ab95b))
+
+
+
+
+
 ## [0.18.2](https://github.com/Exeteres/Replikit/compare/v0.18.1...v0.18.2) (2020-09-09)
 
 
