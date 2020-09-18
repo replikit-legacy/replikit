@@ -5,6 +5,7 @@ export * from "./models/attachment";
 export * from "./models/inlineQueryAttachment";
 export * from "./models/forwardedOutMessage";
 export * from "./models/messageHeader";
+export * from "./models/buttonSwitchInline";
 export * from "./models/button";
 export * from "./models/outMessage";
 export * from "./models/messageMetadata";

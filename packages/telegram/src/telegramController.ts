@@ -15,7 +15,8 @@ import {
     ChosenInlineQueryResult,
     InlineQueryResponse,
     InlineQueryResult as CoreInlineQueryResult,
-    Button
+    Button,
+    HasFields
 } from "@replikit/core/typings";
 import Telegraf, { Markup } from "telegraf";
 import {
@@ -394,8 +395,21 @@ export class TelegramController extends Controller {
         if (!buttons.length) {
             return;
         }
-        const payload = buttons.map(x => ({ callback_data: x.payload, text: x.text, url: x.url }));
-        return Markup.inlineKeyboard(payload as InlineKeyboardButton[]);
+        const payload = buttons.map(x => {
+            const result = {
+                callback_data: x.payload,
+                text: x.text,
+                url: x.url
+            } as HasFields;
+            if (x.switchInline) {
+                const key = x.switchInline.current
+                    ? "switch_inline_query_current_chat"
+                    : "switch_inline_query";
+                result[key] = x.switchInline.username;
+            }
+            return result;
+        });
+        return Markup.inlineKeyboard((payload as unknown) as InlineKeyboardButton[]);
     }
 
     async sendResolvedMessage(channelId: number, message: ResolvedMessage): Promise<SendedMessage> {
