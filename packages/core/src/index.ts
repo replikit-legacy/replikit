@@ -6,6 +6,11 @@ export * from "./models/textTokenKind";
 export * from "./models/textTokenProp";
 export * from "./models/logLevel";
 
+export * from "./composition/compositionItem";
+export * from "./composition/compositionFactory";
+export * from "./composition/compositionContext";
+export * from "./composition/composition";
+
 export * from "./errors";
 export * from "./utils";
 export * from "./hookStorage";
