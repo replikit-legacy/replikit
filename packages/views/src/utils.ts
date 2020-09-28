@@ -2,6 +2,7 @@ import { HasFields, OutMessage } from "@replikit/core/typings";
 import { resolveOutMessage } from "@replikit/messages";
 import { OutMessageLike } from "@replikit/messages/typings";
 import { ViewMessageBuilder } from "@replikit/views";
+import { ViewAction } from "@replikit/views/typings";
 
 export function parseJSON(json: string): HasFields | undefined {
     try {
@@ -13,7 +14,7 @@ export function parseJSON(json: string): HasFields | undefined {
 
 export interface ViewPayload {
     view: string;
-    action: string;
+    action: number;
 }
 
 export function isViewPayload(data: unknown): data is ViewPayload {
@@ -23,9 +24,9 @@ export function isViewPayload(data: unknown): data is ViewPayload {
 export function resolveViewOutMessage(
     view: string,
     outMessage: OutMessageLike
-): [OutMessage, string[]?] {
+): [OutMessage, ViewAction[]] {
     if (outMessage instanceof ViewMessageBuilder) {
         return outMessage.buildWithActions(view);
     }
-    return [resolveOutMessage(outMessage)];
+    return [resolveOutMessage(outMessage), []];
 }

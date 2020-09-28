@@ -17,7 +17,7 @@ class TestView extends View {
 }
 
 describe("viewStorage", () => {
-    it("should register a view and collect info about it fields", () => {
+    it("should register a view and collect its composition info", () => {
         const viewStorage = new ViewStorage();
         viewStorage.register(TestView);
         expect(viewStorage._viewMap).toMatchSnapshot();
@@ -32,7 +32,7 @@ describe("viewStorage", () => {
     it("should create a view by name", () => {
         const viewStorage = new ViewStorage();
         viewStorage.register(TestView);
-        const view = viewStorage.resolve(undefined!, "TestView", 123, { messageIds: [456] });
+        const view = viewStorage.resolve(undefined!, "TestView", { messageIds: [456] });
         expect(view).toMatchSnapshot();
     });
 });

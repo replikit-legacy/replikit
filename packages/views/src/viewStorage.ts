@@ -1,27 +1,14 @@
-import { ViewInfo } from "@replikit/views/typings";
-import { ViewAlreadyRegisteredError, View, ViewField } from "@replikit/views";
-import { Constructor, HasFields, Identifier, MessageMetadata } from "@replikit/core/typings";
+import { ViewAlreadyRegisteredError, View } from "@replikit/views";
+import { Constructor, MessageMetadata } from "@replikit/core/typings";
 import { MessageContext } from "@replikit/router";
+import { CompositionInfo, createCompositionInfo, createCompositionInstance } from "@replikit/core";
 
 export class ViewStorage {
     /** @internal */
-    readonly _viewMap = new Map<string, ViewInfo>();
+    readonly _viewMap = new Map<string, CompositionInfo>();
 
-    private createViewInfo(constructor: Constructor<View>): ViewInfo {
-        const instance = (new constructor() as unknown) as HasFields;
-        const result: ViewInfo = {
-            fields: [],
-            prototype: constructor.prototype
-        };
-        for (const field in instance) {
-            const value = instance[field];
-            if (value instanceof ViewField) {
-                value.name = field;
-                result.fields.push(value);
-                continue;
-            }
-        }
-        return result;
+    private createViewInfo(constructor: Constructor<View>): CompositionInfo {
+        return createCompositionInfo(constructor, {});
     }
 
     register<T extends View>(constructor: Constructor<T>): void {
@@ -36,17 +23,13 @@ export class ViewStorage {
     resolve(
         context: MessageContext,
         name: string,
-        channelId: Identifier,
-        metadata?: MessageMetadata
+        metadata?: MessageMetadata,
+        data?: unknown
     ): View | undefined {
         const viewInfo = this._viewMap.get(name);
         if (!viewInfo) return undefined;
-        const view = Object.create(viewInfo.prototype);
-        view.info = viewInfo;
-        view.context = context;
-        view.channelId = channelId;
-        view.metadata = metadata;
-        return view as View;
+        const viewContext = Object.assign({ metadata, _data: data ?? {} }, context);
+        return createCompositionInstance(viewInfo, viewContext);
     }
 }
 

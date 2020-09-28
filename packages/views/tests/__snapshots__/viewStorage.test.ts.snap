@@ -2,23 +2,9 @@
 
 exports[`viewStorage should create a view by name 1`] = `
 TestView {
-  "channelId": 123,
-  "context": undefined,
-  "info": Object {
-    "fields": Array [
-      ViewField {
-        "initial": 0,
-        "name": "startFrom",
-      },
-      ViewField {
-        "initial": ViewField {
-          "initial": 0,
-          "name": "startFrom",
-        },
-        "name": "count",
-      },
-    ],
-    "prototype": TestView {},
+  "_data": Object {
+    "count": 0,
+    "startFrom": 0,
   },
   "metadata": Object {
     "messageIds": Array [
@@ -28,23 +14,13 @@ TestView {
 }
 `;
 
-exports[`viewStorage should register a view and collect info about it fields 1`] = `
+exports[`viewStorage should register a view and collect its composition info 1`] = `
 Map {
   "TestView" => Object {
-    "fields": Array [
-      ViewField {
-        "initial": 0,
-        "name": "startFrom",
-      },
-      ViewField {
-        "initial": ViewField {
-          "initial": 0,
-          "name": "startFrom",
-        },
-        "name": "count",
-      },
-    ],
-    "prototype": TestView {},
+    "fields": Object {},
+    "prototype": TestView {
+      "__init__": [Function],
+    },
   },
 }
 `;

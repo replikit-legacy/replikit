@@ -7,11 +7,10 @@ import { ViewProps } from "@replikit/views/typings";
 @Extension
 export class MessageContextExtension extends MessageContext {
     async enter(ctr: Constructor<View>, props?: ViewProps<View>): Promise<void> {
-        const view = viewStorage.resolve(this, ctr.name, this.channel.id);
+        const view = viewStorage.resolve(this, ctr.name, undefined, props);
         if (!view) {
             throw new ViewNotRegisteredError(ctr.name);
         }
-        await view.syncFields(false, props);
         return view.updateWorker();
     }
 }

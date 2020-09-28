@@ -1,54 +1,72 @@
-import {
-    AccountInfo,
-    ChannelInfo,
-    HasFields,
-    Identifier,
-    MessageMetadata
-} from "@replikit/core/typings";
+import { assert } from "@replikit/core";
+import { Constructor, HasFields, MessageMetadata, SafeFunction } from "@replikit/core/typings";
 import { OutMessageLikeAsync } from "@replikit/messages/typings";
-import { ViewInfo } from "@replikit/views/typings";
 import { MessageContext } from "@replikit/router";
 import { createSessionKey } from "@replikit/sessions";
-import { resolveViewOutMessage, ViewField, ViewSession } from "@replikit/views";
+import {
+    resolveViewOutMessage,
+    ViewNotRegisteredError,
+    ViewSession,
+    viewStorage
+} from "@replikit/views";
+import { ViewProps } from "@replikit/views/typings";
 
-export abstract class View {
+export abstract class View extends MessageContext {
     private metadata?: MessageMetadata;
-    private channelId: Identifier;
-    private context: MessageContext;
-    private info: ViewInfo;
 
     /** @internal */
-    session?: ViewSession;
+    _data: HasFields;
 
-    protected get account(): AccountInfo {
-        return this.context.account;
-    }
+    /** @internal */
+    _session?: ViewSession;
 
-    protected get channel(): ChannelInfo {
-        return this.context.channel;
-    }
-
-    private updateRequested = false;
+    private updateRequested: boolean;
+    private viewChangeRequested: boolean;
 
     protected closed: boolean;
 
     abstract render(): OutMessageLikeAsync;
+    renderClosed?(): OutMessageLikeAsync;
 
     /** @internal */
     async updateWorker(): Promise<void> {
-        const renderResult = await this.render();
+        const renderResult =
+            this.closed && this.renderClosed ? await this.renderClosed() : await this.render();
         const [message, actions] = resolveViewOutMessage(this.constructor.name, renderResult);
         if (!this.metadata) {
-            const sended = await this.context.controller.sendMessage(this.channelId, message);
+            const sended = await this.controller.sendMessage(this.channel.id, message);
             this.metadata = sended.metadata;
+            await this._load(true);
+            this._session!.actions = actions;
+            await this._session!.save();
         } else {
+            this._session!.actions = actions;
+            await this._session!.save();
             message.metadata = this.metadata;
-            const sended = await this.context.controller.editMessage(this.channelId, message);
+            const sended = await this.controller.editMessage(this.channel.id, message);
             this.metadata = sended.metadata;
         }
-        await this.syncFields(true);
-        this.session!.actions = actions;
-        await this.session!.save();
+    }
+
+    /** @internal */
+    _invoke(name: string, ...args: unknown[]): unknown {
+        return ((this as HasFields)[name] as SafeFunction)(...args);
+    }
+
+    changeView<T extends View>(view: Constructor<T>, props?: ViewProps<T>): void {
+        if (this.viewChangeRequested) {
+            return;
+        }
+        this.viewChangeRequested = true;
+        const resolvedView = viewStorage.resolve(this, view.name, this.metadata);
+        if (!resolvedView) {
+            throw new ViewNotRegisteredError(view.name);
+        }
+        resolvedView._session = this._session;
+        resolvedView._session!.data = props ?? {};
+        resolvedView._data = props ?? {};
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        setImmediate(resolvedView.updateWorker.bind(resolvedView));
     }
 
     update(): void {
@@ -61,7 +79,7 @@ export abstract class View {
     }
 
     private async closeWorker(update: boolean): Promise<void> {
-        await this.session?.reset();
+        await this._session?.reset();
         if (update) {
             await this.updateWorker();
         }
@@ -71,42 +89,31 @@ export abstract class View {
      * Removes the view state from database to make it completely inaccessible.
      * @param update Update the view. `true` by default.
      */
-    close(update = true): void {
+    close(update?: boolean): void {
         if (this.closed) {
             return;
         }
         this.closed = true;
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        setImmediate(this.closeWorker.bind(this, update));
+        setImmediate(this.closeWorker.bind(this, update ?? true));
     }
 
     /** @internal */
-    async syncFields(write = false, props: HasFields = {}): Promise<void> {
-        const messageId = this.metadata?.messageIds[0];
-        if (messageId) {
-            const sessionKey = createSessionKey(
-                this.context.controller.name,
-                ViewSession,
-                this.channelId,
-                messageId
-            );
-            if (!this.session) {
-                this.session = await this.context.getSession(ViewSession, sessionKey);
-            }
-            for (const field of this.info.fields) {
-                if (write) {
-                    this.session[field.name] = (this as HasFields)[field.name];
-                } else {
-                    (this as HasFields)[field.name] = this.session[field.name];
-                }
-            }
-        } else {
-            for (const field of this.info.fields) {
-                (this as HasFields)[field.name] =
-                    props[field.name] ??
-                    (field.initial instanceof ViewField
-                        ? (this as HasFields)[field.initial.name]
-                        : field.initial);
+    async _load(write = false): Promise<void> {
+        assert(this.metadata, "Unable to load view without metadata");
+        const messageId = this.metadata.messageIds[0];
+        const sessionKey = createSessionKey(
+            this.controller.name,
+            ViewSession,
+            this.channel.id,
+            messageId
+        );
+        if (!this._session) {
+            this._session = await this.getSession(ViewSession, sessionKey);
+            if (write) {
+                this._session.data = this._data;
+            } else {
+                this._data = this._session.data;
             }
         }
     }

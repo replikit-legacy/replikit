@@ -10,5 +10,6 @@ export * from "./view";
 export * from "./view";
 export * from "./viewStorage";
 export * from "./viewField";
+export * from "./multiStateView";
 
 export * from "./extensions/messageContextExtension";

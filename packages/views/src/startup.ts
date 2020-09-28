@@ -13,19 +13,15 @@ router.of("button:clicked").use(async (context, next) => {
     if (!data || !isViewPayload(data)) {
         return next();
     }
-    const view = viewStorage.resolve(
-        context,
-        data.view,
-        context.channel.id,
-        context.message.metadata
-    );
-    if (!view || !(data.action in view)) {
+    const view = viewStorage.resolve(context, data.view, context.message.metadata);
+    if (!view) {
         return next();
     }
-    await view.syncFields();
-    if (!view.session?.actions?.includes(data.action)) {
+    await view._load();
+    const actions = view._session!.actions;
+    const action = actions && actions[data.action];
+    if (!action) {
         return next();
     }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    await (view as any)[data.action]();
+    await view._invoke(action.name, ...action.arguments);
 });
