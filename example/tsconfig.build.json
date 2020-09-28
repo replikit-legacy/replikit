@@ -9,8 +9,7 @@
         "paths": {
             "@example/*": ["*/src"],
             "@example/*/typings": ["*/typings"]
-        },
-        "plugins": [{ "transform": "@replikit/hooks/plugin" }]
+        }
     },
     "include": ["replikit.config.ts", "modules/**/*.ts"]
 }

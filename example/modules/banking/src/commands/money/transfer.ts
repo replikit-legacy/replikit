@@ -1,43 +1,45 @@
 import { fromCode, MessageBuilder } from "@replikit/messages";
 import { User, loadExtensions } from "@replikit/storage";
-import { command } from "@replikit/commands";
-import { useRequired } from "@replikit/hooks";
+import { Command, required } from "@replikit/commands";
 import { logger, BankingUserExtension } from "@example/banking";
-import { CommandContext, CommandResult } from "@replikit/commands/typings";
+import { CommandResult } from "@replikit/commands/typings";
 
-export const transfer = command("transfer", "перевести")
-    .handler(handler)
-    .build();
+export class TransferCommand extends Command {
+    name = "transfer";
+    aliases = ["перевести"];
 
-async function handler(context: CommandContext): Promise<CommandResult> {
-    const targetUser = useRequired("user", User);
-    const amount = useRequired("amount", Number, { positive: true });
+    user = required(User);
+    amount = required(Number, { positive: true });
 
-    loadExtensions(targetUser, BankingUserExtension);
+    async execute(): Promise<CommandResult> {
+        const { user: targetUser, amount } = this;
 
-    const user = await context.getUser(BankingUserExtension);
-    if (user._id === targetUser._id) {
-        return fromCode("Вы не можете совершить перевод себе");
+        loadExtensions(targetUser, BankingUserExtension);
+
+        const user = await this.getUser(BankingUserExtension);
+        if (user._id === targetUser._id) {
+            return fromCode("Вы не можете совершить перевод себе");
+        }
+
+        if (user.banking.money < amount) {
+            return new MessageBuilder()
+                .addCodeLine("Недостаточно средств")
+                .addCodeLine(`Ваш баланс: ${user.banking.money} нихуя`);
+        }
+
+        targetUser.banking.money += amount;
+        user.banking.money -= amount;
+
+        await targetUser.save();
+        await user.save();
+
+        const logMessage = [
+            "Transfer successfuly completed: ",
+            `${user.username} -> ${targetUser.username} `,
+            `Amount: ${amount}`
+        ].join("");
+        logger.info(logMessage);
+
+        return fromCode("Операция успешно завершена");
     }
-
-    if (user.banking.money < amount) {
-        return new MessageBuilder()
-            .addCodeLine("Недостаточно средств")
-            .addCodeLine(`Ваш баланс: ${user.banking.money} нихуя`);
-    }
-
-    targetUser.banking.money += amount;
-    user.banking.money -= amount;
-
-    await targetUser.save();
-    await user.save();
-
-    const logMessage = [
-        "Transfer successfuly completed: ",
-        `${user.username} -> ${targetUser.username} `,
-        `Amount: ${amount}`
-    ].join("");
-    logger.info(logMessage);
-
-    return fromCode("Операция успешно завершена");
 }

@@ -1,24 +1,24 @@
-import { command } from "@replikit/commands";
+import { Command } from "@replikit/commands";
 import { MessageBuilder } from "@replikit/messages";
-import { CommandContext, CommandResult } from "@replikit/commands/typings";
+import { CommandResult } from "@replikit/commands/typings";
 
-command("echo")
-    .handler(handler)
-    .register();
+export class EchoCommand extends Command {
+    name = "echo";
 
-function handler(context: CommandContext): CommandResult {
-    const tokens = context.controller.tokenizeText(context.message);
-    const builder = new MessageBuilder()
-        .addTokens(tokens)
-        .addAttachments(context.message.attachments);
-    if (context.message.reply) {
-        builder.addReply(context.message.reply.metadata);
+    execute(): CommandResult {
+        const tokens = this.controller.tokenizeText(this.message);
+        const builder = new MessageBuilder()
+            .addTokens(tokens)
+            .addAttachments(this.message.attachments);
+        if (this.message.reply) {
+            builder.addReply(this.message.reply.metadata);
+        }
+        if (this.message.text?.includes("header")) {
+            builder.addHeader({
+                username: "Replikit Echo",
+                avatar: "https://sntch.com/uploads/2018/07/original.jpg"
+            });
+        }
+        return builder;
     }
-    if (context.message.text?.includes("header")) {
-        builder.addHeader({
-            username: "Replikit Echo",
-            avatar: "https://sntch.com/uploads/2018/07/original.jpg"
-        });
-    }
-    return builder;
 }

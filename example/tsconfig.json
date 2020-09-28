@@ -8,8 +8,7 @@
             "@replikit/*/typings": ["../../packages/*/typings"],
             "@example/*/typings": ["*/typings"],
             "@example/*": ["*/src"]
-        },
-        "plugins": [{ "transform": "@replikit/hooks/plugin" }]
+        }
     },
     "include": ["modules/**/*.ts", "../packages/**/*.ts", "replikit.config.ts"]
 }

@@ -1,13 +1,14 @@
 import { CounterView } from "@example/random";
-import { command } from "@replikit/commands";
-import { CommandContext } from "@replikit/commands/typings";
-import { useOptional } from "@replikit/hooks";
+import { Command, optional } from "@replikit/commands";
 
-command("counter").handler(handler).register();
+export class CounterCommand extends Command {
+    name = "counter";
 
-function handler(context: CommandContext): Promise<void> {
-    const initial = useOptional("initial", Number, { min: -10000, max: 10000 });
-    const step = useOptional("step", Number, { min: -1000, max: 1000 });
+    initial = optional(Number, { min: -10000, max: 10000 });
+    step = optional(Number, { min: -1000, max: 1000 });
 
-    return context.enter(CounterView, { initial, step });
+    execute(): void {
+        const { initial, step } = this;
+        void this.enter(CounterView, { initial, step });
+    }
 }

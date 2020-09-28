@@ -1,23 +1,23 @@
-import { command } from "@replikit/commands";
+import { Command } from "@replikit/commands";
 import { BetUserSession } from "@example/darts";
 import { fromCode } from "@replikit/messages";
-import { CommandContext, CommandResult } from "@replikit/commands/typings";
 import { BankingUserExtension } from "@example/banking";
+import { CommandResult } from "@replikit/commands/typings";
 
-command("unbet")
-    .handler(handler)
-    .register();
+export class UnbetCommand extends Command {
+    name = "unbet";
 
-async function handler(context: CommandContext): Promise<CommandResult> {
-    const session = await context.getSession(BetUserSession);
-    if (session.activeBet === undefined) {
-        return fromCode("У вас нет активной ставки");
+    async execute(): Promise<CommandResult> {
+        const session = await this.getSession(BetUserSession);
+        if (session.activeBet === undefined) {
+            return fromCode("У вас нет активной ставки");
+        }
+
+        const user = await this.getUser(BankingUserExtension);
+        user.banking.money += session.activeBet;
+        await user.save();
+
+        session.activeBet = undefined;
+        return fromCode("Ставка отменена");
     }
-
-    const user = await context.getUser(BankingUserExtension);
-    user.banking.money += session.activeBet;
-    await user.save();
-
-    session.activeBet = undefined;
-    return fromCode("Ставка отменена");
 }

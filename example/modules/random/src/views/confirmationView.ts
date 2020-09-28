@@ -8,11 +8,12 @@ export class ConfirmationView extends View {
     confirmedText = prop("Подтверждено");
 
     render(): OutMessageLike {
-        if (this.closed) {
-            return fromCode(this.confirmedText);
-        }
         return new ViewMessageBuilder() //
             .addCode(this.text)
             .addAction(this.buttonText, "close");
+    }
+
+    renderClosed(): OutMessageLike {
+        return fromCode(this.confirmedText);
     }
 }

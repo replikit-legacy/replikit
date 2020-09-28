@@ -1,7 +1,9 @@
-import { command } from "@replikit/commands";
-import { sum } from "./sum";
-import { mul } from "./mul";
+import { CommandContainer } from "@replikit/commands";
+import { MulCommand } from "./mul";
+import { SumCommand } from "./sum";
 
-command("calc")
-    .commands(sum, mul)
-    .register();
+export class CalcCommand extends CommandContainer {
+    name = "calc";
+
+    commands = [SumCommand, MulCommand];
+}

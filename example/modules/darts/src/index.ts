@@ -10,8 +10,6 @@ export * from "./dartsLocale";
 import "./locales/en";
 import "./locales/ru";
 
-import "./commands/throws";
-import "./commands/bet";
-import "./commands/unbet";
+import "./commands";
 
 import "./handlers/dice";

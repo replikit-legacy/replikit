@@ -1,17 +1,13 @@
-import { command } from "@replikit/commands";
+import { Command } from "@replikit/commands";
 import { fromCode } from "@replikit/messages";
-import { CommandContext, CommandResult } from "@replikit/commands/typings";
+import { CommandResult } from "@replikit/commands/typings";
 
-command("tokenize")
-    .handler(handler)
-    .register();
+export class TokenizeCommand extends Command {
+    name = "tokenize";
 
-type Replacer = (key: string, value: unknown) => unknown;
-
-const replacer: Replacer = (_, value) => (typeof value === "bigint" ? value.toString() : value);
-
-function handler(context: CommandContext): CommandResult {
-    const message = context.message.reply ?? context.message;
-    const tokens = context.controller.tokenizeText(message);
-    return fromCode(JSON.stringify(tokens, replacer, 2));
+    execute(): CommandResult {
+        const message = this.message.reply ?? this.message;
+        const tokens = this.controller.tokenizeText(message);
+        return fromCode(JSON.stringify(tokens, undefined, 2));
+    }
 }

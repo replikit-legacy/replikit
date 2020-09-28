@@ -1,21 +1,21 @@
-import { command } from "@replikit/commands";
+import { Command, text } from "@replikit/commands";
 import { MessageBuilder } from "@replikit/messages";
-import { CommandContext, CommandResult } from "@replikit/commands/typings";
-import { useText } from "@replikit/hooks";
+import { CommandResult } from "@replikit/commands/typings";
 
-command("edit")
-    .handler(handler)
-    .register();
+export class EditCommand extends Command {
+    name = "edit";
 
-async function handler(context: CommandContext): Promise<CommandResult> {
-    const text = useText({ skipValidation: true });
-    if (!context.message.reply) {
-        return;
+    text = text({ skipValidation: true });
+
+    async execute(): Promise<CommandResult> {
+        if (!this.message.reply) {
+            return;
+        }
+        const message = new MessageBuilder()
+            .useMetadata(this.message.reply.metadata)
+            .addText(this.text)
+            .addAttachments(this.message.attachments)
+            .build();
+        await this.controller.editMessage(this.channel.id, message);
     }
-    const message = new MessageBuilder()
-        .useMetadata(context.message.reply.metadata)
-        .addText(text)
-        .addAttachments(context.message.attachments)
-        .build();
-    await context.controller.editMessage(context.channel.id, message);
 }

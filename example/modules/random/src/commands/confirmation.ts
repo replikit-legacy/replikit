@@ -1,14 +1,15 @@
 import { ConfirmationView } from "@example/random";
-import { command } from "@replikit/commands";
-import { CommandContext } from "@replikit/commands/typings";
-import { useOptional } from "@replikit/hooks";
+import { Command, optional } from "@replikit/commands";
 
-command("confirmation").handler(handler).register();
+export class ConfirmationCommand extends Command {
+    name = "confirmation";
 
-async function handler(context: CommandContext): Promise<void> {
-    const text = useOptional("text", String);
-    const buttonText = useOptional("buttonText", String);
-    const confirmedText = useOptional("confirmedText", String);
+    text = optional(String);
+    buttonText = optional(String);
+    confirmedText = optional(String);
 
-    return context.enter(ConfirmationView, { text, buttonText, confirmedText });
+    execute(): void {
+        const { text, buttonText, confirmedText } = this;
+        void this.enter(ConfirmationView, { text, buttonText, confirmedText });
+    }
 }

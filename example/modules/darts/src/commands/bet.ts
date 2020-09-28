@@ -1,29 +1,30 @@
-import { command } from "@replikit/commands";
+import { Command, required } from "@replikit/commands";
 import { fromCode } from "@replikit/messages";
 import { BetUserSession } from "@example/darts";
-import { useRequired } from "@replikit/hooks";
-import { CommandContext, CommandResult } from "@replikit/commands/typings";
 import { BankingUserExtension } from "@example/banking";
+import { CommandResult } from "@replikit/commands/typings";
 
-command("bet")
-    .handler(handler)
-    .register();
+export class BetCommand extends Command {
+    name = "bet";
 
-async function handler(context: CommandContext): Promise<CommandResult> {
-    const amount = useRequired("amount", Number, { positive: true });
+    amount = required(Number, { positive: true });
 
-    const session = await context.getSession(BetUserSession);
-    if (session.activeBet) {
-        return fromCode("У вас уже есть активная ставка");
+    async execute(): Promise<CommandResult> {
+        const { amount } = this;
+
+        const session = await this.getSession(BetUserSession);
+        if (session.activeBet) {
+            return fromCode("У вас уже есть активная ставка");
+        }
+
+        const user = await this.getUser(BankingUserExtension);
+        if (user.banking.money < amount) {
+            return fromCode("Недостаточно средств");
+        }
+        user.banking.money -= amount;
+        await user.save();
+
+        session.activeBet = amount;
+        return fromCode("Ставка принята");
     }
-
-    const user = await context.getUser(BankingUserExtension);
-    if (user.banking.money < amount) {
-        return fromCode("Недостаточно средств");
-    }
-    user.banking.money -= amount;
-    await user.save();
-
-    session.activeBet = amount;
-    return fromCode("Ставка принята");
 }

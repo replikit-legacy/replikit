@@ -1,12 +1,14 @@
-import { command } from "@replikit/commands";
+import { Command } from "@replikit/commands";
 import { CommandResult } from "@replikit/commands/typings";
 import { MessageBuilder } from "@replikit/messages";
 
-command("button").handler(handler).register();
+export class ButtonCommand extends Command {
+    name = "button";
 
-function handler(): CommandResult {
-    return new MessageBuilder()
-        .addCodeLine("Test")
-        .addButtonWithPayload("Test", "test")
-        .addButton({ text: "Switch inline", switchInline: { current: true, username: "" } });
+    execute(): CommandResult {
+        return new MessageBuilder()
+            .addCodeLine("Test")
+            .addButton({ text: "Test", payload: "test" })
+            .addButton({ text: "Switch inline", switchInline: { current: true, username: "" } });
+    }
 }

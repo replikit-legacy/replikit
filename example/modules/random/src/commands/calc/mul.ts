@@ -1,14 +1,14 @@
 import { fromCode } from "@replikit/messages";
-import { useRest } from "@replikit/hooks";
-import { command } from "@replikit/commands";
+import { Command, rest } from "@replikit/commands";
 import { CommandResult } from "@replikit/commands/typings";
 
-export const mul = command("mul")
-    .handler(handler)
-    .build();
+export class MulCommand extends Command {
+    name = "mul";
 
-function handler(): CommandResult {
-    const numbers = useRest("numbers", Number, { minCount: 2, float: true });
-    const result = numbers.reduce((a, b) => a * b);
-    return fromCode(`Result: ${result}`);
+    numbers = rest(Number, { minCount: 2, float: true });
+
+    execute(): CommandResult {
+        const result = this.numbers.reduce((a, b) => a * b);
+        return fromCode(`Result: ${result}`);
+    }
 }

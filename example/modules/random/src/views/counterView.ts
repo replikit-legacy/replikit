@@ -1,3 +1,4 @@
+import { ConfirmationView } from "@example/random";
 import { OutMessageLike } from "@replikit/messages/typings";
 import { prop, state, View, ViewMessageBuilder } from "@replikit/views";
 
@@ -11,10 +12,19 @@ export class CounterView extends View {
         this.update();
     }
 
+    convert(): void {
+        this.changeView(ConfirmationView, {
+            text: `Вы досчитали до ${this.count} и превратили счетчик в подтверждение`,
+            buttonText: "ок",
+            confirmedText: "Ладно"
+        });
+    }
+
     render(): OutMessageLike {
         return new ViewMessageBuilder()
             .addCodeLine(`Count: ${this.count}`)
             .addCodeLine(`Last user: ${this.account.username}`)
-            .addAction("Increment", "increment");
+            .addAction("Increment", "increment")
+            .addAction(1, "Convert to confirmation", "convert");
     }
 }

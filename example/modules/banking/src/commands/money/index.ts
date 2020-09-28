@@ -1,8 +1,11 @@
-import { command } from "@replikit/commands";
-import { balance } from "./balance";
-import { transfer } from "./transfer";
+import { CommandContainer } from "@replikit/commands";
+import { BalanceCommand } from "./balance";
+import { TransferCommand } from "./transfer";
 
-command("money", "банк")
-    .default("balance")
-    .commands(balance, transfer)
-    .register();
+export class MoneyCommand extends CommandContainer {
+    name = "money";
+    aliases = ["банк"];
+    default = "balance";
+
+    commands = [BalanceCommand, TransferCommand];
+}

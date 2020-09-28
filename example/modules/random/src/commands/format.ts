@@ -1,30 +1,29 @@
-import { command } from "@replikit/commands";
+import { Command, text } from "@replikit/commands";
 import { fromCode, MessageBuilder } from "@replikit/messages";
 import { TextTokenKind, TextTokenProp } from "@replikit/core";
-import { useText } from "@replikit/hooks";
-import { CommandContext, CommandResult } from "@replikit/commands/typings";
+import { CommandResult } from "@replikit/commands/typings";
 
-command("format")
-    .text()
-    .handler(handler)
-    .register();
+export class FormatCommand extends Command {
+    name = "format";
 
-function handler(context: CommandContext): CommandResult {
-    const text = useText();
-    try {
-        const tokens = JSON.parse(text);
-        if (!Array.isArray(tokens)) {
-            return fromCode("Array expected");
-        }
-        for (const [i, token] of tokens.entries()) {
-            if (!isTextToken(token)) {
-                return fromCode(`Invalid token at index ${i}`);
+    text = text();
+
+    execute(): CommandResult {
+        try {
+            const tokens = JSON.parse(this.text);
+            if (!Array.isArray(tokens)) {
+                return fromCode("Array expected");
             }
+            for (const [i, token] of tokens.entries()) {
+                if (!isTextToken(token)) {
+                    return fromCode(`Invalid token at index ${i}`);
+                }
+            }
+            const result = this.controller.formatText(tokens);
+            return new MessageBuilder().addText(result);
+        } catch {
+            return fromCode("Invalid json");
         }
-        const result = context.controller.formatText(tokens);
-        return new MessageBuilder().addText(result);
-    } catch {
-        return fromCode("Invalid json");
     }
 }
 

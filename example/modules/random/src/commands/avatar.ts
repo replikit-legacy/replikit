@@ -1,14 +1,17 @@
-import { command } from "@replikit/commands";
-import { CommandContext, CommandResult } from "@replikit/commands/typings";
+import { Command } from "@replikit/commands";
+import { CommandResult } from "@replikit/commands/typings";
 import { MessageBuilder } from "@replikit/messages";
+import { member } from "@replikit/storage";
 
-command("avatar")
-    .handler(handler)
-    .register();
+export class AvatarCommand extends Command {
+    name = "avatar";
 
-function handler(context: CommandContext): CommandResult {
-    const avatarAttachment = context.account.avatar;
-    if (avatarAttachment) {
-        return new MessageBuilder().addAttachment(avatarAttachment);
+    member = member();
+
+    execute(): CommandResult {
+        const avatarAttachment = this.account.avatar;
+        if (avatarAttachment) {
+            return new MessageBuilder().addAttachment(avatarAttachment);
+        }
     }
 }
