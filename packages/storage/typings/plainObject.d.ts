@@ -27,5 +27,3 @@ export type PlainObject<T extends object> = {
         ? PlainObject<T[K]>
         : T[K];
 };
-
-type a = PlainObject<{ test: unknown[] }>;

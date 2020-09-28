@@ -28,6 +28,7 @@ export * from "./extensions/commandBuilderExtension";
 
 export * from "./decorators";
 export * from "./converters";
+export * from "./composition";
 
 import "./locales/en";
 import "./locales/ru";
