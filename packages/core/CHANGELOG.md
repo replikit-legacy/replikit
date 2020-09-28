@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.20.0](https://github.com/Exeteres/Replikit/compare/v0.19.0...v0.20.0) (2020-09-28)
+
+
+### Features
+
+* Add ability to create multiple button rows ([2a83a74](https://github.com/Exeteres/Replikit/commit/2a83a7432c102ff77e71cd4d542fdb4ec99ac7ad))
+* **core:** Add composition system ([5275ecc](https://github.com/Exeteres/Replikit/commit/5275ecc0b93875f7d1cddceb74ac28f873c49863))
+
+
+
+
+
 # [0.19.0](https://github.com/Exeteres/Replikit/compare/v0.18.2...v0.19.0) (2020-09-18)
 
 

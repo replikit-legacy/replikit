@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.20.0](https://github.com/Exeteres/Replikit/compare/v0.19.0...v0.20.0) (2020-09-28)
+
+
+### Features
+
+* **commands:** Add class-like command syntax ([7186d22](https://github.com/Exeteres/Replikit/commit/7186d2212ffdd1b0f2062b652e96719a919e9121))
+
+
+
+
+
 # [0.19.0](https://github.com/Exeteres/Replikit/compare/v0.18.2...v0.19.0) (2020-09-18)
 
 **Note:** Version bump only for package @replikit/commands

@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.20.0](https://github.com/Exeteres/Replikit/compare/v0.19.0...v0.20.0) (2020-09-28)
+
+
+### Bug Fixes
+
+* **sessions:** Fix memory session storage ([55f0a0a](https://github.com/Exeteres/Replikit/commit/55f0a0a4b39ed0b2621582c7860db23cbe1253d1))
+
+
+### Features
+
+* **commands:** Add class-like command syntax ([7186d22](https://github.com/Exeteres/Replikit/commit/7186d2212ffdd1b0f2062b652e96719a919e9121))
+* **core:** Add composition system ([5275ecc](https://github.com/Exeteres/Replikit/commit/5275ecc0b93875f7d1cddceb74ac28f873c49863))
+* **storage:** Add parameters for class-like commands ([7a1cbf2](https://github.com/Exeteres/Replikit/commit/7a1cbf22ee5be836c51bc249555bc7679442bb74))
+* **views:** Update to use composition system ([30733ba](https://github.com/Exeteres/Replikit/commit/30733ba119d99eba8a2085ae8c5f2681d00bd9f6))
+* Add ability to create multiple button rows ([2a83a74](https://github.com/Exeteres/Replikit/commit/2a83a7432c102ff77e71cd4d542fdb4ec99ac7ad))
+
+
+
+
+
 # [0.19.0](https://github.com/Exeteres/Replikit/compare/v0.18.2...v0.19.0) (2020-09-18)
 
 

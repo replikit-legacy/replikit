@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.20.0](https://github.com/Exeteres/Replikit/compare/v0.19.0...v0.20.0) (2020-09-28)
+
+
+### Bug Fixes
+
+* **sessions:** Fix memory session storage ([55f0a0a](https://github.com/Exeteres/Replikit/commit/55f0a0a4b39ed0b2621582c7860db23cbe1253d1))
+
+
+
+
+
 # [0.19.0](https://github.com/Exeteres/Replikit/compare/v0.18.2...v0.19.0) (2020-09-18)
 
 

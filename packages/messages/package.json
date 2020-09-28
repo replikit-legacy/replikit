@@ -1,6 +1,6 @@
 {
     "name": "@replikit/messages",
-    "version": "0.19.0",
+    "version": "0.20.0",
     "license": "MIT",
     "main": "dist/index.js",
     "typings": "dist/index.d.ts",
@@ -12,6 +12,6 @@
         "build": "tsc -p tsconfig.build.json"
     },
     "dependencies": {
-        "@replikit/core": "^0.19.0"
+        "@replikit/core": "^0.20.0"
     }
 }
