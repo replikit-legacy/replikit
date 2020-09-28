@@ -25,12 +25,8 @@ yarnMock.mockImplementation(fakeInstall);
 const npmMock = jest.spyOn(NpmController.prototype, "install");
 npmMock.mockImplementation(fakeInstall);
 
-export async function createProject(
-    useYarn: boolean,
-    useLerna: boolean,
-    useHooks: boolean
-): Promise<ProjectManager> {
+export async function createProject(useYarn: boolean, useLerna: boolean): Promise<ProjectManager> {
     const temp = await createTempDirectory();
     const root = resolve(temp, "test-project");
-    return await initProject(root, useLerna, useYarn, useHooks, ["@replikit/static"]);
+    return await initProject(root, useLerna, useYarn, ["@replikit/static"]);
 }

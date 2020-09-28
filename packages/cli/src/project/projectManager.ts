@@ -88,24 +88,6 @@ export class ProjectManager {
     }
 
     /**
-     * Add hook plugin and ts-patch dependency.
-     */
-    async addHooks(): Promise<void> {
-        // Add hook plugin
-        const tsconfigPath = resolve(this.root, "tsconfig.json");
-        const tsconfig = await readJSON(tsconfigPath);
-        tsconfig.compilerOptions.plugins = [{ transform: "@replikit/hooks/plugin" }];
-        await writeJSON(tsconfigPath, tsconfig, { spaces: 4 });
-
-        // Add ts-patch
-        await this.pm.install(["ts-patch"], true);
-        await this.pm.install(["@replikit/hooks"]);
-        await this.pm.load();
-        this.pm.config.scripts!.postinstall = "ts-patch install -s";
-        await this.pm.save();
-    }
-
-    /**
      * Adds lerna dependency and configuration to the project.
      */
     async addLerna(): Promise<void> {

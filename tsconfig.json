@@ -6,7 +6,6 @@
         "paths": {
             "@replikit/*/typings": ["*/typings"],
             "@replikit/*": ["*/src"],
-            "@replikit/hooks/plugin": ["hooks/src/plugin"],
             "chalk": ["../node_modules/chalk"]
         }
     },

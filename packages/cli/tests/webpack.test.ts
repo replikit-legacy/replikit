@@ -7,7 +7,7 @@ jest.setTimeout(120000);
 
 describe("webpack", () => {
     it("should generate a webpack configuration", async () => {
-        const project = await createProject(false, false, false);
+        const project = await createProject(false, false);
         await project.createModule("test");
 
         const config = {
@@ -30,7 +30,7 @@ describe("webpack", () => {
     });
 
     it("should pass webpack configuration throw user specified transformer", async () => {
-        const project = await createProject(false, false, false);
+        const project = await createProject(false, false);
 
         const config = {
             modules: [],
@@ -46,7 +46,7 @@ describe("webpack", () => {
     });
 
     it("should include extra configuration when using discord controller", async () => {
-        const project = await createProject(false, false, false);
+        const project = await createProject(false, false);
 
         const config = {
             modules: ["@replikit/discord"],

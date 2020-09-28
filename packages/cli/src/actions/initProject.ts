@@ -4,7 +4,6 @@ export async function initProject(
     root: string,
     useLerna: boolean,
     useYarn: boolean,
-    useHooks: boolean,
     staticModules: string[]
 ): Promise<ProjectManager> {
     const projectManager = new ProjectManager(root);
@@ -15,9 +14,6 @@ export async function initProject(
     await projectManager.install(["@types/node", "@replikit/cli"], true);
     if (useLerna) {
         await projectManager.addLerna();
-    }
-    if (useHooks) {
-        await projectManager.addHooks();
     }
     return projectManager;
 }

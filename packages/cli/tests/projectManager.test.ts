@@ -12,32 +12,27 @@ describe("ProjectManager", () => {
         const useYarn = type !== "npm";
         const useLerna = type !== "yarn";
 
-        const manager = await createProject(useYarn, useLerna, false);
-        await expectDirectoryToMatchSnapshot(manager.root);
-    });
-
-    it("should generate project with hook support", async () => {
-        const manager = await createProject(false, false, true);
+        const manager = await createProject(useYarn, useLerna);
         await expectDirectoryToMatchSnapshot(manager.root);
     });
 
     it.each(["with", "without"])("should add a module to the project %s logger", async t => {
         const addLoger = t === "with";
-        const manager = await createProject(false, false, false);
+        const manager = await createProject(false, false);
         await createModule(manager, "test-module", ["@replikit/test"], addLoger);
         await expectDirectoryToMatchSnapshot(manager.root);
     });
 
     it("should add external subrepository, update tsconfig.json and add modules to replikit config", async () => {
         const gitSpy = jest.spyOn(GitController.prototype, "addSubmodule");
-        gitSpy.mockImplementation(async function(this: GitController, _, folder) {
+        gitSpy.mockImplementation(async function (this: GitController, _, folder) {
             const externalManager = new ProjectManager(resolve(this.path, folder));
             externalManager.setPackageManager(PMType.NPM);
             await externalManager.init();
             await externalManager.createModule("external-module");
         });
 
-        const manager = await createProject(false, false, false);
+        const manager = await createProject(false, false);
         await manager.git.addSubmodule(undefined!, "external-repo");
         await manager.addExternalRepo("external-repo");
 
