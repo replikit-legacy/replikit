@@ -1,5 +1,5 @@
 import { OutMessage, Attachment, TextToken, MessageHeader, Button } from "@replikit/core/typings";
-import { AttachmentType, TextTokenKind, TextTokenProp, Builder } from "@replikit/core";
+import { AttachmentType, TextTokenKind, TextTokenProp, Builder, assert } from "@replikit/core";
 import { hashString, MetadataLike, extractMetadata } from "@replikit/messages";
 
 export class MessageBuilder extends Builder {
@@ -78,18 +78,18 @@ export class MessageBuilder extends Builder {
         return this;
     }
 
-    addButtonWithPayload(text: string, payload: string): this {
-        this.message.buttons.push({ text, payload });
-        return this;
-    }
+    addButton(row: number, button: Button): this;
+    addButton(button: Button): this;
 
-    addButtonWithUrl(text: string, url: string): this {
-        this.message.buttons.push({ text, url });
-        return this;
-    }
-
-    addButton(button: Button): this {
-        this.message.buttons.push(button);
+    addButton(rowOrButton: number | Button, button?: Button): this {
+        const rowIndex = typeof rowOrButton === "number" ? rowOrButton : 0;
+        assert(rowIndex >= 0, "Row index must not be positive");
+        let buttons = this.message.buttons[rowIndex];
+        while (!buttons) {
+            this.message.buttons.push([]);
+            buttons = this.message.buttons[rowIndex];
+        }
+        buttons.push(button ?? (rowOrButton as Button));
         return this;
     }
 

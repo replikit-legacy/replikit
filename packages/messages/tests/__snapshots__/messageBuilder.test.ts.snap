@@ -1,5 +1,49 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`MessageBuilder should create a message with 1 row of buttons 1`] = `
+Object {
+  "attachments": Array [],
+  "buttons": Array [
+    Array [
+      Object {
+        "text": "Text 1",
+      },
+      Object {
+        "text": "Text 2",
+      },
+      Object {
+        "text": "Text 3",
+      },
+    ],
+  ],
+  "forwarded": Array [],
+  "tokens": Array [],
+}
+`;
+
+exports[`MessageBuilder should create a message with 2 rows of buttons 1`] = `
+Object {
+  "attachments": Array [],
+  "buttons": Array [
+    Array [
+      Object {
+        "text": "Text 1",
+      },
+      Object {
+        "text": "Text 2",
+      },
+    ],
+    Array [
+      Object {
+        "text": "Text 3",
+      },
+    ],
+  ],
+  "forwarded": Array [],
+  "tokens": Array [],
+}
+`;
+
 exports[`MessageBuilder should create a message with an array of attachments 1`] = `
 Object {
   "attachments": Array [

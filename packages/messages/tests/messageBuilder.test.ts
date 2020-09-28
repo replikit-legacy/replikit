@@ -63,4 +63,22 @@ describe("MessageBuilder", () => {
             .build();
         expect(message).toMatchSnapshot();
     });
+
+    it("should create a message with 2 rows of buttons", () => {
+        const message = new MessageBuilder()
+            .addButton({ text: "Text 1" })
+            .addButton(1, { text: "Text 3" })
+            .addButton({ text: "Text 2" })
+            .build();
+        expect(message).toMatchSnapshot();
+    });
+
+    it("should create a message with 1 row of buttons", () => {
+        const message = new MessageBuilder()
+            .addButton({ text: "Text 1" })
+            .addButton({ text: "Text 2" })
+            .addButton({ text: "Text 3" })
+            .build();
+        expect(message).toMatchSnapshot();
+    });
 });

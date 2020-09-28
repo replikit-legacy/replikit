@@ -12,7 +12,7 @@ export interface OutMessage {
     attachments: Attachment[];
     reply?: MessageMetadata;
     forwarded: ForwardedOutMessage[];
-    buttons: Button[];
+    buttons: Button[][];
     metadata?: MessageMetadata;
     header?: MessageHeader;
 }

@@ -391,23 +391,25 @@ export class TelegramController extends Controller {
         }
     }
 
-    private createButtons(buttons: Button[]): InlineKeyboardMarkup | undefined {
+    private createButtons(buttons: Button[][]): InlineKeyboardMarkup | undefined {
         if (!buttons.length) {
             return;
         }
         const payload = buttons.map(x => {
-            const result = {
-                callback_data: x.payload,
-                text: x.text,
-                url: x.url
-            } as HasFields;
-            if (x.switchInline) {
-                const key = x.switchInline.current
-                    ? "switch_inline_query_current_chat"
-                    : "switch_inline_query";
-                result[key] = x.switchInline.username;
-            }
-            return result;
+            return x.map(y => {
+                const result = {
+                    callback_data: y.payload,
+                    text: y.text,
+                    url: y.url
+                } as HasFields;
+                if (y.switchInline) {
+                    const key = y.switchInline.current
+                        ? "switch_inline_query_current_chat"
+                        : "switch_inline_query";
+                    result[key] = y.switchInline.username ?? "";
+                }
+                return result;
+            });
         });
         return Markup.inlineKeyboard((payload as unknown) as InlineKeyboardButton[]);
     }
