@@ -1,8 +1,15 @@
 import { Command, CommandContext } from "@replikit/commands/typings";
 import { MessageContext } from "@replikit/router";
 import { MessageBuilder, fromCode } from "@replikit/messages";
-import { MiddlewareStage, renderUsage, CommandsLocale } from "@replikit/commands";
+import {
+    MiddlewareStage,
+    renderUsage,
+    CommandsLocale,
+    CommandLike,
+    resolveCommand
+} from "@replikit/commands";
 import { NextHandler } from "@replikit/router/typings";
+import { createCompositionInstance } from "@replikit/core";
 
 function chooseOverload(commands: Command[], args: string[]): Command | undefined {
     if (!commands.length) {
@@ -63,7 +70,8 @@ export class CommandStorage {
         }
     }
 
-    register(command: Command): void {
+    register(commandLike: CommandLike): void {
+        const command = resolveCommand(commandLike);
         this.renderUsage(command);
         this.commands.push(command);
     }
@@ -96,7 +104,9 @@ export class CommandStorage {
             return replyError(locale.mismatch(command.requiredCount, args.length));
         }
 
-        const commandContext = context as CommandContext;
+        const commandContext = command.compositionInfo
+            ? createCompositionInstance<CommandContext>(command.compositionInfo, context)
+            : (context as CommandContext);
         commandContext.params = {};
 
         // Invoke prevalidation middleware
@@ -260,7 +270,10 @@ export class CommandStorage {
         }
 
         // Invoke handler
-        const result = await command.handler(commandContext);
+        const result = command.compositionInfo
+            ? // eslint-disable-next-line @typescript-eslint/ban-types
+              await (command.handler as Function).apply(commandContext)
+            : await command.handler(commandContext);
         if (!result) {
             return;
         }

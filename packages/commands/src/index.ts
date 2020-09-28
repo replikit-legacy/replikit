@@ -7,6 +7,7 @@ export * from "./middlewareRouter";
 export * from "./errors";
 export * from "./converterStorage";
 export * from "./converterBuilder";
+export * from "./composition";
 export * from "./commandStorage";
 export * from "./commandBuilder";
 export * from "./converters";

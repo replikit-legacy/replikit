@@ -5,6 +5,7 @@ import {
     RestCommandParameter
 } from "@replikit/commands/typings";
 import { MiddlewareRouter } from "@replikit/commands";
+import { CompositionInfo } from "@replikit/core";
 
 export interface Command {
     name: string;
@@ -19,4 +20,5 @@ export interface Command {
     default?: string;
     usage?: string;
     parent?: Command;
+    compositionInfo?: CompositionInfo;
 }

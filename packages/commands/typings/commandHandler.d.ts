@@ -1,9 +1,8 @@
 import { CommandContext } from "@replikit/commands/typings";
-import { OutMessage } from "@replikit/core/typings";
-import { MessageBuilder } from "@replikit/messages";
+import { OutMessageLike } from "@replikit/messages/typings";
 
-export type CommandResult = void | OutMessage | MessageBuilder;
+export type CommandResult = void | OutMessageLike;
 
-type AsyncCommandResult = CommandResult | Promise<CommandResult>;
+type CommandResultAsync = CommandResult | Promise<CommandResult>;
 
-export type CommandHandler<C = CommandContext> = (context: C) => AsyncCommandResult;
+export type CommandHandler<C = CommandContext> = (context: C) => CommandResultAsync;

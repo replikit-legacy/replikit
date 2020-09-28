@@ -1,5 +1,6 @@
 import { createTestManager } from "@replikit/test-utils";
 import { fromText, MessageBuilder } from "@replikit/messages";
+import { Command, required } from "@replikit/commands";
 
 describe("CommandStorage", () => {
     it.each([
@@ -449,4 +450,22 @@ describe("CommandStorage", () => {
             expect.assertions(1);
         }
     );
+
+    it("should handle a composition command", async () => {
+        class TestCommand extends Command {
+            name = "test";
+
+            a = required(Number);
+
+            execute(): void {
+                expect(this.a).toBe(123);
+            }
+        }
+
+        const { testManager } = createTestManager();
+        testManager.commands.register(TestCommand);
+
+        await testManager.processCommand("/test 123");
+        expect.assertions(1);
+    });
 });
