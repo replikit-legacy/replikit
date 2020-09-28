@@ -11,7 +11,7 @@ import {
     MessageContext
 } from "@replikit/router";
 import { SessionType, InvalidSessionTypeError, MongoSessionStorage } from "@replikit/sessions";
-import { ModuleNotFoundError } from "@replikit/core";
+import { config, ModuleNotFoundError } from "@replikit/core";
 import { Identifier } from "@replikit/core/typings";
 
 function createBaseSessionKey(controller: string, ctr: SessionConstructor): string {
@@ -76,7 +76,9 @@ export async function createSessionKeyFromContext(
     }
 }
 
-export function resolveSessionStorage(option: SessionStorageOption): SessionStorage {
+let storage: SessionStorage;
+
+function resolveSessionStorage(option: SessionStorageOption): SessionStorage {
     switch (option) {
         case "memory":
             return new Map();
@@ -85,4 +87,11 @@ export function resolveSessionStorage(option: SessionStorageOption): SessionStor
         default:
             return option;
     }
+}
+
+export function getSessionStorage(): SessionStorage {
+    if (storage) {
+        return storage;
+    }
+    return (storage = resolveSessionStorage(config.sessions.storage));
 }

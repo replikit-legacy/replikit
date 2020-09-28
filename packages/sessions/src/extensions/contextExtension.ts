@@ -2,10 +2,10 @@ import {
     SessionManager,
     createSessionKeyFromContext,
     Session,
-    resolveSessionStorage
+    getSessionStorage
 } from "@replikit/sessions";
 import { SessionConstructor } from "@replikit/sessions/typings";
-import { config, Extension } from "@replikit/core";
+import { Extension } from "@replikit/core";
 import { Context } from "@replikit/router";
 
 @Extension
@@ -19,7 +19,7 @@ export class ContextExtension extends Context {
     ): Promise<T> {
         const key = customKey ?? (await createSessionKeyFromContext(this, type));
         if (!this.sessionManager) {
-            const storage = resolveSessionStorage(config.sessions.storage);
+            const storage = getSessionStorage();
             this.sessionManager = new SessionManager(storage);
         }
         return this.sessionManager.get(key, type);
