@@ -13,10 +13,8 @@ import { assert, CompositionFactory, createCompositionInfo } from "@replikit/cor
 import { Constructor } from "@replikit/core/typings";
 import { MessageContext } from "@replikit/router";
 
-/** @internal */
 export const commandComposer = new CompositionFactory<CommandBuilder, CommandContext>();
 
-/** @internal */
 export function createParameterAccessor<T>(
     field: string
 ): (context: CommandContext<Parameters>) => NormalizeType<T> {
