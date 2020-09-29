@@ -49,7 +49,7 @@ if (commands) {
         return commandComposer.compose((builder, field) => {
             const name = options?.name ?? field;
             builder.user({ ...options, name });
-            return { get: createParameterAccessor(field) };
+            return { get: createParameterAccessor(name) };
         });
     };
 
@@ -57,7 +57,7 @@ if (commands) {
         return commandComposer.compose((builder, field) => {
             const name = options?.name ?? field;
             builder.channel({ ...options, name });
-            return { get: createParameterAccessor(field) };
+            return { get: createParameterAccessor(name) };
         });
     };
 }
