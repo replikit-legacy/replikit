@@ -90,6 +90,9 @@ export function resolveCommand(commandLike: CommandLike): CommandInfo {
         const commands = fields.commands;
         assert(commands, "Command array is required");
         result.commands = commands.map(resolveCommand);
+        for (const command of result.commands) {
+            command.parent = result;
+        }
         result.default = fields.default;
         return result;
     }
