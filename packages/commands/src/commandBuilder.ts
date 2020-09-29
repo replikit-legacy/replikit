@@ -50,8 +50,15 @@ export interface TextParameterOptions {
     skipValidation?: boolean;
 }
 
+export type MiddlewareResolver = (builder: CommandBuilder) => Middleware;
+export type MiddlewareLike = MiddlewareResolver | Middleware;
+
+export function createMiddleware(stage: MiddlewareStage, handler: MiddlewareHandler): Middleware {
+    return { stage, handler };
+}
+
 export class CommandBuilder<C = HasFields, P extends Parameters = HasFields> extends Builder {
-    protected readonly command: Command;
+    readonly command: Command;
 
     constructor(
         private readonly commandStorage: CommandStorage,
@@ -69,7 +76,7 @@ export class CommandBuilder<C = HasFields, P extends Parameters = HasFields> ext
         };
     }
 
-    use(...middleware: Middleware[]): this;
+    use(...middleware: MiddlewareLike[]): this;
     use(stage: MiddlewareStage, ...handlers: MiddlewareHandler[]): this;
 
     use(...args: unknown[]): this {
@@ -77,16 +84,16 @@ export class CommandBuilder<C = HasFields, P extends Parameters = HasFields> ext
             this.command.middlewareRouter = new MiddlewareRouter();
         }
         if (typeof args[0] !== "number") {
-            for (const middleware of args) {
-                this.command.middlewareRouter.add(middleware as Middleware);
+            for (const middlewareLike of args) {
+                const middleware =
+                    typeof middlewareLike === "function" ? middlewareLike(this) : middlewareLike;
+                this.command.middlewareRouter.add(middleware);
             }
             return this;
         }
         for (const handler of args.slice(1)) {
-            this.command.middlewareRouter.add({
-                stage: args[0],
-                handler: handler as MiddlewareHandler
-            });
+            const middleware = createMiddleware(args[0], handler as MiddlewareHandler);
+            this.command.middlewareRouter.add(middleware);
         }
         return this;
     }

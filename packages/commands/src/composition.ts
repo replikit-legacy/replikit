@@ -1,4 +1,10 @@
-import { command, CommandBuilder, NormalizeType, TextParameterOptions } from "@replikit/commands";
+import {
+    command,
+    CommandBuilder,
+    MiddlewareLike,
+    NormalizeType,
+    TextParameterOptions
+} from "@replikit/commands";
 import {
     CommandContext,
     ParameterOptions,
@@ -6,8 +12,7 @@ import {
     DefaultOptions,
     CommandResultAsync,
     Parameters,
-    RestParameterOptions,
-    Middleware
+    RestParameterOptions
 } from "@replikit/commands/typings";
 import { assert, CompositionFactory, createCompositionInfo } from "@replikit/core";
 import { Constructor } from "@replikit/core/typings";
@@ -114,7 +119,7 @@ abstract class CommandBase extends MessageContext {
 
 export abstract class Command extends CommandBase {
     abstract execute(): CommandResultAsync;
-    middleware: Middleware[] = [];
+    middleware: MiddlewareLike[] = [];
 }
 
 export abstract class CommandContainer extends CommandBase {
