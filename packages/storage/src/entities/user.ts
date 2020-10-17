@@ -14,6 +14,10 @@ export class User extends Entity {
     @Type(() => Account)
     accounts: Account[] = [];
 
+    getAccount(controller: string): Account | undefined {
+        return this.accounts.find(x => x.controller === controller);
+    }
+
     @Memoize
     getMember(controller: string, channelId: Identifier): Promise<Member | undefined> {
         const repo = this.repository.connection.getRepository(MemberRepository);
