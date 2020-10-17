@@ -1,6 +1,7 @@
 import { DatabaseTestManager } from "@replikit/test-utils";
 import { MongoSessionStorage } from "@replikit/sessions";
 import { HasFields } from "@replikit/core/typings";
+import { createSessionKey } from "../shared";
 
 let testManager: DatabaseTestManager;
 
@@ -22,20 +23,23 @@ function createStorage(): MongoSessionStorage {
 describe("MongoSessionStorage", () => {
     it("should set a value", async () => {
         const storage = createStorage();
-        await storage.set("test", { test: 123 });
+        await storage.set(createSessionKey(), { test: 123 });
 
         const collection = testManager.connection.getRawCollection<HasFields>("sessions");
-        const session = await collection.findOne({ _id: "test" });
+        const session = await collection.findOne({ _id: createSessionKey() });
         expect(session).toBeDefined();
         expect(session!.test).toBe(123);
     });
 
     it("should get a value", async () => {
         const collection = testManager.connection.getRawCollection<HasFields>("sessions");
-        await collection.insertOne({ _id: ("test" as unknown) as undefined, test: 123 });
+        await collection.insertOne({
+            _id: (createSessionKey() as unknown) as undefined,
+            test: 123
+        });
 
         const storage = createStorage();
-        const session = await storage.get("test");
+        const session = await storage.get(createSessionKey());
         expect(session).toBeDefined();
         expect(session!.test).toBe(123);
     });

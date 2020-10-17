@@ -1,7 +1,14 @@
 import { HasFields } from "@replikit/core/typings";
+import { SessionKey } from "@replikit/sessions/typings";
+
+type FindResult =
+    | [SessionKey, HasFields]
+    | Promise<[SessionKey, HasFields] | undefined>
+    | undefined;
 
 export interface SessionStorage {
-    set(key: string, value: HasFields): unknown | Promise<unknown>;
-    delete(key: string): unknown | Promise<unknown>;
-    get(key: string): Promise<HasFields | undefined> | HasFields | undefined;
+    set(key: SessionKey, value: HasFields): void | Promise<void>;
+    delete(key: SessionKey): void | Promise<void>;
+    get(key: SessionKey): Promise<HasFields | undefined> | HasFields | undefined;
+    find(filter: Partial<SessionKey>): FindResult;
 }

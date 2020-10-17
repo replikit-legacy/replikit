@@ -1,4 +1,5 @@
 import { Session, SessionType } from "@replikit/sessions";
+import { SessionKey } from "@replikit/sessions/typings";
 
 export class ChannelTestSession extends Session {
     static readonly namespace = "test";
@@ -30,4 +31,8 @@ export class UserTestSession extends Session {
     static readonly type = SessionType.User;
 
     test: number;
+}
+
+export function createSessionKey(): SessionKey {
+    return { controller: "test", namespace: "test", type: 0 };
 }

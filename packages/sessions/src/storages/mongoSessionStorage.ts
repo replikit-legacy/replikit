@@ -1,7 +1,8 @@
-import { SessionStorage } from "@replikit/sessions/typings";
+import { SessionKey, SessionStorage } from "@replikit/sessions/typings";
 import { ConnectionManager } from "@replikit/storage";
 import { ModuleNotFoundError } from "@replikit/core";
 import { HasFields } from "@replikit/core/typings";
+import { Collection } from "mongodb";
 
 type StorageModule = typeof import("@replikit/storage");
 
@@ -30,21 +31,35 @@ export class MongoSessionStorage implements SessionStorage {
         return this._connection;
     }
 
-    async get(key: string): Promise<HasFields | undefined> {
-        const collection = this.connection.getRawCollection<HasFields>("sessions");
-        const session = await collection.findOne({ _id: key });
-        if (session) {
-            return session;
+    async get(key: SessionKey): Promise<HasFields | undefined> {
+        const session = await this.collection.findOne({ _id: key });
+        return session || undefined;
+    }
+
+    private get collection(): Collection<HasFields> {
+        return this.connection.getRawCollection<HasFields>("sessions");
+    }
+
+    async set(key: SessionKey, value: HasFields): Promise<void> {
+        await this.collection.replaceOne({ _id: key }, value, { upsert: true });
+    }
+
+    async delete(key: SessionKey): Promise<void> {
+        await this.collection.deleteOne({ _id: key });
+    }
+
+    async find(key: Partial<SessionKey>): Promise<[SessionKey, HasFields] | undefined> {
+        const filter: HasFields = {};
+        for (const k in key) {
+            filter[`_id.${k}`] = key[k as keyof SessionKey];
         }
-    }
-
-    async set(key: string, value: HasFields): Promise<void> {
-        const collection = this.connection.getRawCollection<HasFields>("sessions");
-        await collection.replaceOne({ _id: key }, value, { upsert: true });
-    }
-
-    async delete(key: string): Promise<void> {
-        const collection = this.connection.getRawCollection<HasFields>("sessions");
-        await collection.deleteOne({ _id: key });
+        const sessions = await this.collection
+            .find()
+            .filter(filter)
+            .sort("_id.messageId", -1)
+            .limit(1)
+            .toArray();
+        const session = sessions[0];
+        return session ? [session._id as SessionKey, session] : undefined;
     }
 }

@@ -2,7 +2,8 @@ import {
     SessionType,
     SessionManager,
     InvalidSessionTypeError,
-    ContextExtension
+    ContextExtension,
+    MemorySessionStorage
 } from "@replikit/sessions";
 import {
     ChannelTestSession,
@@ -20,6 +21,7 @@ import {
     MemberContext,
     MessageContext
 } from "@replikit/router";
+import { SessionKey } from "@replikit/sessions/typings";
 
 function createContextByType(type: SessionType): Context {
     const event = createMessageEvent();
@@ -36,10 +38,18 @@ function createContextByType(type: SessionType): Context {
     }
 }
 
+function createSessionKey(type: SessionType): SessionKey {
+    const key: SessionKey = { namespace: "test", controller: "test", type, channelId: 1 };
+    if (type === SessionType.Member) {
+        key.accountId = 1;
+    }
+    return key;
+}
+
 function createContext(type: SessionType): Context {
-    const storage = new Map<string, HasFields>();
+    const storage = new MemorySessionStorage();
     const context = createContextByType(type) as ContextExtension;
-    const key = type === SessionType.Member ? `test:test:${type}:1:1` : `test:test:${type}:1`;
+    const key = createSessionKey(type);
     storage.set(key, { test: 123 });
     context.sessionManager = new SessionManager(storage);
     return context;
