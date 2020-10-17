@@ -7,6 +7,11 @@ export class CounterView extends View {
     step = prop(1);
     count = state(this.initial);
 
+    patterns = {
+        increment: "+",
+        convert: "convert"
+    };
+
     increment(): void {
         this.count += this.step;
         this.update();
