@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.21.0](https://github.com/Exeteres/Replikit/compare/v0.20.0...v0.21.0) (2020-10-17)
+
+
+### Features
+
+* **views:** Add text fallback mechanism and authentication ([d6e926d](https://github.com/Exeteres/Replikit/commit/d6e926d98a9fc10c18db52dee6d8145fae2d14bd))
+
+
+
+
+
 # [0.20.0](https://github.com/Exeteres/Replikit/compare/v0.19.0...v0.20.0) (2020-09-28)
 
 

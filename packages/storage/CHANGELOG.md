@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.21.0](https://github.com/Exeteres/Replikit/compare/v0.20.0...v0.21.0) (2020-10-17)
+
+
+### Bug Fixes
+
+* **storage:** Fix command parameters ([136f4d2](https://github.com/Exeteres/Replikit/commit/136f4d24d23528316e05582a193f40f757d24110))
+
+
+### Features
+
+* **storage:** Add getAccount method ([a0fc12c](https://github.com/Exeteres/Replikit/commit/a0fc12cb330c3097df51c41554a8c9b995567825))
+
+
+
+
+
 # [0.20.0](https://github.com/Exeteres/Replikit/compare/v0.19.0...v0.20.0) (2020-09-28)
 
 

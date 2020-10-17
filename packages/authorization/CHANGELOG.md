@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.21.0](https://github.com/Exeteres/Replikit/compare/v0.20.0...v0.21.0) (2020-10-17)
+
+
+### Features
+
+* **authorization:** Extract authorization logic to middleware and allow it to be used in class-like commands ([4812d28](https://github.com/Exeteres/Replikit/commit/4812d28c932163fe23e1f21fb5e6dd900be41cf5))
+
+
+
+
+
 # [0.20.0](https://github.com/Exeteres/Replikit/compare/v0.19.0...v0.20.0) (2020-09-28)
 
 **Note:** Version bump only for package @replikit/authorization

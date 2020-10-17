@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.21.0](https://github.com/Exeteres/Replikit/compare/v0.20.0...v0.21.0) (2020-10-17)
+
+
+### Features
+
+* **core:** Add inlineButtons feature flag ([a9078d5](https://github.com/Exeteres/Replikit/commit/a9078d530e84b953f5ac194c281cf374ff87741f))
+
+
+
+
+
 # [0.20.0](https://github.com/Exeteres/Replikit/compare/v0.19.0...v0.20.0) (2020-09-28)
 
 

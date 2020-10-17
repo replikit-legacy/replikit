@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.21.0](https://github.com/Exeteres/Replikit/compare/v0.20.0...v0.21.0) (2020-10-17)
+
+
+### Bug Fixes
+
+* **commands:** Fix usage rendering of class-like commands ([1d9b7aa](https://github.com/Exeteres/Replikit/commit/1d9b7aa193fc9d0e62e30315e872e1188f1ae299))
+
+
+### Features
+
+* **commands:** Add ability to use middleware resolvers ([2328341](https://github.com/Exeteres/Replikit/commit/2328341f37839479af13ae2f9fcdcfe0728fd486))
+
+
+
+
+
 # [0.20.0](https://github.com/Exeteres/Replikit/compare/v0.19.0...v0.20.0) (2020-09-28)
 
 

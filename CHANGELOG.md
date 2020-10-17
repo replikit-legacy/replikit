@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.21.0](https://github.com/Exeteres/Replikit/compare/v0.20.0...v0.21.0) (2020-10-17)
+
+
+### Bug Fixes
+
+* **commands:** Fix usage rendering of class-like commands ([1d9b7aa](https://github.com/Exeteres/Replikit/commit/1d9b7aa193fc9d0e62e30315e872e1188f1ae299))
+* **i18n:** Fix typo ([32fe69f](https://github.com/Exeteres/Replikit/commit/32fe69f779857194bfeab5eef7c7dc4ca11221b8))
+* **storage:** Fix command parameters ([136f4d2](https://github.com/Exeteres/Replikit/commit/136f4d24d23528316e05582a193f40f757d24110))
+
+
+### Features
+
+* **authorization:** Extract authorization logic to middleware and allow it to be used in class-like commands ([4812d28](https://github.com/Exeteres/Replikit/commit/4812d28c932163fe23e1f21fb5e6dd900be41cf5))
+* **commands:** Add ability to use middleware resolvers ([2328341](https://github.com/Exeteres/Replikit/commit/2328341f37839479af13ae2f9fcdcfe0728fd486))
+* **core:** Add inlineButtons feature flag ([a9078d5](https://github.com/Exeteres/Replikit/commit/a9078d530e84b953f5ac194c281cf374ff87741f))
+* **sessions:** Redesign session keys. Add ability to search sessions ([32b4d54](https://github.com/Exeteres/Replikit/commit/32b4d547f987cae06b85d511056de6de95545f32))
+* **storage:** Add getAccount method ([a0fc12c](https://github.com/Exeteres/Replikit/commit/a0fc12cb330c3097df51c41554a8c9b995567825))
+* **views:** Add text fallback mechanism and authentication ([d6e926d](https://github.com/Exeteres/Replikit/commit/d6e926d98a9fc10c18db52dee6d8145fae2d14bd))
+
+
+
+
+
 # [0.20.0](https://github.com/Exeteres/Replikit/compare/v0.19.0...v0.20.0) (2020-09-28)
 
 

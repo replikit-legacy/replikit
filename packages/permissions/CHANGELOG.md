@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.21.0](https://github.com/Exeteres/Replikit/compare/v0.20.0...v0.21.0) (2020-10-17)
+
+
+### Bug Fixes
+
+* **i18n:** Fix typo ([32fe69f](https://github.com/Exeteres/Replikit/commit/32fe69f779857194bfeab5eef7c7dc4ca11221b8))
+
+
+
+
+
 # [0.20.0](https://github.com/Exeteres/Replikit/compare/v0.19.0...v0.20.0) (2020-09-28)
 
 **Note:** Version bump only for package @replikit/permissions
