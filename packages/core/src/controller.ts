@@ -52,7 +52,8 @@ export abstract class Controller {
     private static featureMapDefaults: FeatureMap = {
         implicitUpload: false,
         webhook: false,
-        inlineMode: false
+        inlineMode: false,
+        inlineButtons: false
     };
 
     constructor(private readonly options: BaseControllerOptions) {

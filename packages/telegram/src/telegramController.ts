@@ -80,7 +80,7 @@ export class TelegramController extends Controller {
 
         super({
             name: "tg",
-            features: { implicitUpload: true, inlineMode: true },
+            features: { implicitUpload: true, inlineMode: true, inlineButtons: true },
             textFormatter
         });
 
