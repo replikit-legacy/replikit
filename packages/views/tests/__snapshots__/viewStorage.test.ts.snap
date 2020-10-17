@@ -6,6 +6,7 @@ TestView {
     "count": 0,
     "startFrom": 0,
   },
+  "_target": undefined,
   "metadata": Object {
     "messageIds": Array [
       456,

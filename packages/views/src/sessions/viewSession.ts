@@ -1,6 +1,6 @@
 import { HasFields } from "@replikit/core/typings";
 import { Session, SessionType } from "@replikit/sessions";
-import { ViewAction } from "@replikit/views/typings";
+import { ViewAction, ViewTarget } from "@replikit/views/typings";
 
 export class ViewSession extends Session {
     static readonly namespace = "view";
@@ -8,4 +8,5 @@ export class ViewSession extends Session {
 
     data: HasFields;
     actions: ViewAction[];
+    target?: ViewTarget;
 }

@@ -1,15 +1,17 @@
 import { assert } from "@replikit/core";
 import { Constructor, HasFields, MessageMetadata, SafeFunction } from "@replikit/core/typings";
+import { resolveOutMessage } from "@replikit/messages";
 import { OutMessageLikeAsync } from "@replikit/messages/typings";
 import { MessageContext } from "@replikit/router";
-import { createSessionKey } from "@replikit/sessions";
+import { SessionKey } from "@replikit/sessions/typings";
 import {
     resolveViewOutMessage,
     ViewNotRegisteredError,
+    ViewPattern,
     ViewSession,
     viewStorage
 } from "@replikit/views";
-import { ViewProps } from "@replikit/views/typings";
+import { ViewProps, ViewTarget } from "@replikit/views/typings";
 
 export abstract class View extends MessageContext {
     private metadata?: MessageMetadata;
@@ -23,10 +25,28 @@ export abstract class View extends MessageContext {
     private updateRequested: boolean;
     private viewChangeRequested: boolean;
 
+    /** @internal */
+    _resolvedByPattern: boolean;
+
     protected closed: boolean;
+
+    patterns?: Record<string, ViewPattern>;
 
     abstract render(): OutMessageLikeAsync;
     renderClosed?(): OutMessageLikeAsync;
+    renderTextFallback?(): OutMessageLikeAsync;
+
+    /** @internal */
+    _target?: ViewTarget;
+
+    get target(): ViewTarget | undefined {
+        return this._session?.target;
+    }
+
+    /**
+     * Allow only the user who created the view or who is the target of the view to interact with it.
+     */
+    authenticate?: boolean;
 
     /** @internal */
     async updateWorker(): Promise<void> {
@@ -34,6 +54,17 @@ export abstract class View extends MessageContext {
             this.closed && this.renderClosed ? await this.renderClosed() : await this.render();
         const [message, actions] = resolveViewOutMessage(this.constructor.name, renderResult);
         if (!this.metadata) {
+            if (!this.controller.features.inlineButtons) {
+                message.buttons = [];
+                if (this.renderTextFallback && !this.closed) {
+                    const fallbackMessage = resolveOutMessage(await this.renderTextFallback());
+                    const firstToken = fallbackMessage.tokens[0];
+                    if (firstToken?.text) {
+                        firstToken.text = "\n" + firstToken.text;
+                    }
+                    message.tokens.push(...fallbackMessage.tokens);
+                }
+            }
             const sended = await this.controller.sendMessage(this.channel.id, message);
             this.metadata = sended.metadata;
             await this._load(true);
@@ -99,22 +130,37 @@ export abstract class View extends MessageContext {
     }
 
     /** @internal */
-    async _load(write = false): Promise<void> {
-        assert(this.metadata, "Unable to load view without metadata");
-        const messageId = this.metadata.messageIds[0];
-        const sessionKey = createSessionKey(
-            this.controller.name,
-            ViewSession,
-            this.channel.id,
-            messageId
-        );
+    async _load(write = false): Promise<boolean> {
         if (!this._session) {
-            this._session = await this.getSession(ViewSession, sessionKey);
-            if (write) {
-                this._session.data = this._data;
+            if (this._resolvedByPattern) {
+                this._session = await this.findSession(ViewSession);
+                if (!this._session) {
+                    return false;
+                }
             } else {
-                this._data = this._session.data;
+                assert(this.metadata, "Unable to load view without metadata");
+                const messageId = this.metadata.messageIds[0];
+                const sessionKey: SessionKey = {
+                    namespace: ViewSession.namespace,
+                    controller: this.controller.name,
+                    type: ViewSession.type,
+                    channelId: this.channel.id,
+                    messageId
+                };
+                this._session = await this.getSession(ViewSession, sessionKey);
             }
         }
+        if (write) {
+            this._session.data = this._data;
+            if (this.authenticate) {
+                this._session.target = this._target ?? {
+                    controller: this.controller.name,
+                    accountId: this.account.id
+                };
+            }
+        } else {
+            this._data = this._session.data;
+        }
+        return true;
     }
 }

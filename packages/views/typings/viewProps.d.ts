@@ -1,4 +1,4 @@
-import { FilterKeysNot } from "@replikit/core/typings";
+import { FilterKeysNot, Identifier } from "@replikit/core/typings";
 import { View } from "@replikit/views";
 
 export type PropField<T = unknown, R extends boolean = boolean> = T & {
@@ -16,5 +16,10 @@ type ViewPropFields<T> = {
 };
 
 type PickNotNever<T> = Pick<T, FilterKeysNot<T, never | undefined>>;
+
+export interface ViewTarget {
+    controller: string;
+    accountId: Identifier;
+}
 
 export type ViewProps<T extends View> = Partial<PickNotNever<ViewPropFields<T>>>;

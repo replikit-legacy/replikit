@@ -1,11 +1,12 @@
-import { ViewAlreadyRegisteredError, View } from "@replikit/views";
+import { ViewAlreadyRegisteredError, View, checkPattern } from "@replikit/views";
 import { Constructor, MessageMetadata } from "@replikit/core/typings";
 import { MessageContext } from "@replikit/router";
 import { CompositionInfo, createCompositionInfo, createCompositionInstance } from "@replikit/core";
+import { ViewTarget } from "@replikit/views/typings";
 
 export class ViewStorage {
     /** @internal */
-    readonly _viewMap = new Map<string, CompositionInfo>();
+    readonly _viewMap = new Map<string, CompositionInfo<View>>();
 
     private createViewInfo(constructor: Constructor<View>): CompositionInfo {
         return createCompositionInfo(constructor, {});
@@ -16,20 +17,52 @@ export class ViewStorage {
         if (this._viewMap.has(name)) {
             throw new ViewAlreadyRegisteredError(name);
         }
-        const viewInfo = this.createViewInfo(constructor);
+        const viewInfo = this.createViewInfo(constructor) as CompositionInfo<View>;
         this._viewMap.set(name, viewInfo);
+    }
+
+    resolveByPattern(context: MessageContext): [View, string] | undefined {
+        if (!context.message.text) {
+            return;
+        }
+        for (const viewInfo of this._viewMap.values()) {
+            const patterns = viewInfo.fields.patterns;
+            if (!patterns) {
+                continue;
+            }
+            for (const method in patterns) {
+                const pattern = patterns[method];
+                if (checkPattern(context.message.text, pattern)) {
+                    const view = this.createViewByInfo(viewInfo, context);
+                    view._resolvedByPattern = true;
+                    return [view, method];
+                }
+            }
+        }
+    }
+
+    private createViewByInfo(
+        viewInfo: CompositionInfo<View>,
+        context: MessageContext,
+        metadata?: MessageMetadata,
+        data?: unknown
+    ): View {
+        const viewContext = Object.assign({ metadata, _data: data ?? {} }, context);
+        return createCompositionInstance(viewInfo, viewContext);
     }
 
     resolve(
         context: MessageContext,
         name: string,
         metadata?: MessageMetadata,
-        data?: unknown
+        data?: unknown,
+        target?: ViewTarget
     ): View | undefined {
         const viewInfo = this._viewMap.get(name);
         if (!viewInfo) return undefined;
-        const viewContext = Object.assign({ metadata, _data: data ?? {} }, context);
-        return createCompositionInstance(viewInfo, viewContext);
+        const view = this.createViewByInfo(viewInfo, context, metadata, data);
+        view._target = target;
+        return view;
     }
 }
 

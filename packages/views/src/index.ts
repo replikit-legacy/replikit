@@ -13,3 +13,6 @@ export * from "./viewField";
 export * from "./multiStateView";
 
 export * from "./extensions/messageContextExtension";
+
+import "./handlers/buttonHandler";
+import "./handlers/patternHandler";
