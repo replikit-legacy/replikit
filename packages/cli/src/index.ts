@@ -29,3 +29,5 @@ import "./commands/createModule";
 import "./commands/dev";
 import "./commands/build";
 import "./commands/addExternal";
+import "./commands/removeModule";
+import "./commands/removeExternal";

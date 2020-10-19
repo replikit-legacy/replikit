@@ -280,6 +280,63 @@ exports[`ProjectManager should add external subrepository, update tsconfig.json 
 "
 `;
 
+exports[`ProjectManager should create a module and remove it: /package.json 1`] = `
+"{
+    \\"name\\": \\"test-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"license\\": \\"MIT\\",
+    \\"private\\": true,
+    \\"scripts\\": {
+        \\"dev\\": \\"replikit dev\\",
+        \\"build\\": \\"replikit build\\"
+    },
+    \\"dependencies\\": {
+        \\"@replikit/static\\": \\"0.0.0\\"
+    },
+    \\"devDependencies\\": {
+        \\"@types/node\\": \\"0.0.0\\",
+        \\"@replikit/cli\\": \\"0.0.0\\"
+    }
+}
+"
+`;
+
+exports[`ProjectManager should create a module and remove it: /replikit.config.ts 1`] = `
+"import { Configuration } from \\"@replikit/core/typings\\";
+
+import \\"@replikit/static\\";
+
+const config: Configuration = {};
+
+export default config;
+"
+`;
+
+exports[`ProjectManager should create a module and remove it: /tsconfig.json 1`] = `
+"{
+    \\"compilerOptions\\": {
+        \\"target\\": \\"es2019\\",
+        \\"module\\": \\"commonjs\\",
+        \\"moduleResolution\\": \\"node\\",
+        \\"baseUrl\\": \\"modules\\",
+        \\"strict\\": true,
+        \\"paths\\": {
+            \\"@test-project/*\\": [
+                \\"*/src\\"
+            ],
+            \\"@test-project/*/typings\\": [
+                \\"*/typings\\"
+            ]
+        }
+    },
+    \\"include\\": [
+        \\"replikit.config.ts\\",
+        \\"modules/**/*.ts\\"
+    ]
+}
+"
+`;
+
 exports[`ProjectManager should generate npm project: /lerna.json 1`] = `
 "{
     \\"version\\": \\"0.0.0\\",

@@ -26,7 +26,7 @@ export class ProjectManager {
         this.configManager = configManager ?? new ConfigManager();
         this.name = basename(this.root);
         this.externalPath = join(this.root, "external");
-        this.git = new GitController(this.externalPath);
+        this.git = new GitController(root, this.externalPath);
     }
 
     private async saveConfig(): Promise<void> {
@@ -152,6 +152,35 @@ export class ProjectManager {
             await this.saveConfig();
         }
         return module;
+    }
+
+    /**
+     * Deletes the module and removes it from the configuration.
+     * Returns `false` if module was not found.
+     */
+    async removeModule(name: string): Promise<boolean> {
+        const module = this.getModule(name);
+        const ok = await module.remove();
+        if (!ok) {
+            return false;
+        }
+        if (this.configManager.checkModule(module.fullName)) {
+            this.configManager.removeModule(module.fullName);
+            await this.saveConfig();
+        }
+        return true;
+    }
+
+    /**
+     * Removes external repository and its modules.
+     */
+    async removeExternalRepository(repository: string): Promise<void> {
+        const modules = await this.getExternalModuleNames(repository);
+        for (const module of modules) {
+            this.configManager.removeModule(module);
+        }
+        await this.saveConfig();
+        await this.git.removeSubmodule(repository);
     }
 
     /**

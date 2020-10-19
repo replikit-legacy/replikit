@@ -1,4 +1,4 @@
-import { pathExists, mkdir } from "fs-extra";
+import { pathExists, mkdir, remove } from "fs-extra";
 import { PMController, PMType, createPMController, ProjectManager } from "@replikit/cli";
 import { Project } from "ts-morph";
 import { resolve } from "path";
@@ -49,6 +49,19 @@ export class ModuleManager {
         this.project.createSourceFile(indexPath);
 
         await this.project.save();
+    }
+
+    /**
+     * Removes the module from filesystem.
+     * Returns `false` if root path was not found.
+     */
+    async remove(): Promise<boolean> {
+        const exists = await pathExists(this.root);
+        if (!exists) {
+            return false;
+        }
+        await remove(this.root);
+        return true;
     }
 
     /**

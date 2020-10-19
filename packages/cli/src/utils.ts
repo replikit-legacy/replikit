@@ -4,6 +4,7 @@ import { logger, ProjectManager, ConfigManager } from "@replikit/cli";
 import { readdir, pathExists, readFile } from "fs-extra";
 import requireFromString from "require-from-string";
 import { Configuration } from "@replikit/core/typings";
+import { prompt } from "inquirer";
 
 const configFiles = ["replikit.config.ts", "replikit.config.js"];
 
@@ -81,4 +82,15 @@ export function createExternalProjectName(url: string): string {
     const segments = url.split("/");
     const last = segments[segments.length - 1];
     return last.endsWith(".git") ? last.slice(0, -4) : last;
+}
+
+export async function promptDeleteConfirmation(skip: boolean): Promise<boolean> {
+    const { confirmation } = await prompt({
+        name: "confirmation",
+        type: "confirm",
+        message: "After this operation, the module will be permanently deleted. Are you sure?",
+        when: !skip,
+        default: false
+    });
+    return (skip || confirmation) as boolean;
 }

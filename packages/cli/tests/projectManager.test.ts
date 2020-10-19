@@ -26,7 +26,7 @@ describe("ProjectManager", () => {
     it("should add external subrepository, update tsconfig.json and add modules to replikit config", async () => {
         const gitSpy = jest.spyOn(GitController.prototype, "addSubmodule");
         gitSpy.mockImplementation(async function (this: GitController, _, folder) {
-            const externalManager = new ProjectManager(resolve(this.path, folder));
+            const externalManager = new ProjectManager(resolve(this.externalPath, folder));
             externalManager.setPackageManager(PMType.NPM);
             await externalManager.init();
             await externalManager.createModule("external-module");
@@ -41,5 +41,12 @@ describe("ProjectManager", () => {
         await expectDirectoryToMatchSnapshot(manager.root);
 
         gitSpy.mockRestore();
+    });
+
+    it("should create a module and remove it", async () => {
+        const manager = await createProject(false, false);
+        await createModule(manager, "test-module", [], false);
+        await manager.removeModule("test-module");
+        await expectDirectoryToMatchSnapshot(manager.root);
     });
 });
