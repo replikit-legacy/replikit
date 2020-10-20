@@ -1,7 +1,6 @@
 import {
     getProjectManager,
     validateDirectoryName,
-    availableModules,
     createModule,
     logger,
     setupConfiguration
@@ -23,17 +22,11 @@ command.action(async options => {
             type: "confirm",
             name: "addLogger",
             message: "Do you want to add a logger to the module?"
-        },
-        {
-            type: "checkbox",
-            name: "modules",
-            message: "Modules",
-            choices: availableModules
         }
     ]);
     const manager = await getProjectManager();
     try {
-        await createModule(manager, result.moduleName, result.modules, result.addLogger);
+        await createModule(manager, result.moduleName, result.addLogger);
         logger.info("Module created successfuly");
     } catch (e) {
         logger.fatal("Error while creating the module", e);

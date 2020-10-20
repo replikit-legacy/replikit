@@ -127,6 +127,28 @@ export class ProjectManager {
             [`@${packageJson.name}/*/typings`]: [`../external/${path}/modules/*/typings`]
         };
         await writeJSON(tsconfigPath, tsconfig, { spaces: 4 });
+
+        await this.pm.load();
+
+        // Add pm workspaces
+
+        if (this.pm.config.workspaces) {
+            this.pm.config.workspaces.push(`external/${path}`);
+            this.pm.config.workspaces.push(`external/${path}/modules/*`);
+        }
+
+        const lernaConfigPath = join(this.root, "lerna.json");
+        if (await pathExists(lernaConfigPath)) {
+            const lernaConfig = await readJSON(lernaConfigPath);
+            if (!lernaConfig.packages) {
+                lernaConfig.packages = [];
+            }
+            lernaConfig.packages.push(`external/${path}`);
+            lernaConfig.packages.push(`external/${path}/modules/*`);
+        }
+
+        await this.pm.save();
+        await this.pm.install();
     }
 
     /**

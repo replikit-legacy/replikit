@@ -68,9 +68,21 @@ export async function setupConfiguration(file?: string): Promise<void> {
     updateConfig(config);
 }
 
-export async function checkFolderIsEmpty(path: string): Promise<boolean> {
+export enum FolderState {
+    Empty,
+    HasGit,
+    HasContent
+}
+
+export async function getFolderState(path: string): Promise<FolderState> {
     const items = await readdir(path);
-    return items.length === 0 || (items.length === 1 && items[0] === ".git");
+    if (items.length === 0) {
+        return FolderState.Empty;
+    }
+    if (items.length === 1 && items[0] === ".git") {
+        return FolderState.HasGit;
+    }
+    return FolderState.HasContent;
 }
 
 export function validateDirectoryName(name: string): true | string {

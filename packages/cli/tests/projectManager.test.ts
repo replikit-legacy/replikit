@@ -8,18 +8,19 @@ setupTemp();
 jest.setTimeout(120000);
 
 describe("ProjectManager", () => {
-    it.each(["npm", "yarn", "yarn-lerna"])("should generate %s project", async type => {
+    it.each(["npm", "yarn", "yarn-lerna", "git"])("should generate %s project", async type => {
         const useYarn = type !== "npm";
         const useLerna = type !== "yarn";
+        const initGit = type === "git";
 
-        const manager = await createProject(useYarn, useLerna);
+        const manager = await createProject(useYarn, useLerna, initGit);
         await expectDirectoryToMatchSnapshot(manager.root);
     });
 
     it.each(["with", "without"])("should add a module to the project %s logger", async t => {
         const addLoger = t === "with";
-        const manager = await createProject(false, false);
-        await createModule(manager, "test-module", ["@replikit/test"], addLoger);
+        const manager = await createProject();
+        await createModule(manager, "test-module", addLoger);
         await expectDirectoryToMatchSnapshot(manager.root);
     });
 
@@ -45,7 +46,7 @@ describe("ProjectManager", () => {
 
     it("should create a module and remove it", async () => {
         const manager = await createProject(false, false);
-        await createModule(manager, "test-module", [], false);
+        await createModule(manager, "test-module", false);
         await manager.removeModule("test-module");
         await expectDirectoryToMatchSnapshot(manager.root);
     });

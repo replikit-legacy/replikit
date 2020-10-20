@@ -14,11 +14,11 @@ export class YarnController extends PMController {
         return this.config.workspaces !== undefined;
     }
 
-    async install(modules: string[], dev?: boolean): Promise<void> {
-        if (!modules.length) {
-            return;
+    async install(modules: string[] = [], dev?: boolean): Promise<void> {
+        const args = [];
+        if (modules.length) {
+            args.push("add");
         }
-        const args = ["add"];
         if (dev) {
             args.push("-D");
         }

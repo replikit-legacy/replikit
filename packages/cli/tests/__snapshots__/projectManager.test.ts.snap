@@ -4,10 +4,7 @@ exports[`ProjectManager should add a module to the project with logger: /modules
 "{
     \\"name\\": \\"@test-project/test-module\\",
     \\"version\\": \\"0.0.0\\",
-    \\"license\\": \\"MIT\\",
-    \\"dependencies\\": {
-        \\"@replikit/test\\": \\"0.0.0\\"
-    }
+    \\"license\\": \\"MIT\\"
 }
 "
 `;
@@ -36,7 +33,7 @@ exports[`ProjectManager should add a module to the project with logger: /package
         \\"build\\": \\"replikit build\\"
     },
     \\"dependencies\\": {
-        \\"@replikit/static\\": \\"0.0.0\\"
+        \\"@replikit/telegram\\": \\"0.0.0\\"
     },
     \\"devDependencies\\": {
         \\"@types/node\\": \\"0.0.0\\",
@@ -49,7 +46,7 @@ exports[`ProjectManager should add a module to the project with logger: /package
 exports[`ProjectManager should add a module to the project with logger: /replikit.config.ts 1`] = `
 "import { Configuration } from \\"@replikit/core/typings\\";
 
-import \\"@replikit/static\\";
+import \\"@replikit/telegram\\";
 import \\"@test-project/test-module\\";
 
 const config: Configuration = {};
@@ -87,10 +84,7 @@ exports[`ProjectManager should add a module to the project without logger: /modu
 "{
     \\"name\\": \\"@test-project/test-module\\",
     \\"version\\": \\"0.0.0\\",
-    \\"license\\": \\"MIT\\",
-    \\"dependencies\\": {
-        \\"@replikit/test\\": \\"0.0.0\\"
-    }
+    \\"license\\": \\"MIT\\"
 }
 "
 `;
@@ -108,7 +102,7 @@ exports[`ProjectManager should add a module to the project without logger: /pack
         \\"build\\": \\"replikit build\\"
     },
     \\"dependencies\\": {
-        \\"@replikit/static\\": \\"0.0.0\\"
+        \\"@replikit/telegram\\": \\"0.0.0\\"
     },
     \\"devDependencies\\": {
         \\"@types/node\\": \\"0.0.0\\",
@@ -121,7 +115,7 @@ exports[`ProjectManager should add a module to the project without logger: /pack
 exports[`ProjectManager should add a module to the project without logger: /replikit.config.ts 1`] = `
 "import { Configuration } from \\"@replikit/core/typings\\";
 
-import \\"@replikit/static\\";
+import \\"@replikit/telegram\\";
 import \\"@test-project/test-module\\";
 
 const config: Configuration = {};
@@ -227,7 +221,7 @@ exports[`ProjectManager should add external subrepository, update tsconfig.json 
         \\"build\\": \\"replikit build\\"
     },
     \\"dependencies\\": {
-        \\"@replikit/static\\": \\"0.0.0\\"
+        \\"@replikit/telegram\\": \\"0.0.0\\"
     },
     \\"devDependencies\\": {
         \\"@types/node\\": \\"0.0.0\\",
@@ -240,7 +234,7 @@ exports[`ProjectManager should add external subrepository, update tsconfig.json 
 exports[`ProjectManager should add external subrepository, update tsconfig.json and add modules to replikit config: /replikit.config.ts 1`] = `
 "import { Configuration } from \\"@replikit/core/typings\\";
 
-import \\"@replikit/static\\";
+import \\"@replikit/telegram\\";
 import \\"@external-repo/external-module\\";
 
 const config: Configuration = {};
@@ -291,7 +285,7 @@ exports[`ProjectManager should create a module and remove it: /package.json 1`] 
         \\"build\\": \\"replikit build\\"
     },
     \\"dependencies\\": {
-        \\"@replikit/static\\": \\"0.0.0\\"
+        \\"@replikit/telegram\\": \\"0.0.0\\"
     },
     \\"devDependencies\\": {
         \\"@types/node\\": \\"0.0.0\\",
@@ -304,7 +298,7 @@ exports[`ProjectManager should create a module and remove it: /package.json 1`] 
 exports[`ProjectManager should create a module and remove it: /replikit.config.ts 1`] = `
 "import { Configuration } from \\"@replikit/core/typings\\";
 
-import \\"@replikit/static\\";
+import \\"@replikit/telegram\\";
 
 const config: Configuration = {};
 
@@ -313,6 +307,81 @@ export default config;
 `;
 
 exports[`ProjectManager should create a module and remove it: /tsconfig.json 1`] = `
+"{
+    \\"compilerOptions\\": {
+        \\"target\\": \\"es2019\\",
+        \\"module\\": \\"commonjs\\",
+        \\"moduleResolution\\": \\"node\\",
+        \\"baseUrl\\": \\"modules\\",
+        \\"strict\\": true,
+        \\"paths\\": {
+            \\"@test-project/*\\": [
+                \\"*/src\\"
+            ],
+            \\"@test-project/*/typings\\": [
+                \\"*/typings\\"
+            ]
+        }
+    },
+    \\"include\\": [
+        \\"replikit.config.ts\\",
+        \\"modules/**/*.ts\\"
+    ]
+}
+"
+`;
+
+exports[`ProjectManager should generate git project: /.gitignore 1`] = `
+"node_modules
+dist"
+`;
+
+exports[`ProjectManager should generate git project: /lerna.json 1`] = `
+"{
+    \\"version\\": \\"0.0.0\\",
+    \\"npmClient\\": \\"yarn\\",
+    \\"useWorkspaces\\": true
+}
+"
+`;
+
+exports[`ProjectManager should generate git project: /package.json 1`] = `
+"{
+    \\"name\\": \\"test-project\\",
+    \\"version\\": \\"0.0.0\\",
+    \\"license\\": \\"MIT\\",
+    \\"private\\": true,
+    \\"scripts\\": {
+        \\"dev\\": \\"replikit dev\\",
+        \\"build\\": \\"replikit build\\"
+    },
+    \\"workspaces\\": [
+        \\"modules/*\\"
+    ],
+    \\"dependencies\\": {
+        \\"@replikit/telegram\\": \\"0.0.0\\"
+    },
+    \\"devDependencies\\": {
+        \\"@types/node\\": \\"0.0.0\\",
+        \\"@replikit/cli\\": \\"0.0.0\\",
+        \\"lerna\\": \\"0.0.0\\"
+    }
+}
+"
+`;
+
+exports[`ProjectManager should generate git project: /replikit.config.ts 1`] = `
+"import { Configuration } from \\"@replikit/core/typings\\";
+
+import \\"@replikit/telegram\\";
+
+const config: Configuration = {};
+
+export default config;
+"
+`;
+
+exports[`ProjectManager should generate git project: /tsconfig.json 1`] = `
 "{
     \\"compilerOptions\\": {
         \\"target\\": \\"es2019\\",
@@ -356,7 +425,7 @@ exports[`ProjectManager should generate npm project: /package.json 1`] = `
         \\"build\\": \\"replikit build\\"
     },
     \\"dependencies\\": {
-        \\"@replikit/static\\": \\"0.0.0\\"
+        \\"@replikit/telegram\\": \\"0.0.0\\"
     },
     \\"devDependencies\\": {
         \\"@types/node\\": \\"0.0.0\\",
@@ -370,7 +439,7 @@ exports[`ProjectManager should generate npm project: /package.json 1`] = `
 exports[`ProjectManager should generate npm project: /replikit.config.ts 1`] = `
 "import { Configuration } from \\"@replikit/core/typings\\";
 
-import \\"@replikit/static\\";
+import \\"@replikit/telegram\\";
 
 const config: Configuration = {};
 
@@ -417,7 +486,7 @@ exports[`ProjectManager should generate yarn project: /package.json 1`] = `
         \\"modules/*\\"
     ],
     \\"dependencies\\": {
-        \\"@replikit/static\\": \\"0.0.0\\"
+        \\"@replikit/telegram\\": \\"0.0.0\\"
     },
     \\"devDependencies\\": {
         \\"@types/node\\": \\"0.0.0\\",
@@ -430,7 +499,7 @@ exports[`ProjectManager should generate yarn project: /package.json 1`] = `
 exports[`ProjectManager should generate yarn project: /replikit.config.ts 1`] = `
 "import { Configuration } from \\"@replikit/core/typings\\";
 
-import \\"@replikit/static\\";
+import \\"@replikit/telegram\\";
 
 const config: Configuration = {};
 
@@ -486,7 +555,7 @@ exports[`ProjectManager should generate yarn-lerna project: /package.json 1`] = 
         \\"modules/*\\"
     ],
     \\"dependencies\\": {
-        \\"@replikit/static\\": \\"0.0.0\\"
+        \\"@replikit/telegram\\": \\"0.0.0\\"
     },
     \\"devDependencies\\": {
         \\"@types/node\\": \\"0.0.0\\",
@@ -500,7 +569,7 @@ exports[`ProjectManager should generate yarn-lerna project: /package.json 1`] = 
 exports[`ProjectManager should generate yarn-lerna project: /replikit.config.ts 1`] = `
 "import { Configuration } from \\"@replikit/core/typings\\";
 
-import \\"@replikit/static\\";
+import \\"@replikit/telegram\\";
 
 const config: Configuration = {};
 

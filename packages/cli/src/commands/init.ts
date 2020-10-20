@@ -1,12 +1,12 @@
 import {
     detectYarn,
-    checkFolderIsEmpty,
     validateDirectoryName,
     logger,
     initProject,
-    availableStaticModules,
-    availableModules,
-    createModule
+    createModule,
+    getFolderState,
+    FolderState,
+    availableModules
 } from "@replikit/cli";
 import { prompt } from "inquirer";
 import { pathExists } from "fs-extra";
@@ -17,24 +17,24 @@ interface PromptResult {
     projectName: string;
     useYarn: boolean;
     useLerna: boolean;
-    staticModules: string[];
+    modules: string[];
     createModule: boolean;
     moduleName: string;
     addLogger: boolean;
-    modules: string[];
+    initGit: boolean;
 }
 
 const command = program.command("init").description("Create a new project");
 command.action(async () => {
     const yarnExists = await detectYarn();
     const cwd = process.cwd();
-    const isEmpty = await checkFolderIsEmpty(cwd);
+    const folderState = await getFolderState(cwd);
     const result = await prompt<PromptResult>([
         {
             type: "input",
             message: "Project name",
             name: "projectName",
-            when: !isEmpty,
+            when: folderState === FolderState.HasContent,
             validate: async (path): Promise<true | string> => {
                 const message = validateDirectoryName(path);
                 if (message !== true) {
@@ -59,10 +59,17 @@ command.action(async () => {
             when: (result): boolean => result.useYarn
         },
         {
+            type: "confirm",
+            name: "initGit",
+            default: true,
+            message: "Do you want to initialize a git repository?",
+            when: folderState !== FolderState.HasGit
+        },
+        {
             type: "checkbox",
-            name: "staticModules",
-            message: "Static modules",
-            choices: availableStaticModules
+            name: "modules",
+            message: "Modules to install",
+            choices: availableModules
         },
         {
             type: "confirm",
@@ -82,21 +89,20 @@ command.action(async () => {
             name: "addLogger",
             message: "Do you want to add a logger to the module?",
             when: (result): boolean => result.createModule
-        },
-        {
-            type: "checkbox",
-            name: "modules",
-            message: "Modules",
-            choices: availableModules,
-            when: (result): boolean => result.createModule
         }
     ]);
-    const root = isEmpty ? cwd : resolve(cwd, result.projectName);
+    const root = folderState !== FolderState.HasContent ? cwd : resolve(cwd, result.projectName);
     const useLerna = !result.useYarn || result.useLerna;
     try {
-        const manager = await initProject(root, useLerna, result.useYarn, result.staticModules);
+        const manager = await initProject(
+            root,
+            useLerna,
+            result.useYarn,
+            result.initGit,
+            result.modules
+        );
         if (result.createModule) {
-            await createModule(manager, result.moduleName, result.modules, result.addLogger);
+            await createModule(manager, result.moduleName, result.addLogger);
         }
         logger.info("Project created successfuly");
     } catch (e) {

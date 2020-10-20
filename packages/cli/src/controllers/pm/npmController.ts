@@ -3,11 +3,11 @@ import { PMController, PMType } from "@replikit/cli";
 export class NpmController extends PMController {
     readonly type = PMType.NPM;
 
-    async install(modules: string[], dev?: boolean): Promise<void> {
-        if (!modules.length) {
-            return;
+    async install(modules: string[] = [], dev?: boolean): Promise<void> {
+        const args = ["install"];
+        if (modules.length) {
+            args.push("-S");
         }
-        const args = ["install", "-S"];
         if (dev) {
             args.push("-D");
         }

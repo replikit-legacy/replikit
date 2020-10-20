@@ -7,6 +7,10 @@ export class GitController extends ShellController {
         super(root);
     }
 
+    init(): Promise<void> {
+        return this.execute("git", ["init"]);
+    }
+
     addSubmodule(url: string, folder: string): Promise<void> {
         return this.execute("git", ["submodule", "add", url, folder], this.externalPath);
     }

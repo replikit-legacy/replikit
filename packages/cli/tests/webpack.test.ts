@@ -7,11 +7,11 @@ jest.setTimeout(120000);
 
 describe("webpack", () => {
     it("should generate a webpack configuration", async () => {
-        const project = await createProject(false, false);
+        const project = await createProject();
         await project.createModule("test");
 
         const config = {
-            modules: ["@replikit/static", "@test-project/test"],
+            modules: ["@replikit/telegram", "@test-project/test"],
             outDir: "./dist"
         };
 
@@ -30,7 +30,7 @@ describe("webpack", () => {
     });
 
     it("should pass webpack configuration throw user specified transformer", async () => {
-        const project = await createProject(false, false);
+        const project = await createProject();
 
         const config = {
             modules: [],

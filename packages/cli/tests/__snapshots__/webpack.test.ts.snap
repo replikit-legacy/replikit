@@ -5,7 +5,7 @@ Object {
   "devtool": false,
   "entry": Object {
     "main": "./main.js",
-    "replikit_static": "@replikit/static",
+    "replikit_telegram": "@replikit/telegram",
     "test-project_test": "@test-project/test",
   },
   "mode": "production",
@@ -84,13 +84,13 @@ const { updateConfig, bootstrap, createScope } = await import(\\"@replikit/core\
 Object.defineProperty(exports, \\"__esModule\\", { value: true });
 var config = {};
 exports.default = config;
-exports.modules = [\\"@replikit/static\\", \\"@test-project/test\\"];
+exports.modules = [\\"@replikit/telegram\\", \\"@test-project/test\\"];
 const parseModules = env => env && env.split(\\",\\").map(x => x.trim());
 const includedModules = parseModules(process.env.REPLIKIT_INCLUDED_MODULES);
 const excludedModules = parseModules(process.env.REPLIKIT_EXCLUDED_MODULES);
 const unrestricted = !includedModules && !excludedModules;
 const logger = createScope(\\"runtime\\");
-(unrestricted || includedModules && includedModules.includes(\\"@replikit/static\\") || excludedModules && !excludedModules.includes(\\"@replikit/static\\")) && (logger.info(\\"Loaded module @replikit/static\\"), await import(\\"@replikit/static\\"));
+(unrestricted || includedModules && includedModules.includes(\\"@replikit/telegram\\") || excludedModules && !excludedModules.includes(\\"@replikit/telegram\\")) && (logger.info(\\"Loaded module @replikit/telegram\\"), await import(\\"@replikit/telegram\\"));
 (unrestricted || includedModules && includedModules.includes(\\"@test-project/test\\") || excludedModules && !excludedModules.includes(\\"@test-project/test\\")) && (logger.info(\\"Loaded module @test-project/test\\"), await import(\\"@test-project/test\\"));
 updateConfig(exports.default);
 await bootstrap();
@@ -228,7 +228,7 @@ const { updateConfig, bootstrap, createScope } = await import(\\"@replikit/core\
 Object.defineProperty(exports, \\"__esModule\\", { value: true });
 var config = {};
 exports.default = config;
-exports.modules = [\\"@replikit/static\\"];
+exports.modules = [\\"@replikit/telegram\\"];
 const parseModules = env => env && env.split(\\",\\").map(x => x.trim());
 const includedModules = parseModules(process.env.REPLIKIT_INCLUDED_MODULES);
 const excludedModules = parseModules(process.env.REPLIKIT_EXCLUDED_MODULES);
