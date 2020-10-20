@@ -10,8 +10,18 @@ import {
     GitController
 } from "@replikit/cli";
 import { resolve, basename, join } from "path";
-import { writeFile, mkdir, writeJSON, pathExists, readJSON, readdir, ensureDir } from "fs-extra";
+import {
+    writeFile,
+    mkdir,
+    writeJSON,
+    pathExists,
+    readJSON,
+    readdir,
+    ensureDir,
+    readFile
+} from "fs-extra";
 import { PackageConfig } from "@replikit/cli/typings";
+import parseGitConfig from "parse-git-config";
 
 export class ProjectManager {
     readonly name: string;
@@ -106,7 +116,8 @@ export class ProjectManager {
      * Updates tsconfig paths to use modules from external repo.
      */
     async addExternalRepo(path: string): Promise<void> {
-        const packageJsonPath = join(this.externalPath, path, "package.json");
+        const fullPath = join(this.externalPath, path);
+        const packageJsonPath = join(fullPath, "package.json");
         const packageJson: PackageConfig = await readJSON(packageJsonPath);
         const tsconfigPath = resolve(this.root, "tsconfig.json");
         const tsconfig = await readJSON(tsconfigPath);
@@ -116,6 +127,69 @@ export class ProjectManager {
             [`@${packageJson.name}/*/typings`]: [`../external/${path}/modules/*/typings`]
         };
         await writeJSON(tsconfigPath, tsconfig, { spaces: 4 });
+    }
+
+    /**
+     * Recursively resolves dependencies of the external repository.
+     */
+    async resolveExternalDependencies(path: string): Promise<void> {
+        logger.debug(`Resolving dependencies of module ${path}`);
+
+        interface ModulesConfig {
+            submodule: Record<string, { path: string; url: string }>;
+        }
+
+        const externalPath = join(this.externalPath, path);
+
+        const modulesConfigPath = join(externalPath, ".gitmodules");
+        const modulesConfigExists = await pathExists(modulesConfigPath);
+        if (!modulesConfigExists) {
+            logger.trace(`Git modules config not found: ${modulesConfigPath}`);
+            return;
+        }
+
+        const replikitConfigPath = join(externalPath, "replikit.config.ts");
+        const replikitConfigExists = await pathExists(replikitConfigPath);
+        if (!replikitConfigExists) {
+            logger.trace(
+                `Submodule ${path} does not contain replikit.config.ts: ${replikitConfigPath}`
+            );
+            return;
+        }
+
+        const configManager = new ConfigManager();
+        const configContent = await readFile(replikitConfigPath, "utf8");
+        configManager.load(configContent);
+
+        const gitConfig = await parseGitConfig({ path: modulesConfigPath, expandKeys: true });
+        const modulesConfig = gitConfig as ModulesConfig;
+
+        if (!modulesConfig || !modulesConfig.submodule) {
+            logger.trace("Git modules config does not contain submodule section");
+            return;
+        }
+
+        for (const submodule of Object.values(modulesConfig.submodule)) {
+            logger.trace(`Checking dependency ${submodule.path}`);
+            const repositoryName = submodule.path.split("/")[1];
+
+            const submoduleModules = configManager
+                .getModules()
+                .filter(x => x.startsWith(`@${repositoryName}`));
+
+            if (!submoduleModules.length) {
+                logger.trace(
+                    `Config contains no imported modules from submodule ${submodule.path}`
+                );
+                return;
+            }
+
+            logger.info(`Adding submodule ${repositoryName} as dependency of ${path}`);
+            await this.git.addSubmodule(submodule.url, repositoryName);
+            await this.addExternalRepo(repositoryName);
+            await this.addLocalModules(submoduleModules);
+            await this.resolveExternalDependencies(repositoryName);
+        }
     }
 
     /**

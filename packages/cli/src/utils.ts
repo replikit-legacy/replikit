@@ -5,6 +5,7 @@ import { readdir, pathExists, readFile } from "fs-extra";
 import requireFromString from "require-from-string";
 import { Configuration } from "@replikit/core/typings";
 import { prompt } from "inquirer";
+import { program } from "commander";
 
 const configFiles = ["replikit.config.ts", "replikit.config.js"];
 
@@ -58,12 +59,18 @@ export async function loadConfiguration(file?: string): Promise<Configuration> {
 
 export async function setupConfiguration(file?: string): Promise<void> {
     const config = await loadConfiguration(file);
+    if (program.opts().verbose) {
+        if (!config.core) {
+            config.core = {};
+        }
+        config.core.logLevel = "verbose";
+    }
     updateConfig(config);
 }
 
 export async function checkFolderIsEmpty(path: string): Promise<boolean> {
     const items = await readdir(path);
-    return items.length === 0;
+    return items.length === 0 || (items.length === 1 && items[0] === ".git");
 }
 
 export function validateDirectoryName(name: string): true | string {

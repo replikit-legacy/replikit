@@ -89,6 +89,13 @@ export class ConfigManager implements ConfigManager {
         return this.getBySpecifier(module) !== undefined;
     }
 
+    getModules(): string[] {
+        return this.source
+            .getImportDeclarations()
+            .filter(x => !x.getImportClause())
+            .map(x => x.getModuleSpecifierValue());
+    }
+
     serialize(): string {
         const text = this.source.getFullText();
         return text.endsWith("\n") ? text : text + "\n";

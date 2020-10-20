@@ -79,6 +79,7 @@ command.action(async options => {
             }
         ]);
         await project.addLocalModules(secondResult.modules);
+        await project.resolveExternalDependencies(path);
         logger.info("External modules added successfuly");
     } catch (e) {
         logger.fatal("Error while adding the external repository", e);
