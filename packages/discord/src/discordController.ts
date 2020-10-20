@@ -361,11 +361,10 @@ export class DiscordController extends Controller {
             id: account.id,
             firstName: account.username,
             username: account.tag,
-            avatar: {
-                id: undefined!,
-                type: AttachmentType.Photo,
-                url: account.avatar || undefined
-            }
+            avatar: account.avatar
+                ? { id: undefined!, type: AttachmentType.Photo, url: account.avatar }
+                : undefined,
+            language: account.locale
         };
     }
 }
