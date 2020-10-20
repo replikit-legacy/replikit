@@ -20,7 +20,7 @@ export class DescriptionStorage {
             throw new InvalidCommandDescriptionError();
         }
 
-        return [`# ${description}`, ...overloads.map(x => x.usage!)].join("\n");
+        return [`# ${description}`, ...overloads.map(x => x.usage!)].join("\n") + "\n";
     }
 
     private renderCommand(description: HelpMessage | string, command: Command): string | undefined {
