@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.22.2](https://github.com/Exeteres/Replikit/compare/v0.22.1...v0.22.2) (2020-10-23)
+
+
+### Bug Fixes
+
+* **storage:** Fix build ([ce82ce3](https://github.com/Exeteres/Replikit/commit/ce82ce332bcda0bc645c407b356431ab3fac3e25))
+
+
+
+
+
 ## [0.22.1](https://github.com/Exeteres/Replikit/compare/v0.22.0...v0.22.1) (2020-10-23)
 
 

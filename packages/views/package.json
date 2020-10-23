@@ -1,6 +1,6 @@
 {
     "name": "@replikit/views",
-    "version": "0.22.1",
+    "version": "0.22.2",
     "license": "MIT",
     "main": "dist/index.js",
     "typings": "dist/index.d.ts",
@@ -15,8 +15,8 @@
         "access": "public"
     },
     "dependencies": {
-        "@replikit/core": "^0.22.1",
-        "@replikit/router": "^0.22.1",
-        "@replikit/sessions": "^0.22.1"
+        "@replikit/core": "^0.22.2",
+        "@replikit/router": "^0.22.2",
+        "@replikit/sessions": "^0.22.2"
     }
 }
