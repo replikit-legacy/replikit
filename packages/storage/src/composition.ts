@@ -1,4 +1,4 @@
-import { ModuleNotFoundError, requireOptional } from "@replikit/core";
+import { ModuleNotFoundError } from "@replikit/core";
 import { HasFields } from "@replikit/core/typings";
 import { Channel, Member, User } from "@replikit/storage";
 import { ChannelOptions, MemberOptions, UserOptions } from "@replikit/storage/typings";
@@ -25,7 +25,16 @@ export let channel: ChannelParameter = () => {
     throw new ModuleNotFoundError("@replikit/commands", "channel parameter");
 };
 
-const commands = requireOptional<typeof import("@replikit/commands")>("@replikit/commands");
+function getCommandsModule(): typeof import("@replikit/commands") | undefined {
+    try {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+        return require("@replikit/commands");
+    } catch {
+        return undefined;
+    }
+}
+
+const commands = getCommandsModule();
 
 if (commands) {
     const { commandComposer, MiddlewareStage, createParameterAccessor } = commands;
