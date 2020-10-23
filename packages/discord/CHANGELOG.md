@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.22.0](https://github.com/Exeteres/Replikit/compare/v0.21.0...v0.22.0) (2020-10-23)
+
+
+### Bug Fixes
+
+* **discord:** Add language to AccountInfo ([6a06a27](https://github.com/Exeteres/Replikit/commit/6a06a27171b02487d0a5886c9c47f119a9767d51))
+
+
+
+
+
 # [0.21.0](https://github.com/Exeteres/Replikit/compare/v0.20.0...v0.21.0) (2020-10-17)
 
 **Note:** Version bump only for package @replikit/discord

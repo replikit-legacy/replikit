@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.22.0](https://github.com/Exeteres/Replikit/compare/v0.21.0...v0.22.0) (2020-10-23)
+
+
+### Features
+
+* **cli:** Add commands to remove modules and external repositories ([4b96040](https://github.com/Exeteres/Replikit/commit/4b960406fa4eab9a1e1536f5016cf4153581db5f))
+* **cli:** Add dependency resolution mechanism to addExternal command ([84eeb29](https://github.com/Exeteres/Replikit/commit/84eeb29b1418f0b43ef1fbf0b828250b121ccb9c))
+
+
+
+
+
 # [0.21.0](https://github.com/Exeteres/Replikit/compare/v0.20.0...v0.21.0) (2020-10-17)
 
 **Note:** Version bump only for package example
