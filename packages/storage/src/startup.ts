@@ -30,7 +30,10 @@ export async function registerBasicRepositories(connection: ConnectionManager): 
     await connection.getCollection(Channel).createIndexes([{ key: { controller: 1, localId: 1 } }]);
     await connection
         .getCollection(User)
-        .createIndexes([{ key: { username: 1 }, unique: true }, { key: { accounts: 1 } }]);
+        .createIndexes([
+            { key: { username: 1 }, unique: true, collation: { locale: "en_US", strength: 2 } },
+            { key: { accounts: 1 } }
+        ]);
 }
 
 hook("core:startup:init", async () => {
