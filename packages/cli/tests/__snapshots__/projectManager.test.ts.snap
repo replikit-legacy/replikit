@@ -63,6 +63,8 @@ exports[`ProjectManager should add a module to the project with logger: /tsconfi
         \\"moduleResolution\\": \\"node\\",
         \\"baseUrl\\": \\"modules\\",
         \\"strict\\": true,
+        \\"strictPropertyInitialization\\": false,
+        \\"experimentalDecorators\\": true,
         \\"paths\\": {
             \\"@test-project/*\\": [
                 \\"*/src\\"
@@ -132,6 +134,8 @@ exports[`ProjectManager should add a module to the project without logger: /tsco
         \\"moduleResolution\\": \\"node\\",
         \\"baseUrl\\": \\"modules\\",
         \\"strict\\": true,
+        \\"strictPropertyInitialization\\": false,
+        \\"experimentalDecorators\\": true,
         \\"paths\\": {
             \\"@test-project/*\\": [
                 \\"*/src\\"
@@ -193,6 +197,8 @@ exports[`ProjectManager should add external subrepository, update tsconfig.json 
         \\"moduleResolution\\": \\"node\\",
         \\"baseUrl\\": \\"modules\\",
         \\"strict\\": true,
+        \\"strictPropertyInitialization\\": false,
+        \\"experimentalDecorators\\": true,
         \\"paths\\": {
             \\"@external-repo/*\\": [
                 \\"*/src\\"
@@ -251,6 +257,8 @@ exports[`ProjectManager should add external subrepository, update tsconfig.json 
         \\"moduleResolution\\": \\"node\\",
         \\"baseUrl\\": \\"modules\\",
         \\"strict\\": true,
+        \\"strictPropertyInitialization\\": false,
+        \\"experimentalDecorators\\": true,
         \\"paths\\": {
             \\"@test-project/*\\": [
                 \\"*/src\\"
@@ -314,6 +322,8 @@ exports[`ProjectManager should create a module and remove it: /tsconfig.json 1`]
         \\"moduleResolution\\": \\"node\\",
         \\"baseUrl\\": \\"modules\\",
         \\"strict\\": true,
+        \\"strictPropertyInitialization\\": false,
+        \\"experimentalDecorators\\": true,
         \\"paths\\": {
             \\"@test-project/*\\": [
                 \\"*/src\\"
@@ -389,6 +399,8 @@ exports[`ProjectManager should generate git project: /tsconfig.json 1`] = `
         \\"moduleResolution\\": \\"node\\",
         \\"baseUrl\\": \\"modules\\",
         \\"strict\\": true,
+        \\"strictPropertyInitialization\\": false,
+        \\"experimentalDecorators\\": true,
         \\"paths\\": {
             \\"@test-project/*\\": [
                 \\"*/src\\"
@@ -455,6 +467,8 @@ exports[`ProjectManager should generate npm project: /tsconfig.json 1`] = `
         \\"moduleResolution\\": \\"node\\",
         \\"baseUrl\\": \\"modules\\",
         \\"strict\\": true,
+        \\"strictPropertyInitialization\\": false,
+        \\"experimentalDecorators\\": true,
         \\"paths\\": {
             \\"@test-project/*\\": [
                 \\"*/src\\"
@@ -515,6 +529,8 @@ exports[`ProjectManager should generate yarn project: /tsconfig.json 1`] = `
         \\"moduleResolution\\": \\"node\\",
         \\"baseUrl\\": \\"modules\\",
         \\"strict\\": true,
+        \\"strictPropertyInitialization\\": false,
+        \\"experimentalDecorators\\": true,
         \\"paths\\": {
             \\"@test-project/*\\": [
                 \\"*/src\\"
@@ -585,6 +601,8 @@ exports[`ProjectManager should generate yarn-lerna project: /tsconfig.json 1`] =
         \\"moduleResolution\\": \\"node\\",
         \\"baseUrl\\": \\"modules\\",
         \\"strict\\": true,
+        \\"strictPropertyInitialization\\": false,
+        \\"experimentalDecorators\\": true,
         \\"paths\\": {
             \\"@test-project/*\\": [
                 \\"*/src\\"

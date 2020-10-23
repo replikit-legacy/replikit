@@ -79,6 +79,8 @@ export class ProjectManager {
                 moduleResolution: "node",
                 baseUrl: "modules",
                 strict: true,
+                strictPropertyInitialization: false,
+                experimentalDecorators: true,
                 paths: {
                     [`@${this.name}/*`]: ["*/src"],
                     [`@${this.name}/*/typings`]: ["*/typings"]
