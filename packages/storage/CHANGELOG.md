@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.23.0](https://github.com/Exeteres/Replikit/compare/v0.22.2...v0.23.0) (2020-12-14)
+
+
+### Features
+
+* **storage:** Update mongodb driver ([f4ef11d](https://github.com/Exeteres/Replikit/commit/f4ef11dbdd3f36bd1fde44090aa9e1fdc219b30d))
+
+
+
+
+
 ## [0.22.2](https://github.com/Exeteres/Replikit/compare/v0.22.1...v0.22.2) (2020-10-23)
 
 

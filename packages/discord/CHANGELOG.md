@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.23.0](https://github.com/Exeteres/Replikit/compare/v0.22.2...v0.23.0) (2020-12-14)
+
+
+### Features
+
+* **discord:** Add support for incoming replies ([e766172](https://github.com/Exeteres/Replikit/commit/e7661725f2cdf1df2462e38ba003c410156c077a))
+* **discord:** Update discord backend ([4718572](https://github.com/Exeteres/Replikit/commit/4718572155dc02be1e0e7979b4092f0ecf2069ed))
+
+
+
+
+
 ## [0.22.2](https://github.com/Exeteres/Replikit/compare/v0.22.1...v0.22.2) (2020-10-23)
 
 **Note:** Version bump only for package @replikit/discord

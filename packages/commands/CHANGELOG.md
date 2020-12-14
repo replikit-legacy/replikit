@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.23.0](https://github.com/Exeteres/Replikit/compare/v0.22.2...v0.23.0) (2020-12-14)
+
+
+### Bug Fixes
+
+* **commands:** Fix min and max converter options ([8d73aac](https://github.com/Exeteres/Replikit/commit/8d73aac0625f01446bb34ef63a578a08091fff55))
+
+
+
+
+
 ## [0.22.2](https://github.com/Exeteres/Replikit/compare/v0.22.1...v0.22.2) (2020-10-23)
 
 **Note:** Version bump only for package @replikit/commands

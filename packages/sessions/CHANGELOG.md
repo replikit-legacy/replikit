@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.23.0](https://github.com/Exeteres/Replikit/compare/v0.22.2...v0.23.0) (2020-12-14)
+
+
+### Features
+
+* **sessions:** Allow custom session keys ([304d411](https://github.com/Exeteres/Replikit/commit/304d4114287d29b27f35145ff036c44a90f5def5))
+
+
+
+
+
 ## [0.22.2](https://github.com/Exeteres/Replikit/compare/v0.22.1...v0.22.2) (2020-10-23)
 
 **Note:** Version bump only for package @replikit/sessions

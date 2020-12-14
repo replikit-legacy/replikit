@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.23.0](https://github.com/Exeteres/Replikit/compare/v0.22.2...v0.23.0) (2020-12-14)
+
+
+### Bug Fixes
+
+* **commands:** Fix min and max converter options ([8d73aac](https://github.com/Exeteres/Replikit/commit/8d73aac0625f01446bb34ef63a578a08091fff55))
+
+
+### Features
+
+* **discord:** Add support for incoming replies ([e766172](https://github.com/Exeteres/Replikit/commit/e7661725f2cdf1df2462e38ba003c410156c077a))
+* **discord:** Update discord backend ([4718572](https://github.com/Exeteres/Replikit/commit/4718572155dc02be1e0e7979b4092f0ecf2069ed))
+* **sessions:** Allow custom session keys ([304d411](https://github.com/Exeteres/Replikit/commit/304d4114287d29b27f35145ff036c44a90f5def5))
+* **storage:** Update mongodb driver ([f4ef11d](https://github.com/Exeteres/Replikit/commit/f4ef11dbdd3f36bd1fde44090aa9e1fdc219b30d))
+* **views:** Add force text views ([ae5f436](https://github.com/Exeteres/Replikit/commit/ae5f436cdc753cc378c981f56542dbfe45461a67))
+* **vk:** Update vk backend ([9066938](https://github.com/Exeteres/Replikit/commit/9066938bb70552b1a74b3fb112653b9ade86b24f))
+
+
+
+
+
 ## [0.22.2](https://github.com/Exeteres/Replikit/compare/v0.22.1...v0.22.2) (2020-10-23)
 
 
