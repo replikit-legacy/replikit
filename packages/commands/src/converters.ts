@@ -18,10 +18,10 @@ export function registerBasicConverters(converter: ConverterBuilderFactory): voi
             if (options.positive && result <= 0) {
                 return locale.positiveNumberRequired;
             }
-            if (options.min && result < options.min) {
+            if (options.min != null && result < options.min) {
                 return locale.shouldBeNoLessThan(options.min);
             }
-            if (options.max && result > options.max) {
+            if (options.max != null && result > options.max) {
                 return locale.shouldBeNoMoreThan(options.max);
             }
             return result;
