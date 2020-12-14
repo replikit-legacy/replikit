@@ -364,7 +364,7 @@ export class DiscordController extends Controller {
             avatar: account.avatar
                 ? { id: undefined!, type: AttachmentType.Photo, url: account.avatar }
                 : undefined,
-            language: account.locale
+            language: account.locale ?? undefined
         };
     }
 }

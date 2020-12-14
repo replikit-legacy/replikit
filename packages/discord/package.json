@@ -9,12 +9,12 @@
     },
     "dependencies": {
         "@replikit/core": "^0.22.2",
-        "discord.js": "^12.3.1"
+        "discord.js": "^12.4.1"
     },
     "publishConfig": {
         "access": "public"
     },
     "devDependencies": {
-        "@types/ws": "^7.2.6"
+        "@types/ws": "^7.4.0"
     }
 }
