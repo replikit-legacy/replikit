@@ -9,4 +9,5 @@ export interface SessionKey {
     accountId?: Identifier;
     userId?: number;
     messageId?: Identifier;
+    [customKey: string]: unknown;
 }
