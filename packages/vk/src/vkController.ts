@@ -99,7 +99,7 @@ export class VKController extends Controller {
         const resp = await this.backend.api.groups.getById({
             group_id: `-${config.vk.pollingGroup}`
         });
-        this._botInfo = { id: config.vk.pollingGroup, username: resp[0].screen_name! };
+        this._botInfo = { id: config.vk.pollingGroup, username: resp[0].screen_name };
         await this.backend.updates.start();
     }
 
