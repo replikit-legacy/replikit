@@ -1,4 +1,4 @@
-import { HasFields, OutMessage } from "@replikit/core/typings";
+import { HasFields, InMessage, OutMessage } from "@replikit/core/typings";
 import { resolveOutMessage } from "@replikit/messages";
 import { OutMessageLike } from "@replikit/messages/typings";
 import { AccountContext } from "@replikit/router";
@@ -24,25 +24,37 @@ export function isViewPayload(data: unknown): data is ViewPayload {
 
 export function resolveViewOutMessage(
     view: string,
-    outMessage: OutMessageLike
+    outMessage: OutMessageLike,
+    skipActions?: boolean
 ): [OutMessage, ViewAction[]] {
-    if (outMessage instanceof ViewMessageBuilder) {
+    if (!skipActions && outMessage instanceof ViewMessageBuilder) {
         return outMessage.buildWithActions(view);
     }
     return [resolveOutMessage(outMessage), []];
 }
 
-export type ViewPattern = string | RegExp | string[] | RegExp[];
+export type PatternHandler = (message: InMessage) => boolean;
 
-function checkSinglePattern(text: string, pattern: string | RegExp): boolean {
-    return typeof pattern === "string" ? text.includes(pattern) : pattern.test(text);
+export type ViewPattern = string | RegExp | string[] | RegExp[] | PatternHandler;
+
+function checkSinglePattern(
+    message: InMessage,
+    pattern: string | RegExp | PatternHandler
+): boolean {
+    switch (typeof pattern) {
+        case "string":
+            return message.text ? message.text.includes(pattern) : false;
+        case "function":
+            return pattern(message);
+    }
+    return message.text ? pattern.test(message.text) : false;
 }
 
-export function checkPattern(text: string, pattern: ViewPattern): boolean {
+export function checkPattern(message: InMessage, pattern: ViewPattern): boolean {
     if (Array.isArray(pattern)) {
-        return pattern.some((x: string | RegExp) => checkSinglePattern(text, x));
+        return pattern.some((x: string | RegExp) => checkSinglePattern(message, x));
     }
-    return checkSinglePattern(text, pattern);
+    return checkSinglePattern(message, pattern);
 }
 
 export function checkViewTarget(context: AccountContext, target: ViewTarget | undefined): boolean {

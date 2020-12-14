@@ -8,6 +8,8 @@ export class ViewStorage {
     /** @internal */
     readonly _viewMap = new Map<string, CompositionInfo<View>>();
 
+    hasForceTextMode = false;
+
     private createViewInfo(constructor: Constructor<View>): CompositionInfo {
         return createCompositionInfo(constructor, {});
     }
@@ -18,13 +20,13 @@ export class ViewStorage {
             throw new ViewAlreadyRegisteredError(name);
         }
         const viewInfo = this.createViewInfo(constructor) as CompositionInfo<View>;
+        if (viewInfo.fields.forceTextMode) {
+            this.hasForceTextMode = true;
+        }
         this._viewMap.set(name, viewInfo);
     }
 
     resolveByPattern(context: MessageContext): [View, string] | undefined {
-        if (!context.message.text) {
-            return;
-        }
         for (const viewInfo of this._viewMap.values()) {
             const patterns = viewInfo.fields.patterns;
             if (!patterns) {
@@ -32,7 +34,7 @@ export class ViewStorage {
             }
             for (const method in patterns) {
                 const pattern = patterns[method];
-                if (checkPattern(context.message.text, pattern)) {
+                if (checkPattern(context.message, pattern)) {
                     const view = this.createViewByInfo(viewInfo, context);
                     view._resolvedByPattern = true;
                     return [view, method];
@@ -47,7 +49,12 @@ export class ViewStorage {
         metadata?: MessageMetadata,
         data?: unknown
     ): View {
-        const viewContext = Object.assign({ metadata, _data: data ?? {} }, context);
+        const viewContext = Object.assign({}, context, {
+            metadata,
+            _data: data ?? {},
+            closed: false,
+            _session: undefined
+        });
         return createCompositionInstance(viewInfo, viewContext);
     }
 

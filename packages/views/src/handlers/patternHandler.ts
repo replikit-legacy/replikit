@@ -2,7 +2,7 @@ import { router } from "@replikit/router";
 import { checkViewTarget, viewStorage } from "@replikit/views";
 
 router.of("message:received").use(async (context, next) => {
-    if (context.controller.features.inlineButtons) {
+    if (context.controller.features.inlineButtons && !viewStorage.hasForceTextMode) {
         return next();
     }
     const result = viewStorage.resolveByPattern(context);

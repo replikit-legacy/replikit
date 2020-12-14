@@ -34,7 +34,11 @@ export abstract class View extends MessageContext {
 
     abstract render(): OutMessageLikeAsync;
     renderClosed?(): OutMessageLikeAsync;
+    created?(): void;
     renderTextFallback?(): OutMessageLikeAsync;
+    loaded?(): Promise<void> | void;
+
+    forceTextMode?: boolean;
 
     /** @internal */
     _target?: ViewTarget;
@@ -52,9 +56,13 @@ export abstract class View extends MessageContext {
     async updateWorker(): Promise<void> {
         const renderResult =
             this.closed && this.renderClosed ? await this.renderClosed() : await this.render();
-        const [message, actions] = resolveViewOutMessage(this.constructor.name, renderResult);
+        const [message, actions] = resolveViewOutMessage(
+            this.constructor.name,
+            renderResult,
+            this.closed
+        );
         if (!this.metadata) {
-            if (!this.controller.features.inlineButtons) {
+            if (!this.controller.features.inlineButtons || this.forceTextMode) {
                 message.buttons = [];
                 if (this.renderTextFallback && !this.closed) {
                     const fallbackMessage = resolveOutMessage(await this.renderTextFallback());
@@ -133,7 +141,9 @@ export abstract class View extends MessageContext {
     async _load(write = false): Promise<boolean> {
         if (!this._session) {
             if (this._resolvedByPattern) {
-                this._session = await this.findSession(ViewSession);
+                this._session = await this.findSession(ViewSession, {
+                    sessionType: this.constructor.name
+                });
                 if (!this._session) {
                     return false;
                 }
@@ -145,7 +155,8 @@ export abstract class View extends MessageContext {
                     controller: this.controller.name,
                     type: ViewSession.type,
                     channelId: this.channel.id,
-                    messageId
+                    messageId,
+                    sessionType: this.constructor.name
                 };
                 this._session = await this.getSession(ViewSession, sessionKey);
             }
@@ -160,6 +171,7 @@ export abstract class View extends MessageContext {
             }
         } else {
             this._data = this._session.data;
+            this.loaded && (await this.loaded());
         }
         return true;
     }

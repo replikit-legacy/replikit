@@ -15,6 +15,8 @@ export class MessageContextExtension extends MessageContext {
         if (!view) {
             throw new ViewNotRegisteredError(ctr.name);
         }
-        return view.updateWorker();
+        view.created && view.created();
+        view.loaded && (await view.loaded());
+        await view.updateWorker();
     }
 }
