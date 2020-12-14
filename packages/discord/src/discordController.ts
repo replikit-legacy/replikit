@@ -29,7 +29,8 @@ import {
     Channel,
     MessageAttachment,
     PartialMessage,
-    Guild
+    Guild,
+    MessageReference
 } from "discord.js";
 import { extname } from "path";
 import { WebhookStorage } from "@replikit/discord";
@@ -90,24 +91,27 @@ export class DiscordController extends Controller {
         this.webhookStorage = new WebhookStorage();
         this.backend = new Client({ retryLimit: 3 });
 
-        this.backend.on("message", message => {
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        this.backend.on("message", async message => {
             if (!message.author.bot) {
-                const inMessage = this.createMessage(message);
+                const inMessage = await this.createMessage(message);
                 this.processMessageEvent("message:received", inMessage);
             }
         });
 
-        this.backend.on("messageUpdate", message => {
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        this.backend.on("messageUpdate", async message => {
             if (!message.author?.bot) {
-                const inMessage = this.createMessage(message);
+                const inMessage = await this.createMessage(message);
                 this.processMessageEvent("message:edited", inMessage);
             }
         });
 
-        this.backend.on("messageDelete", message => {
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        this.backend.on("messageDelete", async message => {
             assert(message.author);
             if (!message.author.bot) {
-                const inMessage = this.createMessage(message);
+                const inMessage = await this.createMessage(message);
                 this.processMessageEvent("message:deleted", inMessage);
             }
         });
@@ -155,7 +159,7 @@ export class DiscordController extends Controller {
         return this.createAccount(user);
     }
 
-    private async getChannel(channelId: number): Promise<TextChannel> {
+    private async getChannel(channelId: number | string): Promise<TextChannel> {
         const channel = await this.backend.channels.fetch(channelId.toString());
         assert(channel, "Channel inaccesible");
         assertTextChannel(channel);
@@ -269,7 +273,18 @@ export class DiscordController extends Controller {
         return [message.id];
     }
 
-    private createMessage(message: Message | PartialMessage): InMessage {
+    private async createReplyMessage(
+        reference: MessageReference | null
+    ): Promise<InMessage | undefined> {
+        if (!reference || !reference.messageID) {
+            return;
+        }
+        const channel = await this.getChannel(reference.channelID);
+        const message = await channel.messages.fetch(reference.messageID);
+        return this.createMessage(message);
+    }
+
+    private async createMessage(message: Message | PartialMessage): Promise<InMessage> {
         assert(message.author, "Unable to process message without author");
         return {
             text: message.content || undefined,
@@ -277,7 +292,8 @@ export class DiscordController extends Controller {
             channel: this.createChannel(message.channel),
             attachments: this.extractAttachments(message.attachments),
             forwarded: [],
-            metadata: { messageIds: [message.id] }
+            metadata: { messageIds: [message.id] },
+            reply: await this.createReplyMessage(message.reference)
         };
     }
 
