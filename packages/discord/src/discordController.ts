@@ -373,12 +373,14 @@ export class DiscordController extends Controller {
     }
 
     private createAccount(account: User): AccountInfo {
+        const avatarUrl = account.avatarURL();
+
         return {
             id: account.id,
             firstName: account.username,
             username: account.tag,
-            avatar: account.avatar
-                ? { id: undefined!, type: AttachmentType.Photo, url: account.avatar }
+            avatar: avatarUrl
+                ? { id: undefined!, type: AttachmentType.Photo, url: avatarUrl }
                 : undefined,
             language: account.locale ?? undefined
         };

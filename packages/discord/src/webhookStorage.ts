@@ -13,10 +13,13 @@ export class WebhookStorage {
         webhook = webhooks.find(x => x.name === me.username);
         if (webhook) {
             this.webhookMap.set(channel.id, webhook);
-            // eslint-disable-next-line eqeqeq
-            if (webhook.avatar != me.avatar) {
-                await webhook.edit({ avatar: me.avatar ?? undefined });
+
+            const avatarUrl = me.avatarURL();
+
+            if (webhook.avatarURL() != avatarUrl) {
+                await webhook.edit({ avatar: avatarUrl ?? undefined });
             }
+
             return webhook;
         }
 
