@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.23.1](https://github.com/replikit/replikit/compare/v0.23.0...v0.23.1) (2021-10-25)
+
+
+### Bug Fixes
+
+* **discord:** Fix avatar issues ([c4c7a9b](https://github.com/replikit/replikit/commit/c4c7a9b014d2c62a3bde2e1e171914e3144c7fa2))
+
+
+
+
+
 # [0.23.0](https://github.com/Exeteres/Replikit/compare/v0.22.2...v0.23.0) (2020-12-14)
 
 
