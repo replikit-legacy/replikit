@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.23.3](https://github.com/replikit/replikit/compare/v0.23.2...v0.23.3) (2021-10-27)
+
+
+### Bug Fixes
+
+* **discord:** Fix webhook creation issue ([d639759](https://github.com/replikit/replikit/commit/d639759708a1b451e96880182550b8512a70c8ab))
+
+
+
+
+
 ## [0.23.2](https://github.com/replikit/replikit/compare/v0.23.1...v0.23.2) (2021-10-25)
 
 **Note:** Version bump only for package @replikit/discord
