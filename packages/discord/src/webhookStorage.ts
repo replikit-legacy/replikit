@@ -9,12 +9,12 @@ export class WebhookStorage {
             return webhook;
         }
 
+        const avatarUrl = me.avatarURL();
+
         const webhooks = await channel.fetchWebhooks();
         webhook = webhooks.find(x => x.name === me.username);
         if (webhook) {
             this.webhookMap.set(channel.id, webhook);
-
-            const avatarUrl = me.avatarURL();
 
             if (webhook.avatarURL() != avatarUrl) {
                 await webhook.edit({ avatar: avatarUrl ?? undefined });
@@ -23,7 +23,7 @@ export class WebhookStorage {
             return webhook;
         }
 
-        webhook = await channel.createWebhook(me.username, { avatar: me.avatar ?? undefined });
+        webhook = await channel.createWebhook(me.username, { avatar: avatarUrl ?? undefined });
         this.webhookMap.set(channel.id, webhook);
         return webhook;
     }
