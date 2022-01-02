@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.23.4](https://github.com/replikit-legacy/replikit/compare/v0.23.3...v0.23.4) (2022-01-02)
+
+**Note:** Version bump only for package @replikit/attachments
+
+
+
+
+
+
 ## [0.23.3](https://github.com/replikit/replikit/compare/v0.23.2...v0.23.3) (2021-10-27)
 
 **Note:** Version bump only for package @replikit/attachments
