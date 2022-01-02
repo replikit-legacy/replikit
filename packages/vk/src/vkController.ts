@@ -97,7 +97,7 @@ export class VKController extends Controller {
 
     async start(): Promise<void> {
         const resp = await this.backend.api.groups.getById({
-            group_id: `-${config.vk.pollingGroup}`
+            group_id: config.vk.pollingGroup.toString()
         });
         this._botInfo = { id: config.vk.pollingGroup, username: resp[0].screen_name };
         await this.backend.updates.start();
@@ -219,7 +219,7 @@ export class VKController extends Controller {
         }
 
         const groups = await this.backend.api.groups.getById({
-            group_id: localId.toString()
+            group_id: Math.abs(localId).toString()
         });
         const group = groups[0];
         if (!group) return;
